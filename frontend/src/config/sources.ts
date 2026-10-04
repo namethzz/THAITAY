@@ -1,0 +1,28 @@
+// แหล่งที่มาของข้อมูลราคาวัสดุ — แก้ URL/ชื่อได้ที่ไฟล์นี้ที่เดียว
+// รหัสวัสดุ 16 หลัก (MAT-xxxxxxxxxxxxxxxx) อิงรหัสสินค้าของกระทรวงพาณิชย์ (com_code)
+export interface PriceSource {
+  id: string;
+  name: string;
+  owner: string;
+  description: string;
+  url: string;
+}
+
+export const PRICE_SOURCES: PriceSource[] = [
+  {
+    id: "moc-product-price",
+    name: "ราคาสินค้าวัสดุก่อสร้าง",
+    owner: "กระทรวงพาณิชย์ · MOC Open Data",
+    description: "ราคารายสินค้า รายเดือน แยกตามจังหวัด",
+    url: "https://data.moc.go.th/OpenData/CSIProductIndexes",
+  },
+  {
+    id: "tpso-cmi",
+    name: "ดัชนีราคาวัสดุก่อสร้าง (CMI)",
+    owner: "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค.)",
+    description: "ดัชนีและรายงานประจำเดือน ใช้ตรวจแนวโน้มภาพรวม",
+    url: "https://www.tpso.go.th/economic-data/construction-materials-price-index",
+  },
+];
+
+export const PRIMARY_SOURCE = PRICE_SOURCES[0];

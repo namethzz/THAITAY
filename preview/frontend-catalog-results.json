@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "material_count": 287,
+  "category_count": 9,
+  "metadata_fields": [
+    "category",
+    "categoryCode",
+    "familyCode",
+    "id",
+    "name",
+    "unit"
+  ],
+  "observed_price_fields": 0,
+  "ml_readiness_fields": 0,
+  "all_items_match_included_structural_scope": true
+}
