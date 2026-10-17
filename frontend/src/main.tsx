@@ -13,13 +13,15 @@ const Materials = lazy(() => import("./pages/Materials"));
 const Forecast = lazy(() => import("./pages/Forecast"));
 const Analysis = lazy(() => import("./pages/Analysis"));
 const CostCalculator = lazy(() => import("./pages/CostCalculator"));
+const Landing = lazy(() => import("./pages/Landing"));
 
 function validPage(id: string): id is PageId {
-  return navItems.some(([pageId]) => pageId === id);
+  return id === "home" || navItems.some(([pageId]) => pageId === id);
 }
 
 function pageFromHash(): PageId {
   const hash = window.location.hash.replace(/^#\/?/, "");
+  if (!hash) return "home";
   return validPage(hash) ? hash : "overview";
 }
 
@@ -35,12 +37,12 @@ function App() {
   const selectMaterial = (id: string) => { if (getMaterialById(id)) setSelectedId(id); };
 
   useEffect(() => {
-    const handleHash = () => { setPage(pageFromHash()); setMobileOpen(false); };
+    const handleHash = () => { setPage(pageFromHash()); setMobileOpen(false); window.scrollTo({ top: 0, behavior: "instant" }); };
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
-  useEffect(() => { document.title = `${title} | THAI เท`; }, [title]);
+  useEffect(() => { document.title = page === "home" ? "THAI เท — Construction Price Intelligence" : `${title} | THAI เท`; }, [page, title]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -77,13 +79,24 @@ function App() {
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
   };
 
+  if (page === "home") {
+    return (
+      <>
+        <IntroSplash />
+        <Suspense fallback={<div className="min-h-dvh bg-stone-950" role="status" aria-label="กำลังเปิดหน้า" />}>
+          <Landing navigate={navigate} />
+        </Suspense>
+      </>
+    );
+  }
+
   return (
     <div className="app">
       <IntroSplash />
       <a href="#main-content" className="skip-link" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>ข้ามไปยังเนื้อหา</a>
       <aside id="primary-navigation" ref={sidebarRef} className={`sidebar ${mobileOpen ? "open" : ""}`} aria-label="เมนูหลัก" role={mobileOpen ? "dialog" : undefined} aria-modal={mobileOpen ? true : undefined}>
         <div className="brand">
-          <a href="#overview" className="brand-link" aria-label="THAI เท หน้าภาพรวม" onClick={(event) => { event.preventDefault(); navigate("overview"); }}>
+          <a href="#home" className="brand-link" aria-label="THAI เท หน้าแรก" onClick={(event) => { event.preventDefault(); navigate("home"); }}>
             <span className="brand-mark"><Building2 size={24} strokeWidth={1.7} /></span>
             <span className="brand-copy"><span className="brand-name">THAI <b>เท</b></span><span className="brand-sub">Construction intelligence</span></span>
           </a>
@@ -106,7 +119,7 @@ function App() {
         <div className="sidebar-bottom">
           <div className="system-status"><span className="dot" />วัสดุหมวดงานโครงสร้าง</div>
           <button type="button" className="sidebar-source" onClick={() => navigate("prices")}><Database size={13} />เลือกรายการวัสดุ<ArrowRight size={13} /></button>
-          <div className="version">THAI เท · Frontend v0.5</div>
+          <div className="version">THAI เท · Frontend v0.6</div>
         </div>
       </aside>
       {mobileOpen && <button type="button" className="mobile-overlay" tabIndex={-1} onClick={() => setMobileOpen(false)} aria-label="ปิดเมนู" />}

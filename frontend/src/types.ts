@@ -1,4 +1,4 @@
-export type PageId = "overview" | "prices" | "forecast" | "cost" | "analysis";
+export type PageId = "home" | "overview" | "prices" | "forecast" | "cost" | "analysis";
 export type Navigate = (page: PageId) => void;
 export interface Material {
   id: string;

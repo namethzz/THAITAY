@@ -1,8 +1,8 @@
-# THAI เท Frontend v0.5
+# THAI เท Frontend v0.6
 
 React 18 + Vite 6 + TypeScript + Tailwind CSS 4 + shadcn/ui
 
-งานเวอร์ชันนี้คือเลือกวัสดุและแบ่งหมวดงานโครงสร้างบน frontend ส่วนแสดงราคาย้อนหลังและผลพยากรณ์เตรียมเป็น placeholder ไม่มีการประมวลผลราคา ฝึกโมเดล เขียน backend หรือเรียก API
+Frontend สำหรับเลือกวัสดุงานโครงสร้าง ดูราคาย้อนหลัง พยากรณ์ราคา 1–3 เดือน และคำนวณต้นทุน ข้อมูลราคาตอนนี้เป็น **ข้อมูลตัวอย่าง (Demo)** ที่สร้างใน `src/services/priceService.ts` จนกว่าจะเชื่อม backend ผ่าน `VITE_API_BASE` (ดูหัวข้อ "ข้อมูลราคาและการเชื่อม backend")
 
 ## รันโครงการ
 
@@ -15,34 +15,55 @@ npm run build
 npm run preview
 ```
 
-build ตรวจ TypeScript ก่อนสร้างไฟล์ production โครงการมี JSX เดิมบางส่วน จึงเปิด allowJs และปิด checkJs หน้าใหม่ใช้ TSX
+build ตรวจ TypeScript ก่อนสร้างไฟล์ production โครงการมี JSX เดิมบางส่วน (`MaterialPicker.jsx`, `data.js`) จึงเปิด allowJs และปิด checkJs หน้าใหม่ใช้ TSX
 
 Vite base คง `/construction-price-intelligence/` หากโฮสต์ที่ root ให้แก้ base ใน vite.config.ts เป็น `/` แล้ว build ใหม่
+
+## หน้าในแอป
+
+routing ใช้ hash (`#...`) เก็บใน `src/main.tsx`
+
+| hash | หน้า | ไฟล์ |
+|---|---|---|
+| ไม่มี hash / `#home` | หน้าแรก (landing) | `src/pages/Landing.tsx` |
+| `#overview` | ภาพรวม | `src/pages/Overview.tsx` |
+| `#prices` | รายการวัสดุ (ชื่อ hash เดิมเพื่อรองรับลิงก์เก่า) | `src/pages/Materials.tsx` |
+| `#analysis` | วิเคราะห์การเปลี่ยนแปลงราคา (3 เดือน – 10 ปี) | `src/pages/Analysis.tsx` |
+| `#forecast` | พยากรณ์ราคา 1–3 เดือน | `src/pages/Forecast.tsx` |
+| `#cost` | คำนวณต้นทุน (VAT 7%, สำรองผันผวน, CSV, พิมพ์) | `src/pages/CostCalculator.tsx` |
+
+หน้าแรกไม่มี sidebar กดโลโก้ใน sidebar เพื่อกลับหน้าแรก hash ที่ไม่รู้จักจะเปิดหน้าภาพรวม
 
 ## ไฟล์หลัก
 
 | ไฟล์ | หน้าที่ |
 |---|---|
 | `src/data/structural-materials.json` | รายชื่อวัสดุ หมวด รหัส และหน่วย ไม่มีราคา |
-| `src/data.js` | ส่งออก catalog และเมนู frontend |
-| `src/main.tsx` | routing และเก็บวัสดุที่เลือกไว้ร่วมกันทุกหน้า |
-| `src/pages/Overview.tsx` | Hero หมวดวัสดุ และตัวเลือกวัสดุ |
-| `src/pages/Materials.tsx` | ค้นหา กรองหมวด แบ่งหน้า และเลือกรายการ |
-| `src/pages/Analysis.tsx` | เลือกวัสดุและพื้นที่รอกราฟราคา |
-| `src/pages/Forecast.tsx` | เลือกวัสดุและการ์ดระยะ 1, 2, 3 เดือนที่รอข้อมูล |
-| `src/components/MaterialPicker.jsx` | ค้นหาและเลือกวัสดุจาก dropdown แสดงหน่วยแทนราคา |
-| `src/components/ui/hero-3.tsx` | Hero ที่ปรับจาก component ที่แนบมา |
-| `src/components/ui/header-3.tsx` | Header สำหรับแอป เนื่องจากไม่ได้แนบซอร์ส header-3 |
-| `src/components/ui/button.tsx` | shadcn Button ตามโค้ดที่แนบมา |
+| `src/data.js` | ส่งออก catalog ฟังก์ชันค้นหา และเมนู sidebar |
+| `src/services/priceService.ts` | ชั้นข้อมูลราคา: Demo หรือเรียก API เมื่อตั้ง `VITE_API_BASE` |
+| `src/config/sources.ts` | แหล่งที่มาราคา (ลิงก์เปิดเว็บต้นทาง) |
+| `src/main.tsx` | routing และ state ร่วม (วัสดุที่เลือก, หมวด, รายการคำนวณต้นทุน) |
+| `src/components/MaterialPicker.jsx` | ค้นหาและเลือกวัสดุจาก dropdown |
+| `src/components/ui/saa-s-template.tsx` | Navigation + Hero ของหน้าแรก (รับเนื้อหาผ่าน props) |
+| `src/components/demo-saas-template.tsx` | demo ของ saa-s-template ตามค่าเริ่มต้น |
+| `src/components/ui/hero-3.tsx` | Hero ของหน้าภาพรวม |
+| `src/components/ui/header-3.tsx` | แถบบนของพื้นที่ทำงาน |
+| `src/components/ui/button.tsx` | shadcn Button |
+| `src/components/ui/price-widgets.tsx` | แถบ Demo, ตัวเลือกช่วงเวลา, ลิงก์แหล่งที่มา |
 | `src/components/ui/material-categories.tsx` | ปุ่มหมวดวัสดุพร้อมจำนวนรายการ |
-| `src/components/ui/material-details.tsx` | รายละเอียดวัสดุที่เลือกและ placeholder ราคา |
+| `src/components/ui/material-details.tsx` | รายละเอียดวัสดุที่เลือก |
+| `src/components/ui/scope-layout.tsx` | หัวข้อหน้าและการ์ดสถิติ |
+| `src/components/ui/intro-splash.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ตอนเปิดเว็บ |
 | `src/lib/utils.ts` | cn() จาก clsx และ tailwind-merge |
 | `src/styles.css` | style entry, font และ Tailwind theme |
-| `src/styles/app.css` | layout / สีแอป |
-| `src/styles/structural.css` | หน้า catalog การเลือกวัสดุ และ placeholder |
+| `src/styles/base.css` | reset และ layout พื้นฐาน (ส่วนที่ยังใช้จาก CSS รุ่นแรก) |
+| `src/styles/app.css` | สีแบรนด์ (`:root`), layout แอป, หน้าภาพรวม |
+| `src/styles/structural.css` | catalog, การเลือกวัสดุ, หน้าราคา/คำนวณต้นทุน, หน้าต้อนรับ |
 | `components.json` | การตั้งค่า shadcn CLI |
 
-`@/` ชี้ไปที่ `src/` ดังนั้น `/components/ui` ตามคำขอคือ `frontend/src/components/ui` เดิมมี component ใน src/components จึงสร้าง ui ไว้ให้ component ที่ใช้ซ้ำอยู่ด้วยกันและตรงกับตำแหน่งที่ shadcn CLI เพิ่มไฟล์
+`@/` ชี้ไปที่ `src/` ดังนั้น `/components/ui` คือ `frontend/src/components/ui` ซึ่งเป็นตำแหน่งที่ shadcn CLI เพิ่ม component ให้ จึงเก็บ component ที่ใช้ซ้ำไว้ที่นี่
+
+ลำดับ CSS: `base.css` → `app.css` → `structural.css` ไฟล์หลังชนะเมื่อ selector เท่ากัน ใน v0.6 ได้ลบ declaration ที่ถูกไฟล์หลังทับเสมอ และ rule ของ class ที่ไม่มีในโค้ดแล้วออกจากทั้งสามไฟล์ (ตรวจด้วยภาพหน้าจอทุกหน้า 5 ขนาดจอ ได้ผลเหมือนเดิมทุก pixel)
 
 ## รายการวัสดุในขอบเขต
 
@@ -59,25 +80,29 @@ Vite base คง `/construction-price-intelligence/` หากโฮสต์ท
 | มวลรวมคอนกรีต | 3 |
 | รวม | 287 |
 
-Catalog ใช้เฉพาะ identity metadata ของรายการที่ `scope_status=included` ในขอบเขตโครงสร้าง ไม่ใช้ราคา วันที่ ประวัติ Scaling / Split หรือ ML readiness ใน frontend จึงเลือกวัสดุในขอบเขตได้โดยไม่ขึ้นกับสถานะการฝึกโมเดล 5 รายการรอทบทวนขอบเขตแยกออกจากรายการที่เลือก
+Catalog ใช้เฉพาะ identity metadata ของรายการที่ `scope_status=included` ในขอบเขตโครงสร้าง 5 รายการที่รอทบทวนขอบเขตแยกออกจากรายการที่เลือก
 
-Material มี `id`, `name`, `unit`, `categoryCode`, `category`, `familyCode` เก็บ MAT-ID ตาม catalog ค้นด้วยรหัสตัวเลข 16 หลักได้ ไม่เปลี่ยนชื่อหรือหน่วยของรายการเอง
+Material มี `id`, `name`, `unit`, `categoryCode`, `category`, `familyCode` เก็บ MAT-ID ตาม catalog ค้นด้วยรหัสตัวเลข 16 หลักได้
 
-หน้า “รายการวัสดุ” ใช้ hash `#prices` เดิมเพื่อรองรับลิงก์เก่า มุมมองทุกหมวดแบ่งหัวข้อชัดเจนและแสดง 6 รายการแรกต่อหมวด กด “ดูหมวดนี้” เพื่อดูทั้งหมวด แบ่งหน้า 12 รายการ และค้นหาได้ด้วยชื่อ รหัส ขนาด หน่วย
+หน้ารายการวัสดุ: มุมมองทุกหมวดแบ่งหัวข้อและแสดง 6 รายการแรกต่อหมวด กด "ดูหมวดนี้" เพื่อดูทั้งหมวด แบ่งหน้า 12 รายการ ค้นหาได้ด้วยชื่อ รหัส ขนาด หน่วย
 
-## State และข้อมูลราคา
+## ข้อมูลราคาและการเชื่อม backend
 
-App เก็บ selectedId ใน React state แล้วส่งให้ Overview / Materials / Analysis / Forecast วัสดุที่เลือกตามไปเมื่อเปลี่ยนหน้า ไม่มี provider หรือ dependency จัดการ state เพิ่ม เมื่อ reload จะเริ่มจากรายการตั้งต้น
+ทุกหน้าเรียกข้อมูลราคาผ่าน `src/services/priceService.ts` เท่านั้น
 
-การ์ดแสดงราคาเป็น `—` พร้อมข้อความรอข้อมูล ไม่สร้างกราฟหรือราคาอนาคตขึ้นเอง `priceData` และ `forecastData` เป็น array ว่าง ไม่มีงวดราคา ไม่มีการคำนวณเดือนเป้าหมายจากวันที่คอมพิวเตอร์หรือชุดข้อมูล
+- ไม่ได้ตั้ง `VITE_API_BASE`: ใช้ข้อมูลตัวอย่าง (Demo) ที่สร้างจากรหัสวัสดุ (วัสดุเดียวกันได้ชุดตัวเลขเดียวกัน) และแสดงแถบเตือน Demo ในหน้า
+- ตั้ง `VITE_API_BASE` (เช่นในไฟล์ `.env`): เรียก API ตาม contract ด้านล่าง แถบ Demo หายเอง
+  - `GET /prices/{materialId}/history?months=3..120` → `{ unit, points: [{ date, price }] }`
+  - `GET /prices/{materialId}/forecast?months=1..3` → `{ unit, points: [{ month, date, price, low, high }] }`
+- ข้อมูลย้อนหลังจริงไม่ถึง 10 ปี: ตั้ง `VITE_MAX_HISTORY_MONTHS` (เช่น 60) ตัวเลือกช่วงที่ยาวกว่าจะถูกปิด
 
-เวอร์ชันนี้ไม่มี CSV ราคา, snapshot ราคาย้อนหลัง, scaled data, notebook, training code หรือสัญญา API / ผลโมเดล จัดทำเฉพาะ frontend ตามขอบเขตปัจจุบัน
+## State
 
-เมนูหลักมี 4 หน้า: ภาพรวม, รายการวัสดุ, วิเคราะห์ย้อนหลัง, พยากรณ์ 1–3 เดือน หน้าเตรียมข้อมูล / ประเมินโมเดลที่เพิ่มในเวอร์ชันก่อนนำออกจาก frontend แล้ว BOQ / ต้นทุนรวมเป็นงานต่อยอด โค้ดเดิมอยู่ใน src/future และไม่ได้โหลดในแอป
+App เก็บวัสดุที่เลือก หมวดที่กรอง และรายการในหน้าคำนวณต้นทุนใน React state ของ `main.tsx` แล้วส่งเป็น props ให้แต่ละหน้า ค่าเหล่านี้ตามไปเมื่อเปลี่ยนหน้า แต่ reload แล้วจะเริ่มใหม่ ไม่มี provider หรือ state library เพิ่ม
 
 ## Dependencies / shadcn
 
-ติดตั้งแล้ว: lucide-react, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge, Tailwind Vite plugin, TypeScript / type packages และ tw-animate-css
+ติดตั้งแล้ว: lucide-react, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge, motion (หน้าต้อนรับ), recharts (กราฟ), @fontsource (IBM Plex Sans Thai, Inter), Tailwind Vite plugin, tw-animate-css และ TypeScript / type packages
 
 เพิ่ม UI component ต่อ:
 
@@ -85,7 +110,7 @@ App เก็บ selectedId ใน React state แล้วส่งให้ Ov
 npx shadcn@latest add input
 ```
 
-ไม่ต้อง init ซ้ำกับ ZIP นี้ หากเริ่มใน React/Vite project อื่นที่ยังไม่มี ให้ตั้ง TypeScript, Tailwind Vite plugin และ alias @/ ก่อน แล้วรัน shadcn init:
+ไม่ต้อง init ซ้ำ หากเริ่มใน React/Vite project อื่นที่ยังไม่มี ให้ตั้ง TypeScript, Tailwind Vite plugin และ alias @/ ก่อน แล้วรัน shadcn init:
 
 ```bash
 npm install -D typescript @types/react @types/react-dom @types/node
@@ -98,8 +123,25 @@ npx shadcn@latest init
 
 ## Responsive / assets
 
-Sidebar ยุบเป็นเมนูบนมือถือ รายการวัสดุและรายละเอียดปรับเป็นแนวตั้ง กรองหมวดและเลือกด้วยคีย์บอร์ดได้ หน้า catalog มีรายละเอียดวัสดุด้านข้างบน desktop และด้านบนของผลค้นหาบนจอเล็ก
+Sidebar ยุบเป็นเมนูบนจอกว้างไม่เกิน 1100px หน้าแรกเปลี่ยนเป็นเมนูมือถือที่ต่ำกว่า 1024px ทุกหน้าตรวจที่ 1440, 1024, 768, 390 และ 320 px ไม่มีหน้าล้นแนวนอน
 
-ใช้ lucide-react สำหรับไอคอน ภาพ Unsplash เก็บที่ public/images/construction-architecture.jpg และ font bundle ใน project จึงไม่ต้องเรียกบริการภาพหรือ font ภายนอกเมื่อเปิดเว็บ
+ใช้ lucide-react สำหรับไอคอน ภาพเก็บใน `public/images`:
+
+- `construction-architecture.jpg`: ภาพจาก Unsplash ใช้ใน Hero หน้าภาพรวม
+- `app-preview.jpg`: ภาพหน้าจอจริงของหน้าภาพรวม ใช้ในหน้าแรก (แก้หน้าภาพรวมแล้วควรถ่ายใหม่)
+
+font bundle อยู่ใน project จึงไม่ต้องเรียกบริการภาพหรือ font ภายนอกเมื่อเปิดเว็บ ลิงก์ภายนอกมีเฉพาะลิงก์แหล่งที่มาราคาที่ผู้ใช้กดเอง
+
+## โค้ดที่นำออกใน v0.6
+
+นำออกเพราะไม่ได้ใช้ในแอปแล้ว ยังกู้คืนได้จาก git (commit `9c0c9cd`):
+
+- `src/future/CostPlanner.jsx`, `src/components/Shared.jsx`: BOQ / ต้นทุนรวมรุ่นเก่า (หน้าคำนวณต้นทุนใหม่ใช้แทน) พร้อม dependency `pdfjs-dist`, `xlsx`
+- `make-data.cjs`, `legacy/make-data.cjs`: script รุ่นเก่าที่เขียนทับ `src/data.js` ด้วยรูปแบบเดิม (ถ้ารันจะทำให้แอปพัง) ปัจจุบันแก้ catalog ที่ `src/data/structural-materials.json`
+- `src/components/demo.tsx`: demo ของ hero-3 / header-3
+
+```bash
+git show 9c0c9cd:frontend/src/future/CostPlanner.jsx > CostPlanner.jsx
+```
 
 ผลตรวจและภาพตัวอย่างอยู่ที่ `../preview/verification.md`
