@@ -5,10 +5,10 @@ import { defaultMaterialId, getMaterialById, navItems } from "@/data.js";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header-3";
 import { IntroSplash } from "@/components/ui/intro-splash";
-import Overview from "@/pages/Overview";
 import type { EstimateLine, Navigate, PageId } from "@/types";
 import "./styles.css";
 
+const Overview = lazy(() => import("./pages/Overview"));
 const Materials = lazy(() => import("./pages/Materials"));
 const Forecast = lazy(() => import("./pages/Forecast"));
 const Analysis = lazy(() => import("./pages/Analysis"));

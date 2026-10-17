@@ -117,7 +117,7 @@ export default function CostCalculator({ selectedId, onSelect, lines, setLines }
       <section className="card scope-panel estimate" aria-label="ใบประมาณราคา">
         <div className="scope-panel-title"><div><span className="section-kicker">YOUR ESTIMATE</span><h2>ใบประมาณราคา</h2></div><span className="subtle-tag">{lines.length} รายการ</span></div>
         {!lines.length ? (
-          <div className="estimate-empty"><Calculator size={30} strokeWidth={1.4} /><h3>ยังไม่มีรายการ</h3><p>เลือกวัสดุทางซ้าย แล้วกด “เพิ่มลงใบประมาณราคา”</p></div>
+          <div className="estimate-empty"><Calculator size={30} strokeWidth={1.4} /><h3>ยังไม่มีรายการ</h3><p>เลือกวัสดุ ช่วงเวลา และจำนวนในขั้นตอน 1–3 แล้วกด “เพิ่มลงใบประมาณราคา”</p></div>
         ) : (
           <>
             <ul className="estimate-lines">
