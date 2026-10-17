@@ -27,9 +27,7 @@ export default function Analysis({ selectedId, onSelect }: SelectionProps) {
   return <div className="scope-page">
     <PageHeading title="วิเคราะห์การเปลี่ยนแปลงราคา">ดูว่าราคาวัสดุที่เลือกขยับอย่างไรย้อนหลังได้ตั้งแต่ 3 เดือนถึง 10 ปี</PageHeading>
     <DemoBanner />
-    <section className="card scope-panel">
-      <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label="วัสดุที่ต้องการวิเคราะห์" />
-    </section>
+    <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label="วัสดุที่ต้องการวิเคราะห์" />
 
     <section className="card scope-panel">
       <div className="scope-panel-title">

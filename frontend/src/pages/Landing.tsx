@@ -21,11 +21,23 @@ const AUDIENCES = [
   { who: "เจ้าของบ้าน", what: "รู้ราคาคร่าว ๆ ของวัสดุหลักก่อนคุยกับผู้รับเหมา อ่านเข้าใจได้โดยไม่ต้องเป็นช่าง" },
 ];
 
+/** Steel grommet the wire runs through: flat, drawn, no faked depth. */
+function Grommet() {
+  return (
+    <svg className="grommet" viewBox="0 0 36 36" aria-hidden="true">
+      <circle cx="18" cy="18" r="17" fill="#c9d1d7" stroke="#5f6c77" strokeWidth="1.5" />
+      <circle cx="18" cy="18" r="12.6" fill="none" stroke="#8d99a4" strokeWidth="1.4" />
+      <circle cx="18" cy="18" r="8.6" fill="var(--ground)" stroke="#5f6c77" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
 export default function Landing({ navigate, selectedId, onSelect, onCategorySelect }: SelectionProps & { navigate: Navigate; onCategorySelect: (code: string) => void }) {
   const material = getMaterialById(selectedId)!;
   const history = useHistory(material, 3);
   const forecast = useForecast(material);
-  const latest = history.data?.points.at(-1);
+  const points = history.data?.points ?? [];
+  const latest = points.at(-1);
   const ahead = forecast.data?.points ?? [];
   const [flipped, setFlipped] = useState(false);
   const [turning, setTurning] = useState(false);
@@ -65,7 +77,7 @@ export default function Landing({ navigate, selectedId, onSelect, onCategorySele
           <div className="big-tag-inner">
             <div className="tag-face tag-front" ref={frontRef}>
               <header className="tag-header">
-                <span className="grommet" aria-hidden="true" />
+                <Grommet />
                 <BrandMark />
                 <nav className="tag-nav" aria-label="ในหน้านี้">
                   <button type="button" onClick={() => scrollToSection("how")}>วิธีใช้งาน</button>
@@ -109,12 +121,13 @@ export default function Landing({ navigate, selectedId, onSelect, onCategorySele
                       </div>
                     );
                   })}
+                  {isDemoData && <span className="inspector-stamp on-fields" aria-hidden="true">ข้อมูลตัวอย่าง</span>}
                 </div>
 
                 <div className="tag-actions">
                   <button type="button" className="tag-primary" onClick={() => navigate("forecast")}>เปิดพยากรณ์ฉบับเต็ม<ArrowRight size={18} aria-hidden="true" /></button>
                   <button type="button" className="tag-flip" aria-pressed={flipped} onClick={() => flip(true)}><RotateCcw size={16} aria-hidden="true" />ตัวเลขนี้มาจากไหน?</button>
-                  {isDemoData && <span className="inspector-stamp">ข้อมูลตัวอย่าง</span>}
+                  {isDemoData && <span className="inspector-stamp in-actions">ข้อมูลตัวอย่าง</span>}
                   {isDemoData && <p className="tag-note">ราคาบนป้ายเป็นข้อมูลตัวอย่าง จนกว่าจะเชื่อมโมเดลพยากรณ์จริง</p>}
                 </div>
               </div>
@@ -122,7 +135,7 @@ export default function Landing({ navigate, selectedId, onSelect, onCategorySele
 
             <div className="tag-face tag-back" ref={backRef}>
               <header className="tag-header">
-                <span className="grommet" aria-hidden="true" />
+                <Grommet />
                 <BrandMark />
                 <span className="tag-back-label">ด้านหลังป้าย</span>
               </header>
@@ -133,6 +146,17 @@ export default function Landing({ navigate, selectedId, onSelect, onCategorySele
                   <li><strong>โมเดลพยากรณ์รายรายการ</strong><p>โมเดลเรียนรู้จากราคาย้อนหลังของวัสดุนั้น แล้วคาดการณ์ราคาอีก 1, 2 และ 3 เดือน ตอนนี้อยู่ระหว่างพัฒนา ตัวเลขที่เห็นจึงเป็นตัวอย่าง</p></li>
                   <li><strong>ช่วงต่ำ–สูง ไม่ใช่ตัวเลขเดียว</strong><p>ทุกราคาคาดการณ์มาพร้อมช่วงที่เป็นไปได้ ยิ่งมองไกล ช่วงยิ่งกว้าง ใช้ตั้งงบเผื่อได้ตรงกว่าราคาเดียว</p></li>
                 </ol>
+                <div className="price-trace" aria-label={`เส้นทางราคาของ ${material.name}`}>
+                  <div className="trace-group is-measured">
+                    <span className="trace-head">ราคาจริง 3 เดือนล่าสุด</span>
+                    <ol>{points.slice(-3).map(point => <li key={point.date}><small>{point.label}</small><span className="stamped">{formatBaht(point.price, 0)}</span></li>)}</ol>
+                  </div>
+                  <span className="trace-arrow" aria-hidden="true"><ArrowRight size={20} /></span>
+                  <div className="trace-group is-forecast">
+                    <span className="trace-head">โมเดลคาดการณ์ (ตัวอย่าง)</span>
+                    <ol>{ahead.map(point => <li key={point.month}><small>{point.label}</small><span className="stamped">{formatBaht(point.price, 0)}</span><em>{formatBaht(point.low, 0)}–{formatBaht(point.high, 0)}</em></li>)}</ol>
+                  </div>
+                </div>
                 <dl className="trace-row">
                   <div><dt>ป้ายนี้</dt><dd>{material.name}</dd></div>
                   <div><dt>รหัสสินค้า</dt><dd className="stamped code">{material.id.replace("MAT-", "")}</dd></div>

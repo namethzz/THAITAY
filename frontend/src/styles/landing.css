@@ -32,16 +32,15 @@
   backface-visibility: hidden;
   border-radius: 22px;
   color: var(--ink);
-  background: linear-gradient(162deg, #f7cf26 0%, var(--tag) 42%, #e8b700 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), inset 0 -2px 0 rgba(27, 44, 62, .14), 0 34px 60px -34px rgba(27, 44, 62, .6), 0 10px 22px -14px rgba(27, 44, 62, .35);
+  background: var(--tag);
+  box-shadow: 0 34px 60px -34px rgba(27, 44, 62, .6), 0 10px 22px -14px rgba(27, 44, 62, .35);
 }
 .tag-back { transform: rotateY(180deg); }
 
 .tag-header { position: relative; display: flex; align-items: center; gap: 20px; min-height: var(--header-h); padding: 14px 26px 14px 84px; border-bottom: 1.5px solid var(--line-ink); }
 .tag-header .brand-word { font-size: 22px; }
 .tag-header .brand-mark svg rect { fill: #fff6c8; }
-.grommet { position: absolute; left: calc(var(--grommet-x) - 18px); top: calc(var(--header-h) / 2 - 18px); width: 36px; height: 36px; border-radius: 50%; background: radial-gradient(circle, var(--ground) 0 8.5px, #5f6c77 9px 10px, #f1f4f6 10.5px 12.5px, #b3bdc5 13px 15.5px, #7a8792 16px 18px); box-shadow: 0 2px 3px rgba(27, 44, 62, .35); }
-.grommet::after { content: ""; position: absolute; inset: 9px; border-radius: 50%; box-shadow: inset 0 2px 3px rgba(27, 44, 62, .5); }
+.grommet { position: absolute; left: calc(var(--grommet-x) - 18px); top: calc(var(--header-h) / 2 - 18px); width: 36px; height: 36px; }
 .tag-nav { display: flex; gap: 2px; margin-left: auto; }
 .tag-nav button { min-height: 42px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; color: var(--ink); font-size: 15px; font-weight: 500; }
 .tag-nav button:hover { background: rgba(27, 44, 62, .08); }
@@ -65,10 +64,13 @@
 .field.is-latest { background: rgba(255, 255, 255, .34); border-bottom-left-radius: 11px; }
 .field-label { font-size: 13px; font-weight: 500; color: var(--ink-2); }
 .field small { font-size: 13px; color: var(--ink-2); }
-.stamped { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.3; letter-spacing: .02em; color: var(--ink); font-variant-numeric: tabular-nums; text-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 -1px 0 rgba(27, 44, 62, .2); overflow-wrap: anywhere; }
-.stamped.code { font-size: 19px; letter-spacing: .07em; }
+.stamped { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.3; letter-spacing: .02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.stamped.code { font-size: 19px; letter-spacing: .07em; white-space: nowrap; }
 .stamped.big { font-size: clamp(24px, 2.6vw, 34px); animation: stamp-settle .28s cubic-bezier(.2, .8, .2, 1); }
 .is-latest .stamped { color: var(--measured); }
+/* Forecasts keep the app's bronze code, darkened to read on tag yellow (5.6:1). */
+.field-price:not(.is-latest) .stamped, .field-price:not(.is-latest) small { color: var(--forecast-on-tag); }
+.inspector-stamp.on-fields { display: none; }
 .inspector-stamp { margin-left: auto; margin-right: 6px; padding: 1px 12px 0; border: 3px solid var(--stamp); border-radius: 8px; color: var(--stamp); font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: .04em; transform: rotate(-6deg); mix-blend-mode: multiply; opacity: .9; pointer-events: none; }
 @keyframes stamp-settle { from { opacity: .25; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
@@ -86,7 +88,7 @@
 .tag-note { flex-basis: 100%; margin: 2px 0 0; font-size: 13px; color: var(--ink-2); }
 
 /* Back of the tag */
-.tag-back .tag-body h2 { margin: 0 0 20px; font-size: clamp(26px, 3.2vw, 42px); line-height: 1.25; outline: none; }
+.tag-back .tag-body h2 { margin: 0 0 20px; font-weight: 700; font-size: clamp(26px, 3.2vw, 42px); line-height: 1.25; outline: none; }
 .provenance { list-style: none; counter-reset: step; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; border: 1.5px solid var(--line-ink); border-radius: 13px; }
 .provenance li { counter-increment: step; padding: 18px 20px 20px; }
 .provenance li + li { box-shadow: inset 1.5px 0 0 var(--line-ink); }
@@ -95,6 +97,19 @@
 .provenance p { margin: 10px 0 0; font-size: 15px; line-height: 1.75; color: var(--ink); }
 .tag-back .tag-body { display: flex; flex-direction: column; height: calc(100% - var(--header-h)); }
 .tag-back .tag-actions { margin-top: auto; padding-top: 22px; }
+.price-trace { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.3fr); align-items: stretch; gap: 14px; margin-top: 22px; }
+.trace-group { min-width: 0; }
+.trace-head { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.trace-group ol { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; border: 1.5px solid var(--line-ink); border-radius: 11px; }
+.trace-group li { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; min-width: 0; }
+.trace-group li + li { box-shadow: inset 1.5px 0 0 var(--line-ink); }
+.trace-group small { font-size: 12px; color: var(--ink-2); }
+.trace-group .stamped { font-size: 20px; }
+.trace-group em { font-style: normal; font-size: 12px; color: var(--forecast-on-tag); }
+.trace-group.is-measured ol { background: rgba(255, 255, 255, .34); }
+.trace-group.is-measured .stamped { color: var(--measured); }
+.trace-group.is-forecast .stamped { color: var(--forecast-on-tag); }
+.trace-arrow { display: grid; place-items: center; padding-top: 22px; color: var(--ink); }
 .trace-row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; gap: 12px 28px; margin: 22px 0 0; padding: 14px 0; border-top: 1.5px dashed var(--line-ink); border-bottom: 1.5px dashed var(--line-ink); }
 .trace-row dt { font-size: 13px; color: var(--ink-2); }
 .trace-row dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; line-height: 1.5; }
@@ -151,6 +166,8 @@
   .tag-fields > .field:nth-child(6) { box-shadow: inset -1.5px 0 0 var(--line-ink); border-bottom-left-radius: 11px; }
   .field.is-latest { border-bottom-left-radius: 0; }
   .provenance { grid-template-columns: 1fr; }
+  .price-trace { grid-template-columns: 1fr; }
+  .trace-arrow { padding: 0; transform: rotate(90deg); justify-self: start; margin-left: 12px; }
   .trace-row { grid-template-columns: 1fr 1fr; }
   .trace-row > div:first-child { grid-column: 1 / -1; }
   .provenance li + li { box-shadow: inset 0 1.5px 0 var(--line-ink); }
@@ -168,8 +185,7 @@
   .tag-stage { padding-left: 12px; padding-right: 12px; }
   .tag-face { border-radius: 16px; }
   .tag-header { gap: 10px; padding: 10px 12px 10px 56px; }
-  .grommet { width: 30px; height: 30px; left: calc(var(--grommet-x) - 15px); top: calc(var(--header-h) / 2 - 15px); background: radial-gradient(circle, var(--ground) 0 7px, #5f6c77 7.5px 8.5px, #f1f4f6 9px 10.5px, #b3bdc5 11px 13px, #7a8792 13.5px 15px); }
-  .grommet::after { inset: 7.5px; }
+  .grommet { width: 30px; height: 30px; left: calc(var(--grommet-x) - 15px); top: calc(var(--header-h) / 2 - 15px); }
   .tag-header .brand-word { font-size: 18px; }
   .tag-header .brand-mark svg { display: none; }
   .tag-ws { min-height: 40px; padding: 0 12px; font-size: 14px; }
@@ -177,10 +193,13 @@
   .tag-title h1 { font-size: clamp(27px, 8.4vw, 34px); }
   .tag-title p { font-size: 15px; }
   .field { padding: 12px 12px 14px; }
-  .stamped.code { font-size: 16px; letter-spacing: .04em; }
+  .stamped.code { font-size: 15px; letter-spacing: .03em; }
   .stamped.big { font-size: 22px; }
   .field small, .field-label { font-size: 12px; }
-  .inspector-stamp { font-size: 16px; padding: 0 9px; }
+  .inspector-stamp.in-actions { display: none; }
+  .inspector-stamp.on-fields { display: block; position: absolute; top: 7px; right: 10px; margin: 0; font-size: 14px; padding: 0 8px; border-width: 2.5px; }
+  .trace-group li { padding: 8px; }
+  .trace-group .stamped { font-size: 16px; }
   .trace-row { grid-template-columns: minmax(0, 1fr) auto; }
   .tag-primary { width: 100%; justify-content: center; }
   .tag-flip { width: 100%; justify-content: center; }

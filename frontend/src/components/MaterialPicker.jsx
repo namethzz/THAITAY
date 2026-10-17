@@ -253,7 +253,7 @@ const MATERIAL_PICKER_STYLES = `
   .mp-trigger-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:10px; color:var(--ink); background:var(--tag); }
   .mp-trigger-copy { min-width:0; } .mp-trigger-copy small,.mp-trigger-copy strong,.mp-trigger-copy em,.mp-trigger-unit small,.mp-trigger-unit strong { display:block; }
   .mp-trigger-copy small,.mp-trigger-unit small { margin-bottom:2px; font-size:12px; color:var(--ink-3); }
-  .mp-trigger-copy strong { overflow:hidden; font-size:15px; font-weight:600; line-height:1.5; text-overflow:ellipsis; white-space:nowrap; }
+  .mp-trigger-copy strong { display:-webkit-box !important; overflow:hidden; font-size:15px; font-weight:600; line-height:1.45; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
   .mp-trigger-copy em { margin-top:2px; overflow:hidden; font-size:12px; font-style:normal; color:var(--ink-3); text-overflow:ellipsis; white-space:nowrap; }
   .mp-trigger-unit { min-width:84px; text-align:right; } .mp-trigger-unit strong { font-size:16px; color:var(--ink); }
   .mp-chevron { color:var(--ink-3); transition:transform .18s ease; } .mp-trigger.open .mp-chevron { transform:rotate(180deg); }
@@ -270,10 +270,10 @@ const MATERIAL_PICKER_STYLES = `
   .mp-result-summary { min-height:40px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:0 16px; color:var(--ink-3); font-size:13px; }
   .mp-result-summary button { border:0; background:transparent; color:var(--measured); cursor:pointer; font:inherit; font-weight:600; }
   .mp-list { max-height:370px; overflow:auto; padding:4px 8px 8px; overscroll-behavior:contain; }
-  .mp-list > button { width:100%; min-height:52px; display:grid; grid-template-columns:150px minmax(0,1fr) 72px 24px; align-items:center; gap:10px; padding:9px 10px; border:0; border-radius:10px; background:transparent; color:var(--ink); text-align:left; cursor:pointer; }
+  .mp-list > button { width:100%; min-height:52px; display:grid; grid-template-columns:auto minmax(0,1fr) 72px 24px; align-items:center; gap:10px; padding:9px 10px; border:0; border-radius:10px; background:transparent; color:var(--ink); text-align:left; cursor:pointer; }
   .mp-list > button:hover,.mp-list > button.active { background:var(--ground); } .mp-list > button.selected { background:var(--tag-tint); }
-  .mp-item-code { width:max-content; max-width:150px; padding:3px 7px; overflow:hidden; border-radius:6px; background:var(--sunken); color:var(--ink); font-family:var(--font-display); font-size:12px; font-weight:600; letter-spacing:.02em; text-overflow:ellipsis; white-space:nowrap; }
-  .mp-item-copy { min-width:0; } .mp-item-copy strong,.mp-item-copy small { display:block; } .mp-item-copy strong { overflow:hidden; font-size:14px; font-weight:500; line-height:1.5; text-overflow:ellipsis; white-space:nowrap; } .mp-item-copy small { margin-top:1px; overflow:hidden; color:var(--ink-3); font-size:12px; text-overflow:ellipsis; white-space:nowrap; }
+  .mp-item-code { width:max-content; padding:3px 7px; border-radius:6px; background:var(--sunken); color:var(--ink); font-family:var(--font-display); font-size:12px; font-weight:600; letter-spacing:.02em; white-space:nowrap; }
+  .mp-item-copy { min-width:0; } .mp-item-copy strong,.mp-item-copy small { display:block; } .mp-item-copy strong { font-size:14px; font-weight:500; line-height:1.5; } .mp-item-copy small { margin-top:1px; overflow:hidden; color:var(--ink-3); font-size:12px; text-overflow:ellipsis; white-space:nowrap; }
   .mp-item-unit { text-align:right; color:var(--ink); font-size:14px; font-weight:600; } .mp-item-check { color:var(--ink); }
   .mp-empty { min-height:160px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-3); text-align:center; } .mp-empty strong { color:var(--ink); font-size:15px; } .mp-empty span { font-size:13px; }
   .mp-load-more { width:100%; min-height:46px; border:0; border-top:1px solid var(--line); background:var(--ground); color:var(--measured); cursor:pointer; font:inherit; font-size:14px; font-weight:600; }

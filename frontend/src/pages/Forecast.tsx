@@ -29,9 +29,7 @@ export default function Forecast({ selectedId, onSelect, navigate }: SelectionPr
   return <div className="scope-page">
     <PageHeading title="พยากรณ์ราคา 1–3 เดือน">ราคาคาดการณ์ต่อหน่วยของวัสดุที่เลือก พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ช่วงจะกว้างขึ้นเมื่อมองไกลขึ้น</PageHeading>
     <DemoBanner />
-    <section className="card scope-panel">
-      <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label="วัสดุที่ต้องการพยากรณ์" />
-    </section>
+    <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label="วัสดุที่ต้องการพยากรณ์" />
 
     <div className="horizon-grid" role="radiogroup" aria-label="ช่วงพยากรณ์ที่แสดงในกราฟ">
       {fc.map(point => {

@@ -58,26 +58,32 @@ function demoModel(material: Material) {
 }
 const round = (n: number) => (n >= 1000 ? Math.round(n / 5) * 5 : Math.round(n * 100) / 100);
 
-function demoHistory(material: Material, months: number): PriceSeries {
+// ราคาตัวอย่างของเดือนที่ย้อนไป i เดือน: ขึ้นกับวัสดุและเดือนเท่านั้น ไม่ขึ้นกับช่วงที่ขอ ทุกหน้าจึงเห็นราคาเดือนเดียวกันตรงกัน
+function demoPriceAt(material: Material, i: number) {
   const { base, drift, h } = demoModel(material);
+  const noise = (rand(h + i * 7) - 0.5) * 0.012;
+  const cycle = Math.sin((i + (h % 12)) / 9) * 0.04; // วงจรราคาช่วงยาว (ตัวอย่าง)
+  return round(base * (Math.exp(-drift * 0.35 * i) + noise + cycle));
+}
+
+function demoHistory(material: Material, months: number): PriceSeries {
   const now = new Date();
   const points: HistoryPoint[] = [];
   for (let i = months; i >= 0; i--) {
     const d = addMonths(now, -i);
-    const noise = (rand(h + i * 7) - 0.5) * 0.012;
-    const cycle = Math.sin((i + (h % 12)) / 9) * 0.04 * Math.min(1, months / 24); // วงจรราคาช่วงยาว (ตัวอย่าง)
-    points.push({ date: iso(d), label: label(d), price: round(base * (Math.exp(-drift * 0.35 * i) + noise + cycle)) });
+    points.push({ date: iso(d), label: label(d), price: demoPriceAt(material, i) });
   }
   return { demo: true, unit: material.unit, points };
 }
 
 function demoForecast(material: Material, months: number): ForecastSeries {
-  const { base, drift, h } = demoModel(material);
+  const { drift, h } = demoModel(material);
+  const latest = demoPriceAt(material, 0); // ต่อจากราคาล่าสุดในประวัติ
   const now = new Date();
   const points: ForecastPoint[] = [];
   for (let m = 1; m <= months; m++) {
     const d = addMonths(now, m);
-    const price = base * (1 + drift * m + (rand(h + m * 13) - 0.5) * 0.006);
+    const price = latest * (1 + drift * m + (rand(h + m * 13) - 0.5) * 0.006);
     const band = 0.012 + 0.011 * m; // ช่วงความไม่แน่นอนกว้างขึ้นตามระยะเวลา
     points.push({ month: m as Horizon, date: iso(d), label: label(d), price: round(price), low: round(price * (1 - band)), high: round(price * (1 + band)) });
   }

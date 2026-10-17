@@ -20,7 +20,7 @@ export default function Overview({ navigate, selectedId, onSelect, onCategorySel
     <PageHeading title="ภาพรวม">วัสดุงานโครงสร้าง {materialCatalog.length.toLocaleString("th-TH")} รายการ ใน {materialCategories.length} หมวด เลือกวัสดุแล้วดูราคาล่าสุด ราคาคาดการณ์ และคำนวณต้นทุนต่อได้จากที่นี่</PageHeading>
     <DemoBanner />
 
-    <section className="card overview-focus" aria-labelledby="focus-title">
+    <section className="overview-focus" aria-labelledby="focus-title">
       <div className="overview-focus-pick">
         <h2 id="focus-title">วัสดุที่กำลังดู</h2>
         <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label="กดเพื่อเปลี่ยนวัสดุ" />
