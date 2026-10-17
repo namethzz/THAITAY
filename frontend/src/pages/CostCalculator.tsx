@@ -69,7 +69,7 @@ export default function CostCalculator({ selectedId, onSelect, lines, setLines }
     <DemoBanner />
 
     <div className="cost-grid">
-      <section className="card scope-panel cost-builder" aria-label="ตัวคำนวณ">
+      <section className="cost-builder" aria-label="ตัวคำนวณ">
         <ol className="cost-steps">
           <li>
             <div className="step-head"><span className="step-no">1</span><h2>เลือกวัสดุ</h2></div>

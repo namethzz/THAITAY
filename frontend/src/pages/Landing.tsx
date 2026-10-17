@@ -95,7 +95,7 @@ export default function Landing({ navigate, selectedId, onSelect, onCategorySele
 
                 <div className="tag-fields">
                   <div className="field field-material">
-                    <span className="field-label">วัสดุ · ลองเปลี่ยนดู</span>
+                    <span className="field-label field-label-row"><span>วัสดุ · ลองเปลี่ยนดู</span>{isDemoData && <span className="inspector-stamp on-fields" aria-hidden="true">ข้อมูลตัวอย่าง</span>}</span>
                     <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label={material.category} />
                   </div>
                   <div className="field">
@@ -121,7 +121,6 @@ export default function Landing({ navigate, selectedId, onSelect, onCategorySele
                       </div>
                     );
                   })}
-                  {isDemoData && <span className="inspector-stamp on-fields" aria-hidden="true">ข้อมูลตัวอย่าง</span>}
                 </div>
 
                 <div className="tag-actions">

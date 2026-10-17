@@ -20,11 +20,9 @@
 .paint-dot { display: inline-block; flex: 0 0 auto; }
 .bundle-dots { display: grid; grid-template-columns: repeat(3, 9px); gap: 2px; flex: 0 0 auto; }
 
-/* Tag stock: every working panel carries a punched hole at its top right, like a tag ready for its wire. */
-.card, .tag-panel { position: relative; }
-.card::before, .tag-panel::before { content: ""; position: absolute; top: 10px; right: 10px; width: 9px; height: 9px; border-radius: 50%; background: var(--ground); box-shadow: 0 0 0 2px var(--panel), 0 0 0 3px var(--line-strong); }
-.tag-panel::before { top: 14px; right: 14px; width: 11px; height: 11px; }
-.catalog-search::before { display: none; }
+/* Tags (material tag, forecast horizon tags) carry a punched hole; plain panels do not, so nothing static looks selectable. */
+.tag-panel { position: relative; }
+.tag-panel::before { content: ""; position: absolute; top: 14px; right: 14px; width: 11px; height: 11px; border-radius: 50%; background: var(--ground); box-shadow: 0 0 0 2px var(--panel), 0 0 0 3px var(--line-strong); }
 
 /* ---------- Categories ---------- */
 .material-category-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -115,8 +113,7 @@
 .demo-banner { display: flex; gap: 14px; align-items: center; padding: 12px 16px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-2); border-radius: 12px; }
 .demo-banner p { margin: 0; font-size: 14px; line-height: 1.7; }
 .demo-stamp { flex: 0 0 auto; padding: 3px 10px 2px; border: 2px solid var(--stamp); border-radius: 6px; color: var(--stamp); font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: .02em; transform: rotate(-3deg); }
-.source-links { position: relative; padding: 18px 20px 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-panel); }
-.source-links::before { content: ""; position: absolute; top: 10px; right: 10px; width: 9px; height: 9px; border-radius: 50%; background: var(--ground); box-shadow: 0 0 0 2px var(--panel), 0 0 0 3px var(--line-strong); }
+.source-links { padding: 18px 20px 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-panel); }
 .source-links-title { display: flex; align-items: center; gap: 8px; color: var(--ink); font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 12px; }
 .source-links ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
 .source-links a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 2px; border-top: 1px solid var(--line); color: inherit; text-decoration: none; min-height: 44px; }
@@ -149,7 +146,7 @@
 .horizon-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px 20px; min-width: 0; color: var(--ink); box-shadow: var(--shadow-panel); transition: border-color .15s, background .15s, box-shadow .15s, transform .15s; }
 button.horizon-card:hover { border-color: var(--line-strong); transform: translateY(-1px); }
 .horizon-card.active { background: var(--tag); border-color: var(--ink); box-shadow: var(--shadow-lift); }
-.horizon-card.active::before { background: var(--ground); box-shadow: 0 0 0 2px var(--tag), 0 0 0 3px var(--ink); }
+.horizon-card.active::before { box-shadow: 0 0 0 2px var(--tag), 0 0 0 3px var(--line-strong); }
 .horizon-top { display: flex; align-items: baseline; gap: 10px; padding-right: 22px; font-size: 13px; color: var(--ink-3); }
 .horizon-top strong { font-size: 15px; font-weight: 600; color: var(--ink); }
 .horizon-card.active .horizon-top { color: var(--ink-2); }
@@ -166,7 +163,8 @@ button.horizon-card:hover { border-color: var(--line-strong); transform: transla
 .forecast-cta p { margin: 0; font-size: 15px; color: var(--ink); }
 
 /* ---------- Cost calculator ---------- */
-.cost-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.cost-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.cost-builder { padding: 4px 0 0; }
 .cost-grid > *, .cost-steps, .cost-steps > li { min-width: 0; }
 .cost-steps { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 26px; }
 .cost-steps > li .mp-root { max-width: 100%; }

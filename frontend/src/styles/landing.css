@@ -21,7 +21,7 @@
 /* ---------- The tag ---------- */
 .big-tag { width: min(1200px, 100%); }
 /* 3D only while turning or turned: at rest the front face stays flat, so the picker's fixed popover still anchors to the viewport. */
-.big-tag-inner { display: grid; transition: transform .8s cubic-bezier(.2, .75, .2, 1); }
+.big-tag-inner { position: relative; display: grid; transition: transform .8s cubic-bezier(.2, .75, .2, 1); }
 .big-tag.is-turning .big-tag-inner, .big-tag.is-flipped .big-tag-inner { transform-style: preserve-3d; }
 .big-tag.is-turning:not(.is-flipped) .big-tag-inner { transform: perspective(2400px) rotateY(0deg); }
 .big-tag.is-flipped .big-tag-inner { transform: perspective(2400px) rotateY(180deg); }
@@ -197,7 +197,10 @@
   .stamped.big { font-size: 22px; }
   .field small, .field-label { font-size: 12px; }
   .inspector-stamp.in-actions { display: none; }
-  .inspector-stamp.on-fields { display: block; position: absolute; top: 7px; right: 10px; margin: 0; font-size: 14px; padding: 0 8px; border-width: 2.5px; }
+  .field-label-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; margin-bottom: 4px; }
+  .inspector-stamp.on-fields { display: block; margin: 0; font-size: 14px; padding: 0 8px; border-width: 2.5px; transform: rotate(-4deg); }
+  /* R1: on phones the face turned to the visitor sets the tag's height; the hidden face stops reserving space. */
+  .big-tag:not(.is-flipped) .tag-back, .big-tag.is-flipped .tag-front { position: absolute; inset: 0; overflow: hidden; }
   .trace-group li { padding: 8px; }
   .trace-group .stamped { font-size: 16px; }
   .trace-row { grid-template-columns: minmax(0, 1fr) auto; }
