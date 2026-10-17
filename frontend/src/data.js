@@ -20,9 +20,6 @@ export function searchMaterials(query = '', limit = materialCatalog.length) {
 }
 export const defaultMaterialId = materialCatalog.find(material => material.categoryCode === 'STR-01' && /SD[\s.]*40/i.test(material.name))?.id ?? materialCatalog[0]?.id ?? '';
 export const dataMeta = Object.freeze({scope: 'structural', label: 'วัสดุงานโครงสร้าง', status: 'catalog-only'});
-// Reserved for the future price integration. Frontend does not fetch or calculate prices.
-export const priceData = [];
-export const forecastData = [];
 export const navItems = [
   ['overview', 'ภาพรวม', LayoutDashboard],
   ['prices', 'รายการวัสดุ', Boxes],

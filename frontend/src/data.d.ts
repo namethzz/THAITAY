@@ -5,8 +5,6 @@ export const materialCatalog: Material[];
 export const materials: Material[];
 export const materialCategories: ReadonlyArray<{code: string; name: string; count: number}>;
 export const materialUnits: ReadonlyArray<string>;
-export const priceData: readonly never[];
-export const forecastData: readonly never[];
 export const defaultMaterialId: string;
 export const navItems: Array<[PageId, string, LucideIcon]>;
 export function getMaterialById(id: string): Material | null;
