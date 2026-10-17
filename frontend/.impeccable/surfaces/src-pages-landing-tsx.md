@@ -15,17 +15,17 @@ Action in working form: choose a material on the landing and see its latest pric
 
 Proof on hand: real catalog (287 items, MOC codes, units), real source links. Prices are demo data and must be stamped as such; no accuracy claims.
 
-Brand: name THAI TAY everywhere; owner will supply logo and icons, so the mark is one swappable component. Owner constraint: no black theme.
+Brand: name THAI TAY; the owner's THAI TAY CONSTRUCT logo and palette are binding (see PRODUCT.md). Owner constraint: no black theme.
 
 ## Direction contract
 
 THESIS: The landing is one rebar bundle tag seen up close: the material, its MOC code, unit, latest price and 1–3 month forecast are stamped fields on the tag, and the tag turns over to show where the number comes from. It refuses the category default of a skyscraper-photo hero, navy-and-orange feature cards, and hazard stripes.
 
-OWN-WORLD: Galvanized-zinc ground (cool pale grey), tag-yellow as the committed brand field and primary action, white tag stock for working panels, mill-scale blue ink for all text (never black), temper blue for measured prices, temper bronze for forecasts and ranges, rust red / verdigris for up / down. Chakra Petch stamped display and numerals, Bai Jamjuree body. Tags are rounded rectangles with a punched steel grommet and a twisted wire tie; bar-end paint dots code the nine material categories.
+OWN-WORLD: Brand-pinned palette (owner's THAI TAY CONSTRUCT board, v0.8): warm white #F3F0EA ground, charcoal #242A2D ink (never a dark page), the tag in brand orange #E8753B as the committed field and primary action with charcoal text only, concrete gray #747D80 for logo and large type, measured prices in charcoal, forecasts in orange (dark orange #A84B1A as text), rust / green for up / down. Prompt for display, numerals and body (matches the logo's geometric wordmark). Tags are rounded rectangles with a punched steel grommet and a twisted wire tie; the owner's building mark sits on a warm-white label on the tag; bar-end paint codes mark the nine categories.
 
 STORY: The visitor reads what THAI TAY does on the tag itself, flips it to see the data → model → range path, picks their own material in the tag's material field, watches the stamped numbers change, then opens the workspace with that material already selected.
 
-FIRST VIEWPORT: Zinc ground. One yellow tag spans the viewport width (max ~1200px) and most of its height, hung by a wire that runs off the top edge through a grommet at the tag's upper left. Tag header strip: THAI TAY mark, nav links, workspace button, over a stamped rule. Tag body: two-line stamped headline; a field grid like a mill tag: material (working picker), MOC code, unit, latest price, then +1/+2/+3 month stamped prices with low–high ranges; a red inspector-style stamp "ข้อมูลตัวอย่าง"; primary "เปิดพยากรณ์ฉบับเต็ม" in ink, secondary "ตัวเลขนี้มาจากไหน?" flips the tag. Mobile: the tag fills the width, fields stack, wire shortens.
+FIRST VIEWPORT: Warm-white ground. One orange tag spans the viewport width (max ~1200px) and most of its height, hung by a wire that runs off the top edge through a grommet at the tag's upper left. Tag header strip: the THAI TAY CONSTRUCT logo on a warm-white label, nav links, workspace button, over a stamped rule. Tag body: two-line stamped headline; a field grid like a mill tag: material (working picker), MOC code, unit, latest price, then +1/+2/+3 month stamped prices with low–high ranges; an inspector-style stamp "ข้อมูลตัวอย่าง" in charcoal ink (red where it sits on light panels); primary "เปิดพยากรณ์ฉบับเต็ม" in ink, secondary "ตัวเลขนี้มาจากไหน?" flips the tag. Mobile: the tag fills the width, fields stack, wire shortens.
 
 FORM: Rebar mill tag (grounded candidate 1 of 7; owner chose it over the rolled assignment, candidate 4 carbon-copy quotation pads). seed:68798a45d93d68ee
 

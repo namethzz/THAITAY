@@ -7,10 +7,11 @@ import { PageHeading } from "@/components/ui/scope-layout";
 import { Button } from "@/components/ui/button";
 import { DemoBanner, SourceLinks, useForecast, useHistory } from "@/components/ui/price-widgets";
 import { formatBaht, type Horizon } from "@/services/priceService";
+import { CHART } from "@/config/chartColors";
 import type { Navigate, SelectionProps } from "@/types";
 
-const MEASURED = "#245594";
-const FORECAST = "#9a5716";
+const MEASURED = CHART.measured;
+const FORECAST = CHART.forecast;
 
 export default function Forecast({ selectedId, onSelect, navigate }: SelectionProps & { navigate: Navigate }) {
   const material = getMaterialById(selectedId)!;
@@ -54,13 +55,13 @@ export default function Forecast({ selectedId, onSelect, navigate }: SelectionPr
       <div className="chart-box" aria-busy={forecast.loading || history.loading}>
         <ResponsiveContainer width="100%" height={320}>
           <ComposedChart data={chart} margin={{ top: 12, right: 12, left: 0, bottom: 0 }}>
-            <CartesianGrid stroke="#d3d9de" strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="label" tick={{ fill: "#56687a", fontSize: 12 }} tickLine={false} axisLine={{ stroke: "#c8d0d6" }} />
-            <YAxis tick={{ fill: "#56687a", fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
-            <Tooltip formatter={(v: number | number[], name: string) => Array.isArray(v) ? [`${formatBaht(v[0])} – ${formatBaht(v[1])}`, "ช่วงที่เป็นไปได้"] : [`${formatBaht(v)} บาท / ${material.unit}`, name === "actual" ? "ราคาจริง" : "ราคาคาดการณ์"]} contentStyle={{ borderRadius: 10, border: "1px solid #c8d0d6", background: "#fbfcfc", color: "#1b2c3e" }} />
+            <CartesianGrid stroke={CHART.grid} strokeDasharray="3 3" vertical={false} />
+            <XAxis dataKey="label" tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={{ stroke: CHART.axis }} />
+            <YAxis tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
+            <Tooltip formatter={(v: number | number[], name: string) => Array.isArray(v) ? [`${formatBaht(v[0])} – ${formatBaht(v[1])}`, "ช่วงที่เป็นไปได้"] : [`${formatBaht(v)} บาท / ${material.unit}`, name === "actual" ? "ราคาจริง" : "ราคาคาดการณ์"]} contentStyle={CHART.tooltip} />
             <Area dataKey="band" stroke="none" fill={FORECAST} fillOpacity={0.16} isAnimationActive={false} />
             <Line dataKey="actual" stroke={MEASURED} strokeWidth={2.5} dot={{ r: 3.5, fill: MEASURED }} connectNulls isAnimationActive={false} />
-            <Line dataKey="predicted" stroke={FORECAST} strokeWidth={2.5} strokeDasharray="6 5" dot={{ r: 4, fill: "#fbfcfc", stroke: FORECAST, strokeWidth: 2 }} connectNulls isAnimationActive={false} />
+            <Line dataKey="predicted" stroke={FORECAST} strokeWidth={2.5} strokeDasharray="6 5" dot={{ r: 4, fill: "#fcfbf8", stroke: FORECAST, strokeWidth: 2 }} connectNulls isAnimationActive={false} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

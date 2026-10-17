@@ -1,9 +1,7 @@
-@import "@fontsource/bai-jamjuree/400.css";
-@import "@fontsource/bai-jamjuree/500.css";
-@import "@fontsource/bai-jamjuree/600.css";
-@import "@fontsource/chakra-petch/500.css";
-@import "@fontsource/chakra-petch/600.css";
-@import "@fontsource/chakra-petch/700.css";
+@import "@fontsource/prompt/400.css";
+@import "@fontsource/prompt/500.css";
+@import "@fontsource/prompt/600.css";
+@import "@fontsource/prompt/700.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "./styles/base.css";
@@ -13,8 +11,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Bai Jamjuree", system-ui, sans-serif;
-  --font-display: "Chakra Petch", "Bai Jamjuree", sans-serif;
+  --font-sans: "Prompt", system-ui, sans-serif;
+  --font-display: "Prompt", system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

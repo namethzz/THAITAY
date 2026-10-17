@@ -257,7 +257,7 @@ const MATERIAL_PICKER_STYLES = `
   .mp-trigger-copy em { margin-top:2px; overflow:hidden; font-size:12px; font-style:normal; color:var(--ink-3); text-overflow:ellipsis; white-space:nowrap; }
   .mp-trigger-unit { min-width:84px; text-align:right; } .mp-trigger-unit strong { font-size:16px; color:var(--ink); }
   .mp-chevron { color:var(--ink-3); transition:transform .18s ease; } .mp-trigger.open .mp-chevron { transform:rotate(180deg); }
-  .mp-popover { position:absolute; z-index:120; top:calc(100% + 8px); left:0; width:min(780px,calc(100vw - 34px)); overflow:hidden; border:1px solid var(--line-strong); border-radius:14px; background:var(--panel); color:var(--ink); box-shadow:0 24px 60px -18px rgba(27,44,62,.45); }
+  .mp-popover { position:absolute; z-index:120; top:calc(100% + 8px); left:0; width:min(780px,calc(100vw - 34px)); overflow:hidden; border:1px solid var(--line-strong); border-radius:14px; background:var(--panel); color:var(--ink); box-shadow:0 24px 60px -18px rgba(36,42,45,.45); }
   .mp-popover-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px 12px; border-bottom:1px solid var(--line); }
   .mp-popover-head strong,.mp-popover-head span { display:block; } .mp-popover-head strong { font-family:var(--font-display); font-size:16px; } .mp-popover-head span { margin-top:2px; font-size:13px; color:var(--ink-3); }
   .mp-popover-head button,.mp-search button { width:36px; height:36px; display:grid; place-items:center; flex:0 0 auto; border:0; border-radius:9px; background:var(--sunken); color:var(--ink-2); cursor:pointer; }

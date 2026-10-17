@@ -1,4 +1,4 @@
-# THAI TAY Frontend v0.7
+# THAI TAY Frontend v0.8
 
 React 18 + Vite 6 + TypeScript + Tailwind CSS 4 + shadcn/ui
 
@@ -55,7 +55,9 @@ routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกห�
 | `src/main.tsx` | routing และ state ร่วม (วัสดุที่เลือก, หมวด, รายการคำนวณต้นทุน) |
 | `src/components/MaterialPicker.jsx` | ค้นหาและเลือกวัสดุจาก dropdown |
 | `src/pages/Landing.tsx` + `src/styles/landing.css` | หน้าแรก: ป้ายเหล็กเส้นแขวนลวด เลือกวัสดุบนป้ายได้ พลิกดูที่มาของตัวเลข |
-| `src/components/ui/brand-mark.tsx` | ชื่อ THAI TAY + สัญลักษณ์ชั่วคราว (เปลี่ยนเป็นโลโก้จริงที่ไฟล์นี้ที่เดียว) และ `PaintDot` |
+| `src/components/ui/brand-mark.tsx` | โลโก้ THAI TAY CONSTRUCT (รูปอาคาร + ชื่อเป็นตัวอักษรจริง) และ `PaintDot` |
+| `public/brand/` | รูปอาคารของโลโก้ (`thai-tay-mark.png` พื้น Warm White) และ favicon / apple-touch-icon ตัดจาก brand board |
+| `src/config/chartColors.ts` | สีกราฟ (ราคาจริง charcoal, คาดการณ์ส้ม) |
 | `src/config/categoryPaint.ts` | สีประจำ 9 หมวดวัสดุ (แบบสีทาปลายมัดเหล็ก) |
 | `src/components/ui/header-3.tsx` | แถบบนของพื้นที่ทำงาน |
 | `src/components/ui/saa-s-template.tsx` + `src/components/demo-saas-template.tsx` | component landing ที่แนบมาใน v0.6 ยังเก็บไว้ แต่หน้าแรก v0.7 ไม่ได้ใช้แล้ว |
@@ -67,7 +69,7 @@ routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกห�
 | `src/components/ui/intro-splash.tsx` | ตัดสินว่าจะแสดงหน้าต้อนรับหรือไม่ (โหลดทันที ขนาดเล็ก) |
 | `src/components/ui/intro-splash-overlay.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ใช้ motion โหลดแยกเฉพาะตอนที่ต้องแสดง |
 | `src/lib/utils.ts` | cn() จาก clsx และ tailwind-merge |
-| `src/styles.css` | style entry, ฟอนต์ (Bai Jamjuree, Chakra Petch) และ Tailwind theme |
+| `src/styles.css` | style entry, ฟอนต์ Prompt และ Tailwind theme |
 | `src/styles/base.css` | reset และ layout พื้นฐาน (ส่วนที่ยังใช้จาก CSS รุ่นแรก) |
 | `src/styles/app.css` | token สีทั้งหมด (`:root`), browser surfaces, sidebar / topbar |
 | `src/styles/structural.css` | หน้าในพื้นที่ทำงาน: ภาพรวม, รายการวัสดุ, ราคา/พยากรณ์, คำนวณต้นทุน, หน้าต้อนรับ |
@@ -75,21 +77,24 @@ routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกห�
 
 `@/` ชี้ไปที่ `src/` ดังนั้น `/components/ui` คือ `frontend/src/components/ui` ซึ่งเป็นตำแหน่งที่ shadcn CLI เพิ่ม component ให้ จึงเก็บ component ที่ใช้ซ้ำไว้ที่นี่
 
-## ระบบสี / ตัวอักษร (v0.7)
+## ระบบสี / ตัวอักษร (v0.8: สีแบรนด์ THAI TAY CONSTRUCT)
 
-ธีม "ป้ายเหล็กเส้นจากโรงงาน" ไม่มีสีดำ แก้ค่าได้ที่ `:root` ใน `src/styles/app.css`
+ธีมสว่าง พื้น Warm White ไม่มีหน้ามืด แก้ค่าได้ที่ `:root` ใน `src/styles/app.css`
 
-| token | ใช้กับ |
-|---|---|
-| `--ground` `--panel` `--sunken` `--line` | พื้นสังกะสี แผ่นป้ายสีขาว พื้นยุบ (sidebar) เส้นแบ่ง |
-| `--ink` `--ink-2` `--ink-3` | ตัวอักษร 3 ระดับ (น้ำเงินเข้มสีสเกลเหล็ก ไม่ใช่ดำ) |
-| `--tag` | สีเหลืองป้าย: ปุ่มหลัก รายการที่เลือก เมนูที่เปิดอยู่ |
-| `--measured` | ราคาจริง ลิงก์ focus ring |
-| `--forecast` | ราคาคาดการณ์ และช่วงต่ำ–สูง |
-| `--up` `--down` | ราคาแพงขึ้น / ถูกลง |
-| `--stamp` | ตราประทับ "ข้อมูลตัวอย่าง" |
+| token | ค่า | ใช้กับ |
+|---|---|---|
+| `--ground` | `#F3F0EA` Warm White | พื้นเว็บ, sidebar, พื้นหลังโลโก้ |
+| `--panel` `--sunken` `--line` | `#FCFBF8` `#E9E4DA` `#DCD6CB` | แผ่นเนื้อหา พื้นยุบ เส้นแบ่ง |
+| `--ink` `--ink-2` `--ink-3` | `#242A2D` Charcoal และ 2 ระดับรอง | ตัวอักษร ราคาจริง focus ring |
+| `--concrete` | `#747D80` Concrete Gray | โลโก้ ตัวอักษรใหญ่ ของตกแต่ง (ห้ามใช้กับตัวเล็ก 3.7:1) |
+| `--tag` | `#E8753B` Orange | ป้ายหน้าแรก ปุ่มหลัก สิ่งที่เลือก เมนูที่เปิดอยู่ (ตัวหนังสือบนส้มเป็น charcoal เท่านั้น) |
+| `--forecast` / `--forecast-line` | `#A84B1A` / `#E8753B` | ตัวเลขราคาคาดการณ์ / เส้นและช่วงในกราฟ |
+| `--up` `--down` | `#A3302A` `#2F6F55` | ราคาแพงขึ้น / ถูกลง |
+| `--stamp` | `#C0301E` | ตราประทับ "ข้อมูลตัวอย่าง" บนพื้นสว่าง (บนป้ายส้มใช้หมึก charcoal) |
 
-หัวเรื่องและตัวเลขใช้ Chakra Petch (เหมือนตัวตอกบนป้ายเหล็ก) เนื้อหาใช้ Bai Jamjuree ทุกสีผ่าน contrast WCAG AA (ตัวอักษรปกติ ≥ 4.5:1)
+ฟอนต์ Prompt ทั้งเว็บ (หัวเรื่อง ตัวเลข เนื้อหา) เข้ากับตัวอักษรเรขาคณิตในโลโก้ ทุกคู่สีที่เป็นตัวหนังสือผ่าน WCAG AA (≥ 4.5:1)
+
+โลโก้: รูปอาคารมีผนังสีเดียวกับพื้น Warm White จึงวางได้บนพื้น `#F3F0EA` เท่านั้น บนพื้นสีอื่น (เช่นป้ายส้ม) ให้วางในฉลากสีขาวอุ่น ถ้ามีไฟล์โลโก้ต้นฉบับความละเอียดสูง วางทับ `public/brand/thai-tay-mark.png` ได้เลย
 
 ลำดับ CSS: `base.css` → `app.css` → `structural.css` ไฟล์หลังชนะเมื่อ selector เท่ากัน ใน v0.6 ได้ลบ declaration ที่ถูกไฟล์หลังทับเสมอ และ rule ของ class ที่ไม่มีในโค้ดแล้วออกจากทั้งสามไฟล์ (ตรวจด้วยภาพหน้าจอทุกหน้า 5 ขนาดจอ ได้ผลเหมือนเดิมทุก pixel)
 
@@ -130,7 +135,7 @@ App เก็บวัสดุที่เลือก หมวดที่ก
 
 ## Dependencies / shadcn
 
-ติดตั้งแล้ว: lucide-react, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge, motion (หน้าต้อนรับ), recharts (กราฟ), @fontsource (Bai Jamjuree, Chakra Petch), Tailwind Vite plugin, tw-animate-css และ TypeScript / type packages
+ติดตั้งแล้ว: lucide-react, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge, motion (หน้าต้อนรับ), recharts (กราฟ), @fontsource (Prompt), Tailwind Vite plugin, tw-animate-css และ TypeScript / type packages
 
 เพิ่ม UI component ต่อ:
 
@@ -157,7 +162,9 @@ Sidebar ยุบเป็นเมนูบนจอกว้างไม่เ
 
 - `construction-architecture.jpg`: ภาพจาก Unsplash ใช้เป็นภาพตั้งต้นของ `saa-s-template` (หน้าในแอปไม่ได้ใช้)
 
-หน้าในแอปไม่ใช้รูปภาพ: ป้าย ห่วงตาไก่ ลวด และจุดสีหมวด วาดด้วย CSS / SVG ขนาดเล็ก
+- `public/brand/*`: โลโก้และไอคอนจาก brand board ของเจ้าของ (ฝังที่มาไว้ในไฟล์)
+
+นอกจากโลโก้ หน้าในแอปไม่ใช้รูปภาพ: ป้าย ห่วงตาไก่ ลวด และจุดสีหมวด วาดด้วย CSS / SVG ขนาดเล็ก
 
 font bundle อยู่ใน project จึงไม่ต้องเรียกบริการภาพหรือ font ภายนอกเมื่อเปิดเว็บ ลิงก์ภายนอกมีเฉพาะลิงก์แหล่งที่มาราคาที่ผู้ใช้กดเอง
 
