@@ -1,10 +1,12 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { ArrowRight, ArrowUpRight, Building2, Database, Sparkles, X } from "lucide-react";
+import { X } from "lucide-react";
 import { defaultMaterialId, getMaterialById, navItems } from "@/data.js";
 import { Button } from "@/components/ui/button";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { Header } from "@/components/ui/header-3";
 import { IntroSplash } from "@/components/ui/intro-splash";
+import { isDemoData } from "@/services/priceService";
 import type { EstimateLine, Navigate, PageId } from "@/types";
 import "./styles.css";
 
@@ -42,7 +44,7 @@ function App() {
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
-  useEffect(() => { document.title = page === "home" ? "THAI เท — Construction Price Intelligence" : `${title} | THAI เท`; }, [page, title]);
+  useEffect(() => { document.title = page === "home" ? "THAI TAY — ราคาวัสดุโครงสร้างล่วงหน้า 1–3 เดือน" : `${title} | THAI TAY`; }, [page, title]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -83,8 +85,8 @@ function App() {
     return (
       <>
         <IntroSplash />
-        <Suspense fallback={<div className="min-h-dvh bg-stone-950" role="status" aria-label="กำลังเปิดหน้า" />}>
-          <Landing navigate={navigate} />
+        <Suspense fallback={<div className="min-h-dvh" role="status" aria-label="กำลังเปิดหน้า" />}>
+          <Landing navigate={navigate} selectedId={selectedId} onSelect={selectMaterial} onCategorySelect={code => { setCategory(code); navigate("prices"); }} />
         </Suspense>
       </>
     );
@@ -96,30 +98,23 @@ function App() {
       <a href="#main-content" className="skip-link" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>ข้ามไปยังเนื้อหา</a>
       <aside id="primary-navigation" ref={sidebarRef} className={`sidebar ${mobileOpen ? "open" : ""}`} aria-label="เมนูหลัก" role={mobileOpen ? "dialog" : undefined} aria-modal={mobileOpen ? true : undefined}>
         <div className="brand">
-          <a href="#home" className="brand-link" aria-label="THAI เท หน้าแรก" onClick={(event) => { event.preventDefault(); navigate("home"); }}>
-            <span className="brand-mark"><Building2 size={24} strokeWidth={1.7} /></span>
-            <span className="brand-copy"><span className="brand-name">THAI <b>เท</b></span><span className="brand-sub">Construction intelligence</span></span>
+          <a href="#home" className="brand-link" aria-label="THAI TAY หน้าแรก" onClick={(event) => { event.preventDefault(); navigate("home"); }}>
+            <BrandMark />
+            <span className="brand-sub">ราคาวัสดุโครงสร้าง ล่วงหน้า 1–3 เดือน</span>
           </a>
           <Button type="button" variant="ghost" size="icon" className="mobile-close" aria-label="ปิดเมนู" onClick={() => setMobileOpen(false)}><X size={20} /></Button>
         </div>
-        <div className="nav-label">พื้นที่ทำงาน <span>WORKSPACE</span></div>
+        <div className="nav-label">พื้นที่ทำงาน</div>
         <nav>
           {navItems.map(([id, label, Icon]) => (
             <button type="button" key={id} className={`nav-item ${page === id ? "active" : ""}`} onClick={() => navigate(id)} aria-current={page === id ? "page" : undefined}>
-              <Icon size={18} strokeWidth={1.8} /><span>{label}</span>{page === id && <span className="nav-active-dot" />}
+              <Icon size={18} strokeWidth={1.8} /><span>{label}</span>
             </button>
           ))}
         </nav>
-        <div className="sidebar-promo">
-          <span className="sidebar-promo-icon"><Sparkles size={17} /></span>
-          <strong>ประมาณราคาล่วงหน้า</strong>
-          <p>เลือกวัสดุ ดูราคาล่วงหน้า 1–3 เดือน<br />แล้วคำนวณต้นทุนได้ทันที</p>
-          <button type="button" onClick={() => navigate("cost")}>เปิดหน้าคำนวณต้นทุน<ArrowUpRight size={15} /></button>
-        </div>
         <div className="sidebar-bottom">
-          <div className="system-status"><span className="dot" />วัสดุหมวดงานโครงสร้าง</div>
-          <button type="button" className="sidebar-source" onClick={() => navigate("prices")}><Database size={13} />เลือกรายการวัสดุ<ArrowRight size={13} /></button>
-          <div className="version">THAI เท · Frontend v0.6</div>
+          <div className="system-status"><span className={`dot ${isDemoData ? "" : "live"}`} />{isDemoData ? "ราคาเป็นข้อมูลตัวอย่าง" : "เชื่อมข้อมูลราคาแล้ว"}</div>
+          <div className="version">THAI TAY · Frontend v0.7</div>
         </div>
       </aside>
       {mobileOpen && <button type="button" className="mobile-overlay" tabIndex={-1} onClick={() => setMobileOpen(false)} aria-label="ปิดเมนู" />}
@@ -133,7 +128,7 @@ function App() {
             {page === "cost" && <CostCalculator selectedId={selectedId} onSelect={selectMaterial} lines={estimateLines} setLines={setEstimateLines} />}
             {page === "analysis" && <Analysis selectedId={selectedId} onSelect={selectMaterial} />}
           </Suspense>
-          <footer className="workspace-footer"><span>THAI เท <span className="footer-dot">·</span> Construction Price Intelligence</span><span>ข้อมูลเพื่อประกอบการวางแผน</span></footer>
+          <footer className="workspace-footer"><span>THAI TAY <span className="footer-dot">·</span> ราคาวัสดุโครงสร้าง</span><span>ข้อมูลเพื่อประกอบการวางแผน ไม่ใช่ใบเสนอราคาจากผู้ขาย</span></footer>
         </div>
       </main>
     </div>

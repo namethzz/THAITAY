@@ -1,4 +1,4 @@
-# THAI เท Frontend v0.6
+# THAI TAY Frontend v0.7
 
 React 18 + Vite 6 + TypeScript + Tailwind CSS 4 + shadcn/ui
 
@@ -54,10 +54,11 @@ routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกห�
 | `src/config/sources.ts` | แหล่งที่มาราคา (ลิงก์เปิดเว็บต้นทาง) |
 | `src/main.tsx` | routing และ state ร่วม (วัสดุที่เลือก, หมวด, รายการคำนวณต้นทุน) |
 | `src/components/MaterialPicker.jsx` | ค้นหาและเลือกวัสดุจาก dropdown |
-| `src/components/ui/saa-s-template.tsx` | Navigation + Hero ของหน้าแรก (รับเนื้อหาผ่าน props) |
-| `src/components/demo-saas-template.tsx` | demo ของ saa-s-template ตามค่าเริ่มต้น |
-| `src/components/ui/hero-3.tsx` | Hero ของหน้าภาพรวม |
+| `src/pages/Landing.tsx` + `src/styles/landing.css` | หน้าแรก: ป้ายเหล็กเส้นแขวนลวด เลือกวัสดุบนป้ายได้ พลิกดูที่มาของตัวเลข |
+| `src/components/ui/brand-mark.tsx` | ชื่อ THAI TAY + สัญลักษณ์ชั่วคราว (เปลี่ยนเป็นโลโก้จริงที่ไฟล์นี้ที่เดียว) และ `PaintDot` |
+| `src/config/categoryPaint.ts` | สีประจำ 9 หมวดวัสดุ (แบบสีทาปลายมัดเหล็ก) |
 | `src/components/ui/header-3.tsx` | แถบบนของพื้นที่ทำงาน |
+| `src/components/ui/saa-s-template.tsx` + `src/components/demo-saas-template.tsx` | component landing ที่แนบมาใน v0.6 ยังเก็บไว้ แต่หน้าแรก v0.7 ไม่ได้ใช้แล้ว |
 | `src/components/ui/button.tsx` | shadcn Button |
 | `src/components/ui/price-widgets.tsx` | แถบ Demo, ตัวเลือกช่วงเวลา, ลิงก์แหล่งที่มา |
 | `src/components/ui/material-categories.tsx` | ปุ่มหมวดวัสดุพร้อมจำนวนรายการ |
@@ -66,13 +67,29 @@ routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกห�
 | `src/components/ui/intro-splash.tsx` | ตัดสินว่าจะแสดงหน้าต้อนรับหรือไม่ (โหลดทันที ขนาดเล็ก) |
 | `src/components/ui/intro-splash-overlay.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ใช้ motion โหลดแยกเฉพาะตอนที่ต้องแสดง |
 | `src/lib/utils.ts` | cn() จาก clsx และ tailwind-merge |
-| `src/styles.css` | style entry, font และ Tailwind theme |
+| `src/styles.css` | style entry, ฟอนต์ (Bai Jamjuree, Chakra Petch) และ Tailwind theme |
 | `src/styles/base.css` | reset และ layout พื้นฐาน (ส่วนที่ยังใช้จาก CSS รุ่นแรก) |
-| `src/styles/app.css` | สีแบรนด์ (`:root`), layout แอป, หน้าภาพรวม |
-| `src/styles/structural.css` | catalog, การเลือกวัสดุ, หน้าราคา/คำนวณต้นทุน, หน้าต้อนรับ |
+| `src/styles/app.css` | token สีทั้งหมด (`:root`), browser surfaces, sidebar / topbar |
+| `src/styles/structural.css` | หน้าในพื้นที่ทำงาน: ภาพรวม, รายการวัสดุ, ราคา/พยากรณ์, คำนวณต้นทุน, หน้าต้อนรับ |
 | `components.json` | การตั้งค่า shadcn CLI |
 
 `@/` ชี้ไปที่ `src/` ดังนั้น `/components/ui` คือ `frontend/src/components/ui` ซึ่งเป็นตำแหน่งที่ shadcn CLI เพิ่ม component ให้ จึงเก็บ component ที่ใช้ซ้ำไว้ที่นี่
+
+## ระบบสี / ตัวอักษร (v0.7)
+
+ธีม "ป้ายเหล็กเส้นจากโรงงาน" ไม่มีสีดำ แก้ค่าได้ที่ `:root` ใน `src/styles/app.css`
+
+| token | ใช้กับ |
+|---|---|
+| `--ground` `--panel` `--sunken` `--line` | พื้นสังกะสี แผ่นป้ายสีขาว พื้นยุบ (sidebar) เส้นแบ่ง |
+| `--ink` `--ink-2` `--ink-3` | ตัวอักษร 3 ระดับ (น้ำเงินเข้มสีสเกลเหล็ก ไม่ใช่ดำ) |
+| `--tag` | สีเหลืองป้าย: ปุ่มหลัก รายการที่เลือก เมนูที่เปิดอยู่ |
+| `--measured` | ราคาจริง ลิงก์ focus ring |
+| `--forecast` | ราคาคาดการณ์ และช่วงต่ำ–สูง |
+| `--up` `--down` | ราคาแพงขึ้น / ถูกลง |
+| `--stamp` | ตราประทับ "ข้อมูลตัวอย่าง" |
+
+หัวเรื่องและตัวเลขใช้ Chakra Petch (เหมือนตัวตอกบนป้ายเหล็ก) เนื้อหาใช้ Bai Jamjuree ทุกสีผ่าน contrast WCAG AA (ตัวอักษรปกติ ≥ 4.5:1)
 
 ลำดับ CSS: `base.css` → `app.css` → `structural.css` ไฟล์หลังชนะเมื่อ selector เท่ากัน ใน v0.6 ได้ลบ declaration ที่ถูกไฟล์หลังทับเสมอ และ rule ของ class ที่ไม่มีในโค้ดแล้วออกจากทั้งสามไฟล์ (ตรวจด้วยภาพหน้าจอทุกหน้า 5 ขนาดจอ ได้ผลเหมือนเดิมทุก pixel)
 
@@ -113,7 +130,7 @@ App เก็บวัสดุที่เลือก หมวดที่ก
 
 ## Dependencies / shadcn
 
-ติดตั้งแล้ว: lucide-react, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge, motion (หน้าต้อนรับ), recharts (กราฟ), @fontsource (IBM Plex Sans Thai, Inter), Tailwind Vite plugin, tw-animate-css และ TypeScript / type packages
+ติดตั้งแล้ว: lucide-react, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge, motion (หน้าต้อนรับ), recharts (กราฟ), @fontsource (Bai Jamjuree, Chakra Petch), Tailwind Vite plugin, tw-animate-css และ TypeScript / type packages
 
 เพิ่ม UI component ต่อ:
 
@@ -138,8 +155,9 @@ Sidebar ยุบเป็นเมนูบนจอกว้างไม่เ
 
 ใช้ lucide-react สำหรับไอคอน ภาพเก็บใน `public/images`:
 
-- `construction-architecture.jpg`: ภาพจาก Unsplash ใช้ใน Hero หน้าภาพรวม
-- `app-preview.jpg`: ภาพหน้าจอจริงของหน้าภาพรวม ใช้ในหน้าแรก (แก้หน้าภาพรวมแล้วควรถ่ายใหม่)
+- `construction-architecture.jpg`: ภาพจาก Unsplash ใช้เป็นภาพตั้งต้นของ `saa-s-template` (หน้าในแอปไม่ได้ใช้)
+
+หน้าในแอปไม่ใช้รูปภาพ: ป้าย ห่วงตาไก่ ลวด และจุดสีหมวด วาดด้วย CSS / SVG ขนาดเล็ก
 
 font bundle อยู่ใน project จึงไม่ต้องเรียกบริการภาพหรือ font ภายนอกเมื่อเปิดเว็บ ลิงก์ภายนอกมีเฉพาะลิงก์แหล่งที่มาราคาที่ผู้ใช้กดเอง
 

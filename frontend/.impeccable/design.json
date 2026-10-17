@@ -1,0 +1,785 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T20:14:35+00:00",
+  "title": "Design System: THAI TAY",
+  "extensions": {
+    "colorMeta": {
+      "zinc-50": {
+        "role": "neutral",
+        "displayName": "Zinc 50",
+        "canonical": "#f3f5f7",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242527",
+          "#414244",
+          "#606163",
+          "#818284",
+          "#a3a5a7",
+          "#c7c9cb",
+          "#edeff1"
+        ]
+      },
+      "zinc-ground": {
+        "role": "neutral",
+        "displayName": "Zinc Ground",
+        "canonical": "#e7ebee",
+        "tonalRamp": [
+          "#090c0d",
+          "#232528",
+          "#3f4245",
+          "#5e6264",
+          "#7f8385",
+          "#a2a6a8",
+          "#c6cacd",
+          "#ebeff2"
+        ]
+      },
+      "tag-stock": {
+        "role": "neutral",
+        "displayName": "Tag Stock",
+        "canonical": "#fbfcfc",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242525",
+          "#414242",
+          "#606161",
+          "#818282",
+          "#a4a5a5",
+          "#c8c9c9",
+          "#eeefef"
+        ]
+      },
+      "zinc-sunken": {
+        "role": "neutral",
+        "displayName": "Zinc Sunken",
+        "canonical": "#dce2e6",
+        "tonalRamp": [
+          "#080c0e",
+          "#212629",
+          "#3e4346",
+          "#5d6265",
+          "#7e8387",
+          "#a0a6aa",
+          "#c4cace",
+          "#e9eff3"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#c8d0d6",
+        "tonalRamp": [
+          "#070c10",
+          "#20262a",
+          "#3c4348",
+          "#5b6268",
+          "#7c8389",
+          "#9fa6ac",
+          "#c2cad0",
+          "#e8f0f6"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Line Strong",
+        "canonical": "#9aa6b0",
+        "tonalRamp": [
+          "#050c13",
+          "#1d262e",
+          "#39434c",
+          "#58636c",
+          "#78848e",
+          "#9ba7b1",
+          "#bfcbd5",
+          "#e4f0fb"
+        ]
+      },
+      "input-edge": {
+        "role": "neutral",
+        "displayName": "Input Edge",
+        "canonical": "#a9b4bd",
+        "tonalRamp": [
+          "#050c12",
+          "#1e262d",
+          "#3a434b",
+          "#59636b",
+          "#79848c",
+          "#9ca7b0",
+          "#c0cbd4",
+          "#e5f0fa"
+        ]
+      },
+      "field-white": {
+        "role": "neutral",
+        "displayName": "Field White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "mill-scale-ink": {
+        "role": "neutral",
+        "displayName": "Mill-scale Ink",
+        "canonical": "#1b2c3e",
+        "tonalRamp": [
+          "#010c1b",
+          "#162638",
+          "#324457",
+          "#506378",
+          "#71859a",
+          "#93a7be",
+          "#b6cce3",
+          "#ddf1ff"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#425466",
+        "tonalRamp": [
+          "#010c1a",
+          "#162736",
+          "#324455",
+          "#516376",
+          "#718598",
+          "#93a8bc",
+          "#b7cce1",
+          "#dcf1ff"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#56687a",
+        "tonalRamp": [
+          "#010c19",
+          "#172636",
+          "#334455",
+          "#516375",
+          "#728597",
+          "#94a8bb",
+          "#b8cce0",
+          "#dcf1ff"
+        ]
+      },
+      "tag-yellow": {
+        "role": "primary",
+        "displayName": "Tag Yellow",
+        "canonical": "#f2c200",
+        "tonalRamp": [
+          "#110a00",
+          "#302300",
+          "#523f00",
+          "#775e01",
+          "#9e7e00",
+          "#c99f00",
+          "#f3c305",
+          "#ffe94f"
+        ]
+      },
+      "tag-yellow-hover": {
+        "role": "primary",
+        "displayName": "Tag Yellow Pressed",
+        "canonical": "#e2b400",
+        "tonalRamp": [
+          "#120a00",
+          "#312300",
+          "#543f00",
+          "#785d00",
+          "#a17d00",
+          "#c8a00e",
+          "#f2c32a",
+          "#ffe95d"
+        ]
+      },
+      "tag-tint": {
+        "role": "primary",
+        "displayName": "Tag Tint",
+        "canonical": "#fbefbf",
+        "tonalRamp": [
+          "#100b00",
+          "#2e2400",
+          "#4c4215",
+          "#6c6136",
+          "#8e8256",
+          "#b1a578",
+          "#d5ca9b",
+          "#fbefbf"
+        ]
+      },
+      "write-in-box": {
+        "role": "primary",
+        "displayName": "Write-in Box",
+        "canonical": "#fffbe6",
+        "tonalRamp": [
+          "#0e0b01",
+          "#292515",
+          "#464231",
+          "#656250",
+          "#868370",
+          "#a9a692",
+          "#cecab6",
+          "#f3efda"
+        ]
+      },
+      "temper-blue": {
+        "role": "secondary",
+        "displayName": "Temper Blue",
+        "canonical": "#245594",
+        "tonalRamp": [
+          "#00003a",
+          "#00205b",
+          "#0d417e",
+          "#3062a2",
+          "#5284c7",
+          "#73a7ed",
+          "#a1ccff",
+          "#dff0ff"
+        ]
+      },
+      "temper-blue-tint": {
+        "role": "secondary",
+        "displayName": "Temper Blue Tint",
+        "canonical": "#dde7f3",
+        "tonalRamp": [
+          "#060c13",
+          "#1e262e",
+          "#3b434c",
+          "#5a626c",
+          "#7a838e",
+          "#9da6b1",
+          "#c0cad6",
+          "#e6f0fc"
+        ]
+      },
+      "temper-bronze": {
+        "role": "tertiary",
+        "displayName": "Temper Bronze",
+        "canonical": "#9a5716",
+        "tonalRamp": [
+          "#1b0400",
+          "#3f1900",
+          "#693000",
+          "#904e05",
+          "#b56f34",
+          "#da9258",
+          "#ffb67b",
+          "#ffe7ce"
+        ]
+      },
+      "temper-bronze-band": {
+        "role": "tertiary",
+        "displayName": "Bronze Band",
+        "canonical": "rgba(154, 87, 22, .16)",
+        "tonalRamp": [
+          "#1b0400",
+          "#3f1900",
+          "#693000",
+          "#904e05",
+          "#b56f34",
+          "#da9258",
+          "#ffb67b",
+          "#ffe7ce"
+        ]
+      },
+      "bronze-on-tag": {
+        "role": "tertiary",
+        "displayName": "Bronze on Tag",
+        "canonical": "#6e380a",
+        "tonalRamp": [
+          "#1f0100",
+          "#421500",
+          "#673101",
+          "#8a5128",
+          "#ae724a",
+          "#d3956c",
+          "#fab98f",
+          "#ffe6d0"
+        ]
+      },
+      "rust-up": {
+        "role": "tertiary",
+        "displayName": "Rust Up",
+        "canonical": "#a8341f",
+        "tonalRamp": [
+          "#220000",
+          "#4f0000",
+          "#810200",
+          "#a7331e",
+          "#ce5841",
+          "#f77c64",
+          "#ffb19f",
+          "#ffe6de"
+        ]
+      },
+      "rust-up-tint": {
+        "role": "tertiary",
+        "displayName": "Rust Up Tint",
+        "canonical": "#f6e0da",
+        "tonalRamp": [
+          "#140705",
+          "#30211c",
+          "#4f3d39",
+          "#6f5c57",
+          "#917d78",
+          "#b4a09a",
+          "#d9c4be",
+          "#ffe9e3"
+        ]
+      },
+      "verdigris-down": {
+        "role": "tertiary",
+        "displayName": "Verdigris Down",
+        "canonical": "#22705f",
+        "tonalRamp": [
+          "#00100a",
+          "#002e24",
+          "#004f40",
+          "#22705f",
+          "#489280",
+          "#6cb6a2",
+          "#90dbc6",
+          "#b5ffec"
+        ]
+      },
+      "verdigris-down-tint": {
+        "role": "tertiary",
+        "displayName": "Verdigris Down Tint",
+        "canonical": "#d9ece6",
+        "tonalRamp": [
+          "#030e0b",
+          "#1a2924",
+          "#364641",
+          "#556560",
+          "#768781",
+          "#98aaa4",
+          "#bbcec8",
+          "#e0f4ee"
+        ]
+      },
+      "stamp-red": {
+        "role": "tertiary",
+        "displayName": "Stamp Red",
+        "canonical": "#c0301e",
+        "tonalRamp": [
+          "#210000",
+          "#510000",
+          "#840000",
+          "#b21f0d",
+          "#da4a36",
+          "#ff705a",
+          "#ffb2a3",
+          "#ffe6df"
+        ]
+      },
+      "paint-str-01": {
+        "role": "paint-code",
+        "displayName": "Paint STR-01 (Rebar)",
+        "canonical": "#e0a100",
+        "tonalRamp": [
+          "#140900",
+          "#342100",
+          "#583c00",
+          "#825800",
+          "#a97800",
+          "#d79800",
+          "#fdbd3b",
+          "#ffe688"
+        ]
+      },
+      "paint-str-02": {
+        "role": "paint-code",
+        "displayName": "Paint STR-02 (Structural steel)",
+        "canonical": "#245594",
+        "tonalRamp": [
+          "#00003a",
+          "#00205b",
+          "#0d417e",
+          "#3062a2",
+          "#5284c7",
+          "#73a7ed",
+          "#a1ccff",
+          "#dff0ff"
+        ]
+      },
+      "paint-str-03": {
+        "role": "paint-code",
+        "displayName": "Paint STR-03 (Wire mesh)",
+        "canonical": "#2f8a55",
+        "tonalRamp": [
+          "#001103",
+          "#002f12",
+          "#005126",
+          "#0f7441",
+          "#3e9761",
+          "#63bb83",
+          "#88e0a6",
+          "#b5ffce"
+        ]
+      },
+      "paint-str-04": {
+        "role": "paint-code",
+        "displayName": "Paint STR-04 (Tie wire)",
+        "canonical": "#7b52b8",
+        "tonalRamp": [
+          "#13002b",
+          "#330063",
+          "#502387",
+          "#7046ab",
+          "#9169d1",
+          "#b48cf8",
+          "#d3baff",
+          "#f2e9ff"
+        ]
+      },
+      "paint-str-05": {
+        "role": "paint-code",
+        "displayName": "Paint STR-05 (Prestressing wire)",
+        "canonical": "#c0392b",
+        "tonalRamp": [
+          "#220000",
+          "#4f0000",
+          "#810000",
+          "#ae261a",
+          "#d64e3e",
+          "#ff7461",
+          "#ffb0a2",
+          "#ffe5df"
+        ]
+      },
+      "paint-str-06": {
+        "role": "paint-code",
+        "displayName": "Paint STR-06 (Ready-mix concrete)",
+        "canonical": "#5d6b78",
+        "tonalRamp": [
+          "#030c16",
+          "#1a2631",
+          "#374450",
+          "#556370",
+          "#768492",
+          "#98a7b5",
+          "#bccbda",
+          "#e1f1ff"
+        ]
+      },
+      "paint-str-07": {
+        "role": "paint-code",
+        "displayName": "Paint STR-07 (Lean concrete)",
+        "canonical": "#a8957a",
+        "tonalRamp": [
+          "#140800",
+          "#312209",
+          "#4f3f26",
+          "#705e45",
+          "#927f65",
+          "#b5a287",
+          "#dac6aa",
+          "#ffebce"
+        ]
+      },
+      "paint-str-08": {
+        "role": "paint-code",
+        "displayName": "Paint STR-08 (Piles and precast)",
+        "canonical": "#16809a",
+        "tonalRamp": [
+          "#000e16",
+          "#002b38",
+          "#004b5e",
+          "#006d87",
+          "#2e8faa",
+          "#56b3ce",
+          "#7cd8f4",
+          "#a2feff"
+        ]
+      },
+      "paint-str-09": {
+        "role": "paint-code",
+        "displayName": "Paint STR-09 (Aggregates)",
+        "canonical": "#9a5a24",
+        "tonalRamp": [
+          "#1d0200",
+          "#401800",
+          "#6b2f00",
+          "#8e4f16",
+          "#b2703c",
+          "#d8935f",
+          "#ffb782",
+          "#ffe7ce"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Landing tag headline only, two stamped lines."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Landing section heads and the tag back-face heading."
+      },
+      "page-title": {
+        "displayName": "Page Title",
+        "purpose": "Workspace page h1 (25px on phones)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Workspace panel and section headings (17–21px)."
+      },
+      "stamped": {
+        "displayName": "Stamped",
+        "purpose": "Every price, code and quantity; tabular numerals. Big prices clamp(24px, 2.6vw, 34px); MOC codes 19px at .07em."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default Thai reading text; 1.75 for long workspace copy, 72ch cap."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Landing intros and section ledes, 52–62ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, captions, units. Sentence case, never uppercase."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel",
+        "value": "0 1px 2px rgba(27, 44, 62, .06), 0 2px 8px -4px rgba(27, 44, 62, .08)",
+        "purpose": "Cards, material tag, horizon tags, source links."
+      },
+      {
+        "name": "lift",
+        "value": "0 14px 32px -16px rgba(27, 44, 62, .35)",
+        "purpose": "Active horizon tag and landing closing band."
+      },
+      {
+        "name": "hanging-tag",
+        "value": "0 34px 60px -34px rgba(27, 44, 62, .6), 0 10px 22px -14px rgba(27, 44, 62, .35)",
+        "purpose": "The landing tag faces only."
+      },
+      {
+        "name": "ink-press",
+        "value": "0 12px 22px -14px rgba(27, 44, 62, .8)",
+        "purpose": "Ink primary button on tag yellow."
+      },
+      {
+        "name": "popover",
+        "value": "0 24px 60px -18px rgba(27, 44, 62, .45)",
+        "purpose": "Material picker popover."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px #dde7f3",
+        "purpose": "Input focus halo with temper-blue border."
+      }
+    ],
+    "motion": [
+      {
+        "name": "tag-flip",
+        "value": "transform .8s cubic-bezier(.2, .75, .2, 1)",
+        "purpose": "Landing tag turn; 3D (perspective 2400px) only while turning or turned. Reduced motion: .2s opacity crossfade."
+      },
+      {
+        "name": "stamp-settle",
+        "value": ".28s cubic-bezier(.2, .8, .2, 1)",
+        "purpose": "Stamped prices settle (opacity .25 to 1, translateY -4px to 0) when the material changes."
+      },
+      {
+        "name": "state",
+        "value": ".15s",
+        "purpose": "Hover/selection color, border and 1px lift transitions."
+      },
+      {
+        "name": "drawer",
+        "value": "transform .22s cubic-bezier(.2, .8, .2, 1)",
+        "purpose": "Mobile sidebar drawer."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sidebar-drawer",
+        "value": "1100px"
+      },
+      {
+        "name": "tag-fields-6col",
+        "value": "1000px"
+      },
+      {
+        "name": "single-column",
+        "value": "800px"
+      },
+      {
+        "name": "compact",
+        "value": "760px"
+      },
+      {
+        "name": "phone-workspace",
+        "value": "620px"
+      },
+      {
+        "name": "phone-tag",
+        "value": "560px"
+      },
+      {
+        "name": "narrow",
+        "value": "520px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Workspace primary action: tag yellow with ink text.",
+      "html": "<button class=\"ds-btn-primary\">ดูพยากรณ์</button>",
+      "css": ".ds-btn-primary{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);display:inline-flex;align-items:center;justify-content:center;height:40px;padding:8px 16px;border:0;border-radius:10px;background:var(--tag,#f2c200);color:var(--ink,#1b2c3e);font-size:14px;font-weight:600;box-shadow:0 1px 0 rgba(27,44,62,.2);cursor:pointer;transition:background .15s}.ds-btn-primary:hover{background:var(--tag-hover,#e2b400)}.ds-btn-primary:focus-visible{outline:2px solid var(--measured,#245594);outline-offset:2px}"
+    },
+    {
+      "name": "Primary on Tag",
+      "kind": "button",
+      "refersTo": "button-on-tag",
+      "description": "Primary action wherever it sits on tag yellow: ink fill, white text.",
+      "html": "<div class=\"ds-on-tag\"><button class=\"ds-btn-ink\">เปิดพยากรณ์ฉบับเต็ม<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button></div>",
+      "css": ".ds-on-tag{padding:24px;background:var(--tag,#f2c200);border-radius:20px}.ds-btn-ink{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 24px;border:0;border-radius:12px;background:var(--ink,#1b2c3e);color:#fff;font-size:17px;font-weight:600;box-shadow:0 12px 22px -14px rgba(27,44,62,.8);cursor:pointer;transition:transform .15s,background .15s}.ds-btn-ink:hover{background:#26405a;transform:translateY(-1px)}.ds-btn-ink:focus-visible{outline:2px solid var(--measured,#245594);outline-offset:2px}"
+    },
+    {
+      "name": "Flip Button",
+      "kind": "button",
+      "refersTo": "button-on-tag",
+      "description": "Secondary on the tag: dashed ink border, turns the tag over.",
+      "html": "<div class=\"ds-on-tag-2\"><button class=\"ds-btn-flip\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\"/><path d=\"M3 3v5h5\"/></svg>ตัวเลขนี้มาจากไหน?</button></div>",
+      "css": ".ds-on-tag-2{padding:24px;background:var(--tag,#f2c200);border-radius:20px}.ds-btn-flip{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 18px;border:1.5px dashed var(--ink,#1b2c3e);border-radius:12px;background:transparent;color:var(--ink,#1b2c3e);font-size:15px;font-weight:600;cursor:pointer;transition:background .15s}.ds-btn-flip:hover{background:rgba(27,44,62,.08)}.ds-btn-flip:focus-visible{outline:2px solid var(--measured,#245594);outline-offset:2px}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary workspace action on tag stock.",
+      "html": "<button class=\"ds-btn-outline\">ถัดไป</button>",
+      "css": ".ds-btn-outline{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);display:inline-flex;align-items:center;height:40px;padding:8px 16px;border:1px solid var(--input,#a9b4bd);border-radius:10px;background:var(--panel,#fbfcfc);color:var(--ink,#1b2c3e);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s}.ds-btn-outline:hover{background:var(--zinc-50,#f3f5f7);border-color:var(--line-strong,#9aa6b0)}.ds-btn-outline:focus-visible{outline:2px solid var(--measured,#245594);outline-offset:2px}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Field-white well; focus turns the edge temper blue with a tint halo.",
+      "html": "<label class=\"ds-input\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"ค้นหาชื่อ รหัส ขนาด หรือหน่วยวัสดุ\" /></label>",
+      "css": ".ds-input{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 12px;border:1px solid var(--input,#a9b4bd);border-radius:10px;background:#fff;color:var(--ink-3,#56687a)}.ds-input:focus-within{border-color:var(--measured,#245594);box-shadow:0 0 0 3px var(--measured-tint,#dde7f3)}.ds-input input{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:15px;color:var(--ink,#1b2c3e)}.ds-input input::placeholder{color:var(--ink-3,#56687a)}"
+    },
+    {
+      "name": "Sidebar Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Sunken zinc rail; active item is tag yellow.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item\">ภาพรวม</a><a class=\"ds-nav-item is-active\" aria-current=\"page\">พยากรณ์ราคา</a><a class=\"ds-nav-item\">คำนวณต้นทุน</a></nav>",
+      "css": ".ds-nav{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);width:248px;padding:14px;background:var(--sunken,#dce2e6);border-right:1px solid var(--line,#c8d0d6)}.ds-nav-item{display:flex;align-items:center;min-height:44px;padding:10px 12px;margin:3px 0;border-radius:10px;color:var(--ink-2,#425466);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s,color .15s}.ds-nav-item:hover{background:var(--panel,#fbfcfc);color:var(--ink,#1b2c3e)}.ds-nav-item.is-active{background:var(--tag,#f2c200);color:var(--ink,#1b2c3e);font-weight:600;box-shadow:0 1px 0 rgba(27,44,62,.12)}"
+    },
+    {
+      "name": "Category Chip",
+      "kind": "chip",
+      "refersTo": "chip-category",
+      "description": "Round chip with paint-code dots; selected is tag yellow with ink border.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\"><span class=\"ds-paint\" style=\"background:#e0a100\"></span>เหล็กเส้น <small>42</small></button><button class=\"ds-chip is-selected\"><span class=\"ds-paint\" style=\"background:#245594\"></span>เหล็กรูปพรรณ <small>61</small></button></div>",
+      "css": ".ds-chips{display:flex;gap:8px;flex-wrap:wrap}.ds-chip{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px 0 10px;border:1px solid var(--line,#c8d0d6);border-radius:999px;background:var(--panel,#fbfcfc);color:var(--ink,#1b2c3e);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s}.ds-chip small{font-family:var(--font-display, 'Chakra Petch', sans-serif);font-size:13px;color:var(--ink-3,#56687a)}.ds-chip:hover{border-color:var(--line-strong,#9aa6b0);background:#fff}.ds-chip.is-selected{background:var(--tag,#f2c200);border-color:var(--ink,#1b2c3e);font-weight:600}.ds-chip.is-selected small{color:var(--ink-2,#425466)}.ds-chip:focus-visible{outline:2px solid var(--measured,#245594);outline-offset:2px}.ds-paint{width:12px;height:12px;border-radius:50%;border:1px solid rgba(27,44,62,.6);box-shadow:inset 0 0 0 2.5px rgba(255,255,255,.35)}"
+    },
+    {
+      "name": "Forecast Horizon Tag",
+      "kind": "card",
+      "refersTo": "horizon-tag",
+      "description": "A real tag with a punched hole; bronze forecast figure; active turns yellow.",
+      "html": "<div class=\"ds-horizons\"><button class=\"ds-horizon\"><span class=\"ds-h-top\"><strong>ล่วงหน้า 1 เดือน</strong>ก.ค. 70</span><span class=\"ds-h-num\">24,180</span><span class=\"ds-h-range\">ช่วง 23,400–24,950 บาท/ตัน</span></button><button class=\"ds-horizon is-active\"><span class=\"ds-h-top\"><strong>ล่วงหน้า 2 เดือน</strong>ส.ค. 70</span><span class=\"ds-h-num\">24,420</span><span class=\"ds-h-range\">ช่วง 23,300–25,500 บาท/ตัน</span></button></div>",
+      "css": ".ds-horizons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:16px;background:var(--ground,#e7ebee)}.ds-horizon{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:18px 20px 20px;text-align:left;border:1px solid var(--line,#c8d0d6);border-radius:12px;background:var(--panel,#fbfcfc);color:var(--ink,#1b2c3e);box-shadow:0 1px 2px rgba(27,44,62,.06),0 2px 8px -4px rgba(27,44,62,.08);cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}.ds-horizon::before{content:'';position:absolute;top:14px;right:14px;width:11px;height:11px;border-radius:50%;background:var(--ground,#e7ebee);box-shadow:0 0 0 2px var(--panel,#fbfcfc),0 0 0 3px var(--line-strong,#9aa6b0)}.ds-horizon:hover{border-color:var(--line-strong,#9aa6b0);transform:translateY(-1px)}.ds-horizon:focus-visible{outline:2px solid var(--measured,#245594);outline-offset:2px}.ds-h-top{display:flex;gap:10px;align-items:baseline;padding-right:22px;font-size:13px;color:var(--ink-3,#56687a)}.ds-h-top strong{font-size:15px;font-weight:600;color:var(--ink,#1b2c3e)}.ds-h-num{font-family:var(--font-display, 'Chakra Petch', sans-serif);margin-top:8px;font-size:34px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--forecast,#9a5716)}.ds-h-range{font-size:13px;color:var(--ink-3,#56687a)}.ds-horizon.is-active{background:var(--tag,#f2c200);border-color:var(--ink,#1b2c3e);box-shadow:0 14px 32px -16px rgba(27,44,62,.35)}.ds-horizon.is-active::before{box-shadow:0 0 0 2px var(--tag,#f2c200),0 0 0 3px var(--line-strong,#9aa6b0)}.ds-horizon.is-active .ds-h-num{color:var(--ink,#1b2c3e)}.ds-horizon.is-active .ds-h-top,.ds-horizon.is-active .ds-h-range{color:var(--ink-2,#425466)}"
+    },
+    {
+      "name": "Landing Tag Fields",
+      "kind": "custom",
+      "refersTo": "button-on-tag",
+      "description": "Signature: stamped field boxes on tag yellow with the red demo stamp; measured in blue, forecast in bronze-on-tag.",
+      "html": "<div class=\"ds-tag\"><div class=\"ds-fields\"><div class=\"ds-field ds-latest\"><span>ราคาล่าสุด · มิ.ย. 70</span><b>23,950</b><small>บาท/ตัน</small></div><div class=\"ds-field\"><span>อีก 1 เดือน</span><b class=\"ds-fc\">24,180</b><small class=\"ds-fc\">23,400–24,950</small></div><div class=\"ds-field\"><span>อีก 2 เดือน</span><b class=\"ds-fc\">24,420</b><small class=\"ds-fc\">23,300–25,500</small></div></div><span class=\"ds-stamp\">ข้อมูลตัวอย่าง</span></div>",
+      "css": ".ds-tag{font-family:var(--font-sans, 'Bai Jamjuree', sans-serif);position:relative;padding:28px;border-radius:22px;background:var(--tag,#f2c200);color:var(--ink,#1b2c3e);box-shadow:0 34px 60px -34px rgba(27,44,62,.6),0 10px 22px -14px rgba(27,44,62,.35)}.ds-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1.5px solid rgba(27,44,62,.55);border-radius:13px}.ds-field{display:flex;flex-direction:column;gap:4px;padding:14px 18px 16px}.ds-field+.ds-field{box-shadow:inset 1.5px 0 0 rgba(27,44,62,.55)}.ds-field span{font-size:13px;font-weight:500;color:var(--ink-2,#425466)}.ds-field small{font-size:13px;color:var(--ink-2,#425466)}.ds-field b{font-family:var(--font-display, 'Chakra Petch', sans-serif);font-size:30px;font-weight:700;line-height:1.3;letter-spacing:.02em;font-variant-numeric:tabular-nums}.ds-latest{background:rgba(255,255,255,.34);border-radius:11px 0 0 11px}.ds-latest b{color:var(--measured,#245594)}.ds-field .ds-fc{color:var(--forecast-on-tag,#6e380a)}.ds-stamp{font-family:var(--font-display, 'Chakra Petch', sans-serif);display:inline-block;margin-top:18px;padding:1px 12px 0;border:3px solid var(--stamp,#c0301e);border-radius:8px;color:var(--stamp,#c0301e);font-size:20px;font-weight:700;letter-spacing:.04em;transform:rotate(-6deg);mix-blend-mode:multiply;opacity:.9}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Rebar Mill Tag",
+    "overview": "THAI TAY reads like the steel tag wired to a bundle of rebar at the mill: a yellow field with stamped boxes for material, code, unit and price, hung on a wire through a punched grommet, standing on a galvanized-zinc yard. The landing is that tag seen up close, at full commitment: one yellow tag up to 1200px wide whose fields hold the working material picker, the latest measured price and three stamped forecast months. It turns over to show where the numbers come from. The workspace keeps the same world in a quieter register. Zinc ground, white tag-stock panels, tag-yellow for whatever is selected, stamped numerals for every figure. Nothing in the workspace performs.\n\nColor carries meaning, not decoration. Mill-scale blue is the only ink; black never appears. Tag yellow is the brand field, the primary action and the selection state. Temper blue always means a measured price, and temper bronze always means a forecast or a range. Rust and verdigris mean up and down. Stamp red appears only on the demo-data stamp. Nine bar-end paint codes tell the structural categories apart, and each code always sits next to the category's name.\n\nThe pages are dense enough for a quantity surveyor and plain enough for a homeowner. Thai text gets generous line-height (1.6 to 1.75 for body text) so upper and lower vowel marks have room. Motion is limited to three things: the tag flip, a short settle on stamped numbers when the material changes, and hover feedback. Nothing moves on its own.",
+    "keyCharacteristics": [
+      "Galvanized-zinc ground, white tag-stock panels, mill-scale blue ink; never black.",
+      "Tag yellow means brand, primary action and selection, and nothing else.",
+      "Blue for measured, bronze for forecast: a fixed data code across every surface.",
+      "Chakra Petch for display and all numerals (tabular); Bai Jamjuree for Thai body text.",
+      "Punched holes only on real tags; one container level in the workspace.",
+      "Signature: the landing tag on its wire, with stamped field boxes, a red inspector stamp and a 3D flip to its provenance face."
+    ],
+    "rules": [
+      {
+        "name": "The Mill-Scale Ink Rule",
+        "body": "Black is never used: no text, fill, overlay or theme. The darkest value anywhere is mill-scale ink, and shadows and scrims are ink at reduced alpha.",
+        "section": "colors"
+      },
+      {
+        "name": "The Temper Code Rule",
+        "body": "Blue means measured and bronze means forecast, on every surface. On tag yellow, forecasts switch to bronze-on-tag, never to plain bronze. Never swap the two colors, and never use either one for decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Yellow Rule",
+        "body": "Tag yellow is the brand field, the primary action and the selection, and nothing else. A yellow element is either the tag, the thing to press or the thing chosen.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stamped Numeral Rule",
+        "body": "Every price, quantity, code and count is set in Chakra Petch with tabular numerals. Body text never carries a number the user is meant to compare.",
+        "section": "typography"
+      },
+      {
+        "name": "The Vowel Room Rule",
+        "body": "Thai body copy never goes below 1.5 line-height, and display type never below 1.2. Don't use clipped or gradient text.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Container Rule",
+        "body": "The workspace has one container level. Panels never nest inside panels; inside a panel, grouping uses hairline rules, dashed rules or a tonal well (zinc ground behind the numbers).",
+        "section": "elevation"
+      },
+      {
+        "name": "The Ink Shadow Rule",
+        "body": "Every shadow and scrim is mill-scale ink at alpha. Never use black and never use a hard offset.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Punched Hole Rule",
+        "body": "Only real tags get a hole: the landing tag, the selected-material tag and the forecast horizon tags. Plain panels never get one, so a static panel never looks like a selectable tag.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do set every text, icon and dark fill in mill-scale ink, and build shadows and scrims from ink at alpha.",
+      "Do keep tag yellow for the brand field, the primary action and the current selection.",
+      "Do show measured prices in temper blue and forecasts in temper bronze, switching to bronze-on-tag on yellow.",
+      "Do give every forecast its low–high range, and stamp synthetic prices with the red demo stamp.",
+      "Do set numbers and codes in Chakra Petch with tabular numerals, and give Thai copy at least 1.5 line-height.",
+      "Do put a punched hole on real tags (the landing tag's grommet, the material tag, forecast horizon tags) and keep plain panels unpunched.",
+      "Do show a paint code only beside its category name.",
+      "Do keep the landing flip 3D only while turning, and crossfade under reduced motion."
+    ],
+    "donts": [
+      "Don't use black anywhere, and don't ship a black or dark theme.",
+      "Don't nest a card inside a card in the workspace; group with rules or a tonal well instead.",
+      "Don't put a kicker or eyebrow line above a heading.",
+      "Don't punch a hole in a plain panel or a static container.",
+      "Don't use temper blue or bronze decoratively, or swap their meanings.",
+      "Don't use stamp red for anything except the demo stamp and the demo status dot.",
+      "Don't fall back to the category defaults the world refused: skyscraper-photo heroes, navy-and-orange feature cards, hazard stripes.",
+      "Don't build anything that depends on the placeholder logo glyph's shape."
+    ]
+  }
+}

@@ -65,11 +65,11 @@ export default function CostCalculator({ selectedId, onSelect, lines, setLines }
   const lineTotal = quote ? quote.price * qty : 0;
 
   return <div className="scope-page cost-page">
-    <PageHeading kicker="COST ESTIMATOR" title="คำนวณต้นทุนวัสดุ">เลือกวัสดุ เลือกว่าจะซื้อเมื่อไหร่ ใส่จำนวน — ระบบใช้ราคาคาดการณ์ของช่วงนั้นมาคำนวณให้ ใช้ประกอบการยื่นใบเสนอราคาล่วงหน้าได้</PageHeading>
+    <PageHeading title="คำนวณต้นทุนวัสดุ">เลือกวัสดุ เลือกว่าจะซื้อเมื่อไหร่ ใส่จำนวน — ระบบใช้ราคาคาดการณ์ของช่วงนั้นมาคำนวณให้ ใช้ประกอบการยื่นใบเสนอราคาล่วงหน้าได้</PageHeading>
     <DemoBanner />
 
     <div className="cost-grid">
-      <section className="card scope-panel cost-builder" aria-label="ตัวคำนวณ">
+      <section className="cost-builder" aria-label="ตัวคำนวณ">
         <ol className="cost-steps">
           <li>
             <div className="step-head"><span className="step-no">1</span><h2>เลือกวัสดุ</h2></div>
@@ -100,13 +100,13 @@ export default function CostCalculator({ selectedId, onSelect, lines, setLines }
         <div className="result-panel" aria-live="polite" aria-busy={loading}>
           <div className="result-unit">
             <span><TrendingUp size={14} /> ราคาต่อ 1 {material.unit} · {monthsLabel(month)}</span>
-            <strong>{quote && !loading ? formatBaht(quote.price) : "—"}<small>บาท</small></strong>
+            <strong className="num">{quote && !loading ? formatBaht(quote.price) : "—"}<small>บาท</small></strong>
             {quote && month > 0 && !loading && <em>ช่วงที่เป็นไปได้ {formatBaht(quote.low)} – {formatBaht(quote.high)} บาท</em>}
             {failed && <em className="inline-error">โหลดราคาไม่สำเร็จ ลองใหม่อีกครั้ง</em>}
           </div>
           <div className="result-total">
             <span>{qty.toLocaleString("th-TH")} {material.unit} รวมประมาณ</span>
-            <strong>{quote && !loading ? formatBaht(lineTotal) : "—"}<small>บาท</small></strong>
+            <strong className="num">{quote && !loading ? formatBaht(lineTotal) : "—"}<small>บาท</small></strong>
             {quote && month > 0 && !loading && <em>{formatBaht(quote.low * qty, 0)} – {formatBaht(quote.high * qty, 0)} บาท</em>}
           </div>
         </div>
@@ -115,7 +115,7 @@ export default function CostCalculator({ selectedId, onSelect, lines, setLines }
       </section>
 
       <section className="card scope-panel estimate" aria-label="ใบประมาณราคา">
-        <div className="scope-panel-title"><div><span className="section-kicker">YOUR ESTIMATE</span><h2>ใบประมาณราคา</h2></div><span className="subtle-tag">{lines.length} รายการ</span></div>
+        <div className="scope-panel-title"><h2>ใบประมาณราคา</h2><span className="subtle-tag">{lines.length} รายการ</span></div>
         {!lines.length ? (
           <div className="estimate-empty"><Calculator size={30} strokeWidth={1.4} /><h3>ยังไม่มีรายการ</h3><p>เลือกวัสดุ ช่วงเวลา และจำนวนในขั้นตอน 1–3 แล้วกด “เพิ่มลงใบประมาณราคา”</p></div>
         ) : (

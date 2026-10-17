@@ -1,21 +1,8 @@
 import { useEffect, useState } from "react";
-import { ExternalLink, Info, Database } from "lucide-react";
+import { ExternalLink, Database } from "lucide-react";
 import { PRICE_SOURCES } from "@/config/sources";
-import { HISTORY_RANGES, HORIZONS, MAX_HISTORY_MONTHS, isDemoData, getForecast, getHistory, type ForecastSeries, type Horizon, type PriceSeries } from "@/services/priceService";
+import { HISTORY_RANGES, MAX_HISTORY_MONTHS, isDemoData, getForecast, getHistory, type ForecastSeries, type PriceSeries } from "@/services/priceService";
 import type { Material } from "@/types";
-
-/** ปุ่มเลือก 1 / 2 / 3 เดือน (ไม่มีตัวเลือกเป็นปี) */
-export function MonthTabs({ value, onChange, label = "ช่วงเวลา", prefix = "" }: { value: Horizon; onChange: (h: Horizon) => void; label?: string; prefix?: string }) {
-  return (
-    <div className="month-tabs" role="radiogroup" aria-label={label}>
-      {HORIZONS.map(h => (
-        <button type="button" key={h} role="radio" aria-checked={value === h} className={value === h ? "active" : ""} onClick={() => onChange(h)}>
-          {prefix}{h} เดือน
-        </button>
-      ))}
-    </div>
-  );
-}
 
 /** ปุ่มเลือกช่วงย้อนหลัง 3 เดือน – 10 ปี (หน้าวิเคราะห์) */
 export function RangeTabs({ value, onChange }: { value: number; onChange: (months: number) => void }) {
@@ -38,8 +25,8 @@ export function DemoBanner() {
   if (!isDemoData) return null;
   return (
     <div className="demo-banner" role="note">
-      <Info size={16} />
-      <p><strong>ข้อมูลตัวอย่าง (Demo)</strong> — ตัวเลขในหน้านี้สร้างขึ้นเพื่อแสดงรูปแบบการใช้งาน ยังไม่ใช่ราคาจริงหรือผลจากโมเดล จะเปลี่ยนเป็นข้อมูลจริงเมื่อเชื่อมต่อ backend</p>
+      <span className="demo-stamp">ข้อมูลตัวอย่าง</span>
+      <p>ตัวเลขในหน้านี้สร้างขึ้นเพื่อให้เห็นการใช้งาน ยังไม่ใช่ราคาจริงหรือผลจากโมเดลพยากรณ์ จะเปลี่ยนเป็นข้อมูลจริงเมื่อเชื่อมต่อระบบหลังบ้าน</p>
     </div>
   );
 }
