@@ -3,12 +3,14 @@ import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip,
 import { ArrowRight, Calculator } from "lucide-react";
 import { getMaterialById, materialCatalog } from "@/data.js";
 import MaterialPicker from "@/components/MaterialPicker.jsx";
-import { MaterialDetails } from "@/components/ui/material-details";
 import { PageHeading } from "@/components/ui/scope-layout";
 import { Button } from "@/components/ui/button";
-import { DemoBanner, MonthTabs, SourceLinks, useForecast, useHistory } from "@/components/ui/price-widgets";
+import { DemoBanner, SourceLinks, useForecast, useHistory } from "@/components/ui/price-widgets";
 import { formatBaht, type Horizon } from "@/services/priceService";
 import type { Navigate, SelectionProps } from "@/types";
+
+const MEASURED = "#245594";
+const FORECAST = "#9a5716";
 
 export default function Forecast({ selectedId, onSelect, navigate }: SelectionProps & { navigate: Navigate }) {
   const material = getMaterialById(selectedId)!;
@@ -25,47 +27,48 @@ export default function Forecast({ selectedId, onSelect, navigate }: SelectionPr
   ];
 
   return <div className="scope-page">
-    <PageHeading kicker="MATERIAL PRICE FORECAST" title="พยากรณ์ราคาวัสดุก่อสร้าง">คาดการณ์ราคาต่อหน่วยล่วงหน้า 1–3 เดือน พร้อมช่วงราคาที่เป็นไปได้</PageHeading>
+    <PageHeading title="พยากรณ์ราคา 1–3 เดือน">ราคาคาดการณ์ต่อหน่วยของวัสดุที่เลือก พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ช่วงจะกว้างขึ้นเมื่อมองไกลขึ้น</PageHeading>
     <DemoBanner />
     <section className="card scope-panel">
       <MaterialPicker materials={materialCatalog} value={selectedId} onChange={onSelect} label="วัสดุที่ต้องการพยากรณ์" />
-      <MaterialDetails material={material} />
     </section>
 
-    <div className="horizon-grid">
-      {fc.map(point => (
-        <article className={`horizon-card ${point.month === horizon ? "active" : ""}`} key={point.month} data-horizon={point.month}>
-          <div className="horizon-top"><span>ล่วงหน้า {point.month} เดือน</span><span>{point.label}</span></div>
-          <h2>ราคาคาดการณ์</h2>
-          <strong className="prediction-value">{formatBaht(point.price)}<small>บาท / {material.unit}</small></strong>
-          <span className="range-note">ช่วงที่เป็นไปได้ {formatBaht(point.low)} – {formatBaht(point.high)}</span>
-          {now && <span className={`delta-chip ${point.price >= now ? "up" : "down"}`}>{point.price >= now ? "▲" : "▼"} {Math.abs(((point.price - now) / now) * 100).toFixed(2)}% จากราคาล่าสุด</span>}
-        </article>
-      ))}
-      {!fc.length && [1, 2, 3].map(m => <article className="horizon-card" key={m}><div className="horizon-top"><span>ล่วงหน้า {m} เดือน</span></div><h2>ราคาคาดการณ์</h2><strong className="prediction-value">—</strong></article>)}
+    <div className="horizon-grid" role="radiogroup" aria-label="ช่วงพยากรณ์ที่แสดงในกราฟ">
+      {fc.map(point => {
+        const change = now ? ((point.price - now) / now) * 100 : null;
+        return (
+          <button type="button" role="radio" aria-checked={point.month === horizon} className={`horizon-card tag-panel ${point.month === horizon ? "active" : ""}`} key={point.month} onClick={() => setHorizon(point.month)}>
+            <span className="horizon-top"><strong>ล่วงหน้า {point.month} เดือน</strong><span>{point.label}</span></span>
+            <span className="prediction-value"><span className="num">{formatBaht(point.price)}</span><small>บาท / {material.unit}</small></span>
+            <span className="range-note">ช่วงที่เป็นไปได้ {formatBaht(point.low)} – {formatBaht(point.high)}</span>
+            {change !== null && <span className={`delta-chip ${change >= 0 ? "up" : "down"}`}>{change >= 0 ? "แพงขึ้น" : "ถูกลง"} {Math.abs(change).toFixed(2)}% จากราคาล่าสุด</span>}
+          </button>
+        );
+      })}
+      {!fc.length && [1, 2, 3].map(m => <div className="horizon-card tag-panel" key={m}><span className="horizon-top"><strong>ล่วงหน้า {m} เดือน</strong></span><span className="prediction-value"><span className="num">—</span></span></div>)}
     </div>
 
     <section className="card scope-panel">
       <div className="scope-panel-title">
-        <div><span className="section-kicker">FORECAST CHART</span><h2>ราคาจริง 3 เดือนล่าสุด และราคาคาดการณ์</h2></div>
-        <MonthTabs value={horizon} onChange={setHorizon} label="ช่วงพยากรณ์ที่แสดง" prefix="ล่วงหน้า " />
+        <h2>ราคาจริง 3 เดือนล่าสุด และราคาคาดการณ์ถึง {horizon} เดือน</h2>
+        <div className="chart-legend"><span><i className="lg-actual" />ราคาจริง</span><span><i className="lg-pred" />ราคาคาดการณ์</span><span><i className="lg-band" />ช่วงที่เป็นไปได้</span></div>
       </div>
-      <div className="chart-legend"><span><i className="lg-actual" />ราคาจริง</span><span><i className="lg-pred" />ราคาคาดการณ์</span><span><i className="lg-band" />ช่วงที่เป็นไปได้</span></div>
       <div className="chart-box" aria-busy={forecast.loading || history.loading}>
         <ResponsiveContainer width="100%" height={320}>
           <ComposedChart data={chart} margin={{ top: 12, right: 12, left: 0, bottom: 0 }}>
-            <CartesianGrid stroke="#e8dcc8" strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="label" tick={{ fill: "#85705e", fontSize: 12 }} tickLine={false} axisLine={{ stroke: "#e5d9c6" }} />
-            <YAxis tick={{ fill: "#85705e", fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
-            <Tooltip formatter={(v: number | number[], name: string) => Array.isArray(v) ? [`${formatBaht(v[0])} – ${formatBaht(v[1])}`, "ช่วงที่เป็นไปได้"] : [`${formatBaht(v)} บาท / ${material.unit}`, name === "actual" ? "ราคาจริง" : "ราคาคาดการณ์"]} contentStyle={{ borderRadius: 10, border: "1px solid #e5d9c6", background: "#fffdf9" }} />
-            <Area dataKey="band" stroke="none" fill="#d9c3a0" fillOpacity={0.45} isAnimationActive={false} />
-            <Line dataKey="actual" stroke="#3a2a1d" strokeWidth={2.5} dot={{ r: 3.5, fill: "#3a2a1d" }} connectNulls />
-            <Line dataKey="predicted" stroke="#b9743a" strokeWidth={2.5} strokeDasharray="6 5" dot={{ r: 4, fill: "#fffdf9", stroke: "#b9743a", strokeWidth: 2 }} connectNulls />
+            <CartesianGrid stroke="#d3d9de" strokeDasharray="3 3" vertical={false} />
+            <XAxis dataKey="label" tick={{ fill: "#56687a", fontSize: 12 }} tickLine={false} axisLine={{ stroke: "#c8d0d6" }} />
+            <YAxis tick={{ fill: "#56687a", fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
+            <Tooltip formatter={(v: number | number[], name: string) => Array.isArray(v) ? [`${formatBaht(v[0])} – ${formatBaht(v[1])}`, "ช่วงที่เป็นไปได้"] : [`${formatBaht(v)} บาท / ${material.unit}`, name === "actual" ? "ราคาจริง" : "ราคาคาดการณ์"]} contentStyle={{ borderRadius: 10, border: "1px solid #c8d0d6", background: "#fbfcfc", color: "#1b2c3e" }} />
+            <Area dataKey="band" stroke="none" fill={FORECAST} fillOpacity={0.16} isAnimationActive={false} />
+            <Line dataKey="actual" stroke={MEASURED} strokeWidth={2.5} dot={{ r: 3.5, fill: MEASURED }} connectNulls isAnimationActive={false} />
+            <Line dataKey="predicted" stroke={FORECAST} strokeWidth={2.5} strokeDasharray="6 5" dot={{ r: 4, fill: "#fbfcfc", stroke: FORECAST, strokeWidth: 2 }} connectNulls isAnimationActive={false} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
+      <p className="hint">กดป้ายด้านบนเพื่อเลือกว่าจะดูราคาคาดการณ์ไกลแค่ไหนในกราฟ</p>
       <div className="forecast-cta">
-        <p>ต้องการนำราคาคาดการณ์ไปทำใบเสนอราคา?</p>
+        <p>ต้องการนำราคาคาดการณ์ไปทำใบประมาณราคา?</p>
         <Button onClick={() => navigate("cost")}><Calculator size={16} className="mr-2" />นำไปคำนวณต้นทุน<ArrowRight size={14} className="ml-2" /></Button>
       </div>
     </section>

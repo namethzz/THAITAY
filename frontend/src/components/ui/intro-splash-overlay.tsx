@@ -28,7 +28,7 @@ export default function IntroSplashOverlay() {
         <motion.div
           className="intro-splash"
           role="dialog"
-          aria-label="ยินดีต้อนรับสู่ THAI เท"
+          aria-label="ยินดีต้อนรับสู่ THAI TAY"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.02 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -37,7 +37,7 @@ export default function IntroSplashOverlay() {
           <div className="intro-splash-inner">
             <AppleHelloEnglishEffect speed={0.9} className="intro-hello" onAnimationComplete={() => window.setTimeout(close, 900)} />
             <motion.div className="intro-caption" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.2, duration: 0.8 }}>
-              <strong>ยินดีต้อนรับสู่ THAI <b>เท</b></strong>
+              <strong>ยินดีต้อนรับสู่ THAI TAY</strong>
               <span>ติดตามราคาวัสดุก่อสร้าง · พยากรณ์ 1–3 เดือน · คำนวณต้นทุน</span>
             </motion.div>
           </div>

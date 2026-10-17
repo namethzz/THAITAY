@@ -10,8 +10,6 @@ interface HeaderProps {
   onMenu?: () => void;
 }
 
-// The referenced @efferd/header-3 source was not supplied.
-// This local header implements the same named export for the existing app.
 export function Header({ page = "overview", title = "ภาพรวม", period, navigate, onMenu }: HeaderProps) {
   return (
     <header className="topbar">
@@ -30,7 +28,6 @@ export function Header({ page = "overview", title = "ภาพรวม", period
           <Search size={16} /><span>ค้นหาวัสดุ...</span><ArrowUpRight size={14} />
         </button>
         {period && <span className="header-period"><CalendarDays size={15} /><span>{period}</span></span>}
-        <span className="workspace-avatar" aria-label="Thaiเท workspace">เท</span>
       </div>
       <span className="sr-only">หน้าปัจจุบัน: {page}</span>
     </header>

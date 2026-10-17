@@ -1,9 +1,19 @@
-import { ArrowRight, Check, PackageSearch } from "lucide-react";
+import { ArrowRight, Calculator, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PaintDot } from "@/components/ui/brand-mark";
 import type { Material, Navigate } from "@/types";
 export function MaterialDetails({ material, navigate }: { material: Material; navigate?: Navigate }) {
-  return <section className="selected-material-card" aria-label="รายละเอียดวัสดุที่เลือก"><div className="selected-material-heading"><span><Check size={15} />วัสดุที่เลือก</span><span className="subtle-tag">งานโครงสร้าง</span></div><h2>{material.name}</h2><dl><div><dt>รหัสวัสดุ</dt><dd>{material.id}</dd></div><div><dt>หมวด</dt><dd>{material.category}</dd></div><div><dt>หน่วย</dt><dd>{material.unit}</dd></div></dl>{navigate && <div className="selected-material-actions"><Button variant="outline" onClick={() => navigate("analysis")}>ดูหน้าวิเคราะห์<ArrowRight size={14} className="ml-2" /></Button><Button onClick={() => navigate("forecast")}>ไปหน้าพยากรณ์<ArrowRight size={14} className="ml-2" /></Button></div>}</section>;
-}
-export function PricePlaceholder({ title = "รอข้อมูลราคา", children }: { title?: string; children: React.ReactNode }) {
-  return <div className="frontend-price-placeholder"><span><PackageSearch size={28} strokeWidth={1.5} /></span><h3>{title}</h3><p>{children}</p></div>;
+  return <section className="material-tag tag-panel" aria-label="วัสดุที่เลือก">
+    <p className="material-tag-category"><PaintDot code={material.categoryCode} />{material.category}</p>
+    <h2>{material.name}</h2>
+    <dl>
+      <div><dt>รหัสสินค้า</dt><dd className="num">{material.id}</dd></div>
+      <div><dt>หน่วย</dt><dd>{material.unit}</dd></div>
+    </dl>
+    {navigate && <div className="material-tag-actions">
+      <Button onClick={() => navigate("forecast")}>ดูพยากรณ์ 1–3 เดือน<ArrowRight size={15} className="ml-2" /></Button>
+      <Button variant="outline" onClick={() => navigate("analysis")}><LineChart size={15} className="mr-2" />ราคาย้อนหลัง</Button>
+      <Button variant="outline" onClick={() => navigate("cost")}><Calculator size={15} className="mr-2" />คำนวณต้นทุน</Button>
+    </div>}
+  </section>;
 }
