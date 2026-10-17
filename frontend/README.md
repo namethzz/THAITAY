@@ -17,7 +17,17 @@ npm run preview
 
 build ตรวจ TypeScript ก่อนสร้างไฟล์ production โครงการมี JSX เดิมบางส่วน (`MaterialPicker.jsx`, `data.js`) จึงเปิด allowJs และปิด checkJs หน้าใหม่ใช้ TSX
 
-Vite base คง `/construction-price-intelligence/` หากโฮสต์ที่ root ให้แก้ base ใน vite.config.ts เป็น `/` แล้ว build ใหม่
+## Deploy
+
+`base` ใน `vite.config.ts` เลือกให้อัตโนมัติ:
+
+| ที่โฮสต์ | base | หมายเหตุ |
+|---|---|---|
+| Vercel | `/` | Vercel ตั้งตัวแปร `VERCEL` ตอน build ให้เอง ตั้ง Root Directory ของโปรเจกต์เป็น `frontend` |
+| GitHub Pages (`npm run deploy`) | `/construction-price-intelligence/` | ค่าเริ่มต้นเมื่อ build ในเครื่อง |
+| ที่อื่น | กำหนดเอง | `VITE_BASE=/ npm run build` |
+
+ถ้า base ไม่ตรงกับ path ที่โฮสต์ หน้าเว็บจะขาวและ console แจ้ง 404 ของไฟล์ `index-*.css` / `index-*.js`
 
 ## หน้าในแอป
 
