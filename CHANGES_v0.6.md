@@ -24,3 +24,17 @@
 - `src/components/ui/intro-splash.tsx` — ครอบเป็นหน้าต้อนรับ ใช้ใน `main.tsx`
 - แสดงครั้งเดียวต่อแท็บ, ข้ามได้ (ปุ่ม/Esc/Enter/Space/คลิก), ปิดอัตโนมัติ, ไม่แสดงถ้าผู้ใช้ตั้ง "ลดการเคลื่อนไหว"
 - ปิดฟีเจอร์นี้: ลบ `<IntroSplash />` ออกจาก `main.tsx`
+
+## อัปเดต: หน้าแรกแบบ Landing (saa-s-template)
+- `src/components/ui/saa-s-template.tsx` — component ตามที่ให้มา ปรับดังนี้
+  - ไอคอนใช้ lucide-react แทน SVG ที่เขียนเอง
+  - ตัด `* { font-family: Poppins }` และการโหลด Google Fonts ออก (เดิมจะทับฟอนต์ไทยทั้งเว็บ)
+  - ข้อความ ลิงก์ ปุ่ม และภาพรับผ่าน props (ค่าเริ่มต้นยังเป็นข้อความเดิมของ template)
+  - เมนูกลางใช้ flex แทน absolute center เพื่อไม่ให้ทับปุ่มเมื่อข้อความไทยยาว และเปลี่ยน breakpoint เป็น `lg`
+  - เมนูมือถือมี `aria-expanded` / `aria-controls` และปิดด้วย Esc
+  - หัวข้อ gradient ใช้ line-height 1.3 เพื่อไม่ให้สระบน/ล่างภาษาไทยถูกตัด (background-clip: text)
+  - ภาพพื้นหลังเรืองแสงจาก CDN ภายนอกเปลี่ยนเป็น CSS gradient โทนน้ำตาล/ทราย
+- `src/pages/Landing.tsx` — หน้าแรก: เปิดเว็บโดยไม่มี hash หรือ `#home` จะเห็นหน้านี้ ลิงก์เดิม (`#overview`, `#prices` ฯลฯ) ใช้ได้เหมือนเดิม
+- ภาพตัวอย่างใต้ Hero คือภาพหน้าจอจริงของหน้าภาพรวม `public/images/app-preview.jpg` (ถ้าแก้หน้าภาพรวม ควรถ่ายใหม่)
+- กดโลโก้ใน sidebar เพื่อกลับหน้าแรก
+- ภาพตัวอย่าง: `preview/landing-desktop.png`, `preview/landing-mobile.png`

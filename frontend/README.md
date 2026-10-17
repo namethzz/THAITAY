@@ -31,6 +31,9 @@ Vite base คง `/construction-price-intelligence/` หากโฮสต์ท
 | `src/pages/Analysis.tsx` | เลือกวัสดุและพื้นที่รอกราฟราคา |
 | `src/pages/Forecast.tsx` | เลือกวัสดุและการ์ดระยะ 1, 2, 3 เดือนที่รอข้อมูล |
 | `src/components/MaterialPicker.jsx` | ค้นหาและเลือกวัสดุจาก dropdown แสดงหน่วยแทนราคา |
+| `src/pages/Landing.tsx` | หน้าแรก (`#home` หรือไม่มี hash) ใช้ saa-s-template ใส่เนื้อหา THAI เท |
+| `src/components/ui/saa-s-template.tsx` | Navigation + Hero แบบ landing (component ที่แนบมา ปรับให้รับ props) |
+| `src/components/demo-saas-template.tsx` | demo ของ saa-s-template ตามค่าเริ่มต้น |
 | `src/components/ui/hero-3.tsx` | Hero ที่ปรับจาก component ที่แนบมา |
 | `src/components/ui/header-3.tsx` | Header สำหรับแอป เนื่องจากไม่ได้แนบซอร์ส header-3 |
 | `src/components/ui/button.tsx` | shadcn Button ตามโค้ดที่แนบมา |
