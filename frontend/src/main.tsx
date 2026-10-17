@@ -119,7 +119,7 @@ function App() {
         <div className="sidebar-bottom">
           <div className="system-status"><span className="dot" />วัสดุหมวดงานโครงสร้าง</div>
           <button type="button" className="sidebar-source" onClick={() => navigate("prices")}><Database size={13} />เลือกรายการวัสดุ<ArrowRight size={13} /></button>
-          <div className="version">THAI เท · Frontend v0.5</div>
+          <div className="version">THAI เท · Frontend v0.6</div>
         </div>
       </aside>
       {mobileOpen && <button type="button" className="mobile-overlay" tabIndex={-1} onClick={() => setMobileOpen(false)} aria-label="ปิดเมนู" />}

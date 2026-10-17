@@ -38,3 +38,10 @@
 - ภาพตัวอย่างใต้ Hero คือภาพหน้าจอจริงของหน้าภาพรวม `public/images/app-preview.jpg` (ถ้าแก้หน้าภาพรวม ควรถ่ายใหม่)
 - กดโลโก้ใน sidebar เพื่อกลับหน้าแรก
 - ภาพตัวอย่าง: `preview/landing-desktop.png`, `preview/landing-mobile.png`
+
+## อัปเดต: เก็บงานหลังตรวจโปรเจกต์
+- เวอร์ชันตรงกันเป็น 0.6 ทั้ง `package.json`, sidebar, README และ START_HERE
+- README / START_HERE เขียนใหม่ตามแอปปัจจุบัน (6 หน้า, ข้อมูลราคา Demo, การเชื่อม backend)
+- ภาพใน `preview/` ถ่ายใหม่จาก build v0.6 ทั้งหมด และ `verification.md` / `frontend-ui-results.json` เป็นผลตรวจรอบใหม่
+- นำโค้ดที่ไม่ได้ใช้ออก: `src/future`, `Shared.jsx`, `demo.tsx`, `make-data.cjs` (ทั้งสองไฟล์), export `priceData` / `forecastData` และ dependency `pdfjs-dist`, `xlsx` (กู้คืนได้จาก commit `9c0c9cd` ดู `frontend/README.md`)
+- CSS: `legacy.css` เปลี่ยนเป็น `base.css` ลบ declaration ที่ถูก `app.css` / `structural.css` ทับเสมอ และ rule ของ class ที่ไม่มีในโค้ดแล้วออกจากทั้งสามไฟล์ (CSS ใน build เล็กลงจาก ~114 KB เหลือ ~96 KB) หน้าเว็บแสดงผลเหมือนเดิมทุก pixel
