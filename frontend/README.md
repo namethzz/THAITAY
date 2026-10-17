@@ -31,7 +31,7 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 
 ## หน้าในแอป
 
-routing ใช้ hash (`#...`) เก็บใน `src/main.tsx`
+routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกหน้า lazy-load แยกไฟล์ เปิดหน้าไหนก็โหลดเฉพาะหน้านั้น
 
 | hash | หน้า | ไฟล์ |
 |---|---|---|
@@ -63,7 +63,8 @@ routing ใช้ hash (`#...`) เก็บใน `src/main.tsx`
 | `src/components/ui/material-categories.tsx` | ปุ่มหมวดวัสดุพร้อมจำนวนรายการ |
 | `src/components/ui/material-details.tsx` | รายละเอียดวัสดุที่เลือก |
 | `src/components/ui/scope-layout.tsx` | หัวข้อหน้าและการ์ดสถิติ |
-| `src/components/ui/intro-splash.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ตอนเปิดเว็บ |
+| `src/components/ui/intro-splash.tsx` | ตัดสินว่าจะแสดงหน้าต้อนรับหรือไม่ (โหลดทันที ขนาดเล็ก) |
+| `src/components/ui/intro-splash-overlay.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ใช้ motion โหลดแยกเฉพาะตอนที่ต้องแสดง |
 | `src/lib/utils.ts` | cn() จาก clsx และ tailwind-merge |
 | `src/styles.css` | style entry, font และ Tailwind theme |
 | `src/styles/base.css` | reset และ layout พื้นฐาน (ส่วนที่ยังใช้จาก CSS รุ่นแรก) |
