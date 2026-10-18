@@ -348,7 +348,7 @@ Prompt is the only typeface, matching the logo's geometric wordmark. Thai text g
 - Large soft radii that grow with the container: 12–14px controls, 16–18px tiles and wells, 24–28px cards.
 - A top nav on desktop, and on phones a 3-button bottom nav with a raised orange search button in the centre.
 - The building mark sits only on warm white.
-- The owner's raster category icons (charcoal rounded tiles) always sit beside the category name and are used small; they are the only dark surfaces besides small controls.
+- The owner's raster category icons sit on a light warm-50 tile (their original dark tile was removed at the owner's request), always beside the category name and used small.
 
 ## Colors
 
@@ -384,10 +384,10 @@ The construction illustration (`SiteArt`) draws in its own warm set: sky #f8f1e8
 The printed estimate sheet is ink on white paper. Body text and the demo label are **Print Black** (print-black); the header and grand-total rules are 2px and 1.5px charcoal, secondary text is ink-2, small row detail ink-3, and row rules are line. Print black exists only on paper.
 
 ### Category icon tiles
-The nine category icons are the owner's raster artwork (`public/icons/categories/STR-01…09.webp`, 220×192), drawn on their own charcoal rounded tile. Their dark ground belongs to the image, not to the UI palette.
+The nine category icons are the owner's raster artwork (`public/icons/categories/STR-01…09.webp`, 220×192). The owner did not want their original charcoal tile, so its background was removed to transparency; CSS sets each icon on a warm-50 tile with a faint 1px inner line (no tile inside the category pill and chips).
 
 ### Named Rules
-**The No Dark Page Rule.** The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. The only other dark surfaces are the small category icon tiles beside a category name. Black is never used on screen; it appears only on the printed sheet.
+**The No Dark Page Rule.** The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. Black is never used on screen; it appears only on the printed sheet.
 
 **The Charcoal on Orange Rule.** Every text, icon and badge digit on brand orange is charcoal. White never goes on orange (2.98:1).
 
@@ -471,7 +471,7 @@ Borders are quiet. Cards carry a 1px border of 7–8% charcoal. Rows, tiles, wel
 The lockup pairs the owner's building mark (`public/brand/thai-tay-mark.png`, 42px high; 36px on phones and in the footer; 72px on the splash) with live Prompt text: THAI TAY over CONSTRUCT, 10px apart. The PNG has an opaque warm-white ground that matches its light facade, so the mark sits only on warm white: the header, the footer and the intro splash. The favicon and apple-touch icon are the dark rounded tile from the board, used only as app icons.
 
 ### Category Icon
-The owner's nine raster icons on charcoal rounded tiles (220×192, kept at that ratio). Each is decorative (alt="") and always sits next to its category name, which carries the meaning. Sizes in use: 18px inside the category pill, 24px in the search-page category chips, 36px in search dropdown rows and estimate lines, 44px in search result rows (32px and 38px on phones), 40px in watch cards, and 72px in the home category grid and the material-page heading (52px on phones).
+The owner's nine raster icons on transparent ground, shown on a warm-50 rounded tile (220×192, kept at that ratio). Each is decorative (alt="") and always sits next to its category name, which carries the meaning. Sizes in use: 18px inside the category pill, 24px in the search-page category chips, 36px in search dropdown rows and estimate lines, 44px in search result rows (32px and 38px on phones), 40px in watch cards, and 72px in the home category grid and the material-page heading (52px on phones).
 
 **The Icon Beside Its Name Rule.** A category icon is always paired with the visible category name and used small: 72px is its ceiling. It is never a hero image, a large dark block or a stand-in for the name.
 

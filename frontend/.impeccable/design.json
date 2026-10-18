@@ -556,7 +556,7 @@
           "home-grid": "72px (52px phones)",
           "material-heading": "72px (52px phones)"
         },
-        "note": "Owner's raster icons on charcoal rounded tiles. Always beside the category name, used small; never a large dark block."
+        "note": "Owner's raster icons on transparent ground (the original charcoal tile was removed at the owner's request), shown on a warm-50 tile. Always beside the category name, used small."
       },
       "printWordmark": "Text wordmark THAI TAY / CONSTRUCT on the print sheet; the mark PNG is not printed (warm-white ground)."
     },
@@ -687,12 +687,12 @@
       "Large soft radii that grow with the container: 12–14px controls, 16–18px tiles and wells, 24–28px cards.",
       "A top nav on desktop, and on phones a 3-button bottom nav with a raised orange search button in the centre.",
       "The building mark sits only on warm white.",
-      "The owner's raster category icons (charcoal rounded tiles) always sit beside the category name and are used small; they are the only dark surfaces besides small controls."
+      "The owner's raster category icons sit on a light warm-50 tile (their original dark tile was removed at the owner's request), always beside the category name and used small."
     ],
     "rules": [
       {
         "name": "The No Dark Page Rule",
-        "body": "The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. The only other dark surfaces are the small category icon tiles beside a category name. Black is never used on screen; it appears only on the printed sheet.",
+        "body": "The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. Black is never used on screen; it appears only on the printed sheet.",
         "section": "colors"
       },
       {
