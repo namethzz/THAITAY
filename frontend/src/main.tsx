@@ -98,7 +98,7 @@ function App() {
       <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
         <Suspense fallback={<div className="page-loading" role="status">กำลังเปิดหน้า…</div>}>
           {route.page === "home" && <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />}
-          {route.page === "search" && <SearchPage key={`${route.q}|${route.cat}`} initialQuery={route.q} initialCategory={route.cat} />}
+          {route.page === "search" && <SearchPage key={hashFor(route)} initialQuery={route.q} initialCategory={route.cat} initialFilters={route.filters} />}
           {route.page === "material" && <MaterialPage key={route.id} id={route.id} go={go} addLine={addLine} {...watchProps} />}
           {route.page === "estimate" && <Estimate key={route.shared ?? "mine"} shared={route.shared} lines={lines} setLines={setLines} meta={meta} setMeta={setMeta} go={go} notify={setToast} />}
         </Suspense>

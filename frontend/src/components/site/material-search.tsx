@@ -1,7 +1,7 @@
 import { useDeferredValue, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { ArrowRight, Search, X } from "lucide-react";
 import { searchMaterials } from "@/data.js";
-import { useQuote } from "@/components/ui/price-widgets";
+import { ChangeChip, useQuote } from "@/components/ui/price-widgets";
 import { formatPrice } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
 import { CategoryIcon } from "@/components/site/category-icon";
@@ -11,12 +11,14 @@ const MAX_OPTIONS = 6;
 export const SEARCH_HINTS = ["เหล็กเส้น", "เหล็ก H-Beam", "คอนกรีต", "เสาเข็ม", "ทราย"];
 
 /** ราคาล่าสุดในแถวผลค้นหา: พิมพ์แล้วเห็นราคาเลยโดยไม่ต้องกดเข้าไป */
-export function QuotePeek({ material }: { material: Material }) {
+export function QuotePeek({ material, showTrend = false }: { material: Material; showTrend?: boolean }) {
   const { data } = useQuote(material);
+  const last = data?.forecast.at(-1);
   return (
     <span className="peek">
       <strong className="num">{data ? `฿${formatPrice(data.latest.price)}` : "—"}</strong>
       <small>ต่อ {material.unit}</small>
+      {showTrend && data && last && <span className="peek-trend"><ChangeChip from={data.latest.price} to={last.price} short /><small>3 ด.</small></span>}
     </span>
   );
 }

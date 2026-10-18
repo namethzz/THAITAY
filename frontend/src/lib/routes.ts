@@ -1,4 +1,5 @@
 import { getMaterialById } from "@/data.js";
+import { readFilters, writeFilters } from "@/lib/searchFilters";
 import type { Route } from "@/types";
 
 export function hashFor(route: Route) {
@@ -6,6 +7,7 @@ export function hashFor(route: Route) {
     const params = new URLSearchParams();
     if (route.q) params.set("q", route.q);
     if (route.cat && route.cat !== "all") params.set("cat", route.cat);
+    if (route.filters) writeFilters(params, route.filters);
     const query = params.toString();
     return `#search${query ? `?${query}` : ""}`;
   }
@@ -18,7 +20,7 @@ export function hashFor(route: Route) {
 export function routeFromHash(lastMaterialId: string): Route {
   const [path, query = ""] = window.location.hash.replace(/^#\/?/, "").split("?");
   const params = new URLSearchParams(query);
-  if (path === "search" || path === "prices") return { page: "search", q: params.get("q") ?? "", cat: params.get("cat") ?? "all" };
+  if (path === "search" || path === "prices") return { page: "search", q: params.get("q") ?? "", cat: params.get("cat") ?? "all", filters: readFilters(params) };
   if (path.startsWith("m/")) {
     const id = decodeURIComponent(path.slice(2));
     return getMaterialById(id) ? { page: "material", id } : { page: "search", q: "", cat: "all" };

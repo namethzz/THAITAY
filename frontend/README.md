@@ -54,6 +54,8 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 | `src/lib/materialTitle.ts` | ชื่อสั้นจากสเปก เช่น "เหล็กข้ออ้อย SD40 · 16 มม." (ชื่อเต็มเป็นบรรทัดรอง) |
 | `src/lib/rebar.ts` | น้ำหนักต่อเส้นของเหล็กเส้น (0.00617 × ศก.² กก./ม. × ความยาว) และราคาต่อเส้นจากราคาต่อตัน |
 | `src/lib/shareEstimate.ts` | เข้ารหัส/อ่านใบประมาณในลิงก์ (`#estimate?d=` base64url JSON v1) ข้อมูลเสียหรือรหัสวัสดุที่ไม่มีจะถูกข้าม |
+| `src/lib/searchFilters.ts` + `src/components/site/search-filters.tsx` | ตัวกรองหน้าค้นหา: เรียงตาม, แนวโน้ม 3 เดือน, หน่วย, เกรด/ขนาดเหล็กเส้น (เก็บใน URL) |
+| `src/components/site/category-filter.tsx` | ปุ่มเลือกหมวดแบบเดียวในหน้าค้นหา (กล่องลอยบนจอใหญ่ / แผ่นจากด้านล่างบนมือถือ) |
 | `src/lib/storage.ts` | `usePersistentState` จำค่าใน localStorage (บันทึกไม่ได้ก็ใช้งานต่อได้) |
 | `src/components/site/category-icon.tsx` + `public/icons/categories/STR-0X.webp` | icon 9 หมวดจากชุดของเจ้าของเว็บ (ไฟล์ `.webp.json` ข้าง ๆ คือที่มาของภาพ) |
 | `src/services/priceService.ts` | ชั้นข้อมูลราคา: Demo หรือเรียก API เมื่อตั้ง `VITE_API_BASE`, `getQuote()` (ราคาล่าสุด + คาดการณ์ 3 เดือน มีแคช), `trendVerdict()` คำแนะนำซื้อตอนนี้/รอ |
