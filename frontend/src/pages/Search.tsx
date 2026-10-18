@@ -3,27 +3,43 @@ import { ChevronRight, Search, X } from "lucide-react";
 import { materialCatalog, materialCategories, searchMaterials } from "@/data.js";
 import { MaterialName, QuotePeek, SEARCH_HINTS } from "@/components/site/material-search";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { CategoryFilter } from "@/components/site/category-filter";
 import { DemoNote } from "@/components/ui/price-widgets";
 import { hashFor } from "@/lib/routes";
+import { FilterButton, ActiveFilters } from "@/components/site/search-filters";
+import { NO_FILTERS, applyFilters, rebarGradeSize, useQuotes, type SearchFilters } from "@/lib/searchFilters";
 
 const PAGE = 24;
 
-export default function SearchPage({ initialQuery, initialCategory }: { initialQuery: string; initialCategory: string }) {
+export default function SearchPage({ initialQuery, initialCategory, initialFilters }: { initialQuery: string; initialCategory: string; initialFilters?: SearchFilters }) {
   const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState(materialCategories.some(c => c.code === initialCategory) ? initialCategory : "all");
   const [limit, setLimit] = useState(PAGE);
   const inputRef = useRef<HTMLInputElement>(null);
   const deferred = useDeferredValue(query);
-  const results = useMemo(() => searchMaterials(deferred, { category }), [deferred, category]);
+  const [filters, setFilters] = useState<SearchFilters>(initialFilters ?? NO_FILTERS);
+  const matches = useMemo(() => searchMaterials(deferred, { category }), [deferred, category]);
+  // ตัวเลือกในแผงตัวกรองมาจากผลที่ตรงคำค้นและหมวด (มีเฉพาะหน่วย/เกรด/ขนาดที่เจอจริง)
+  const options = useMemo(() => {
+    const specs = matches.map(rebarGradeSize).filter((s): s is NonNullable<typeof s> => Boolean(s));
+    return {
+      units: [...new Set(matches.map(m => m.unit))],
+      grades: [...new Set(specs.map(s => s.grade))].sort((a, b) => (a < "SD" ? -1 : 0) - (b < "SD" ? -1 : 0) || a.localeCompare(b, "en", { numeric: true })), // SR24 ก่อน แล้ว SD30 → SD50
+      sizes: [...new Set(specs.map(s => s.size))].sort((a, b) => Number(a) - Number(b)),
+    };
+  }, [matches]);
+  const needQuotes = filters.trend !== "all" || filters.sort !== "relevance";
+  const quotes = useQuotes(matches, needQuotes);
+  const results = useMemo(() => applyFilters(matches, filters, needQuotes ? quotes : null), [matches, filters, needQuotes, quotes]);
   const shown = results.slice(0, limit);
 
   // เปิดหน้ามาเพื่อค้นหา: พร้อมพิมพ์เลย (กลับมาจากหน้าวัสดุพร้อมคำค้นเดิมไม่ต้องเด้งคีย์บอร์ดซ้ำ)
   useEffect(() => { if (!initialQuery) inputRef.current?.focus({ preventScroll: true }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => setLimit(PAGE), [deferred, category]);
+  useEffect(() => setLimit(PAGE), [deferred, category, filters]);
   // จำคำค้นไว้ใน URL (ไม่เพิ่มประวัติทุกตัวอักษร) กดย้อนกลับจากหน้าวัสดุแล้วผลค้นหายังอยู่
   useEffect(() => {
-    window.history.replaceState(null, "", hashFor({ page: "search", q: query.trim(), cat: category }));
-  }, [query, category]);
+    window.history.replaceState(null, "", hashFor({ page: "search", q: query.trim(), cat: category, filters }));
+  }, [query, category, filters]);
 
   return (
     <div className="page search-page">
@@ -47,14 +63,14 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
         {query && <button type="button" className="msearch-clear" aria-label="ล้างคำค้นหา" onClick={() => { setQuery(""); inputRef.current?.focus(); }}><X size={18} aria-hidden="true" /></button>}
       </form>
 
-      <div className="cat-chips" role="group" aria-label="กรองตามหมวดวัสดุ">
-        <button type="button" aria-pressed={category === "all"} onClick={() => setCategory("all")}>ทั้งหมด</button>
-        {materialCategories.map(c => (
-          <button type="button" key={c.code} aria-pressed={category === c.code} onClick={() => setCategory(c.code)}><CategoryIcon code={c.code} size={24} />{c.name}</button>
-        ))}
+      <div className="search-tools">
+        <div className="search-tools-start">
+          <CategoryFilter value={category} onChange={c => { setCategory(c); if (c !== "STR-01" && c !== "all") setFilters(f => ({ ...f, grade: "all", size: "all" })); }} />
+          <FilterButton value={filters} onChange={setFilters} options={options} resultCount={results.length} />
+        </div>
+        <p className="result-count" aria-live="polite">พบ <strong>{results.length.toLocaleString("th-TH")}</strong> รายการ</p>
       </div>
-
-      <p className="result-count" aria-live="polite">พบ <strong>{results.length.toLocaleString("th-TH")}</strong> รายการ</p>
+      <ActiveFilters value={filters} onChange={setFilters} />
 
       {results.length ? (
         <ul className="result-list">
@@ -63,13 +79,20 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
               <a className="result-row" href={`#m/${material.id}`}>
                 <CategoryIcon code={material.categoryCode} size={44} className="row-icon" />
                 <MaterialName material={material} className="result-copy" />
-                <QuotePeek material={material} />
+                <QuotePeek material={material} showTrend={needQuotes} />
                 <ChevronRight className="result-chevron" size={20} aria-hidden="true" />
               </a>
             </li>
           ))}
         </ul>
       ) : (
+        matches.length ? (
+          <div className="empty-state">
+            <h2>ไม่มีรายการที่ตรงกับตัวกรอง</h2>
+            <p>พบ {matches.length.toLocaleString("th-TH")} รายการจากคำค้นและหมวดนี้ แต่ไม่มีรายการไหนผ่านตัวกรองที่เลือก</p>
+            <div className="hint-chips"><button type="button" onClick={() => setFilters(NO_FILTERS)}>ล้างตัวกรอง</button></div>
+          </div>
+        ) : (
         <div className="empty-state">
           <h2>ไม่พบ “{query.trim()}”</h2>
           <p>ตอนนี้มีเฉพาะวัสดุงานโครงสร้าง: เหล็กเส้น เหล็กรูปพรรณ ตะแกรงเหล็ก ลวด คอนกรีต เสาเข็ม ทราย และหิน ลองพิมพ์สั้นลง หรือเลือกคำเหล่านี้</p>
@@ -77,6 +100,7 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
             {SEARCH_HINTS.map(hint => <button type="button" key={hint} onClick={() => { setCategory("all"); setQuery(hint); }}>{hint}</button>)}
           </div>
         </div>
+        )
       )}
 
       {results.length > shown.length && (

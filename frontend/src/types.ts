@@ -1,7 +1,9 @@
+import type { SearchFilters } from "@/lib/searchFilters";
+
 /** หน้าเว็บมี 3 ส่วน: หน้าแรก, ค้นหาวัสดุ (รายการ + หน้ารายละเอียดวัสดุ), ใบประมาณราคา */
 export type Route =
   | { page: "home" }
-  | { page: "search"; q: string; cat: string }
+  | { page: "search"; q: string; cat: string; filters?: SearchFilters }
   | { page: "material"; id: string }
   /** shared = ใบประมาณที่ส่งมาทางลิงก์ (#estimate?d=…) เปิดดูแบบอ่านอย่างเดียว */
   | { page: "estimate"; shared?: string };
