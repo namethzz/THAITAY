@@ -2,6 +2,7 @@ import type { ReactNode, Ref } from "react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { ChangeChip, DemoStamp, useQuote } from "@/components/ui/price-widgets";
 import { formatPrice, percentChange, trendVerdict } from "@/services/priceService";
+import { materialTitle } from "@/lib/materialTitle";
 import type { Material } from "@/types";
 
 const VERDICT_ICON = { up: TrendingUp, down: TrendingDown, flat: Minus };
@@ -22,6 +23,7 @@ export function PriceCard({ material, variant = "hero", titleRef, children }: Pr
   const last = forecast.at(-1);
   const verdict = latest && last ? trendVerdict(percentChange(latest.price, last.price)) : null;
   const VerdictIcon = verdict ? VERDICT_ICON[verdict.tone] : Minus;
+  const { title, detail } = materialTitle(material);
 
   return (
     <article className={`price-card price-card-${variant}`} aria-busy={loading}>
@@ -29,7 +31,8 @@ export function PriceCard({ material, variant = "hero", titleRef, children }: Pr
         {variant === "hero" ? <span className="cat-pill">{material.category}</span> : <h2 className="pc-heading">ราคาล่าสุดและคาดการณ์</h2>}
         <DemoStamp />
       </div>
-      {variant === "hero" && <h2 className="pc-name" ref={titleRef} tabIndex={-1}>{material.name}</h2>}
+      {variant === "hero" && <h2 className="pc-name" ref={titleRef} tabIndex={-1}>{title}</h2>}
+      {variant === "hero" && detail && <p className="pc-detail" title={detail}>{detail}</p>}
 
       <div className="pc-now">
         <span className="pc-label">ราคาล่าสุด{latest ? ` · ${latest.label}` : ""}</span>

@@ -1,11 +1,10 @@
 ---
 name: THAI TAY
-description: Structural material prices and 1–3 month forecasts, stamped on an orange rebar mill tag under the THAI TAY CONSTRUCT brand.
+description: Structural material prices now and 1–3 months ahead, in a light, search-first site in the owner's THAI TAY CONSTRUCT colours (v0.9).
 colors:
   warm-white: "#f3f0ea"
-  panel: "#fcfbf8"
+  surface: "#ffffff"
   warm-50: "#f8f6f1"
-  field-white: "#ffffff"
   sunken: "#e9e4da"
   line: "#dcd6cb"
   concrete-gray: "#747d80"
@@ -15,67 +14,84 @@ colors:
   brand-orange: "#e8753b"
   orange-hover: "#f08a55"
   orange-tint: "#fbe3d4"
+  orange-ring: "rgba(232, 117, 59, .28)"
   forecast-orange: "#a84b1a"
-  forecast-band: "rgba(232, 117, 59, .18)"
-  focus-tint: "rgba(232, 117, 59, .22)"
   up-crimson: "#9e1b3c"
   up-tint: "#f7dbe3"
   down-green: "#2f6f55"
   down-tint: "#dcede4"
   stamp-red: "#c0301e"
-  paint-str-01: "#e0a100"
-  paint-str-02: "#245594"
-  paint-str-03: "#2f8a55"
-  paint-str-04: "#7b52b8"
-  paint-str-05: "#c0392b"
-  paint-str-06: "#5d6b78"
-  paint-str-07: "#a8957a"
-  paint-str-08: "#16809a"
-  paint-str-09: "#9a5a24"
 typography:
   display:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "clamp(34px, 4.7vw, 66px)"
+    fontSize: "clamp(34px, 6.6vw, 70px)"
     fontWeight: 700
     lineHeight: 1.2
-    letterSpacing: "-.005em"
+    letterSpacing: "-.01em"
   headline:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "clamp(28px, 3.3vw, 44px)"
+    fontSize: "clamp(26px, 3.6vw, 40px)"
     fontWeight: 700
-    lineHeight: 1.2
+    lineHeight: 1.3
   page-title:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "30px"
-    fontWeight: 600
+    fontSize: "clamp(28px, 4vw, 42px)"
+    fontWeight: 700
+    lineHeight: 1.25
+  material-title:
+    fontFamily: "Prompt, system-ui, sans-serif"
+    fontSize: "clamp(24px, 3.2vw, 34px)"
+    fontWeight: 700
     lineHeight: 1.35
   title:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "19px"
-    fontWeight: 600
-    lineHeight: 1.5
-  stamped:
+    fontSize: "20px"
+    fontWeight: 700
+    lineHeight: 1.4
+  price-hero:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "22px"
+    fontSize: "clamp(38px, 5vw, 50px)"
+    fontWeight: 700
+    lineHeight: 1.15
+    letterSpacing: "-.01em"
+    fontFeature: "tnum"
+  price-total:
+    fontFamily: "Prompt, system-ui, sans-serif"
+    fontSize: "clamp(28px, 3.4vw, 36px)"
+    fontWeight: 700
+    lineHeight: 1.2
+    fontFeature: "tnum"
+  price-tile:
+    fontFamily: "Prompt, system-ui, sans-serif"
+    fontSize: "19px"
     fontWeight: 700
     lineHeight: 1.3
-    letterSpacing: ".02em"
     fontFeature: "tnum"
-  body:
-    fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "15px"
-    fontWeight: 400
-    lineHeight: 1.6
   body-lead:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "17px"
+    fontSize: "clamp(16px, 1.7vw, 19px)"
     fontWeight: 400
     lineHeight: 1.7
+  body:
+    fontFamily: "Prompt, system-ui, sans-serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.65
   label:
     fontFamily: "Prompt, system-ui, sans-serif"
-    fontSize: "13px"
+    fontSize: "14px"
     fontWeight: 500
-    lineHeight: 1.6
+    lineHeight: 1.5
+  meta:
+    fontFamily: "Prompt, system-ui, sans-serif"
+    fontSize: "13px"
+    fontWeight: 400
+    lineHeight: 1.5
+  caption:
+    fontFamily: "Prompt, system-ui, sans-serif"
+    fontSize: "12px"
+    fontWeight: 400
+    lineHeight: 1.4
   wordmark:
     fontFamily: "Prompt, system-ui, sans-serif"
     fontSize: "21px"
@@ -89,302 +105,397 @@ typography:
     lineHeight: 1
     letterSpacing: ".42em"
 rounded:
-  hairline: "2px"
-  code: "6px"
-  stamp: "8px"
-  nav-button: "9px"
-  control: "10px"
-  inner-field: "11px"
-  panel: "12px"
-  field-grid: "13px"
-  popover: "14px"
-  sheet: "16px"
-  closing-band: "20px"
-  big-tag: "22px"
-  chip: "999px"
+  stamp: "6px"
+  focus: "8px"
+  small: "10px"
+  control: "12px"
+  button: "14px"
+  tile: "16px"
+  well: "18px"
+  field: "20px"
+  card-phone: "22px"
+  panel: "24px"
+  price-card: "26px"
+  stage: "28px"
+  pill: "999px"
+  round: "50%"
 spacing:
   xs: "8px"
-  sm: "14px"
-  md: "20px"
-  lg: "24px"
-  xl: "32px"
-  section: "88px"
+  sm: "12px"
+  md: "16px"
+  lg: "20px"
+  xl: "24px"
+  2xl: "40px"
+  section-phone: "72px"
+  section: "104px"
 components:
   button-primary:
     backgroundColor: "{colors.brand-orange}"
     textColor: "{colors.charcoal}"
-    rounded: "{rounded.control}"
-    padding: "8px 16px"
-    height: "40px"
+    rounded: "{rounded.button}"
+    padding: "0 22px"
+    height: "48px"
   button-primary-hover:
     backgroundColor: "{colors.orange-hover}"
-  button-on-tag:
-    backgroundColor: "{colors.charcoal}"
-    textColor: "{colors.field-white}"
-    rounded: "{rounded.panel}"
-    padding: "0 24px"
-    height: "54px"
-  button-outline:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.charcoal}"
-    rounded: "{rounded.control}"
-    padding: "8px 16px"
-    height: "40px"
-  button-ghost:
-    textColor: "{colors.ink-2}"
-    rounded: "{rounded.control}"
-    height: "40px"
-  chip-category:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.charcoal}"
-    rounded: "{rounded.chip}"
-    padding: "0 14px 0 10px"
-    height: "40px"
-  chip-category-selected:
+  button-primary-lg:
     backgroundColor: "{colors.brand-orange}"
     textColor: "{colors.charcoal}"
-  segmented-active:
+    rounded: "{rounded.tile}"
+    padding: "0 28px"
+    height: "56px"
+  button-secondary:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.button}"
+    padding: "0 22px"
+    height: "48px"
+  button-ghost:
+    textColor: "{colors.ink-2}"
+    rounded: "{rounded.button}"
+    height: "48px"
+  button-ghost-hover:
+    backgroundColor: "{colors.sunken}"
+    textColor: "{colors.charcoal}"
+  search-field:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.field}"
+    padding: "0 8px 0 20px"
+    height: "68px"
+  search-button:
+    backgroundColor: "{colors.brand-orange}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.button}"
+    padding: "0 24px"
+    height: "52px"
+  search-field-compact:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.tile}"
+    padding: "0 6px 0 16px"
+    height: "52px"
+  chip:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink-2}"
+    rounded: "{rounded.pill}"
+    padding: "0 16px"
+    height: "40px"
+  chip-selected:
     backgroundColor: "{colors.charcoal}"
-    textColor: "{colors.field-white}"
-    rounded: "{rounded.stamp}"
-    height: "36px"
+    textColor: "{colors.surface}"
+  category-pill:
+    backgroundColor: "{colors.sunken}"
+    textColor: "{colors.ink-2}"
+    typography: "{typography.meta}"
+    rounded: "{rounded.pill}"
+    padding: "4px 12px"
+  segmented-option:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.control}"
+    height: "44px"
+  segmented-option-selected:
+    backgroundColor: "{colors.charcoal}"
+    textColor: "{colors.surface}"
+  price-card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.price-card}"
+    padding: "24px"
+  price-well:
+    backgroundColor: "{colors.warm-50}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.well}"
+    padding: "16px 18px"
+  forecast-tile:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.forecast-orange}"
+    typography: "{typography.price-tile}"
+    rounded: "{rounded.tile}"
+    padding: "12px"
+  verdict-up:
+    backgroundColor: "{colors.orange-tint}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.tile}"
+    padding: "12px 14px"
+  verdict-down:
+    backgroundColor: "{colors.sunken}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.tile}"
+    padding: "12px 14px"
+  grand-total:
+    backgroundColor: "{colors.orange-tint}"
+    textColor: "{colors.charcoal}"
+    typography: "{typography.price-total}"
+    rounded: "{rounded.well}"
+    padding: "18px"
   panel:
-    backgroundColor: "{colors.panel}"
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.charcoal}"
     rounded: "{rounded.panel}"
     padding: "24px"
-  horizon-tag:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.forecast-orange}"
-    rounded: "{rounded.panel}"
-    padding: "18px 20px 20px"
-  horizon-tag-active:
+  list-row:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.well}"
+    padding: "14px 14px 14px 20px"
+    height: "76px"
+  step-number:
     backgroundColor: "{colors.brand-orange}"
     textColor: "{colors.charcoal}"
-  input-field:
-    backgroundColor: "{colors.field-white}"
-    textColor: "{colors.charcoal}"
-    rounded: "{rounded.control}"
-    padding: "0 12px"
-    height: "46px"
+    rounded: "{rounded.round}"
+    size: "52px"
   nav-item:
     textColor: "{colors.ink-2}"
     rounded: "{rounded.control}"
-    padding: "10px 12px"
+    padding: "0 16px"
     height: "44px"
   nav-item-active:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.charcoal}"
+  bottom-nav-fab:
     backgroundColor: "{colors.brand-orange}"
     textColor: "{colors.charcoal}"
-  demo-stamp:
-    textColor: "{colors.stamp-red}"
-    rounded: "{rounded.code}"
-    padding: "3px 10px 2px"
-  demo-stamp-on-tag:
+    rounded: "{rounded.round}"
+    size: "60px"
+  bottom-nav-item-active:
+    backgroundColor: "{colors.orange-tint}"
     textColor: "{colors.charcoal}"
+    rounded: "{rounded.pill}"
+    width: "56px"
+    height: "32px"
+  change-chip-up:
+    backgroundColor: "{colors.up-tint}"
+    textColor: "{colors.up-crimson}"
+    rounded: "{rounded.pill}"
+    padding: "1px 8px 1px 5px"
+  change-chip-down:
+    backgroundColor: "{colors.down-tint}"
+    textColor: "{colors.down-green}"
+    rounded: "{rounded.pill}"
+    padding: "1px 8px 1px 5px"
+  demo-stamp:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.stamp-red}"
+    typography: "{typography.caption}"
     rounded: "{rounded.stamp}"
-    padding: "1px 12px 0"
+    padding: "2px 9px"
+  count-badge:
+    backgroundColor: "{colors.brand-orange}"
+    textColor: "{colors.charcoal}"
+    rounded: "{rounded.pill}"
+    height: "22px"
 ---
 
 # Design System: THAI TAY
 
 ## Overview
 
-**Creative North Star: "The Rebar Mill Tag"**
+**Creative North Star: "The Site-Office Price Board"**
 
-THAI TAY reads like the tag wired to a bundle of rebar at the mill. In the owner's THAI TAY CONSTRUCT colors it is an orange field with stamped boxes for material, code, unit and price, hung on a steel wire through a punched grommet over a warm-white yard. The landing shows that tag up close and at full commitment. One orange tag, up to 1200px wide, holds the working material picker, the latest measured price and three stamped forecast months, and it turns over to show where the numbers come from. The workspace keeps the same world in a quieter register: warm-white ground, near-white panels, orange for whatever is selected or pressed, and stamped Prompt numerals for every figure. Nothing in the workspace performs.
+THAI TAY v0.9 works like the price board at a builder's merchant: one big question answered in one line, one place to type, and the numbers printed large. It follows the owner's own apps, AirClean and KickHub, in the owner's THAI TAY CONSTRUCT colours. A warm-white page carries a big centred Thai headline, with its second line marked by an orange-tint highlighter band. Below it sits a wide white search combobox with the orange button inside, a row of quick-pick chips, and a white price card that overlaps a construction illustration (a photo slot for later). Further down come three numbered steps and a "where prices come from" card. The site has three pages: home, search plus a per-material page, and the estimate sheet.
 
-The palette comes from the owner's brand board, and every color has a job. Charcoal is the ink and the small solid controls; it is never a page. Concrete gray belongs to the logo, strong rules, the flow rail and control edges. Brand orange is the tag, the primary action and the selection, and only charcoal text sits on it. A fixed data code runs across every surface: charcoal for measured prices, dark orange for forecasts, crimson and green for up and down, and stamp red for demo data. Nine bar-end paint codes tell the structural categories apart, and each one always sits beside the category's name.
+The surfaces are soft and friendly but never cute. White cards with large radii (24–28px) float on warm white under long, low charcoal shadows. Orange marks the action: the search button, primary buttons, step numbers, the raised phone search button and the count badge. A choice the user has made fills charcoal. A fixed data code runs through every price: charcoal for measured prices, dark orange for forecasts, crimson and green only on the small change chips and trend arrows, and stamp red only on the demo-data label.
 
-The pages are dense enough for a quantity surveyor and plain enough for a homeowner. Thai text gets generous line-height (1.6 to 1.75 in body copy) so upper and lower vowel marks have room. Motion is limited to the tag flip, a short settle on stamped numbers when the material changes, and hover feedback. Nothing moves on its own.
+Prompt is the only typeface, matching the logo's geometric wordmark. Thai text gets generous line-height (body 1.65, display 1.2) so upper and lower vowel marks have room. Motion is limited to short colour and border transitions (.15s), a 1px press, and the toast rising in. Nothing moves on its own.
 
 **Key Characteristics:**
-- Light theme only: warm-white ground, charcoal ink, no dark pages.
-- Brand orange means the tag, the primary action and the selection, and it carries charcoal text only.
-- A fixed data code: measured prices in charcoal, forecasts in dark orange, brand orange only on the range band.
-- Prompt for display, numerals and body, matching the logo's geometric wordmark.
-- The owner's building mark sits only on warm white.
-- Punched holes only on real tags; one container level in the workspace.
-- Signature: the landing tag on its wire, with stamped field boxes, an inspector stamp and a 3D flip to its provenance face.
+- Light theme only: a warm-white ground, white cards, charcoal ink, no dark pages.
+- Search first: a 68px combobox with the orange button inside, with prices shown in the dropdown rows.
+- Big tabular prices: the latest price at up to 50px in charcoal, forecasts in dark orange.
+- Orange means action and only takes charcoal text; a selected choice is charcoal with white text.
+- Large soft radii that grow with the container: 12–14px controls, 16–18px tiles and wells, 24–28px cards.
+- A top nav on desktop, and on phones a 3-button bottom nav with a raised orange search button in the centre.
+- The building mark sits only on warm white.
 
 ## Colors
 
-The four brand colors from the owner's board do the work, with warm neutrals stepped between them and a small, strictly semantic data code.
+The four brand colours from the owner's board, white cards, warm neutrals between them, and a small, strictly semantic data code.
 
 ### Primary
-- **Brand Orange** (brand-orange): the landing tag face, the closing band, the default button, the active sidebar item, selected chips, selected horizon tags and when-options, the grand-total row, the flow-rail step tiles, text selection, checkbox accent and caret. Text on it is always charcoal (4.9:1). White on orange fails at 2.98:1, and secondary inks are remapped to charcoal on the tag, so hierarchy there comes from size and weight.
-- **Orange Hover** (orange-hover): hover on orange buttons, and the border of a selected catalog row.
-- **Orange Tint** (orange-tint): background of a selected catalog row or picker item, and of warning hints. It is the quieter form of selection.
+- **Brand Orange** (brand-orange): the action colour. It fills the search button, primary buttons, step numbers, the phone FAB, the count badge and the toast check, and it draws the active top-nav underline, the steps' vertical rail on narrow screens, text selection, the checkbox accent and the caret. Text and icons on it are always charcoal (4.9:1).
+- **Orange Hover** (orange-hover): the hover fill on orange buttons.
+- **Orange Tint** (orange-tint): the quieter orange. It is the headline highlighter band, the highlighted search option, the active bottom-nav pill, the grand-total box, warning notes, the empty-state icon tile, the "price rising" verdict box and the halo ring around step numbers.
+- **Orange Ring** (orange-ring): the 4px focus halo around a focused search field or quantity input, always paired with a charcoal border.
 
 ### Secondary
-- **Charcoal** (charcoal): all headings and body text, measured prices (on the tag, in stats, and as the actual line on charts), the primary action when it sits on orange, active segmented tabs and quantity chips, numbered step tiles, focus outlines, and the 1.5px edge on selected orange elements. Shadows and scrims are charcoal at reduced alpha.
-- **Concrete Gray** (concrete-gray): the logo's gray, the CONSTRUCT sub-wordmark, strong rules, hover borders, the landing flow rail, scrollbars, input strokes (the `--input` role) and every control edge. It reaches 4.07:1 on panels and about 3.7:1 on the ground, so it never carries small text. The CONSTRUCT line is the one exception, because it is part of the logo lockup.
+- **Charcoal** (charcoal): all headings and body text, measured prices, selected chips and segmented options (with white text), focus outlines and the focused-field border. Every shadow is charcoal at reduced alpha.
+- **Concrete Gray** (concrete-gray): the 1.5px stroke on the search fields and quantity inputs, the hover border on chips, rows and secondary buttons (as `--line-strong`), and the CONSTRUCT sub-wordmark. It is about 3.7–4.2:1 on light grounds, so it never sets reading text; the logo lockup is the only exception.
 
 ### Tertiary
-- **Forecast Orange** (forecast-orange): every forecast figure, the forecast chart line and points, and the legend dash (5.5:1). It is the data form of the brand orange.
-- **Forecast Band** (forecast-band): the low–high range band on charts. This is the only place brand orange appears inside a chart.
-- **Focus Tint** (focus-tint): the 3px halo around a focused input or open picker, paired with a charcoal border.
-- **Up Crimson / Down Green** (up-crimson on up-tint, down-green on down-tint): price direction in delta chips and trend text. Crimson is kept well apart from the forecast's dark orange, and it also serves as the destructive role.
-- **Stamp Red** (stamp-red): the demo-data stamp on light surfaces and the demo status dot only. Where the stamp sits on the orange tag, it switches to charcoal ink.
+- **Forecast Orange** (forecast-orange): every forecast price (the tile figures), the dashed forecast chart line and its points, and the legend dash. It is the data form of the brand orange (5:1+ on white and on the ground).
+- **Up Crimson on Up Tint / Down Green on Down Tint**: price direction, only in the change chips (with an arrow and, outside tiles, a word) and the verdict box's trend icon. Crimson also serves as the destructive role (inline errors, the hover on the remove-line button).
+- **Stamp Red** (stamp-red): the "ข้อมูลตัวอย่าง" demo stamp only, as a 1.5px red border and red text on white.
 
 ### Neutral
-- **Warm White** (warm-white): the brand ground. It is the page, sidebar, topbar (at 90% with blur), landing footer and splash, the fill of punched holes, the tonal well behind grouped numbers, the latest-price field on the tag, and the label the logo sits on inside the tag.
-- **Panel** (panel): cards, the material tag, horizon tags, chips at rest, popovers and chart tooltips.
-- **Warm 50** (warm-50): the accent hover role (outline and ghost buttons, quantity steppers).
-- **Field White** (field-white): input wells, the picker trigger, catalog rows, when-options and hover on panel surfaces. It is one step brighter than panel.
-- **Sunken** (sunken): segmented-control tracks, subtle tags, code chips and sidebar hover.
-- **Line** (line): hairline dividers, panel borders and chart grid.
-- **Ink 2 / Ink 3** (ink-2, ink-3): secondary copy and labels; tertiary meta, units, placeholders and chart ticks.
+- **Warm White** (warm-white): the page, the sticky header, the footer and the intro splash. It is the only ground the logo sits on.
+- **Surface** (surface): cards, panels, the price card, search fields, list rows, forecast tiles, the bottom nav and the toast. It is also the text colour on charcoal fills.
+- **Warm 50** (warm-50): quiet wells inside cards (the latest-price box, cost total, demo note, source links at rest, hint chips).
+- **Sunken** (sunken): category pills, the "price falling / flat" verdict box, the flat change chip, and hover on ghost buttons and nav links.
+- **Line** (line): hairline borders on rows, tiles, chips, wells and the footer rule, the dashed sum divider, and the chart grid.
+- **Ink 2 / Ink 3** (ink-2, ink-3): secondary copy and labels; then meta, units, placeholders, search icons, inactive bottom-nav items and chart ticks.
 
-### Paint Codes
-Nine bar-end paint colors (paint-str-01 to paint-str-09) mark the categories STR-01 to STR-09. They appear only inside the PaintDot glyph and the bundle-dot clusters, always beside the category name. Unknown codes fall back to #9aa6b0.
-
-### Drawn Steel
-The landing grommet and wire are drawn in cool steel grays (#c9d1d7, #8d99a4, #5f6c77 on the grommet; #6c7984 and #a9b3bb on the two wire strands). The PaintDot rib is #8a8f90. These are illustration colors for metal objects only and are never used as UI colors.
+### Illustration colours
+The construction illustration (`SiteArt`) draws in its own warm set: sky #f8f1e8 to #efdccb, a #e6d6c6 grid, ground #e4d8c8, columns #8b9396, slabs in concrete gray, a crane in #c55f2a, rebar in brand and forecast orange. Its frame is filled #f3e6d8. These are illustration-only and never UI colours.
 
 ### Named Rules
-**The No Dark Page Rule.** The site is light only, as the owner requires. Charcoal is ink and small solid controls (a button, a tab, a step tile), and never a page, panel or theme. Black is never used.
+**The No Dark Page Rule.** The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. Black is never used.
 
-**The Charcoal on Orange Rule.** Every piece of text, every icon and every stamp on brand orange is charcoal. Secondary and tertiary inks collapse to charcoal on the tag. White text never goes on orange.
+**The Charcoal on Orange Rule.** Every text, icon and badge digit on brand orange is charcoal. White never goes on orange (2.98:1).
 
-**The Data Code Rule.** Measured prices are charcoal and forecasts are dark orange, on every surface. Brand orange in a chart means the range band and nothing else. On the orange tag, forecast figures are charcoal and are told apart by field position, not by color. Never use crimson or green for anything but direction.
+**The Action Is Orange, Choice Is Charcoal Rule.** Orange fills mean "do this": search, add, open. A pressed quick-pick, a selected category chip and a checked segmented option are charcoal with white text. A highlighted or current item that is not a pressed choice (search option, bottom-nav pill) gets orange tint.
 
-**The Concrete Edge Rule.** Concrete gray draws edges, rules and the rail, and it never sets reading text.
+**The Data Code Rule.** Measured prices are charcoal and forecast prices are dark orange, on every surface. In a chart, brand orange appears only as the low–high band at low opacity. Crimson and green mark direction only in change chips and trend arrows, never as a box fill, text block or price colour. That is why the verdict box is orange tint (rising) or sunken (falling or flat), with only its icon coloured.
 
 ## Typography
 
 **Display, Body and Numeral Font:** Prompt (with system-ui, sans-serif), weights 400/500/600/700, self-hosted through @fontsource with no runtime font requests.
 
-**Character:** Prompt's geometric, round-shouldered letterforms match the logo's wordmark. Prompt carries the stamped headline, the tabular numerals and the Thai body copy, so the brand reads as one hand from logo to price.
+**Character:** Prompt's round, geometric Thai and Latin forms match the logo's wordmark, so headline, price and body read as one hand. Hierarchy comes from size and weight (700 for headings and prices, 500–600 for labels), never from case or colour tricks.
 
 ### Hierarchy
-- **Display** (700, clamp(34px, 4.7vw, 66px), 1.2, −.005em): the landing tag headline only, set in two stamped lines; it drops to clamp(27px, 8.4vw, 34px) on phones.
-- **Headline** (700, clamp(28px, 3.3vw, 44px), 1.2): landing section heads. The tag's back-face heading uses clamp(26px, 3.2vw, 42px) at 1.25, and the closing band uses clamp(20px, 2.3vw, 28px) at 1.35.
-- **Page Title** (600, 30px, 1.35): workspace page h1; 25px on phones.
-- **Title** (600, 17–23px, 1.35–1.5): panel and section headings in the workspace (19px panels, 21px section heads, 17–18px step and group heads), and landing flow (22px) and audience (23px) heads.
-- **Stamped** (700, 22px, 1.3, .02em, tabular): numbers and codes on the tag. Big prices use clamp(24px, 2.6vw, 34px), and MOC codes 19px with .07em tracking. Workspace figures (24–34px, 600–700) use the same tabular numerals.
-- **Body** (400, 15px, 1.6): the default. Long workspace copy runs at 1.75 with a 72ch cap.
-- **Body Lead** (400, 17px, 1.7): landing intros and section ledes, capped at 52–62ch.
-- **Label** (500, 13px): field labels, stat captions and units, with 12px meta below. Sentence case and never uppercase; Thai has no case.
-- **Wordmark** (700, 21px, .01em) over **CONSTRUCT** (500, 9.5px, .42em, concrete gray): the live-text lockup beside the mark.
+- **Display** (700, clamp(34px, 6.6vw, 70px), 1.2, −.01em): the home headline only, two centred lines. On short desktop screens it drops to clamp(34px, 7vh, 60px), and to 30px on short phones.
+- **Headline** (700, clamp(26px, 3.6vw, 40px), 1.3): home section heads ("ใช้งานง่าย 3 ขั้นตอน", "ราคามาจากไหน").
+- **Page Title** (700, clamp(28px, 4vw, 42px), 1.25): the search and estimate page h1. **Material Title** (700, clamp(24px, 3.2vw, 34px), 1.35) is the material page h1, which can wrap long MOC names.
+- **Title** (700, 20px, 1.4): card and panel heads. Step heads use 19px/600, the empty-state head 22px, and the material name on the home price card 18px/600.
+- **Price Hero** (700, clamp(38px, 5vw, 50px), 1.15, −.01em, tabular): the latest price. **Price Total** (700, clamp(28px, 3.4vw, 36px)) is the estimate grand total; the cost-box total uses clamp(26px, 3vw, 32px). **Price Tile** (700, 19px; 16px on phones, 18px in detail rows) is the forecast figures. Line totals are 17px/700, and search peeks 16px/700.
+- **Body Lead** (400, clamp(16px, 1.7vw, 19px), 1.7): the hero subline, capped at 36em and balanced. Section sublines use clamp(16px, 1.6vw, 18px).
+- **Body** (400, 16px, 1.65): the default. Search input text is 18px (17px on phones, 16px compact).
+- **Label** (500–600, 14px): field legends, card labels, chip text and "ลองดู". Nav links are 15px/500, and buttons 16px/600 (17px large).
+- **Meta** (13px) and **Caption** (12px): secondary row lines, units, ranges, month labels and the demo stamp. Change chips use 12.5px/600, and bottom-nav labels 12.5px/500.
+- **Wordmark** (700, 21px; 19px on phones) over **CONSTRUCT** (500, 9.5px, .42em, concrete gray): the live-text lockup beside the mark.
 
-Font-size steps in use: 9.5, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30 and 34px, plus the fluid steps clamp(13px, 1.6vw, 15px), clamp(19px, 2.4vw, 24px), clamp(20px, 2.3vw, 28px), clamp(24px, 2.6vw, 34px), clamp(26px, 3.2vw, 42px), clamp(27px, 8.4vw, 34px), clamp(28px, 3.3vw, 44px) and clamp(34px, 4.7vw, 66px).
+Font-size steps in use: 9.5, 11, 12, 12.5, 13, 14, 14.5, 15, 16, 17, 18, 19, 20, 22 and 30px. The fluid steps are clamp(13px, 1.6vw, 15px), clamp(16px, 1.6vw, 18px), clamp(16px, 1.7vw, 19px), clamp(19px, 2.4vw, 24px), clamp(24px, 3.2vw, 34px), clamp(26px, 3vw, 32px), clamp(26px, 3.6vw, 40px), clamp(28px, 3.4vw, 36px), clamp(28px, 4vw, 42px), clamp(38px, 5vw, 50px), clamp(34px, 6.6vw, 70px) and clamp(34px, 7vh, 60px).
 
 ### Named Rules
-**The Stamped Numeral Rule.** Every price, quantity, code and count is set with tabular numerals (the `.num` and stamped styles). Body text never carries a number the user is meant to compare.
+**The Tabular Price Rule.** Every price, quantity, total and count is set in Prompt with tabular numerals (the `.num` style), and every price carries its unit ("ต่อ ตัน") beside it in smaller ink-3 text.
 
-**The Vowel Room Rule.** Thai body copy never goes below 1.5 line-height, and display type never below 1.2. Don't use clipped or gradient text.
+**The Vowel Room Rule.** Thai body copy never goes below 1.5 line-height, and display never below 1.2. Headlines and paragraphs use balanced or pretty wrapping. Emphasis in the headline is a flat orange-tint band behind the text (58–94% of the line box), never gradient or clipped text.
 
 ## Layout
 
-The landing is a centered stage. The tag fills up to 1200px of width (`min(1200px, 100%)`) and hangs 64px below the top edge on a wire that runs off the viewport into a grommet at the header's left. Sections below the tag share the same 1200px measure, 88px apart (64px on phones). Landing section heads are a two-column grid, with the heading on the left and the lede bottom-aligned on the right; they stack below 1000px. The tag's field grid has 12 columns: material 6, code 4, unit 2, then four prices of 3 each. It collapses to 6 columns at 1000px and stacks on phones (560px), where the wire shortens and the grommet shrinks.
+The site is one centred column on a 1160px measure (`min(1160px, 100% − 32px)`). The hero narrows to 900px and the search box to 720px, the steps and trust card sit at 1080px, and the search page at 860px. On the home page the "stage" is a two-track grid: the illustration spans the full width (min 460px high), and the price card sits in a 450px right-hand track, inset 36px, so it overlaps the art's right side. The illustration keeps its subject left of x = 690 for this reason. The material page and estimate sheet use a main column plus a 390px sticky side column (the cost box and summary, top 92px). The material grid is laid out as "summary cost / chart cost".
 
-The workspace is a fixed 248px warm-white sidebar beside a main column. The main column has a 64px sticky blurred topbar and content capped at 1320px (padding 28px 32px). Pages are a single grid with 20px gaps. The catalog uses a 1fr column plus a 300px sticky selection rail, and the cost calculator uses two near-equal columns. Breakpoints are 1100px (the sidebar becomes a drawer and the cost columns stack), 1000px, 800px, 760px, 620px (phone padding 16–20px, with safe-area insets), 560px and 520px.
+The header is sticky, 72px high (62px on phones), on warm white with a 7%-charcoal bottom rule. The footer sits 96px below the content. Home sections are 104px apart (72px at 640px and below). Card padding is 24px (18–20px on phones), the trust card's 40px. Gaps step 6 / 8 / 10 / 12 / 16 / 20 / 40px. Every touch target is at least 44px; chips are 38–40px inside larger rows.
 
-The spacing rhythm is 8 / 14 / 20 / 24 / 32, with 88px between landing sections. Touch targets are at least 44px on coarse pointers.
+### Breakpoints
+- **960px**: single column. The steps lose their cards and become a vertical list joined by a 2px orange-to-tint rail. The stage stacks, with the art at clamp(190px, 40vw, 340px) and the card (max 560px) pulled up 110px over it. The material and estimate grids stack, and their side columns stop being sticky. The trust card stacks.
+- **767px**: phone chrome. The top nav hides and the bottom nav appears (78px plus the safe area reserved at the foot). The mark shrinks to 36px, the "how" CTA goes full width, and the toast moves above the bottom nav.
+- **640px**: phone content. The hero search becomes 60px with an icon-only 48px button. Quick-picks and category chips become one horizontally scrolling row with faded edges, bleeding to the screen edge. The art is 140px with the card pulled up 64px. The price card pads 18px with a 22px radius. On the material page the forecast tiles become rows, and estimate lines wrap to two rows.
+- **360px**: the forecast tiles stack into rows, the segmented options drop to 14px, and the unit beside the estimate quantity hides.
+- **Short screens**: at min-width 961px and max-height 860px (1366×768 laptops) the hero tightens and the h1 drops to clamp(34px, 7vh, 60px), so the price card stays in the first view. At max-width 767px and max-height 720px the hero tightens further, the h1 is 30px, the illustration hides, and the card's detail line hides.
+- **Print**: the header, navs, footer, toast and estimate controls hide; the page is white, and lines and the summary print without shadows.
 
 ## Elevation & Depth
 
-The system is mostly flat, with tonal layering: warm-white ground, then panel, then field white, with sunken wells below. Shadows are soft, charcoal-tinted and few. The only strong shadow is the landing tag's hanging drop, which sells a physical object on a wire. In the workspace, depth means one shallow panel shadow, and a deeper lift appears only on what is selected or primary.
+The pages are layered with soft, long, low shadows: warm-white ground, white cards that lift slightly off it, and warm-50 or sunken wells set into cards. Shadows are charcoal at alpha, with large negative spread so they read as a soft pool under the card rather than an outline. The one colour exception is an orange glow under orange actions. Behind the home stage a wide radial orange halo (20% at the centre) warms the ground. It is used once, on the home stage only.
 
 ### Shadow Vocabulary
-- **Panel** (`box-shadow: 0 1px 2px rgba(36, 42, 45, .06), 0 2px 8px -4px rgba(36, 42, 45, .08)`): cards, the material tag, horizon tags, source links.
-- **Lift** (`box-shadow: 0 14px 32px -16px rgba(36, 42, 45, .35)`): the active horizon tag and the landing closing band.
-- **Hanging Tag** (`box-shadow: 0 34px 60px -34px rgba(36, 42, 45, .6), 0 10px 22px -14px rgba(36, 42, 45, .35)`): the landing tag faces only.
-- **Ink Press** (`box-shadow: 0 12px 22px -14px rgba(36, 42, 45, .8)`): the charcoal primary button on the tag.
-- **Popover** (`box-shadow: 0 24px 60px -18px rgba(36, 42, 45, .45)`): the material picker popover.
-- **Hairline Drop** (`box-shadow: 0 1px 0 rgba(36, 42, 45, .14–.3)`): a 1px seat under the orange button, the active nav item and the logo label on the tag.
-- **Drawer** (`box-shadow: 18px 0 50px rgba(36, 42, 45, .18)`): the mobile sidebar.
+- **Card** (`box-shadow: 0 1px 2px rgba(36, 42, 45, .05), 0 18px 40px -26px rgba(36, 42, 45, .32)`): panels, step cards, the trust card, the illustration frame, the material-page price card, and list rows on hover.
+- **Lift** (`box-shadow: 0 1px 2px rgba(36, 42, 45, .06), 0 28px 56px -28px rgba(36, 42, 45, .45)`): the home price card over the art, the search dropdown and the toast.
+- **Search Field** (`box-shadow: 0 22px 44px -26px rgba(36, 42, 45, .45)`; −30px spread on the search page): the hero search box. The compact search has no shadow.
+- **Orange CTA** (`box-shadow: 0 12px 24px -12px rgba(232, 117, 59, .75)`): primary buttons and the search button.
+- **FAB** (`box-shadow: 0 0 0 6px #fff, 0 14px 24px -10px rgba(232, 117, 59, .9)`): the raised phone search button, with a white collar that cuts it out of the nav bar. When the button is the current page, it adds an 8px orange-tint ring.
+- **Bottom Bar** (`box-shadow: 0 -8px 24px -18px rgba(36, 42, 45, .35)`): the phone bottom nav.
+- **Active Tab** (`box-shadow: 0 1px 2px rgba(36, 42, 45, .08), inset 0 -2px 0 #e8753b`): the current top-nav link, a white pill with an orange underline.
+- **Focus Halo** (`box-shadow: 0 0 0 4px rgba(232, 117, 59, .28)`): focused search and quantity fields.
 
 ### Named Rules
-**The One Container Rule.** The workspace has one container level. Panels never nest inside panels. Inside a panel, grouping uses hairline rules, dashed rules or a tonal well (warm white behind the numbers).
+**The Soft Pool Rule.** Every neutral shadow is charcoal at alpha with a large blur and negative spread. Never black, never a hard offset block, never a border-like ring except the focus halo, the FAB collar and the step-number tint ring.
 
-**The Charcoal Shadow Rule.** Every shadow and scrim is charcoal at alpha. Never use black and never use a hard offset block shadow.
+**The Orange Glow Rule.** Only orange actions (primary buttons, the search button, the FAB) cast an orange shadow. Cards, chips and selected states never glow.
 
 ## Shapes
 
-Shapes are softly rounded rectangles, like stamped steel tags. Controls use 10px corners, panels and horizon tags 12px, the landing field grid 13px, the picker popover 14px, the bundle grid and phone sheets 16px, the closing band 20px, and the big tag 22px (16px on phones). Chips and pills are fully round (999px), stamps and step tiles use 6–8px, and punched holes, dots and select indicators are circles (50%). The full radius steps in use are 2, 6, 8, 9, 10, 11, 12, 13, 14, 16, 20 and 22px, plus 50% and 999px.
+The form language is softly rounded rectangles and pills, and radius grows with the container. Stamps use 6px, the focus outline 8px, small steppers 10px, and nav links, options and segmented options 12px. Buttons and inputs use 14px (16px large), tiles, verdicts and source links 16px, and wells, rows and the dropdown 18px. The search fields use 20px, panels and step cards 24px (22px on phones), the price card 26px, and the illustration frame and trust card 28px. Chips, pills and badges are fully round (999px). Step numbers, the FAB and icon buttons (clear, toast check) are circles.
 
-Fields on the tag are separated by 1.5px charcoal-alpha rules (rgba(36, 42, 45, .6)) drawn as inset shadows, so the boxes read as printed on the tag. Dashed borders mean three things only: the flip control, the edge of empty states, and the provenance trace rules.
+Borders are quiet. Cards carry a 1px border of 7–8% charcoal. Rows, tiles, wells and chips use a 1px line border, and inputs a 1.5px concrete stroke. Dashed borders appear only on the empty-state edge (1.5px line) and the estimate sum divider.
 
-**The Punched Hole Rule.** Only real tags get a hole: the landing tag (a drawn steel grommet with its wire), the selected-material tag and the forecast horizon tags (an 11px hole at the top-right corner, filled with warm white and ringed in concrete gray). Plain panels never get one, so a static panel never looks like a selectable tag.
+**The Nested Radius Rule.** Anything inside a card uses a smaller radius than the card: 26px card, then an 18px well, then a 16px tile, then a 999px chip. A card's children never match or exceed its radius.
 
 ## Components
 
 ### Brand Mark
-The lockup pairs the owner's building mark (`public/brand/thai-tay-mark.png`, 40px high, 28px on phones, 72px on the splash) with the wordmark set as live Prompt text: THAI TAY over CONSTRUCT. The mark's light facade is the same warm white as its opaque ground, so the mark sits only on warm white: the page ground, sidebar, footer and splash, or a warm-white label (10px corners, hairline drop) set into the orange tag. The favicons and apple-touch icon are the dark rounded tile from the board, used only as app icons.
+The lockup pairs the owner's building mark (`public/brand/thai-tay-mark.png`, 42px high; 36px on phones and in the footer; 72px on the splash) with live Prompt text: THAI TAY over CONSTRUCT, 10px apart. The PNG has an opaque warm-white ground that matches its light facade, so the mark sits only on warm white: the header, the footer and the intro splash. The favicon and apple-touch icon are the dark rounded tile from the board, used only as app icons.
 
 ### Buttons
-Buttons are firm and plain, with no gradients.
-- **Shape:** gently rounded (10px; 12px for the large tag buttons).
-- **Primary (workspace):** brand orange with semibold charcoal text, 40px high, with a 1px charcoal hairline drop. Hover goes to orange-hover.
-- **Primary on orange:** charcoal with white text, 54px high, 0 24px padding, ink-press shadow. Hover lightens to #3a4246 and lifts by 1px. Use it wherever the primary action sits on orange (the landing tag and the closing band).
-- **Flip / secondary on tag:** transparent with a 1.5px dashed charcoal border, 50px high. Hover is an 8% charcoal wash.
-- **Workspace link on tag:** 1.5px solid charcoal outline. Hover inverts to a charcoal fill with orange text.
-- **Outline:** panel fill with a concrete-gray edge. Hover shows a warm-50 fill.
-- **Ghost:** ink-2 text, with a warm-50 fill on hover.
-- **Text link:** charcoal text with a 1.5px orange underline at a 3–5px offset; on hover the underline thickens to 3px.
-- **Focus:** a 2px charcoal outline with a 2px offset on every interactive element.
+Buttons are friendly and solid, with no gradients.
+- **Shape:** 14px (16px large). Default height 48px with 0 22px padding; large 56px with 0 28px padding. Text is 16px/600 (17px large) with an 8px icon gap.
+- **Primary:** brand orange with charcoal text and the orange CTA shadow. Hover goes to orange hover, and pressing nudges the button down 1px. Disabled is 50% opacity with no shadow.
+- **Secondary:** a white fill with a 1.5px line border; hover darkens the border to concrete. Used for "load more", CSV and print.
+- **Ghost:** ink-2 text; hover fills sunken with charcoal text. Used for "clear all".
+- **Text link:** charcoal with a 1.5px orange underline at a 3px offset.
+- **Focus:** a 2px charcoal outline with a 2px offset and 8px radius on every interactive element.
+
+### Search Combobox (signature)
+- **Hero:** a 68px white field, 20px radius, 1.5px concrete stroke and the search-field shadow. It holds an ink-3 search icon, 18px input text, a round clear button and, inside on the right, a 52px orange search button (14px radius, CTA shadow). On focus the border turns charcoal and gains the orange-ring halo.
+- **Dropdown:** a white sheet 8px below the field (18px radius, lift shadow, max min(62vh, 480px)) listing up to six options. Each row shows the short name in 15px/500, the full MOC name or category in 13px ink-3, and the latest price peek right-aligned. The highlighted row is orange tint. A "see all N results" row closes the list. The empty state lists what is in scope and offers hint chips.
+- **Compact:** 52px, 16px radius, no shadow, with an icon-only 40px orange button. Used in the material-page bar.
+- **Search page list field:** 64px, same stroke and focus treatment, without the inner button.
 
 ### Chips
-- **Category chip:** panel fill, 1px line border, fully round, 40px high, with bundle dots and a tabular count. **Selected** gets a brand-orange fill and a charcoal border.
-- **Quantity / adjustment chips:** white, round, 36px. **Active** is a charcoal fill with white text, the segmented-choice language shared with the month tabs.
-- **Delta chip:** a crimson or green tint with text in the matching color.
+- **Quick-pick and category chips:** fully round, 38–40px high, 0 14–16px padding, 1px line border, a white (80%) or white fill, and ink-2 14px/500 text. Hover darkens the border to concrete and the text to charcoal. **Pressed** is a charcoal fill and border with white text.
+- **Category pill:** a sunken, round, 13px ink-2 label on cards and the material head. It is not interactive.
+- **Change chip:** a round, 12.5px/600 chip with an arrow icon: crimson on up tint, green on down tint, ink-2 on sunken when flat. In forecast tiles the word is screen-reader only; elsewhere it is spoken and shown.
+- **Count badge:** a 22px orange pill with 12px/700 charcoal digits, shown on the estimate nav item.
+
+### Price Card (signature)
+A white card (26px radius, 24px padding, 7%-charcoal border). It has the lift shadow on home and the card shadow on the material page. The top row holds the category pill (or the 20px heading) and the demo stamp. Then come the material name, a warm-50 well with the latest price at Price Hero size in charcoal plus its unit, and the label "ราคาคาดการณ์" over three equal forecast tiles (16px radius, line border). Each tile shows the horizon and month label, the price in forecast orange, a change chip and, on the material page, the low–high range. A verdict box (16px radius) closes the card, with a trend icon and a one-line buy-now-or-wait hint: orange tint when rising, sunken when falling or flat. On home a full-width primary button follows.
 
 ### Cards / Containers
-- **Corner Style:** 12px.
-- **Background:** panel on warm-white ground.
-- **Shadow Strategy:** panel shadow (see Elevation & Depth).
-- **Border:** 1px line.
-- **Internal Padding:** 24px (18px 16px on phones).
+- **Corner Style:** 24px panels, 26px price card, 28px trust card and illustration frame; 22px on phones.
+- **Background:** white on the warm-white ground; warm-50 wells inside.
+- **Shadow Strategy:** the card shadow (see Elevation & Depth).
+- **Border:** 1px charcoal at 7–8%.
+- **Internal Padding:** 24px (20px 18px on phones); 40px for the trust card.
+- **List rows:** white rows (18px radius, 1px line border, min 76px) for search results and estimate lines. On hover they gain a concrete border and the card shadow.
 
 ### Inputs / Fields
-- **Style:** a field-white well with a 1px concrete-gray stroke, 10px corners, 46–50px high. Quantities are entered in 24px tabular Prompt, right-aligned.
-- **Focus:** the border turns charcoal and gets a 3px focus-tint halo.
-- **Material picker:** a 74px trigger with an orange icon tile, the name in two lines, and the code, category and unit as meta. Its popover is a 14px-radius panel sheet with a concrete edge and the popover shadow; the selected item is orange tint. Set into the landing tag, the trigger becomes a white write-in box with a 1.5px charcoal border, and its icon tile turns charcoal with an orange glyph.
+- **Quantity stepper:** 48px square − / + buttons (14px radius, 1.5px line border) around a 48px input with a 1.5px concrete stroke and 20px/600 tabular centred text. The small version is 36px with a 72px input. Focus gives a charcoal border and the orange-ring halo.
+- **Segmented choice:** four equal 44px options (12px radius, 1.5px line border, 15px/600). The checked option is charcoal with white text. Used for "when to buy" and contingency %.
+- **Checkbox:** 20px with the orange accent colour.
 
 ### Navigation
-- **Sidebar:** warm white, 248px, with the lockup at the top. Items are 44px with 10px corners and ink-2 text. Hover is sunken; active is a brand-orange fill with semibold charcoal text. Below 1100px the sidebar becomes an off-canvas drawer with a charcoal-alpha scrim.
-- **Topbar:** 64px, warm white at 90% with a 12px backdrop blur, a breadcrumb, and a search trigger shaped like a field.
-- **Landing:** the tag's own header strip holds the logo label, the anchor links and an outlined workspace button, above a stamped 1.5px rule.
+- **Top nav (768px and up):** three 44px links (12px radius, 15px/500 ink-2) on the right of the warm-white header. Hover is sunken. The current page is a white pill with semibold charcoal text and a 2px orange underline (the active-tab shadow).
+- **Bottom nav (767px and below):** a fixed white bar with a line top border and the bottom-bar shadow, laid out as three equal columns. The side items are a 22px icon in a 56×32px pill over a 12.5px label in ink-3; the current item becomes charcoal with an orange-tint pill. The centre item is a 60px orange circle raised 30px above the bar, with a white collar and orange glow, labelled "ค้นหาราคา".
 
-### Landing Tag (signature)
-An orange tag (22px corners, hanging shadow) hangs on a two-tone steel wire through a drawn grommet at its upper left. Its header strip sits above a printed 12-column field grid. The latest price prints in charcoal on a warm-white field; forecast prices print in charcoal on the orange with their low–high ranges. A charcoal inspector stamp, rotated −6° with multiply blending, marks demo data. The tag flips over 0.8s with `cubic-bezier(.2, .75, .2, 1)` to the provenance face (data → model → range). It is 3D only while turning or turned, so at rest the front face stays flat and the picker's popover anchors correctly. With reduced motion, the faces crossfade over 0.2s. Stamped prices settle in over 0.28s (fading up from 4px above) when the material changes.
+### Steps
+Three numbered steps. Each is a white step card (24px radius, 28px 26px padding) with a 52px orange circle carrying a 22px/700 charcoal number inside a 6px orange-tint ring. Below 960px the cards dissolve into a vertical list, joined number to number by a 2px orange-to-tint rail.
 
-### Flow Rail
-The landing's three steps sit on a 2px concrete-gray rail (vertical below 800px). Each step is numbered on a 40px orange tile with a 1.5px charcoal border and 10px corners, and links out with an orange-underlined text action.
+### Demo Stamp and Note
+The stamp is a white box with a 1.5px stamp-red border, 6px radius, and 12px/600 red text "ข้อมูลตัวอย่าง". It is upright, never rotated. It appears on every price card and summary while prices are synthetic. The demo note is a warm-50 box (14px radius, line border) that leads with the stamp, at the foot of every page with prices.
 
-### Forecast Horizon Tags
-Horizon tags are panel cards with a punched hole, showing the forecast price at 34px in forecast orange plus its range note. The active tag turns brand orange with a charcoal border and the lift shadow, its figure and notes become charcoal, and the hole's ring adjusts to the orange.
+### Toast
+A white toast (16px radius, line border, lift shadow), bottom-centre and max 560px wide. It holds a 34px orange check circle, a message with an ink-3 detail line, and a link to the estimate. It rises in over .22s.
 
-### Demo Stamp
-On light surfaces the stamp is a stamp-red box (2px border, 6px corners) with red 700-weight text, rotated −3°. On the orange tag it is a charcoal box (3px border, 8px corners), rotated −6°. It appears wherever prices are synthetic.
-
-### Paint Dot
-The paint dot is the cut end of a painted bar: a disc in the category's paint code with a pale inner ring and a charcoal-alpha edge, crossed by a gray rib. It is always decorative, with the category name beside it. Bundle dots group three to nine of these into a small cluster.
+### Chart
+One chart per material: the 12-month measured line in charcoal (2.5px), then the forecast as a dashed (6 5) forecast-orange line with white-filled points, over a brand-orange low–high band at 20% opacity. The grid is a dashed horizontal line border, and ticks are 12px ink-3. It is 300px high (240px on phones), inside a panel with a legend line above.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep every page on warm white, and use charcoal only as ink and small solid controls.
-- **Do** set every text, icon and stamp on brand orange in charcoal, stepping hierarchy by size and weight.
-- **Do** keep brand orange for the tag, the primary action and the current selection.
-- **Do** show measured prices in charcoal and forecasts in dark orange, and keep brand orange in charts for the range band only.
-- **Do** give every forecast its low–high range, and stamp synthetic prices with the demo stamp (red on light surfaces, charcoal on the tag).
-- **Do** draw rules, the rail and control edges in concrete gray, and keep it off reading text.
-- **Do** place the building mark only on warm white, or on a warm-white label set into the tag.
-- **Do** set numbers and codes with Prompt's tabular numerals, and give Thai copy at least 1.5 line-height.
-- **Do** put a punched hole on real tags (the landing tag's grommet, the material tag, forecast horizon tags) and keep plain panels unpunched.
-- **Do** show a paint code only beside its category name.
-- **Do** keep the landing flip 3D only while turning, and crossfade under reduced motion.
+- **Do** keep every page on warm white with white cards; charcoal is only ink and small selected controls.
+- **Do** set every text and icon on brand orange in charcoal.
+- **Do** use orange fills for actions and charcoal-with-white for a selected choice; use orange tint for a highlighted or current item.
+- **Do** print measured prices in charcoal and forecasts in dark orange, and keep brand orange in charts to the 20% range band.
+- **Do** confine crimson and green to change chips and trend arrows, and always pair them with an arrow (and a word outside the tiles).
+- **Do** label every synthetic price with the red demo stamp, and give every forecast a low–high range where space allows.
+- **Do** set every price in Prompt tabular numerals with its unit beside it.
+- **Do** keep Thai body at 1.5 line-height or more and display at 1.2 or more.
+- **Do** nest radii downward (card, then well, then tile, then chip).
+- **Do** place the building mark only on warm white (header, footer, splash).
+- **Do** keep the search box the largest control on the screen, with its orange button inside it.
+- **Do** hold touch targets at 44px or more, and keep the bottom nav to three items with search raised in the centre.
 
 ### Don't:
-- **Don't** ship a dark or black page, panel or theme, and don't use black anywhere.
+- **Don't** ship a dark or black page, header, nav bar or theme, and don't use black anywhere.
 - **Don't** put white text on brand orange (2.98:1).
-- **Don't** place the mark on orange, white panels or charcoal; its facade disappears into anything but warm white.
-- **Don't** set small text in concrete gray (only the CONSTRUCT line of the logo lockup).
-- **Don't** nest a card inside a card in the workspace; group with rules or a tonal well instead.
+- **Don't** place the mark on white cards, orange or charcoal; its opaque warm-white ground shows as a box on anything else.
+- **Don't** set reading text in concrete gray (only the CONSTRUCT line of the lockup).
+- **Don't** use crimson or green as a box fill, a price colour or decoration, or forecast orange for anything but forecast figures.
+- **Don't** use stamp red for anything but the demo stamp.
+- **Don't** fill a selected chip or segmented option with orange; orange fill means action.
+- **Don't** give cards, chips or selected states an orange glow; only orange actions cast one.
+- **Don't** use gradient or clipped text; the headline emphasis is a flat tint band.
 - **Don't** put a kicker or eyebrow line above a heading.
-- **Don't** punch a hole in a plain panel or a static container.
-- **Don't** use forecast orange, crimson or green decoratively, or swap their meanings.
-- **Don't** use stamp red for anything except the demo stamp and the demo status dot.
-- **Don't** fall back to the category defaults the world refused: skyscraper-photo heroes, navy-and-orange feature cards, hazard stripes.
+- **Don't** add hard offset or black shadows.

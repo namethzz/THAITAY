@@ -3,6 +3,7 @@ import { ArrowRight, Search, X } from "lucide-react";
 import { searchMaterials } from "@/data.js";
 import { useQuote } from "@/components/ui/price-widgets";
 import { formatPrice } from "@/services/priceService";
+import { materialTitle } from "@/lib/materialTitle";
 import type { Material } from "@/types";
 
 const MAX_OPTIONS = 6;
@@ -15,6 +16,17 @@ export function QuotePeek({ material }: { material: Material }) {
     <span className="peek">
       <strong className="num">{data ? `฿${formatPrice(data.latest.price)}` : "—"}</strong>
       <small>ต่อ {material.unit}</small>
+    </span>
+  );
+}
+
+/** ชื่อสั้นตัวหนา + ชื่อเต็มของกระทรวงฯ (หรือหมวด) เป็นบรรทัดรอง ใช้ในรายการค้นหาทุกที่ */
+export function MaterialName({ material, className }: { material: Material; className: string }) {
+  const { title, detail } = materialTitle(material);
+  return (
+    <span className={className}>
+      <strong>{title}</strong>
+      <small>{detail ?? material.category}</small>
     </span>
   );
 }
@@ -60,13 +72,17 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
   const showAll = () => { setOpen(false); onShowAll(query.trim()); };
 
   const submit = () => {
-    if (active >= 0 && active < options.length) pick(options[active]);
-    else if (active === options.length && hasMore) showAll();
-    else if (all.length === 1) pick(all[0]);
-    else if (all.length > 1) showAll();
-    else if (!query.trim()) inputRef.current?.focus();
+    // พิมพ์เร็วแล้วกด Enter ทันที รายการที่แสดงอาจยังไม่ทันคำล่าสุด จึงค้นจากคำปัจจุบันอีกครั้ง
+    const current = deferred === query ? all : query.trim() ? searchMaterials(query) : [];
+    const fresh = deferred === query;
+    if (fresh && active >= 0 && active < options.length) pick(options[active]);
+    else if (fresh && active === options.length && hasMore) showAll();
+    else if (current.length === 1) pick(current[0]);
+    else if (current.length > 1) showAll();
+    else inputRef.current?.focus();
   };
 
+  // ไฮไลต์ตามเมาส์เฉพาะตอนเมาส์ขยับจริง: ถ้ารายการเปิดขึ้นมาใต้เมาส์ที่วางนิ่งอยู่ Enter ต้องยังหมายถึง "ดูผลทั้งหมด" ไม่ใช่เลือกแถวแรก
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown" && optionCount) { event.preventDefault(); setOpen(true); setActive(i => Math.min(i + 1, optionCount - 1)); }
     else if (event.key === "ArrowUp" && optionCount) { event.preventDefault(); setActive(i => Math.max(i - 1, -1)); }
@@ -128,13 +144,10 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
                 aria-selected={index === active}
                 className="msearch-option"
                 onPointerDown={event => event.preventDefault()}
-                onPointerEnter={() => setActive(index)}
+                onPointerMove={event => { if (event.pointerType === "mouse" && active !== index) setActive(index); }}
                 onClick={() => pick(material)}
               >
-                <span className="msearch-option-copy">
-                  <strong>{material.name}</strong>
-                  <small>{material.category}</small>
-                </span>
+                <MaterialName material={material} className="msearch-option-copy" />
                 <QuotePeek material={material} />
               </li>
             ))}
@@ -145,7 +158,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
                 aria-selected={active === options.length}
                 className="msearch-option msearch-all"
                 onPointerDown={event => event.preventDefault()}
-                onPointerEnter={() => setActive(options.length)}
+                onPointerMove={event => { if (event.pointerType === "mouse" && active !== options.length) setActive(options.length); }}
                 onClick={showAll}
               >
                 ดูผลทั้งหมด {all.length.toLocaleString("th-TH")} รายการ<ArrowRight size={16} aria-hidden="true" />
@@ -154,7 +167,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
           </ul>
         ) : (
           <div className="msearch-empty" id={listId}>
-            <p>ไม่พบ “{query.trim()}” ในวัสดุงานโครงสร้าง ลองคำเหล่านี้</p>
+            <p>ไม่พบ “{query.trim()}” ตอนนี้มีเฉพาะวัสดุงานโครงสร้าง: เหล็กเส้น เหล็กรูปพรรณ ตะแกรงเหล็ก ลวด คอนกรีต เสาเข็ม ทราย และหิน</p>
             <div className="hint-chips">
               {SEARCH_HINTS.map(hint => (
                 <button type="button" key={hint} onClick={() => { setQuery(hint); setOpen(true); inputRef.current?.focus(); }}>{hint}</button>

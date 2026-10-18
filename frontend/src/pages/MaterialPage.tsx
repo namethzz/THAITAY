@@ -6,13 +6,15 @@ import { MaterialSearch } from "@/components/site/material-search";
 import { PriceCard } from "@/components/site/price-card";
 import { QtyStepper } from "@/components/site/qty-stepper";
 import { DemoNote, SourceLinks, useHistory, useQuote } from "@/components/ui/price-widgets";
-import { formatBaht, formatPrice, monthsLabel, type Quote } from "@/services/priceService";
+import { formatBaht, formatMoney, formatPrice, monthsLabel, type Quote } from "@/services/priceService";
 import { CHART } from "@/config/chartColors";
+import { materialTitle } from "@/lib/materialTitle";
 import type { AddLine, Go, Material } from "@/types";
 
 export default function MaterialPage({ id, go, addLine }: { id: string; go: Go; addLine: AddLine }) {
   const material = getMaterialById(id)!;
   const quote = useQuote(material);
+  const { title, detail } = materialTitle(material);
 
   return (
     <div className="page material-page">
@@ -23,7 +25,8 @@ export default function MaterialPage({ id, go, addLine }: { id: string; go: Go; 
 
       <header className="material-head">
         <span className="cat-pill">{material.category}</span>
-        <h1>{material.name}</h1>
+        <h1>{title}</h1>
+        {detail && <p className="material-fullname">{detail}</p>}
         <p>ราคาต่อ {material.unit} · รหัสสินค้า {material.id.replace(/^MAT-/, "")}</p>
       </header>
 
@@ -46,8 +49,9 @@ export default function MaterialPage({ id, go, addLine }: { id: string; go: Go; 
 function CostBox({ material, quote, addLine }: { material: Material; quote: Quote | null; addLine: AddLine }) {
   const [month, setMonth] = useState(0);
   const [qty, setQty] = useState(1);
+  // ราคาของแต่ละช่วงแสดงอยู่ในการ์ดราคาแล้ว ที่นี่จึงเลือกแค่ "เมื่อไหร่" แล้วบอกราคาที่ใช้คำนวณบรรทัดเดียว
   const options = quote
-    ? [{ month: 0, label: "ตอนนี้", when: quote.latest.label, price: quote.latest.price, low: quote.latest.price, high: quote.latest.price }, ...quote.forecast.map(p => ({ month: p.month, label: `อีก ${p.month} เดือน`, when: p.label, price: p.price, low: p.low, high: p.high }))]
+    ? [{ month: 0, label: "ตอนนี้", when: quote.latest.label, price: quote.latest.price, low: quote.latest.price, high: quote.latest.price }, ...quote.forecast.map(p => ({ month: p.month, label: `${p.month} เดือน`, when: p.label, price: p.price, low: p.low, high: p.high }))]
     : [];
   const chosen = options.find(o => o.month === month);
 
@@ -61,15 +65,15 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
       <h2 id="cost-title">คำนวณต้นทุน</h2>
       <fieldset className="when">
         <legend>จะซื้อเมื่อไหร่</legend>
-        <div className="when-options">
+        <div className="seg">
           {options.map(o => (
-            <label key={o.month} className="when-option">
+            <label key={o.month}>
               <input type="radio" name="when" value={o.month} checked={month === o.month} onChange={() => setMonth(o.month)} />
-              <span className="when-label">{o.label}<small>{o.when}</small></span>
-              <strong className="num">฿{formatPrice(o.price)}</strong>
+              <span>{o.label}</span>
             </label>
           ))}
         </div>
+        {chosen && <p className="when-price">ใช้ราคา{month === 0 ? "ล่าสุด" : "คาดการณ์"} {chosen.when} · <strong className="num">฿{formatPrice(chosen.price)}</strong> ต่อ {material.unit}</p>}
       </fieldset>
 
       <div className="qty">
@@ -79,7 +83,7 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
 
       <div className="cost-total" aria-live="polite">
         <span>รวมประมาณ</span>
-        <strong className="num">{chosen ? `฿${formatBaht(chosen.price * qty)}` : "—"}</strong>
+        <strong className="num">{chosen ? `฿${formatMoney(chosen.price * qty)}` : "—"}</strong>
         {chosen && month > 0 && qty > 0 && <small>ช่วงที่เป็นไปได้ ฿{formatBaht(chosen.low * qty, 0)} – {formatBaht(chosen.high * qty, 0)}</small>}
       </div>
       <button type="button" className="btn btn-primary btn-block btn-lg" onClick={add} disabled={!chosen || qty <= 0}>
