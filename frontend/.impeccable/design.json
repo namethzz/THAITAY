@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-18T07:25:03+00:00",
+  "generatedAt": "2026-10-18T09:00:00+00:00",
   "title": "Design System: THAI TAY",
   "extensions": {
     "colorMeta": {
@@ -297,6 +297,23 @@
           "#ffa999",
           "#ffe5de"
         ]
+      },
+      "print-black": {
+        "role": "neutral",
+        "displayName": "Print Black",
+        "canonical": "#000000",
+        "source": "@media print (.print-sheet, .ps-stamp)",
+        "note": "Paper only: print-sheet text and the demo label. Never on screen.",
+        "tonalRamp": [
+          "#000000",
+          "#1b1b1b",
+          "#303030",
+          "#474747",
+          "#5e5e5e",
+          "#777777",
+          "#919191",
+          "#ababab"
+        ]
       }
     },
     "typographyMeta": {
@@ -306,7 +323,7 @@
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Home section heads."
+        "purpose": "Home section heads. List-section heads (watch list, category grid) use clamp(22px, 2.6vw, 28px)/1.35."
       },
       "page-title": {
         "displayName": "Page Title",
@@ -362,7 +379,11 @@
       },
       "_scale": {
         "displayName": "Font-size steps in use",
-        "purpose": "9.5, 11, 12, 12.5, 13, 14, 14.5, 15, 16, 17, 18, 19, 20, 22, 30px; clamp(13px, 1.6vw, 15px), clamp(16px, 1.6vw, 18px), clamp(16px, 1.7vw, 19px), clamp(19px, 2.4vw, 24px), clamp(24px, 3.2vw, 34px), clamp(26px, 3vw, 32px), clamp(26px, 3.6vw, 40px), clamp(28px, 3.4vw, 36px), clamp(28px, 4vw, 42px), clamp(38px, 5vw, 50px), clamp(34px, 6.6vw, 70px), clamp(34px, 7vh, 60px)."
+        "purpose": "9.5, 11, 12, 12.5, 13, 14, 14.5, 15, 16, 17, 18, 19, 20, 22, 30px; clamp(13px, 1.6vw, 15px), clamp(16px, 1.6vw, 18px), clamp(16px, 1.7vw, 19px), clamp(19px, 2.4vw, 24px), clamp(22px, 2.6vw, 28px), clamp(24px, 3.2vw, 34px), clamp(26px, 3vw, 32px), clamp(26px, 3.6vw, 40px), clamp(28px, 3.4vw, 36px), clamp(28px, 4vw, 42px), clamp(38px, 5vw, 50px), clamp(34px, 6.6vw, 70px), clamp(34px, 7vh, 60px)."
+      },
+      "_print": {
+        "displayName": "Print sheet (points)",
+        "purpose": "Body 11pt/1.45; wordmark 20pt/700 over 7.5pt .42em CONSTRUCT; title 16pt/700; table heads 9.5pt; row detail 8.5pt; demo label 10pt/700; notes 9pt; grand total 13pt/700."
       }
     },
     "shadows": [
@@ -454,6 +475,11 @@
         "value": "640px"
       },
       {
+        "name": "narrow-card",
+        "value": "400px",
+        "note": "price card top row wraps; stamp and watch toggle drop below"
+      },
+      {
         "name": "narrow",
         "value": "360px"
       },
@@ -464,6 +490,16 @@
       {
         "name": "short-phone",
         "value": "(max-width: 767px) and (max-height: 720px)"
+      },
+      {
+        "name": "toast-left",
+        "value": "(min-width: 961px)",
+        "note": "toast moves bottom-left, max 440px"
+      },
+      {
+        "name": "print",
+        "value": "@page margin 14mm 12mm",
+        "note": "print sheet replaces the on-screen estimate"
       }
     ],
     "radiusSteps": [
@@ -480,7 +516,8 @@
       "26px",
       "28px",
       "50%",
-      "999px"
+      "999px",
+      "22% / 25%"
     ],
     "layout": {
       "wrap": "min(1160px, 100% - 32px)",
@@ -491,7 +528,11 @@
       "stageCardTrack": "450px",
       "sideColumn": "390px",
       "header": "72px (62px phones)",
-      "bottomNav": "78px + safe-area"
+      "bottomNav": "78px + safe-area",
+      "priceCardTrack": "minmax(0, 1fr)",
+      "homeLists": "1080px, 72px apart (56px phones)",
+      "categoryGrid": "3 columns, 12px gap (2 at 960px; 3 vertical tiles, 8px gap at 640px)",
+      "watchList": "auto-fill minmax(240px, 1fr); phones: snap row, cards min(78%, 280px)"
     },
     "brandAssets": {
       "mark": "public/brand/thai-tay-mark.png (opaque #F3F0EA ground; place only on warm white: header, footer, splash)",
@@ -500,7 +541,24 @@
         "public/brand/favicon-48.png",
         "public/brand/apple-touch-icon.png"
       ],
-      "iconNote": "Dark mark on charcoal rounded tile, app icons only."
+      "iconNote": "Dark mark on charcoal rounded tile, app icons only.",
+      "categoryIcons": {
+        "files": "public/icons/categories/STR-01.webp … STR-09.webp (220×192)",
+        "component": "src/components/site/category-icon.tsx",
+        "alt": "",
+        "sizes": {
+          "category-pill": "18px",
+          "search-chip": "24px",
+          "dropdown-row": "36px (32px phones)",
+          "result-row": "44px (38px phones)",
+          "estimate-line": "36px",
+          "watch-card": "40px",
+          "home-grid": "72px (52px phones)",
+          "material-heading": "72px (52px phones)"
+        },
+        "note": "Owner's raster icons on charcoal rounded tiles. Always beside the category name, used small; never a large dark block."
+      },
+      "printWordmark": "Text wordmark THAI TAY / CONSTRUCT on the print sheet; the mark PNG is not printed (warm-white ground)."
     },
     "illustration": {
       "component": "SiteArt (photo slot via src/config/photos.ts)",
@@ -600,11 +658,27 @@
       "description": "White step card with an orange number in a tint ring.",
       "html": "<div class=\"ds-step\"><span class=\"ds-step-no\">1</span><div><h3>ค้นหาวัสดุ</h3><p>พิมพ์ชื่อ เช่น เหล็กเส้น SD40 คอนกรีต หรือเสาเข็ม</p></div></div>",
       "css": ".ds-step{display:grid;gap:18px;max-width:320px;padding:28px 26px;background:#fff;border:1px solid rgba(36,42,45,.08);border-radius:24px;box-shadow:0 1px 2px rgba(36,42,45,.05),0 18px 40px -26px rgba(36,42,45,.32);font-family:Prompt,system-ui,sans-serif;color:var(--ink,#242a2d)}.ds-step-no{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font-size:22px;font-weight:700;box-shadow:0 0 0 6px var(--tag-tint,#fbe3d4)}.ds-step h3{margin:0 0 6px;font-size:19px;font-weight:600;line-height:1.45}.ds-step p{margin:0;color:var(--ink-2,#474e51);font-size:15px;line-height:1.65}"
+    },
+    {
+      "name": "Category Card",
+      "kind": "card",
+      "refersTo": "category-card",
+      "description": "Home category grid card: small category icon tile beside the name and count.",
+      "html": "<div class=\"ds-catgrid\"><a class=\"ds-cat\" href=\"#\"><svg class=\"ds-ic\" viewBox=\"0 0 55 48\" aria-hidden=\"true\"><rect width=\"55\" height=\"48\" rx=\"12\" fill=\"#242a2d\"/><g fill=\"#8b9396\"><rect x=\"9\" y=\"14\" width=\"37\" height=\"5\" rx=\"2.5\"/><rect x=\"9\" y=\"22\" width=\"37\" height=\"5\" rx=\"2.5\"/><rect x=\"9\" y=\"30\" width=\"37\" height=\"5\" rx=\"2.5\"/></g></svg><span><strong>เหล็กเส้นเสริมคอนกรีต</strong><small>74 รายการ</small></span></a><a class=\"ds-cat\" href=\"#\"><svg class=\"ds-ic\" viewBox=\"0 0 55 48\" aria-hidden=\"true\"><rect width=\"55\" height=\"48\" rx=\"12\" fill=\"#242a2d\"/><g fill=\"#8b9396\"><rect x=\"9\" y=\"14\" width=\"37\" height=\"5\" rx=\"2.5\"/><rect x=\"9\" y=\"22\" width=\"37\" height=\"5\" rx=\"2.5\"/><rect x=\"9\" y=\"30\" width=\"37\" height=\"5\" rx=\"2.5\"/></g></svg><span><strong>ลวดอัดแรง</strong><small>11 รายการ</small></span></a></div>",
+      "css": ".ds-catgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:560px}.ds-cat{display:flex;align-items:center;gap:16px;padding:12px 16px 12px 12px;background:#fff;border:1px solid var(--line,#dcd6cb);border-radius:20px;color:var(--ink,#242a2d);text-decoration:none;font-family:Prompt,system-ui,sans-serif;transition:border-color .15s,box-shadow .15s}.ds-cat:hover{border-color:var(--concrete,#747d80);box-shadow:0 1px 2px rgba(36,42,45,.05),0 18px 40px -26px rgba(36,42,45,.32)}.ds-cat:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}.ds-ic{flex:0 0 auto;width:auto;height:72px}.ds-cat strong{display:block;font-size:16px;font-weight:600;line-height:1.4}.ds-cat small{display:block;margin-top:2px;color:var(--ink-3,#5a6266);font-size:13px}"
+    },
+    {
+      "name": "Watch Toggle",
+      "kind": "button",
+      "refersTo": "watch-toggle",
+      "description": "Star toggle in the price card's top row; switched on is orange tint with a brand-orange border.",
+      "html": "<div class=\"ds-wrow\"><button class=\"ds-watch\" aria-pressed=\"false\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg><span>ติดตาม</span></button><button class=\"ds-watch\" aria-pressed=\"true\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg><span>ติดตามอยู่</span></button></div>",
+      "css": ".ds-wrow{display:flex;gap:8px}.ds-watch{display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:0 12px 0 10px;border:1.5px solid var(--line,#dcd6cb);border-radius:999px;background:#fff;color:var(--ink-2,#474e51);font:600 13px/1 Prompt,system-ui,sans-serif;white-space:nowrap;cursor:pointer;transition:border-color .15s,background-color .15s,color .15s}.ds-watch:hover{border-color:var(--concrete,#747d80);color:var(--ink,#242a2d)}.ds-watch[aria-pressed=true]{border-color:var(--tag,#e8753b);background:var(--tag-tint,#fbe3d4);color:var(--ink,#242a2d)}.ds-watch:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
     }
   ],
   "narrative": {
     "northStar": "The Site-Office Price Board",
-    "overview": "THAI TAY v0.9 works like the price board at a builder's merchant: one big question answered in one line, one place to type, and the numbers printed large. It follows the owner's own apps, AirClean and KickHub, in the owner's THAI TAY CONSTRUCT colours. A warm-white page carries a big centred Thai headline, with its second line marked by an orange-tint highlighter band. Below it sits a wide white search combobox with the orange button inside, a row of quick-pick chips, and a white price card that overlaps a construction illustration (a photo slot for later). Further down come three numbered steps and a \"where prices come from\" card. The site has three pages: home, search plus a per-material page, and the estimate sheet.\n\nThe surfaces are soft and friendly but never cute. White cards with large radii (24–28px) float on warm white under long, low charcoal shadows. Orange marks the action: the search button, primary buttons, step numbers, the raised phone search button and the count badge. A choice the user has made fills charcoal. A fixed data code runs through every price: charcoal for measured prices, dark orange for forecasts, crimson and green only on the small change chips and trend arrows, and stamp red only on the demo-data label.\n\nPrompt is the only typeface, matching the logo's geometric wordmark. Thai text gets generous line-height (body 1.65, display 1.2) so upper and lower vowel marks have room. Motion is limited to short colour and border transitions (.15s), a 1px press, and the toast rising in. Nothing moves on its own.",
+    "overview": "THAI TAY v0.10 works like the price board at a builder's merchant: one big question answered in one line, one place to type, and the numbers printed large. It follows the owner's own apps, AirClean and KickHub, in the owner's THAI TAY CONSTRUCT colours. A warm-white page carries a big centred Thai headline, with its second line marked by an orange-tint highlighter band. Below it sits a wide white search combobox with the orange button inside, a row of quick-pick chips, and a white price card that overlaps a construction illustration (a photo slot for later). Below the stage come the materials the user has starred (only once something is starred) and a grid of the nine categories, each with the owner's own category icon. Further down come three numbered steps and a \"where prices come from\" card. The site has three pages: home, search plus a per-material page, and the estimate sheet, which can be shared read-only and printed as a plain paper sheet.\n\nThe surfaces are soft and friendly but never cute. White cards with large radii (24–28px) float on warm white under long, low charcoal shadows. Orange marks the action: the search button, primary buttons, step numbers, the raised phone search button and the count badge. A choice the user has made fills charcoal. A fixed data code runs through every price: charcoal for measured prices, dark orange for forecasts, crimson and green only on the small change chips and trend arrows, and stamp red only on the demo-data label.\n\nPrompt is the only typeface, matching the logo's geometric wordmark. Thai text gets generous line-height (body 1.65, display 1.2) so upper and lower vowel marks have room. Motion is limited to short colour and border transitions (.15s), a 1px press, and the toast rising in. Nothing moves on its own.",
     "keyCharacteristics": [
       "Light theme only: a warm-white ground, white cards, charcoal ink, no dark pages.",
       "Search first: a 68px combobox with the orange button inside, with prices shown in the dropdown rows.",
@@ -612,12 +686,13 @@
       "Orange means action and only takes charcoal text; a selected choice is charcoal with white text.",
       "Large soft radii that grow with the container: 12–14px controls, 16–18px tiles and wells, 24–28px cards.",
       "A top nav on desktop, and on phones a 3-button bottom nav with a raised orange search button in the centre.",
-      "The building mark sits only on warm white."
+      "The building mark sits only on warm white.",
+      "The owner's raster category icons (charcoal rounded tiles) always sit beside the category name and are used small; they are the only dark surfaces besides small controls."
     ],
     "rules": [
       {
         "name": "The No Dark Page Rule",
-        "body": "The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. Black is never used.",
+        "body": "The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. The only other dark surfaces are the small category icon tiles beside a category name. Black is never used on screen; it appears only on the printed sheet.",
         "section": "colors"
       },
       {
@@ -659,6 +734,11 @@
         "name": "The Nested Radius Rule",
         "body": "Anything inside a card uses a smaller radius than the card: 26px card, then an 18px well, then a 16px tile, then a 999px chip. A card's children never match or exceed its radius.",
         "section": "shapes"
+      },
+      {
+        "name": "The Icon Beside Its Name Rule",
+        "body": "A category icon is always paired with the visible category name and used small: 72px is its ceiling. It is never a hero image, a large dark block or a stand-in for the name.",
+        "section": "components"
       }
     ],
     "dos": [
@@ -671,14 +751,16 @@
       "**Do** set every price in Prompt tabular numerals with its unit beside it.",
       "**Do** keep Thai body at 1.5 line-height or more and display at 1.2 or more.",
       "**Do** nest radii downward (card, then well, then tile, then chip).",
-      "**Do** place the building mark only on warm white (header, footer, splash).",
+      "**Do** place the building mark only on warm white (header, footer, splash); on the printed sheet use the text wordmark.",
+      "**Do** keep every category icon beside its category name, decorative (alt=\"\"), and at 72px or smaller.",
       "**Do** keep the search box the largest control on the screen, with its orange button inside it.",
       "**Do** hold touch targets at 44px or more, and keep the bottom nav to three items with search raised in the centre."
     ],
     "donts": [
-      "**Don't** ship a dark or black page, header, nav bar or theme, and don't use black anywhere.",
+      "**Don't** ship a dark or black page, header, nav bar or theme, and don't use black anywhere on screen (black is for the printed sheet only).",
       "**Don't** put white text on brand orange (2.98:1).",
-      "**Don't** place the mark on white cards, orange or charcoal; its opaque warm-white ground shows as a box on anything else.",
+      "**Don't** place the mark on white cards, orange, charcoal or the printed sheet; its opaque warm-white ground shows as a box on anything else.",
+      "**Don't** use a category icon as a large dark block, a hero image or a replacement for the category name.",
       "**Don't** set reading text in concrete gray (only the CONSTRUCT line of the lockup).",
       "**Don't** use crimson or green as a box fill, a price colour or decoration, or forecast orange for anything but forecast figures.",
       "**Don't** use stamp red for anything but the demo stamp.",
