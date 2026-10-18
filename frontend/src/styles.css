@@ -8,7 +8,6 @@
 @import "./styles/app.css";
 @import "./styles/structural.css";
 
-@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-sans: "Prompt", system-ui, sans-serif;

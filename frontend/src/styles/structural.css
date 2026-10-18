@@ -1,4 +1,4 @@
-/* Workspace pages: one world (zinc ground, tag stock panels, tag-yellow selection, stamped numerals). */
+/* Workspace pages: warm white ground, tag-stock panels, orange selection, stamped numerals, concrete edges. */
 .scope-page { display: grid; gap: 20px; min-width: 0; }
 .scope-page > * { min-width: 0; }
 .scope-heading { margin-bottom: 4px; }
@@ -181,7 +181,7 @@ button.horizon-card:hover { border-color: var(--line-strong); transform: transla
 .when-option.active small { color: var(--ink); }
 .qty-row { display: flex; gap: 8px; align-items: stretch; }
 .qty-step { width: 48px; flex: 0 0 auto; border: 1px solid var(--input); border-radius: 10px; background: #fff; color: var(--ink); display: grid; place-items: center; }
-.qty-step:hover { background: var(--zinc-50); }
+.qty-step:hover { background: var(--warm-50); }
 .qty-field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; border: 1px solid var(--input); border-radius: 10px; background: #fff; padding: 0 14px; min-height: 50px; }
 .qty-field:focus-within { border-color: var(--measured); box-shadow: 0 0 0 3px var(--measured-tint); }
 .qty-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-family: var(--font-display); font-size: 24px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }

@@ -1,11 +1,11 @@
 :root {
   /* THAI TAY CONSTRUCT brand: warm white ground, charcoal ink, concrete gray, orange accent. Light theme only. */
-  --zinc-50: #f8f6f1;
+  --warm-50: #f8f6f1;
   --ground: #f3f0ea;          /* Warm White, brand */
   --panel: #fcfbf8;
   --sunken: #e9e4da;
   --line: #dcd6cb;
-  --line-strong: #747d80;     /* Concrete Gray: strong rules, rails, control edges (4.1:1 on panels) */
+  --line-strong: #747d80;     /* Concrete Gray: strong rules, rails, control edges (4.07:1 on panels) */
   --ink: #242a2d;             /* Charcoal, brand */
   --ink-2: #474e51;
   --ink-3: #5a6266;
@@ -35,7 +35,7 @@
   --primary: var(--tag); --primary-foreground: var(--ink);
   --secondary: var(--sunken); --secondary-foreground: var(--ink);
   --muted-background: var(--sunken); --muted-foreground: var(--ink-3);
-  --accent-background: var(--zinc-50); --accent-foreground: var(--ink);
+  --accent-background: var(--warm-50); --accent-foreground: var(--ink);
   --destructive: var(--up); --destructive-foreground: #fff;
   --border: var(--line); --input: var(--concrete); --ring: var(--ink);
   --radius: 12px;

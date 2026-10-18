@@ -1,4 +1,4 @@
-/* Landing: one rebar bundle tag hung on a wire, then the sections below it on the zinc ground. */
+/* Landing: one orange rebar bundle tag hung on a wire, then the sections below it on the warm white ground. */
 .landing {
   --tag-left: max(24px, calc(50% - 600px));
   --grommet-x: 46px;
@@ -71,7 +71,7 @@
 .stamped.code { font-size: 19px; letter-spacing: .07em; white-space: nowrap; }
 .stamped.big { font-size: clamp(24px, 2.6vw, 34px); animation: stamp-settle .28s cubic-bezier(.2, .8, .2, 1); }
 .is-latest .stamped { color: var(--measured); }
-/* Forecasts keep the app's bronze code, darkened to read on tag yellow (5.6:1). */
+/* Forecast cells on the orange tag print in charcoal (the only text colour that reads on orange); the measured cell is warm white. */
 .field-price:not(.is-latest) .stamped, .field-price:not(.is-latest) small { color: var(--forecast-on-tag); }
 .inspector-stamp.on-fields { display: none; }
 .tag-face .inspector-stamp { color: var(--ink); border-color: var(--ink); }
