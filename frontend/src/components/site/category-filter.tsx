@@ -34,7 +34,12 @@ export function CategoryFilter({ value, onChange }: { value: string; onChange: (
   useEffect(() => {
     if (!open) return;
     setActive(Math.max(0, OPTIONS.findIndex(o => o.code === value)));
-    listRef.current?.focus();
+    // preventScroll: ห้ามเบราว์เซอร์เลื่อนแผ่นจนหัว "เลือกหมวดวัสดุ" กับปุ่มปิดหลุดจากจอ
+    listRef.current?.focus({ preventScroll: true });
+    // หมวดที่เลือกอยู่ท้ายรายการ: เลื่อนเฉพาะรายการให้เห็น (ไม่เลื่อนทั้งหน้า)
+    const list = listRef.current;
+    const selected = list?.querySelector<HTMLElement>('[aria-selected="true"]');
+    if (list && selected && selected.offsetTop + selected.offsetHeight > list.clientHeight) list.scrollTop = selected.offsetTop - list.clientHeight / 2;
     const close = (event: PointerEvent) => { if (!rootRef.current?.contains(event.target as Node)) setOpen(false); };
     document.addEventListener("pointerdown", close);
     return () => document.removeEventListener("pointerdown", close);
