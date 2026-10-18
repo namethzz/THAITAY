@@ -5,25 +5,13 @@ import type { Material } from "@/types";
  * ตอนนี้ใช้ข้อมูลตัวอย่าง (DEMO) เพื่อให้เห็นหน้าจอทำงานจริง
  * เมื่อ backend / โมเดล ML พร้อม ให้ตั้ง VITE_API_BASE แล้วระบบจะเรียก API ตาม contract ด้านล่าง
  *
- *   GET {API}/prices/{materialId}/history?months=1..3
+ *   GET {API}/prices/{materialId}/history?months=1..12   (การ์ดราคาใช้ 1, กราฟหน้าวัสดุใช้ 12)
  *       -> { unit: string, points: [{ date: "YYYY-MM-DD", price: number }] }
  *   GET {API}/prices/{materialId}/forecast?months=1..3
  *       -> { unit: string, points: [{ month: 1|2|3, date: "YYYY-MM-DD", price: number, low: number, high: number }] }
  */
 
 export type Horizon = 1 | 2 | 3;
-export const HORIZONS: Horizon[] = [1, 2, 3];
-
-/** ช่วงย้อนหลังสำหรับหน้าวิเคราะห์ (หน่วยเป็นเดือน) — ปิดตัวเลือกที่ยาวกว่าข้อมูลที่มี โดยตั้ง VITE_MAX_HISTORY_MONTHS */
-export const HISTORY_RANGES = [
-  { months: 3, label: "3 เดือน" },
-  { months: 6, label: "6 เดือน" },
-  { months: 12, label: "1 ปี" },
-  { months: 36, label: "3 ปี" },
-  { months: 60, label: "5 ปี" },
-  { months: 120, label: "10 ปี" },
-] as const;
-export const MAX_HISTORY_MONTHS = Number(import.meta.env.VITE_MAX_HISTORY_MONTHS) || 120;
 
 export interface HistoryPoint { date: string; label: string; price: number }
 export interface ForecastPoint { month: Horizon; date: string; label: string; price: number; low: number; high: number }
@@ -37,7 +25,6 @@ const TH_MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.�
 const addMonths = (base: Date, n: number) => new Date(base.getFullYear(), base.getMonth() + n, 1);
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 const label = (d: Date) => `${TH_MONTHS[d.getMonth()]} ${String(d.getFullYear() + 543).slice(2)}`;
-export const addMonthsLabel = (n: number) => label(addMonths(new Date(), n));
 
 // ---------- DEMO generator (ไม่ใช่ราคาจริง) ----------
 function hash(text: string) {
@@ -109,5 +96,35 @@ export async function getForecast(material: Material, months: Horizon = 3): Prom
   return { demo: false, unit: data.unit, points: data.points.map(p => ({ ...p, label: label(new Date(p.date)) })) };
 }
 
+/** ราคาล่าสุด + ราคาคาดการณ์ 1–3 เดือน ของวัสดุหนึ่งรายการ: สิ่งที่การ์ดราคาและรายการค้นหาใช้ */
+export interface Quote { demo: boolean; unit: string; latest: HistoryPoint; forecast: ForecastPoint[] }
+
+// เก็บผลไว้ต่อวัสดุ: พิมพ์ค้นหาซ้ำหรือเปิดหน้าเดิมจะไม่เรียก API ซ้ำ (ลบออกจากแคชถ้าเรียกไม่สำเร็จ ให้ลองใหม่ได้)
+const quoteCache = new Map<string, Promise<Quote>>();
+export function getQuote(material: Material): Promise<Quote> {
+  let pending = quoteCache.get(material.id);
+  if (!pending) {
+    pending = Promise.all([getHistory(material, 1), getForecast(material, 3)]).then(([history, forecast]) => ({
+      demo: history.demo || forecast.demo,
+      unit: history.unit,
+      latest: history.points.at(-1)!,
+      forecast: forecast.points,
+    }));
+    pending.catch(() => quoteCache.delete(material.id));
+    quoteCache.set(material.id, pending);
+  }
+  return pending;
+}
+
 export const formatBaht = (n: number, digits = 2) => n.toLocaleString("th-TH", { minimumFractionDigits: digits, maximumFractionDigits: digits });
-export const monthsLabel = (h: number) => (h === 0 ? "ราคาปัจจุบัน" : `อีก ${h} เดือน`);
+/** ราคาสำหรับแสดงตัวใหญ่: หลักพันขึ้นไปไม่ต้องมีสตางค์ */
+export const formatPrice = (n: number) => formatBaht(n, n >= 1000 ? 0 : 2);
+export const monthsLabel = (h: number) => (h === 0 ? "ราคาล่าสุด" : `อีก ${h} เดือน`);
+export const percentChange = (from: number, to: number) => ((to - from) / from) * 100;
+
+/** แปลตัวเลขคาดการณ์ 3 เดือนเป็นคำแนะนำสั้น ๆ ให้คนอ่านรู้ว่าควรทำอะไรต่อ */
+export function trendVerdict(change: number) {
+  if (change >= 1) return { tone: "up" as const, title: `ราคามีแนวโน้มขึ้นราว ${change.toFixed(1)}% ใน 3 เดือน`, advice: "ถ้าต้องใช้แน่ ซื้อช่วงนี้น่าจะคุ้มกว่ารอ" };
+  if (change <= -1) return { tone: "down" as const, title: `ราคามีแนวโน้มลงราว ${Math.abs(change).toFixed(1)}% ใน 3 เดือน`, advice: "ถ้ายังไม่รีบใช้ รอซื้อได้" };
+  return { tone: "flat" as const, title: "ราคาค่อนข้างทรงตัวใน 3 เดือน", advice: "ซื้อเมื่อพร้อมได้เลย ราคาไม่น่าเปลี่ยนมาก" };
+}
