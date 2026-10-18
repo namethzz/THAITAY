@@ -1,7 +1,8 @@
 // Chart colours follow the brand data code: actual prices in charcoal, forecasts in orange.
 export const CHART = {
   measured: "#242a2d",
-  forecast: "#e8753b",
+  forecast: "#a84b1a", // line + points: dark orange reaches 5.5:1 on panels
+  band: "#e8753b",     // range band in brand orange
   grid: "#dcd6cb",
   axis: "#cfc9be",
   tick: "#5a6266",

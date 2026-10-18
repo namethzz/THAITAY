@@ -5,23 +5,23 @@
   --panel: #fcfbf8;
   --sunken: #e9e4da;
   --line: #dcd6cb;
-  --line-strong: #a7a39b;
+  --line-strong: #747d80;     /* Concrete Gray: strong rules, rails, control edges (4.1:1 on panels) */
   --ink: #242a2d;             /* Charcoal, brand */
   --ink-2: #474e51;
   --ink-3: #5a6266;
-  --concrete: #747d80;        /* Concrete Gray, brand: logo, large type, decoration only (3.7:1) */
+  --concrete: #747d80;        /* Concrete Gray, brand: logo, strong rules, control edges; never small text (3.7:1 on the ground) */
   --tag: #e8753b;             /* Orange, brand: the tag, primary action, selection. Text on it is always charcoal (4.9:1) */
   --tag-hover: #f08a55;
   --tag-tint: #fbe3d4;
   --measured: #242a2d;        /* actual prices print in charcoal */
   --measured-tint: rgba(232, 117, 59, .22);
   --forecast: #a84b1a;        /* forecast text: dark orange, 5:1 on the ground */
-  --forecast-line: #e8753b;   /* forecast marks in charts */
+  --forecast-line: #a84b1a;   /* forecast lines and points in charts (5.5:1); the brand orange stays on the range band */
   --forecast-band: rgba(232, 117, 59, .18);
   --forecast-on-tag: #242a2d;
   --link-underline: #e8753b;
-  --up: #a3302a;
-  --up-tint: #f7dedb;
+  --up: #9e1b3c;              /* crimson, kept apart from the forecast's dark orange */
+  --up-tint: #f7dbe3;
   --down: #2f6f55;
   --down-tint: #dcede4;
   --stamp: #c0301e;
@@ -37,7 +37,7 @@
   --muted-background: var(--sunken); --muted-foreground: var(--ink-3);
   --accent-background: var(--zinc-50); --accent-foreground: var(--ink);
   --destructive: var(--up); --destructive-foreground: #fff;
-  --border: var(--line); --input: #b9b4aa; --ring: var(--ink);
+  --border: var(--line); --input: var(--concrete); --ring: var(--ink);
   --radius: 12px;
 }
 

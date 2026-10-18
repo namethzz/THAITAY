@@ -59,7 +59,7 @@ export default function Forecast({ selectedId, onSelect, navigate }: SelectionPr
             <XAxis dataKey="label" tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={{ stroke: CHART.axis }} />
             <YAxis tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
             <Tooltip formatter={(v: number | number[], name: string) => Array.isArray(v) ? [`${formatBaht(v[0])} – ${formatBaht(v[1])}`, "ช่วงที่เป็นไปได้"] : [`${formatBaht(v)} บาท / ${material.unit}`, name === "actual" ? "ราคาจริง" : "ราคาคาดการณ์"]} contentStyle={CHART.tooltip} />
-            <Area dataKey="band" stroke="none" fill={FORECAST} fillOpacity={0.16} isAnimationActive={false} />
+            <Area dataKey="band" stroke="none" fill={CHART.band} fillOpacity={0.18} isAnimationActive={false} />
             <Line dataKey="actual" stroke={MEASURED} strokeWidth={2.5} dot={{ r: 3.5, fill: MEASURED }} connectNulls isAnimationActive={false} />
             <Line dataKey="predicted" stroke={FORECAST} strokeWidth={2.5} strokeDasharray="6 5" dot={{ r: 4, fill: "#fcfbf8", stroke: FORECAST, strokeWidth: 2 }} connectNulls isAnimationActive={false} />
           </ComposedChart>
