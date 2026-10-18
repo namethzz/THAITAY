@@ -38,7 +38,7 @@ export function FilterButton({ value, onChange, options, resultCount }: { value:
 
   useEffect(() => {
     if (!open) return;
-    panelRef.current?.querySelector<HTMLInputElement>("input:checked")?.focus();
+    panelRef.current?.querySelector<HTMLInputElement>("input:checked")?.focus({ preventScroll: true });
     const outside = (event: PointerEvent) => { if (!rootRef.current?.contains(event.target as Node)) setOpen(false); };
     const esc = (event: KeyboardEvent) => { if (event.key === "Escape") close(); };
     document.addEventListener("pointerdown", outside);
