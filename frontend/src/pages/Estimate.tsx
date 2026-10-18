@@ -3,9 +3,12 @@ import { ClipboardList, Download, Printer, Search, Trash2 } from "lucide-react";
 import { QtyStepper } from "@/components/site/qty-stepper";
 import { DemoStamp } from "@/components/ui/price-widgets";
 import { formatBaht, formatPrice } from "@/services/priceService";
+import { getMaterialById } from "@/data.js";
+import { materialTitle } from "@/lib/materialTitle";
 import type { EstimateLine } from "@/types";
 
 const CONTINGENCY = [0, 3, 5, 10];
+const titleOf = (line: EstimateLine) => { const material = getMaterialById(line.materialId); return material ? materialTitle(material).title : line.name; };
 const VAT_RATE = 0.07;
 
 export default function Estimate({ lines, setLines }: { lines: EstimateLine[]; setLines: Dispatch<SetStateAction<EstimateLine[]>> }) {
@@ -64,15 +67,15 @@ export default function Estimate({ lines, setLines }: { lines: EstimateLine[]; s
           {lines.map(l => (
             <li className="line" key={l.key}>
               <div className="line-copy">
-                <a href={`#m/${l.materialId}`}>{l.name}</a>
+                <a href={`#m/${l.materialId}`}>{titleOf(l)}</a>
                 <small>{l.month === 0 ? "ราคาล่าสุด" : `ราคาคาดการณ์ ${l.monthLabel}`} · ฿{formatPrice(l.price)} ต่อ {l.unit}</small>
               </div>
               <div className="line-qty">
-                <QtyStepper size="sm" label={`จำนวน ${l.name} (${l.unit})`} value={l.qty} onChange={qty => setQty(l.key, qty)} />
+                <QtyStepper size="sm" label={`จำนวน ${titleOf(l)} (${l.unit})`} value={l.qty} onChange={qty => setQty(l.key, qty)} />
                 <span>{l.unit}</span>
               </div>
               <strong className="line-total num">฿{formatBaht(l.price * l.qty)}</strong>
-              <button type="button" className="line-remove" aria-label={`ลบ ${l.name}`} onClick={() => remove(l.key)}><Trash2 size={18} aria-hidden="true" /></button>
+              <button type="button" className="line-remove" aria-label={`ลบ ${titleOf(l)}`} onClick={() => remove(l.key)}><Trash2 size={18} aria-hidden="true" /></button>
             </li>
           ))}
         </ul>

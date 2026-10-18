@@ -42,9 +42,8 @@ export default function Home({ selectedId, onSelect, go }: { selectedId: string;
   return (
     <div className="home">
       <section className="hero" aria-labelledby="hero-title">
-        <p className="hero-badge">วัสดุงานโครงสร้าง {materialCatalog.length} รายการ<span className="hero-badge-extra"> · ไม่ต้องสมัครสมาชิก</span></p>
         <h1 id="hero-title">รู้ราคาวัสดุก่อสร้าง<br /><span className="hl">ล่วงหน้า 3 เดือน</span></h1>
-        <p className="hero-sub">พิมพ์ชื่อวัสดุ แล้วเห็นราคาล่าสุดกับราคา<span className="nowrap">อีก 1–3 เดือน</span>ทันที วางแผนสั่งซื้อและตั้งราคางานได้มั่นใจขึ้น</p>
+        <p className="hero-sub">พิมพ์ชื่อวัสดุงานโครงสร้าง เช่น <span className="nowrap">เหล็กเส้น</span> คอนกรีต เสาเข็ม <span className="nowrap">แล้วเห็นราคาล่าสุด</span>กับราคา<span className="nowrap">อีก 1–3 เดือน</span>ทันที ไม่ต้องสมัครสมาชิก</p>
         <MaterialSearch onPick={show} onShowAll={q => go({ page: "search", q, cat: "all" })} />
         <div className="quick-picks" role="group" aria-label="ตัวอย่างวัสดุ">
           <span>ลองดู</span>

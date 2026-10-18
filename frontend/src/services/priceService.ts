@@ -1,4 +1,5 @@
 import type { Material } from "@/types";
+import { demoBasePrice } from "./demoPrices";
 
 /**
  * ชั้นข้อมูลราคา — หน้าเว็บทุกหน้าเรียกผ่านไฟล์นี้เท่านั้น
@@ -34,22 +35,22 @@ function hash(text: string) {
 }
 const rand = (seed: number) => { const x = Math.sin(seed) * 10000; return x - Math.floor(x); };
 
-const BASE_BY_UNIT: Record<string, number> = { "ตัน": 21500, "ท่อน": 190, "ตร.ม.": 85, "เมตร": 420, "ลบ.ม.": 2250, "กก.": 28, "ม้วน": 950 };
-const BASE_BY_CATEGORY: Record<string, number> = { "STR-08": 1.6, "STR-09": 0.12, "STR-07": 0.85 };
-
+// แนวโน้มและวงจรราคามาจากกลุ่มสินค้า (familyCode) วัสดุกลุ่มเดียวกันจึงขึ้นลงไปด้วยกัน ลำดับราคาตามสเปกไม่สลับกัน
 function demoModel(material: Material) {
   const h = hash(material.id);
-  const base = (BASE_BY_UNIT[material.unit] ?? 500) * (BASE_BY_CATEGORY[material.categoryCode] ?? 1) * (0.7 + (h % 700) / 1000);
-  const drift = ((h >> 5) % 31 - 12) / 1000;       // แนวโน้มต่อเดือน
-  return { base, drift, h };
+  const hf = hash(material.familyCode || material.categoryCode);
+  const base = demoBasePrice(material) * (0.996 + (h % 9) / 1000);
+  const drift = ((hf >> 5) % 31 - 12) / 1000;       // แนวโน้มต่อเดือน
+  return { base, drift, h, hf };
 }
-const round = (n: number) => (n >= 1000 ? Math.round(n / 5) * 5 : Math.round(n * 100) / 100);
+// หลักพันปัดทีละ 5 บาท, หลักร้อยเป็นบาทเต็ม, ต่ำกว่านั้นมีสตางค์
+const round = (n: number) => (n >= 1000 ? Math.round(n / 5) * 5 : n >= 100 ? Math.round(n) : Math.round(n * 100) / 100);
 
 // ราคาตัวอย่างของเดือนที่ย้อนไป i เดือน: ขึ้นกับวัสดุและเดือนเท่านั้น ไม่ขึ้นกับช่วงที่ขอ ทุกหน้าจึงเห็นราคาเดือนเดียวกันตรงกัน
 function demoPriceAt(material: Material, i: number) {
-  const { base, drift, h } = demoModel(material);
-  const noise = (rand(h + i * 7) - 0.5) * 0.012;
-  const cycle = Math.sin((i + (h % 12)) / 9) * 0.04; // วงจรราคาช่วงยาว (ตัวอย่าง)
+  const { base, drift, h, hf } = demoModel(material);
+  const noise = (rand(hf + i * 7) - 0.5) * 0.012 + (rand(h + i * 3) - 0.5) * 0.003;
+  const cycle = Math.sin((i + (hf % 12)) / 9) * 0.025; // วงจรราคาช่วงยาว (ตัวอย่าง)
   return round(base * (Math.exp(-drift * 0.35 * i) + noise + cycle));
 }
 
@@ -64,7 +65,7 @@ function demoHistory(material: Material, months: number): PriceSeries {
 }
 
 function demoForecast(material: Material, months: number): ForecastSeries {
-  const { drift, h } = demoModel(material);
+  const { drift, hf: h } = demoModel(material);
   const latest = demoPriceAt(material, 0); // ต่อจากราคาล่าสุดในประวัติ
   const now = new Date();
   const points: ForecastPoint[] = [];
@@ -117,8 +118,10 @@ export function getQuote(material: Material): Promise<Quote> {
 }
 
 export const formatBaht = (n: number, digits = 2) => n.toLocaleString("th-TH", { minimumFractionDigits: digits, maximumFractionDigits: digits });
-/** ราคาสำหรับแสดงตัวใหญ่: หลักพันขึ้นไปไม่ต้องมีสตางค์ */
-export const formatPrice = (n: number) => formatBaht(n, n >= 1000 ? 0 : 2);
+/** ราคาต่อหน่วย: หลักร้อยขึ้นไปเป็นบาทเต็ม */
+export const formatPrice = (n: number) => formatBaht(n, n >= 100 ? 0 : 2);
+/** ยอดเงิน: แสดงสตางค์เฉพาะเมื่อมีเศษ (15,460 ไม่ใช่ 15,460.00) */
+export const formatMoney = (n: number) => formatBaht(n, Math.abs(Math.round(n * 100) % 100) > 0 ? 2 : 0);
 export const monthsLabel = (h: number) => (h === 0 ? "ราคาล่าสุด" : `อีก ${h} เดือน`);
 export const percentChange = (from: number, to: number) => ((to - from) / from) * 100;
 

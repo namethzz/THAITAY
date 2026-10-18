@@ -1,7 +1,7 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, Search, X } from "lucide-react";
 import { materialCatalog, materialCategories, searchMaterials } from "@/data.js";
-import { QuotePeek, SEARCH_HINTS } from "@/components/site/material-search";
+import { MaterialName, QuotePeek, SEARCH_HINTS } from "@/components/site/material-search";
 import { DemoNote } from "@/components/ui/price-widgets";
 import { hashFor } from "@/lib/routes";
 
@@ -60,10 +60,7 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
           {shown.map(material => (
             <li key={material.id}>
               <a className="result-row" href={`#m/${material.id}`}>
-                <span className="result-copy">
-                  <strong>{material.name}</strong>
-                  <small>{material.category}</small>
-                </span>
+                <MaterialName material={material} className="result-copy" />
                 <QuotePeek material={material} />
                 <ChevronRight className="result-chevron" size={20} aria-hidden="true" />
               </a>
@@ -73,7 +70,7 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
       ) : (
         <div className="empty-state">
           <h2>ไม่พบ “{query.trim()}”</h2>
-          <p>ตอนนี้มีเฉพาะวัสดุงานโครงสร้าง ลองพิมพ์สั้นลง หรือเลือกคำเหล่านี้</p>
+          <p>ตอนนี้มีเฉพาะวัสดุงานโครงสร้าง: เหล็กเส้น เหล็กรูปพรรณ ตะแกรงเหล็ก ลวด คอนกรีต เสาเข็ม ทราย และหิน ลองพิมพ์สั้นลง หรือเลือกคำเหล่านี้</p>
           <div className="hint-chips">
             {SEARCH_HINTS.map(hint => <button type="button" key={hint} onClick={() => { setCategory("all"); setQuery(hint); }}>{hint}</button>)}
           </div>

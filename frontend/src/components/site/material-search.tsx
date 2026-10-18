@@ -3,6 +3,7 @@ import { ArrowRight, Search, X } from "lucide-react";
 import { searchMaterials } from "@/data.js";
 import { useQuote } from "@/components/ui/price-widgets";
 import { formatPrice } from "@/services/priceService";
+import { materialTitle } from "@/lib/materialTitle";
 import type { Material } from "@/types";
 
 const MAX_OPTIONS = 6;
@@ -15,6 +16,17 @@ export function QuotePeek({ material }: { material: Material }) {
     <span className="peek">
       <strong className="num">{data ? `฿${formatPrice(data.latest.price)}` : "—"}</strong>
       <small>ต่อ {material.unit}</small>
+    </span>
+  );
+}
+
+/** ชื่อสั้นตัวหนา + ชื่อเต็มของกระทรวงฯ (หรือหมวด) เป็นบรรทัดรอง ใช้ในรายการค้นหาทุกที่ */
+export function MaterialName({ material, className }: { material: Material; className: string }) {
+  const { title, detail } = materialTitle(material);
+  return (
+    <span className={className}>
+      <strong>{title}</strong>
+      <small>{detail ?? material.category}</small>
     </span>
   );
 }
@@ -60,11 +72,14 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
   const showAll = () => { setOpen(false); onShowAll(query.trim()); };
 
   const submit = () => {
-    if (active >= 0 && active < options.length) pick(options[active]);
-    else if (active === options.length && hasMore) showAll();
-    else if (all.length === 1) pick(all[0]);
-    else if (all.length > 1) showAll();
-    else if (!query.trim()) inputRef.current?.focus();
+    // พิมพ์เร็วแล้วกด Enter ทันที รายการที่แสดงอาจยังไม่ทันคำล่าสุด จึงค้นจากคำปัจจุบันอีกครั้ง
+    const current = deferred === query ? all : query.trim() ? searchMaterials(query) : [];
+    const fresh = deferred === query;
+    if (fresh && active >= 0 && active < options.length) pick(options[active]);
+    else if (fresh && active === options.length && hasMore) showAll();
+    else if (current.length === 1) pick(current[0]);
+    else if (current.length > 1) showAll();
+    else inputRef.current?.focus();
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -131,10 +146,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
                 onPointerEnter={() => setActive(index)}
                 onClick={() => pick(material)}
               >
-                <span className="msearch-option-copy">
-                  <strong>{material.name}</strong>
-                  <small>{material.category}</small>
-                </span>
+                <MaterialName material={material} className="msearch-option-copy" />
                 <QuotePeek material={material} />
               </li>
             ))}
@@ -154,7 +166,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
           </ul>
         ) : (
           <div className="msearch-empty" id={listId}>
-            <p>ไม่พบ “{query.trim()}” ในวัสดุงานโครงสร้าง ลองคำเหล่านี้</p>
+            <p>ไม่พบ “{query.trim()}” ตอนนี้มีเฉพาะวัสดุงานโครงสร้าง: เหล็กเส้น เหล็กรูปพรรณ ตะแกรงเหล็ก ลวด คอนกรีต เสาเข็ม ทราย และหิน</p>
             <div className="hint-chips">
               {SEARCH_HINTS.map(hint => (
                 <button type="button" key={hint} onClick={() => { setQuery(hint); setOpen(true); inputRef.current?.focus(); }}>{hint}</button>

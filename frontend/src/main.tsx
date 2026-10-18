@@ -5,6 +5,7 @@ import { IntroSplash } from "@/components/ui/intro-splash";
 import { BottomNav, SiteFooter, SiteHeader, Toast, type ToastMessage } from "@/components/site/chrome";
 import Home from "./pages/Home";
 import { hashFor, routeFromHash } from "@/lib/routes";
+import { materialTitle } from "@/lib/materialTitle";
 import type { AddLine, EstimateLine, Go, Route } from "@/types";
 import "./styles.css";
 
@@ -23,9 +24,11 @@ function loadLines(): EstimateLine[] {
   }
 }
 
+const titleOf = (id: string, fallback: string) => { const material = getMaterialById(id); return material ? materialTitle(material).title : fallback; };
+
 function pageTitle(route: Route) {
   if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
-  if (route.page === "material") return `${getMaterialById(route.id)?.name ?? "วัสดุ"} | THAI TAY`;
+  if (route.page === "material") { const material = getMaterialById(route.id); return `${material ? materialTitle(material).title : "วัสดุ"} | THAI TAY`; }
   if (route.page === "estimate") return "ใบประมาณราคา | THAI TAY";
   return "THAI TAY — รู้ราคาวัสดุก่อสร้างล่วงหน้า 3 เดือน";
 }
@@ -73,7 +76,7 @@ function App() {
 
   const addLine: AddLine = useCallback(line => {
     setLines(prev => [...prev, { ...line, key: `${line.materialId}-${line.month}-${Date.now()}` }]);
-    setToast({ id: Date.now(), text: "เพิ่มลงใบประมาณราคาแล้ว", detail: `${line.name} · ${line.qty.toLocaleString("th-TH")} ${line.unit}` });
+    setToast({ id: Date.now(), text: "เพิ่มลงใบประมาณราคาแล้ว", detail: `${titleOf(line.materialId, line.name)} · ${line.qty.toLocaleString("th-TH")} ${line.unit}` });
   }, []);
 
   return (
