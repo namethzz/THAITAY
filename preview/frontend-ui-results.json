@@ -1,32 +1,335 @@
 {
-  "version": "0.8.0",
-  "status": "passed",
-  "viewports_checked": [
-    320,
-    390,
-    768,
-    1024,
-    1280,
-    1440
+  "version": "0.9.0",
+  "generatedFrom": "Playwright against vite preview (base /construction-price-intelligence/)",
+  "interaction": [
+    {
+      "viewport": 1440,
+      "check": "dropdown shows options with price",
+      "result": "pass",
+      "detail": "7 options, first ฿24,295"
+    },
+    {
+      "viewport": 1440,
+      "check": "keyboard pick updates card",
+      "result": "pass",
+      "detail": "เหล็กข้ออ้อย SD40 · 16 มม."
+    },
+    {
+      "viewport": 1440,
+      "check": "focus moves to card title",
+      "result": "pass",
+      "detail": "pc-name"
+    },
+    {
+      "viewport": 1440,
+      "check": "alias \"db12\"",
+      "result": "pass",
+      "detail": "เหล็กข้ออ้อย SD30 · 12 มม."
+    },
+    {
+      "viewport": 1440,
+      "check": "alias \"4 หุน\"",
+      "result": "pass",
+      "detail": "เหล็กกลม SR24 · 12 มม."
+    },
+    {
+      "viewport": 1440,
+      "check": "alias \"ปูน\"",
+      "result": "pass",
+      "detail": "คอนกรีตผสมเสร็จ 300 กก./ตร.ซม."
+    },
+    {
+      "viewport": 1440,
+      "check": "empty state with hints",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "enter goes to search list",
+      "result": "pass",
+      "detail": "http://localhost:4173/construction-price-intelligence/#search?q=%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B9%87%E0%B8%81%E0%B9%80%E0%B8%AA%E0%B9%89%E0%B8%99"
+    },
+    {
+      "viewport": 1440,
+      "check": "card CTA opens same material",
+      "result": "pass",
+      "detail": "คอนกรีตผสมเสร็จ 240 กก./ตร.ซม."
+    },
+    {
+      "viewport": 1440,
+      "check": "decimal quantity accepted",
+      "result": "pass",
+      "detail": "฿5,675"
+    },
+    {
+      "viewport": 1440,
+      "check": "toast after add",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "estimate count badge",
+      "result": "pass",
+      "detail": "1"
+    },
+    {
+      "viewport": 1440,
+      "check": "compact search opens material",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "estimate lists 2 lines",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "estimate persists across reload",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "no horizontal overflow on estimate",
+      "result": "pass",
+      "detail": "0"
+    },
+    {
+      "viewport": 1440,
+      "check": "legacy #cost",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "legacy #forecast",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "legacy #analysis",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "legacy #prices",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "legacy #overview",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "legacy #m/NOPE",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "no console errors / external requests",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "dropdown shows options with price",
+      "result": "pass",
+      "detail": "7 options, first ฿24,295"
+    },
+    {
+      "viewport": 390,
+      "check": "keyboard pick updates card",
+      "result": "pass",
+      "detail": "เหล็กข้ออ้อย SD40 · 16 มม."
+    },
+    {
+      "viewport": 390,
+      "check": "focus moves to card title",
+      "result": "pass",
+      "detail": "pc-name"
+    },
+    {
+      "viewport": 390,
+      "check": "alias \"db12\"",
+      "result": "pass",
+      "detail": "เหล็กข้ออ้อย SD30 · 12 มม."
+    },
+    {
+      "viewport": 390,
+      "check": "alias \"4 หุน\"",
+      "result": "pass",
+      "detail": "เหล็กกลม SR24 · 12 มม."
+    },
+    {
+      "viewport": 390,
+      "check": "alias \"ปูน\"",
+      "result": "pass",
+      "detail": "คอนกรีตผสมเสร็จ 300 กก./ตร.ซม."
+    },
+    {
+      "viewport": 390,
+      "check": "empty state with hints",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "enter goes to search list",
+      "result": "pass",
+      "detail": "http://localhost:4173/construction-price-intelligence/#search?q=%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B9%87%E0%B8%81%E0%B9%80%E0%B8%AA%E0%B9%89%E0%B8%99"
+    },
+    {
+      "viewport": 390,
+      "check": "card CTA opens same material",
+      "result": "pass",
+      "detail": "คอนกรีตผสมเสร็จ 240 กก./ตร.ซม."
+    },
+    {
+      "viewport": 390,
+      "check": "decimal quantity accepted",
+      "result": "pass",
+      "detail": "฿5,675"
+    },
+    {
+      "viewport": 390,
+      "check": "toast after add",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "estimate count badge",
+      "result": "pass",
+      "detail": "1"
+    },
+    {
+      "viewport": 390,
+      "check": "compact search opens material",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "estimate lists 2 lines",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "estimate persists across reload",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "no horizontal overflow on estimate",
+      "result": "pass",
+      "detail": "0"
+    },
+    {
+      "viewport": 390,
+      "check": "legacy #cost",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "legacy #forecast",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "legacy #analysis",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "legacy #prices",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "legacy #overview",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "legacy #m/NOPE",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "no console errors / external requests",
+      "result": "pass",
+      "detail": ""
+    }
   ],
-  "checks": {
-    "no horizontal overflow at 320/768/1024/1280": "pass",
-    "no hash opens the tag landing": "pass",
-    "brand reads THAI TAY, no THAI เท left": "pass",
-    "tag selection carries to forecast": "pass",
-    "horizon tag selects chart range": "pass",
-    "selection persists into cost": "pass",
-    "cost calculator adds a line": "pass",
-    "overview shows latest + 3-month numbers": "pass",
-    "category tile opens filtered catalog": "pass",
-    "\"all\" chip clears the filter": "pass",
-    "sidebar logo returns to landing": "pass",
-    "landing category opens catalog filtered": "pass",
-    "unknown hash falls back to overview": "pass",
-    "flip via keyboard moves focus to back and makes front inert": "pass",
-    "mobile sidebar opens and closes with Escape": "pass",
-    "mobile picker on the tag opens as a viewport sheet": "pass",
-    "no requests to external services": "pass",
-    "no JS errors": "pass"
+  "firstViewPrice": [
+    {
+      "viewport": "1440x900",
+      "priceBottom": 832,
+      "limit": 900,
+      "result": "pass"
+    },
+    {
+      "viewport": "1366x768",
+      "priceBottom": 717,
+      "limit": 768,
+      "result": "pass"
+    },
+    {
+      "viewport": "1024x768",
+      "priceBottom": 712,
+      "limit": 768,
+      "result": "pass"
+    },
+    {
+      "viewport": "768x1024",
+      "priceBottom": 898,
+      "limit": 1024,
+      "result": "pass"
+    },
+    {
+      "viewport": "390x844",
+      "priceBottom": 713,
+      "limit": 743,
+      "result": "pass"
+    }
+  ],
+  "noHorizontalOverflow": {
+    "pages": [
+      "home",
+      "search",
+      "material",
+      "estimate"
+    ],
+    "widths": [
+      1440,
+      1024,
+      768,
+      390,
+      320
+    ],
+    "result": "pass"
+  },
+  "consoleErrorsOrExternalRequests": "none",
+  "independentReview": {
+    "round1": "fix (6 items)",
+    "round2": "ship (6/6 resolved, no regressions)"
   }
 }
