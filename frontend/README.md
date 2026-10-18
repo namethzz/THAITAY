@@ -1,4 +1,4 @@
-# THAI TAY Frontend v0.9
+# THAI TAY Frontend v0.10
 
 React 18 + Vite 6 + TypeScript + Tailwind CSS 4 + shadcn/ui
 
@@ -38,7 +38,8 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 | ไม่มี hash / `#home` | หน้าแรก: หัวข้อ ช่องค้นหา การ์ดราคา วิธีใช้ ที่มาของราคา | `src/pages/Home.tsx` |
 | `#search?q=…&cat=…` | ค้นหาวัสดุ: รายการทั้งหมดพร้อมราคา กรองตามหมวด (คำค้นเก็บใน URL) | `src/pages/Search.tsx` |
 | `#m/<MAT-ID>` | หน้าวัสดุ (อยู่ในส่วน "ค้นหา"): ราคา คาดการณ์ คำแนะนำ กราฟ 12+3 เดือน คำนวณต้นทุน | `src/pages/MaterialPage.tsx` |
-| `#estimate` | ใบประมาณราคา: จำนวน เงินสำรอง VAT 7% ยอดรวม ช่วงต่ำ–สูง CSV พิมพ์ | `src/pages/Estimate.tsx` |
+| `#estimate` | ใบประมาณราคา: ชื่อโครงการ/ลูกค้า จำนวน เงินสำรอง VAT 7% ยอดรวม ช่วงต่ำ–สูง ส่งทาง LINE คัดลอกลิงก์ พิมพ์ / PDF CSV | `src/pages/Estimate.tsx` |
+| `#estimate?d=…` | ใบประมาณที่ส่งมาทางลิงก์ (อ่านอย่างเดียว ราคา ณ วันที่ส่ง) | `src/pages/Estimate.tsx` + `src/lib/shareEstimate.ts` |
 
 ลิงก์ของ v0.8 ยังเปิดได้: `#overview` → หน้าแรก, `#prices` → ค้นหา, `#forecast` / `#analysis` → หน้าวัสดุที่ดูล่าสุด, `#cost` → ใบประมาณราคา hash ที่ไม่รู้จักเปิดหน้าแรก รหัสวัสดุที่ไม่มีเปิดหน้าค้นหา
 
@@ -51,6 +52,10 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 | `src/data/structural-materials.json` | รายชื่อวัสดุ หมวด รหัส และหน่วย ไม่มีราคา |
 | `src/data.js` | ส่งออก catalog และ `searchMaterials()`: ไม่สนตัวพิมพ์ จุด ช่องว่าง ขีด ("sd40" เจอ "SD.40") เข้าใจคำหน้างานใน `ALIASES` (ปูน, ไวร์เมช, เอชบีม, ลวดอัดแรง) และขนาด DB12 / RB9 / "4 หุน" / "12 มม" เรียงชื่อที่ขึ้นต้นด้วยคำค้นก่อน |
 | `src/lib/materialTitle.ts` | ชื่อสั้นจากสเปก เช่น "เหล็กข้ออ้อย SD40 · 16 มม." (ชื่อเต็มเป็นบรรทัดรอง) |
+| `src/lib/rebar.ts` | น้ำหนักต่อเส้นของเหล็กเส้น (0.00617 × ศก.² กก./ม. × ความยาว) และราคาต่อเส้นจากราคาต่อตัน |
+| `src/lib/shareEstimate.ts` | เข้ารหัส/อ่านใบประมาณในลิงก์ (`#estimate?d=` base64url JSON v1) ข้อมูลเสียหรือรหัสวัสดุที่ไม่มีจะถูกข้าม |
+| `src/lib/storage.ts` | `usePersistentState` จำค่าใน localStorage (บันทึกไม่ได้ก็ใช้งานต่อได้) |
+| `src/components/site/category-icon.tsx` + `public/icons/categories/STR-0X.webp` | icon 9 หมวดจากชุดของเจ้าของเว็บ (ไฟล์ `.webp.json` ข้าง ๆ คือที่มาของภาพ) |
 | `src/services/priceService.ts` | ชั้นข้อมูลราคา: Demo หรือเรียก API เมื่อตั้ง `VITE_API_BASE`, `getQuote()` (ราคาล่าสุด + คาดการณ์ 3 เดือน มีแคช), `trendVerdict()` คำแนะนำซื้อตอนนี้/รอ |
 | `src/services/demoPrices.ts` | ระดับราคาตั้งต้นของข้อมูลตัวอย่างตามสเปก (เกรด ขนาด น้ำหนัก กำลังอัด หน้าตัด) ไม่ถูกใช้เมื่อเชื่อม API |
 | `src/main.tsx` | state ร่วม (วัสดุที่ดูล่าสุด, ใบประมาณราคา, แจ้งเตือน) และสลับหน้า |
@@ -132,7 +137,7 @@ Material มี `id`, `name`, `unit`, `categoryCode`, `category`, `familyCode` �
 
 ## State
 
-`main.tsx` เก็บวัสดุที่ดูล่าสุด (การ์ดหน้าแรกแสดงวัสดุนี้) รายการในใบประมาณราคา และแจ้งเตือน ใบประมาณราคาบันทึกใน `localStorage` (`thai-tay-estimate-v1`) เปิดเว็บใหม่รายการยังอยู่ ถ้าเบราว์เซอร์บันทึกไม่ได้ก็ใช้งานต่อได้ตามปกติ ไม่มี provider หรือ state library เพิ่ม
+`main.tsx` เก็บวัสดุที่ดูล่าสุด (การ์ดหน้าแรกแสดงวัสดุนี้) รายการในใบประมาณราคา หัวใบประมาณ วัสดุที่ติดตาม และแจ้งเตือน ค่าที่จำไว้ใน `localStorage`: `thai-tay-estimate-v1` (รายการ), `thai-tay-estimate-meta-v1` (โครงการ ลูกค้า เงินสำรอง VAT), `thai-tay-watch-v1` (วัสดุที่ติดตาม) ถ้าเบราว์เซอร์บันทึกไม่ได้ก็ใช้งานต่อได้ตามปกติ ไม่มี provider หรือ state library เพิ่ม
 
 ## Dependencies / shadcn
 
@@ -162,6 +167,7 @@ npx shadcn@latest init
 ใช้ lucide-react สำหรับไอคอน รูปภาพ:
 
 - `public/brand/*`: โลโก้และไอคอนจาก brand board ของเจ้าของ (ฝังที่มาไว้ในไฟล์)
+- `public/icons/categories/*`: icon 9 หมวดจากชุดที่เจ้าของส่งมา (ที่มาอยู่ในไฟล์ `.webp.json` ข้าง ๆ)
 - `public/photos/*`: รูปจริงของเว็บ (ยังไม่มี) ตั้งชื่อไฟล์ใน `src/config/photos.ts` ถ้ายังไม่ตั้ง ภาพใต้ช่องค้นหาเป็นภาพวาด SVG ใน `site-art.tsx`
 - `public/images/construction-architecture.jpg`: ภาพจาก Unsplash ของ `saa-s-template` (ไม่ได้ใช้)
 

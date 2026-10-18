@@ -9,9 +9,11 @@ import { DemoNote, SourceLinks, useHistory, useQuote } from "@/components/ui/pri
 import { formatBaht, formatMoney, formatPrice, monthsLabel, type Quote } from "@/services/priceService";
 import { CHART } from "@/config/chartColors";
 import { materialTitle } from "@/lib/materialTitle";
+import { pricePerBar, rebarSpec } from "@/lib/rebar";
+import { CategoryIcon } from "@/components/site/category-icon";
 import type { AddLine, Go, Material } from "@/types";
 
-export default function MaterialPage({ id, go, addLine }: { id: string; go: Go; addLine: AddLine }) {
+export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: { id: string; go: Go; addLine: AddLine; watch: string[]; onToggleWatch: (id: string) => void }) {
   const material = getMaterialById(id)!;
   const quote = useQuote(material);
   const { title, detail } = materialTitle(material);
@@ -24,14 +26,17 @@ export default function MaterialPage({ id, go, addLine }: { id: string; go: Go; 
       </div>
 
       <header className="material-head">
-        <span className="cat-pill">{material.category}</span>
-        <h1>{title}</h1>
-        {detail && <p className="material-fullname">{detail}</p>}
-        <p>ราคาต่อ {material.unit} · รหัสสินค้า {material.id.replace(/^MAT-/, "")}</p>
+        <CategoryIcon code={material.categoryCode} size={72} className="material-icon" />
+        <div>
+          <span className="cat-pill">{material.category}</span>
+          <h1>{title}</h1>
+          {detail && <p className="material-fullname">{detail}</p>}
+          <p>ราคาต่อ {material.unit} · รหัสสินค้า {material.id.replace(/^MAT-/, "")}</p>
+        </div>
       </header>
 
       <div className="material-grid">
-        <div className="material-summary"><PriceCard material={material} variant="detail" /></div>
+        <div className="material-summary"><PriceCard material={material} variant="detail" watched={watch.includes(material.id)} onToggleWatch={() => onToggleWatch(material.id)} /></div>
         <CostBox material={material} quote={quote.data} addLine={addLine} />
         <PriceChart material={material} quote={quote.data} />
       </div>
@@ -49,6 +54,11 @@ export default function MaterialPage({ id, go, addLine }: { id: string; go: Go; 
 function CostBox({ material, quote, addLine }: { material: Material; quote: Quote | null; addLine: AddLine }) {
   const [month, setMonth] = useState(0);
   const [qty, setQty] = useState(1);
+  // เหล็กเส้นสั่งเป็นเส้นได้: ราคาต่อเส้นคิดจากน้ำหนักมาตรฐานของขนาดนั้น (ค่าเริ่มต้นเป็นเส้น เพราะหน้างานนับแบบนี้)
+  const bar = rebarSpec(material);
+  const [byBar, setByBar] = useState(Boolean(bar));
+  const perUnit = (price: number) => (bar && byBar ? pricePerBar(price, bar) : price);
+  const unit = bar && byBar ? "เส้น" : material.unit;
   // ราคาของแต่ละช่วงแสดงอยู่ในการ์ดราคาแล้ว ที่นี่จึงเลือกแค่ "เมื่อไหร่" แล้วบอกราคาที่ใช้คำนวณบรรทัดเดียว
   const options = quote
     ? [{ month: 0, label: "ตอนนี้", when: quote.latest.label, price: quote.latest.price, low: quote.latest.price, high: quote.latest.price }, ...quote.forecast.map(p => ({ month: p.month, label: `${p.month} เดือน`, when: p.label, price: p.price, low: p.low, high: p.high }))]
@@ -57,7 +67,7 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
 
   const add = () => {
     if (!chosen || !quote || qty <= 0) return;
-    addLine({ materialId: material.id, name: material.name, unit: material.unit, month, monthLabel: monthsLabel(month), qty, price: chosen.price, low: chosen.low, high: chosen.high, demo: quote.demo });
+    addLine({ materialId: material.id, name: material.name, unit, month, monthLabel: monthsLabel(month), qty, price: perUnit(chosen.price), low: perUnit(chosen.low), high: perUnit(chosen.high), demo: quote.demo });
   };
 
   return (
@@ -73,18 +83,29 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
             </label>
           ))}
         </div>
-        {chosen && <p className="when-price">ใช้ราคา{month === 0 ? "ล่าสุด" : "คาดการณ์"} {chosen.when} · <strong className="num">฿{formatPrice(chosen.price)}</strong> ต่อ {material.unit}</p>}
+        {chosen && <p className="when-price">ใช้ราคา{month === 0 ? "ล่าสุด" : "คาดการณ์"} {chosen.when} · <strong className="num">฿{formatPrice(perUnit(chosen.price))}</strong> ต่อ {unit}</p>}
       </fieldset>
 
+      {bar && (
+        <fieldset className="when">
+          <legend>สั่งเป็น</legend>
+          <div className="seg seg-2">
+            <label><input type="radio" name="by" checked={byBar} onChange={() => setByBar(true)} /><span>เส้น ({bar.length} ม.)</span></label>
+            <label><input type="radio" name="by" checked={!byBar} onChange={() => setByBar(false)} /><span>ตัน</span></label>
+          </div>
+        </fieldset>
+      )}
+
       <div className="qty">
-        <label htmlFor="qty-input">จำนวน ({material.unit})</label>
+        <label htmlFor="qty-input">จำนวน ({unit})</label>
         <QtyStepper id="qty-input" label="จำนวน" value={qty} onChange={setQty} />
+        {bar && byBar && qty > 0 && <p className="qty-note">{qty.toLocaleString("th-TH")} เส้น × {bar.kgPerBar.toLocaleString("th-TH")} กก. ≈ {((qty * bar.kgPerBar) / 1000).toLocaleString("th-TH", { maximumFractionDigits: 3 })} ตัน</p>}
       </div>
 
       <div className="cost-total" aria-live="polite">
         <span>รวมประมาณ</span>
-        <strong className="num">{chosen ? `฿${formatMoney(chosen.price * qty)}` : "—"}</strong>
-        {chosen && month > 0 && qty > 0 && <small>ช่วงที่เป็นไปได้ ฿{formatBaht(chosen.low * qty, 0)} – {formatBaht(chosen.high * qty, 0)}</small>}
+        <strong className="num">{chosen ? `฿${formatMoney(perUnit(chosen.price) * qty)}` : "—"}</strong>
+        {chosen && month > 0 && qty > 0 && <small>ช่วงที่เป็นไปได้ ฿{formatBaht(perUnit(chosen.low) * qty, 0)} – {formatBaht(perUnit(chosen.high) * qty, 0)}</small>}
       </div>
       <button type="button" className="btn btn-primary btn-block btn-lg" onClick={add} disabled={!chosen || qty <= 0}>
         <Plus size={18} aria-hidden="true" />เพิ่มลงใบประมาณราคา

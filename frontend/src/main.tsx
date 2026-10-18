@@ -6,23 +6,27 @@ import { BottomNav, SiteFooter, SiteHeader, Toast, type ToastMessage } from "@/c
 import Home from "./pages/Home";
 import { hashFor, routeFromHash } from "@/lib/routes";
 import { materialTitle } from "@/lib/materialTitle";
-import type { AddLine, EstimateLine, Go, Route } from "@/types";
+import { usePersistentState } from "@/lib/storage";
+import type { AddLine, EstimateLine, EstimateMeta, Go, Route } from "@/types";
 import "./styles.css";
 
 const SearchPage = lazy(() => import("./pages/Search"));
 const MaterialPage = lazy(() => import("./pages/MaterialPage"));
 const Estimate = lazy(() => import("./pages/Estimate"));
 
-const ESTIMATE_KEY = "thai-tay-estimate-v1";
-
-function loadLines(): EstimateLine[] {
-  try {
-    const saved = JSON.parse(localStorage.getItem(ESTIMATE_KEY) ?? "[]");
-    return Array.isArray(saved) ? saved.filter(line => line && getMaterialById(line.materialId) && Number.isFinite(line.price) && Number.isFinite(line.qty)) : [];
-  } catch {
-    return [];
-  }
-}
+const DEFAULT_META: EstimateMeta = { project: "", customer: "", contingency: 0, vat: true };
+const cleanLines = (saved: unknown): EstimateLine[] =>
+  Array.isArray(saved) ? saved.filter(line => line && getMaterialById(line.materialId) && Number.isFinite(line.price) && Number.isFinite(line.qty)) : [];
+const cleanMeta = (saved: unknown): EstimateMeta => {
+  const s = (saved ?? {}) as Partial<EstimateMeta>;
+  return {
+    project: typeof s.project === "string" ? s.project : "",
+    customer: typeof s.customer === "string" ? s.customer : "",
+    contingency: [0, 3, 5, 10].includes(s.contingency as number) ? (s.contingency as number) : 0,
+    vat: s.vat !== false,
+  };
+};
+const cleanWatch = (saved: unknown): string[] => (Array.isArray(saved) ? saved.filter(id => typeof id === "string" && getMaterialById(id)) : []);
 
 const titleOf = (id: string, fallback: string) => { const material = getMaterialById(id); return material ? materialTitle(material).title : fallback; };
 
@@ -36,7 +40,9 @@ function pageTitle(route: Route) {
 function App() {
   const [selectedId, setSelectedId] = useState(defaultMaterialId);
   const [route, setRoute] = useState<Route>(() => routeFromHash(defaultMaterialId));
-  const [lines, setLines] = useState<EstimateLine[]>(loadLines);
+  const [lines, setLines] = usePersistentState<EstimateLine[]>("thai-tay-estimate-v1", [], cleanLines);
+  const [meta, setMeta] = usePersistentState<EstimateMeta>("thai-tay-estimate-meta-v1", DEFAULT_META, cleanMeta);
+  const [watch, setWatch] = usePersistentState<string[]>("thai-tay-watch-v1", [], cleanWatch);
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const mainRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
@@ -62,10 +68,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageKey]);
 
-  useEffect(() => {
-    try { localStorage.setItem(ESTIMATE_KEY, JSON.stringify(lines)); } catch { /* ใช้งานต่อได้แม้บันทึกไม่ได้ */ }
-  }, [lines]);
-
   const go: Go = useCallback(next => {
     const hash = hashFor(next);
     if (window.location.hash === hash) setRoute(next);
@@ -76,8 +78,17 @@ function App() {
 
   const addLine: AddLine = useCallback(line => {
     setLines(prev => [...prev, { ...line, key: `${line.materialId}-${line.month}-${Date.now()}` }]);
-    setToast({ id: Date.now(), text: "เพิ่มลงใบประมาณราคาแล้ว", detail: `${titleOf(line.materialId, line.name)} · ${line.qty.toLocaleString("th-TH")} ${line.unit}` });
-  }, []);
+    setToast({ id: Date.now(), text: "เพิ่มลงใบประมาณราคาแล้ว", detail: `${titleOf(line.materialId, line.name)} · ${line.qty.toLocaleString("th-TH")} ${line.unit}`, action: "estimate" });
+  }, [setLines]);
+
+  // ติดตามวัสดุ: วัสดุที่ติดตามแสดงราคาและแนวโน้มที่หน้าแรก (บอกทางไปหน้าแรกเมื่อกดจากหน้าอื่น)
+  const onHome = route.page === "home";
+  const toggleWatch = useCallback((id: string) => {
+    const watching = watch.includes(id);
+    setWatch(watching ? watch.filter(x => x !== id) : [id, ...watch]);
+    if (!watching && !onHome) setToast({ id: Date.now(), text: "ติดตามแล้ว ราคาจะแสดงที่หน้าแรก", detail: titleOf(id, ""), action: "home" });
+  }, [watch, setWatch, onHome]);
+  const watchProps = { watch, onToggleWatch: toggleWatch };
 
   return (
     <div className="site">
@@ -86,10 +97,10 @@ function App() {
       <SiteHeader route={route} count={lines.length} />
       <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
         <Suspense fallback={<div className="page-loading" role="status">กำลังเปิดหน้า…</div>}>
-          {route.page === "home" && <Home selectedId={selectedId} onSelect={setSelectedId} go={go} />}
+          {route.page === "home" && <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />}
           {route.page === "search" && <SearchPage key={`${route.q}|${route.cat}`} initialQuery={route.q} initialCategory={route.cat} />}
-          {route.page === "material" && <MaterialPage key={route.id} id={route.id} go={go} addLine={addLine} />}
-          {route.page === "estimate" && <Estimate lines={lines} setLines={setLines} />}
+          {route.page === "material" && <MaterialPage key={route.id} id={route.id} go={go} addLine={addLine} {...watchProps} />}
+          {route.page === "estimate" && <Estimate key={route.shared ?? "mine"} shared={route.shared} lines={lines} setLines={setLines} meta={meta} setMeta={setMeta} go={go} notify={setToast} />}
         </Suspense>
       </main>
       <SiteFooter />

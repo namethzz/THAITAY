@@ -1,7 +1,7 @@
 {
-  "version": "0.9.0",
+  "version": "0.10.0",
   "generatedFrom": "Playwright against vite preview (base /construction-price-intelligence/)",
-  "interaction": [
+  "regression_v0_9": [
     {
       "viewport": 1440,
       "check": "dropdown shows options with price",
@@ -271,6 +271,314 @@
       "check": "legacy #m/NOPE",
       "result": "pass",
       "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "no console errors / external requests",
+      "result": "pass",
+      "detail": ""
+    }
+  ],
+  "features_v0_10": [
+    {
+      "viewport": 1440,
+      "check": "9 category icons load",
+      "result": "pass",
+      "detail": "9"
+    },
+    {
+      "viewport": 1440,
+      "check": "category card opens filtered list",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "rows show category icon",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "per-bar price = per-ton × 8.88 kg",
+      "result": "pass",
+      "detail": "฿214 from 24110"
+    },
+    {
+      "viewport": 1440,
+      "check": "rebar defaults to ordering by bar",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "bar total = 120 × per-bar",
+      "result": "pass",
+      "detail": "25680"
+    },
+    {
+      "viewport": 1440,
+      "check": "switch to tons",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "toast clear of the add button",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "star pressed",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "toast points to home",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "home shows watched material",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "watch list persists",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "bar line shows เส้น",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "project name persists",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "LINE share carries the link",
+      "result": "pass",
+      "detail": "294 chars"
+    },
+    {
+      "viewport": 1440,
+      "check": "print shows sheet only",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "printed sheet carries the demo stamp",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "recipient sees same total",
+      "result": "pass",
+      "detail": "฿56,945.40"
+    },
+    {
+      "viewport": 1440,
+      "check": "recipient view is read-only",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "shared lines say which day the price is from",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "recipient can keep it",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "kept lines keep their price date",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "edited link keeps the demo label",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "broken link explains itself",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 1440,
+      "check": "no overflow",
+      "result": "pass",
+      "detail": "0"
+    },
+    {
+      "viewport": 1440,
+      "check": "no console errors / external requests",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "9 category icons load",
+      "result": "pass",
+      "detail": "9"
+    },
+    {
+      "viewport": 390,
+      "check": "category card opens filtered list",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "rows show category icon",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "per-bar price = per-ton × 8.88 kg",
+      "result": "pass",
+      "detail": "฿214 from 24110"
+    },
+    {
+      "viewport": 390,
+      "check": "rebar defaults to ordering by bar",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "bar total = 120 × per-bar",
+      "result": "pass",
+      "detail": "25680"
+    },
+    {
+      "viewport": 390,
+      "check": "switch to tons",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "star pressed",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "toast points to home",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "home shows watched material",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "watch list persists",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "bar line shows เส้น",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "project name persists",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "LINE share carries the link",
+      "result": "pass",
+      "detail": "294 chars"
+    },
+    {
+      "viewport": 390,
+      "check": "print shows sheet only",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "printed sheet carries the demo stamp",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "recipient sees same total",
+      "result": "pass",
+      "detail": "฿56,945.40"
+    },
+    {
+      "viewport": 390,
+      "check": "recipient view is read-only",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "shared lines say which day the price is from",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "recipient can keep it",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "kept lines keep their price date",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "edited link keeps the demo label",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "broken link explains itself",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "viewport": 390,
+      "check": "no overflow",
+      "result": "pass",
+      "detail": "0"
     },
     {
       "viewport": 390,
@@ -282,54 +590,56 @@
   "firstViewPrice": [
     {
       "viewport": "1440x900",
-      "priceBottom": 832,
+      "priceBottom": 839,
       "limit": 900,
       "result": "pass"
     },
     {
       "viewport": "1366x768",
-      "priceBottom": 717,
+      "priceBottom": 724,
       "limit": 768,
       "result": "pass"
     },
     {
       "viewport": "1024x768",
-      "priceBottom": 712,
+      "priceBottom": 718,
       "limit": 768,
       "result": "pass"
     },
     {
       "viewport": "768x1024",
-      "priceBottom": 898,
+      "priceBottom": 905,
       "limit": 1024,
       "result": "pass"
     },
     {
       "viewport": "390x844",
-      "priceBottom": 713,
+      "priceBottom": 719,
       "limit": 743,
       "result": "pass"
     }
   ],
-  "noHorizontalOverflow": {
+  "nothingPastViewportEdge": {
     "pages": [
       "home",
       "search",
-      "material",
+      "material (rebar)",
+      "material (pile)",
       "estimate"
     ],
     "widths": [
-      1440,
-      1024,
-      768,
+      320,
       390,
-      320
+      768,
+      1024,
+      1440
     ],
+    "method": "every element rect vs viewport, skipping only descendants of scroll containers",
     "result": "pass"
   },
   "consoleErrorsOrExternalRequests": "none",
   "independentReview": {
-    "round1": "fix (6 items)",
-    "round2": "ship (6/6 resolved, no regressions)"
+    "round1": "fix (9 items)",
+    "round2": "ship (9/9 resolved, no regressions)"
   }
 }

@@ -3,7 +3,8 @@ export type Route =
   | { page: "home" }
   | { page: "search"; q: string; cat: string }
   | { page: "material"; id: string }
-  | { page: "estimate" };
+  /** shared = ใบประมาณที่ส่งมาทางลิงก์ (#estimate?d=…) เปิดดูแบบอ่านอย่างเดียว */
+  | { page: "estimate"; shared?: string };
 
 export type Go = (route: Route) => void;
 
@@ -29,6 +30,16 @@ export interface EstimateLine {
   low: number;
   high: number;
   demo: boolean;
+  /** ราคานี้เป็นราคา ณ วันไหน (YYYY-MM-DD) — มีเฉพาะรายการที่มาจากลิงก์ที่ส่งมา ราคาไม่อัปเดตตามข้อมูลล่าสุด */
+  asOf?: string;
 }
 
 export type AddLine = (line: Omit<EstimateLine, "key">) => void;
+
+/** หัวใบประมาณราคาและการตั้งค่ายอดรวม (จำไว้ในเบราว์เซอร์ และส่งไปกับลิงก์แชร์) */
+export interface EstimateMeta {
+  project: string;
+  customer: string;
+  contingency: number;
+  vat: boolean;
+}

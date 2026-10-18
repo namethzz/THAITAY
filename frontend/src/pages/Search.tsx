@@ -2,6 +2,7 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, Search, X } from "lucide-react";
 import { materialCatalog, materialCategories, searchMaterials } from "@/data.js";
 import { MaterialName, QuotePeek, SEARCH_HINTS } from "@/components/site/material-search";
+import { CategoryIcon } from "@/components/site/category-icon";
 import { DemoNote } from "@/components/ui/price-widgets";
 import { hashFor } from "@/lib/routes";
 
@@ -49,7 +50,7 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
       <div className="cat-chips" role="group" aria-label="กรองตามหมวดวัสดุ">
         <button type="button" aria-pressed={category === "all"} onClick={() => setCategory("all")}>ทั้งหมด</button>
         {materialCategories.map(c => (
-          <button type="button" key={c.code} aria-pressed={category === c.code} onClick={() => setCategory(c.code)}>{c.name}</button>
+          <button type="button" key={c.code} aria-pressed={category === c.code} onClick={() => setCategory(c.code)}><CategoryIcon code={c.code} size={24} />{c.name}</button>
         ))}
       </div>
 
@@ -60,6 +61,7 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
           {shown.map(material => (
             <li key={material.id}>
               <a className="result-row" href={`#m/${material.id}`}>
+                <CategoryIcon code={material.categoryCode} size={44} className="row-icon" />
                 <MaterialName material={material} className="result-copy" />
                 <QuotePeek material={material} />
                 <ChevronRight className="result-chevron" size={20} aria-hidden="true" />
