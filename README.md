@@ -43,7 +43,7 @@
 
 | แหล่ง | หน่วยงาน | ใช้ทำอะไร |
 |---|---|---|
-| [ราคาสินค้าวัสดุก่อสร้าง](https://data.moc.go.th/OpenData/CSIProductIndexes) | กระทรวงพาณิชย์ (MOC Open Data) | ราคารายสินค้า รายเดือน แยกจังหวัด ใช้ฝึกโมเดล |
+| [ราคาวัสดุก่อสร้าง](https://index.tpso.go.th/construction-material-prices/prices-building-materials) | สนค. กระทรวงพาณิชย์ | ราคาหลักของเว็บ: ราคารายสินค้า รายเดือน ใช้ฝึกโมเดล |
 | [ดัชนีราคาวัสดุก่อสร้าง (CMI)](https://www.tpso.go.th/economic-data/construction-materials-price-index) | สนค. | ตรวจแนวโน้มภาพรวม |
 
 ## งานที่ยังเหลือ

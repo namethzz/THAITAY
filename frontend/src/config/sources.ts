@@ -10,11 +10,11 @@ export interface PriceSource {
 
 export const PRICE_SOURCES: PriceSource[] = [
   {
-    id: "moc-product-price",
-    name: "ราคาสินค้าวัสดุก่อสร้าง",
-    owner: "กระทรวงพาณิชย์ · MOC Open Data",
-    description: "ราคารายสินค้า รายเดือน แยกตามจังหวัด",
-    url: "https://data.moc.go.th/OpenData/CSIProductIndexes",
+    id: "tpso-building-material-prices",
+    name: "ราคาวัสดุก่อสร้าง",
+    owner: "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค.) · กระทรวงพาณิชย์",
+    description: "ราคาวัสดุก่อสร้างรายสินค้า รายเดือน (แหล่งราคาหลักของเว็บ)",
+    url: "https://index.tpso.go.th/construction-material-prices/prices-building-materials",
   },
   {
     id: "tpso-cmi",
