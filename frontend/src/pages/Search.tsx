@@ -3,6 +3,7 @@ import { ChevronRight, Search, X } from "lucide-react";
 import { materialCatalog, materialCategories, searchMaterials } from "@/data.js";
 import { MaterialName, QuotePeek, SEARCH_HINTS } from "@/components/site/material-search";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { CategoryFilter } from "@/components/site/category-filter";
 import { DemoNote } from "@/components/ui/price-widgets";
 import { hashFor } from "@/lib/routes";
 
@@ -47,14 +48,10 @@ export default function SearchPage({ initialQuery, initialCategory }: { initialQ
         {query && <button type="button" className="msearch-clear" aria-label="ล้างคำค้นหา" onClick={() => { setQuery(""); inputRef.current?.focus(); }}><X size={18} aria-hidden="true" /></button>}
       </form>
 
-      <div className="cat-chips" role="group" aria-label="กรองตามหมวดวัสดุ">
-        <button type="button" aria-pressed={category === "all"} onClick={() => setCategory("all")}>ทั้งหมด</button>
-        {materialCategories.map(c => (
-          <button type="button" key={c.code} aria-pressed={category === c.code} onClick={() => setCategory(c.code)}><CategoryIcon code={c.code} size={24} />{c.name}</button>
-        ))}
+      <div className="search-tools">
+        <CategoryFilter value={category} onChange={setCategory} />
+        <p className="result-count" aria-live="polite">พบ <strong>{results.length.toLocaleString("th-TH")}</strong> รายการ</p>
       </div>
-
-      <p className="result-count" aria-live="polite">พบ <strong>{results.length.toLocaleString("th-TH")}</strong> รายการ</p>
 
       {results.length ? (
         <ul className="result-list">
