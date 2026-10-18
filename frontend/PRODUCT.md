@@ -25,7 +25,7 @@ Forecasts are per specific material item, keyed to the Ministry of Commerce 16-d
 ## Operating Context
 
 - Thai market, Thai language, Thai Buddhist-era month labels (e.g. ม.ค. 70).
-- Source data: monthly material prices from MOC Open Data (กระทรวงพาณิชย์) and the TPSO construction material price index (สนค.), configured in `src/config/sources.ts`.
+- Source data: monthly building material prices from TPSO (สนค., กระทรวงพาณิชย์) at https://index.tpso.go.th/construction-material-prices/prices-building-materials, plus the TPSO construction material price index for overall trends, configured in `src/config/sources.ts`.
 - The decision the product supports is timing and budgeting an order: buy now or in 1–3 months, and how much to set aside.
 - Outputs leave the product as CSV or printed estimates for quotations.
 
