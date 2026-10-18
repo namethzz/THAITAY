@@ -186,7 +186,7 @@
 .chart-legend i { display: inline-block; width: 20px; height: 3px; margin-right: 6px; border-radius: 2px; vertical-align: middle; }
 .lg-actual { background: var(--measured); }
 .lg-pred { background: repeating-linear-gradient(90deg, var(--forecast) 0 6px, transparent 6px 10px); }
-.lg-band { height: 10px !important; background: rgba(232, 117, 59, .28); }
+.lg-band { height: 10px !important; background: rgba(232, 117, 59, .2); }
 .chart-box { height: 300px; margin-left: -6px; }
 .material-sources { margin-top: 44px; }
 .material-sources h2 { margin: 0 0 14px; font-size: 20px; font-weight: 700; }

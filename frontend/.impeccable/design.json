@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-18T05:38:40+00:00",
+  "generatedAt": "2026-10-18T07:25:03+00:00",
   "title": "Design System: THAI TAY",
   "extensions": {
     "colorMeta": {
@@ -20,20 +20,20 @@
           "#efeeec"
         ]
       },
-      "panel": {
+      "surface": {
         "role": "neutral",
-        "displayName": "Panel",
-        "canonical": "#fcfbf8",
-        "source": "--panel",
+        "displayName": "Surface White",
+        "canonical": "#ffffff",
+        "source": "--surface",
         "tonalRamp": [
           "#0b0b0b",
-          "#242423",
-          "#40403f",
-          "#5e5d5c",
-          "#7e7d7b",
-          "#9f9e9c",
-          "#c5c4c1",
-          "#efeeed"
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
         ]
       },
       "warm-50": {
@@ -50,22 +50,6 @@
           "#a09e9b",
           "#c6c4c0",
           "#efeeed"
-        ]
-      },
-      "field-white": {
-        "role": "neutral",
-        "displayName": "Field White",
-        "canonical": "#ffffff",
-        "source": "#fff literal",
-        "tonalRamp": [
-          "#0b0b0b",
-          "#242424",
-          "#404040",
-          "#5d5d5d",
-          "#7d7d7d",
-          "#9e9e9e",
-          "#c4c4c4",
-          "#eeeeee"
         ]
       },
       "sunken": {
@@ -120,7 +104,7 @@
         "role": "secondary",
         "displayName": "Charcoal",
         "canonical": "#242a2d",
-        "source": "--ink / --measured / --forecast-on-tag",
+        "source": "--ink / --measured",
         "tonalRamp": [
           "#080c0e",
           "#1f2528",
@@ -212,11 +196,17 @@
           "#f5ede7"
         ]
       },
+      "orange-ring": {
+        "role": "primary",
+        "displayName": "Orange Ring",
+        "canonical": "rgba(232, 117, 59, .28)",
+        "source": "--tag-ring"
+      },
       "forecast-orange": {
         "role": "tertiary",
         "displayName": "Forecast Orange",
         "canonical": "#a84b1a",
-        "source": "--forecast / --forecast-line",
+        "source": "--forecast / CHART.forecast",
         "tonalRamp": [
           "#210000",
           "#490700",
@@ -228,23 +218,11 @@
           "#ffe6d7"
         ]
       },
-      "forecast-band": {
-        "role": "tertiary",
-        "displayName": "Forecast Band",
-        "canonical": "rgba(232, 117, 59, .18)",
-        "source": "--forecast-band"
-      },
-      "focus-tint": {
-        "role": "tertiary",
-        "displayName": "Focus Tint",
-        "canonical": "rgba(232, 117, 59, .22)",
-        "source": "--measured-tint"
-      },
       "up-crimson": {
         "role": "tertiary",
         "displayName": "Up Crimson",
         "canonical": "#9e1b3c",
-        "source": "--up",
+        "source": "--up / --destructive",
         "tonalRamp": [
           "#210004",
           "#4b0014",
@@ -319,321 +297,235 @@
           "#ffa999",
           "#ffe5de"
         ]
-      },
-      "paint-str-01": {
-        "role": "paint",
-        "displayName": "Paint STR-01 (Rebar Yellow)",
-        "canonical": "#e0a100",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#1a0500",
-          "#391d00",
-          "#5b3700",
-          "#7f5400",
-          "#a67200",
-          "#cd9200",
-          "#f5b945",
-          "#ffebc6"
-        ]
-      },
-      "paint-str-02": {
-        "role": "paint",
-        "displayName": "Paint STR-02 (Section Blue)",
-        "canonical": "#245594",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#00062d",
-          "#002251",
-          "#113f77",
-          "#2f5e9c",
-          "#547fb9",
-          "#79a1d6",
-          "#a4c7f6",
-          "#ddf0ff"
-        ]
-      },
-      "paint-str-03": {
-        "role": "paint",
-        "displayName": "Paint STR-03 (Mesh Green)",
-        "canonical": "#2f8a55",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#001201",
-          "#002f0e",
-          "#004e26",
-          "#196f40",
-          "#3a915d",
-          "#67b281",
-          "#95d6a9",
-          "#daf7e2"
-        ]
-      },
-      "paint-str-04": {
-        "role": "paint",
-        "displayName": "Paint STR-04 (Tie-wire Violet)",
-        "canonical": "#7b52b8",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#13002b",
-          "#2e0c53",
-          "#4c287a",
-          "#6b44a4",
-          "#8b65c7",
-          "#ab8ae4",
-          "#cfb3ff",
-          "#f3e7ff"
-        ]
-      },
-      "paint-str-05": {
-        "role": "paint",
-        "displayName": "Paint STR-05 (Strand Red)",
-        "canonical": "#c0392b",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#220000",
-          "#4e0000",
-          "#7b0702",
-          "#a6281d",
-          "#cd4c3d",
-          "#ed7665",
-          "#ffa797",
-          "#ffe5df"
-        ]
-      },
-      "paint-str-06": {
-        "role": "paint",
-        "displayName": "Paint STR-06 (Ready-mix Slate)",
-        "canonical": "#5d6b78",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#060c12",
-          "#1c252d",
-          "#36414b",
-          "#525f6c",
-          "#727f8c",
-          "#94a0ac",
-          "#bac6d0",
-          "#eaeff5"
-        ]
-      },
-      "paint-str-07": {
-        "role": "paint",
-        "displayName": "Paint STR-07 (Lean-concrete Sand)",
-        "canonical": "#a8957a",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#110a02",
-          "#2c2215",
-          "#493e2d",
-          "#695b47",
-          "#8b7a62",
-          "#ae9b81",
-          "#d3c1a9",
-          "#f5ede3"
-        ]
-      },
-      "paint-str-08": {
-        "role": "paint",
-        "displayName": "Paint STR-08 (Pile Teal)",
-        "canonical": "#16809a",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#000f19",
-          "#002a39",
-          "#00495d",
-          "#006980",
-          "#2c8aa3",
-          "#5dabc2",
-          "#8dd0e5",
-          "#d7f4fe"
-        ]
-      },
-      "paint-str-09": {
-        "role": "paint",
-        "displayName": "Paint STR-09 (Aggregate Brown)",
-        "canonical": "#9a5a24",
-        "source": "src/config/categoryPaint.ts",
-        "tonalRamp": [
-          "#1f0100",
-          "#401600",
-          "#633000",
-          "#884c18",
-          "#ab6d3c",
-          "#ca9065",
-          "#ecb892",
-          "#ffe9d7"
-        ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Landing tag headline only, two stamped lines; clamp(27px, 8.4vw, 34px) on phones."
+        "purpose": "Home headline only, two centred lines; clamp(34px, 7vh, 60px) on short desktops, 30px on short phones."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Landing section heads; back-face heading clamp(26px, 3.2vw, 42px); closing band clamp(20px, 2.3vw, 28px)."
+        "purpose": "Home section heads."
       },
       "page-title": {
         "displayName": "Page Title",
-        "purpose": "Workspace page h1; 25px on phones."
+        "purpose": "Search and estimate page h1."
+      },
+      "material-title": {
+        "displayName": "Material Title",
+        "purpose": "Material page h1; wraps long MOC names."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Panel (19px), section (21px), step/group (17–18px) and landing flow/audience (22–23px) heads."
+        "purpose": "Card and panel heads; steps 19px/600, empty state 22px, home card material name 18px/600."
       },
-      "stamped": {
-        "displayName": "Stamped",
-        "purpose": "Tabular numbers and codes on the tag; big prices clamp(24px, 2.6vw, 34px), MOC codes 19px at .07em."
+      "price-hero": {
+        "displayName": "Price Hero",
+        "purpose": "Latest price on the price card, charcoal, tabular."
       },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Default Thai reading text; long copy at 1.75 line-height, 72ch cap."
+      "price-total": {
+        "displayName": "Price Total",
+        "purpose": "Estimate grand total; cost-box total clamp(26px, 3vw, 32px)."
+      },
+      "price-tile": {
+        "displayName": "Price Tile",
+        "purpose": "Forecast tile figures in forecast orange; 16px on phones, 18px in detail rows."
       },
       "body-lead": {
         "displayName": "Body Lead",
-        "purpose": "Landing intros and section ledes, 52–62ch."
+        "purpose": "Hero subline (36em cap); section sublines clamp(16px, 1.6vw, 18px)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default reading text; search input 18px."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Field labels, stat captions, units; 12px meta below. Never uppercase."
+        "purpose": "Legends, card labels, chip text; nav 15px/500, buttons 16px/600."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Secondary row lines, units, ranges."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Month labels, peeks, demo stamp; change chips 12.5px/600."
       },
       "wordmark": {
         "displayName": "Wordmark",
-        "purpose": "THAI TAY live-text wordmark beside the building mark."
+        "purpose": "THAI TAY live-text wordmark; 19px on phones."
       },
       "wordmark-sub": {
         "displayName": "CONSTRUCT",
-        "purpose": "Sub-wordmark in concrete gray at .42em tracking; the only small text in concrete, as part of the logo lockup."
+        "purpose": "CONSTRUCT in concrete gray at .42em; the only small concrete text, as part of the lockup."
       },
       "_scale": {
         "displayName": "Font-size steps in use",
-        "purpose": "9.5, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 34px; clamp(13px, 1.6vw, 15px), clamp(19px, 2.4vw, 24px), clamp(20px, 2.3vw, 28px), clamp(24px, 2.6vw, 34px), clamp(26px, 3.2vw, 42px), clamp(27px, 8.4vw, 34px), clamp(28px, 3.3vw, 44px), clamp(34px, 4.7vw, 66px)."
+        "purpose": "9.5, 11, 12, 12.5, 13, 14, 14.5, 15, 16, 17, 18, 19, 20, 22, 30px; clamp(13px, 1.6vw, 15px), clamp(16px, 1.6vw, 18px), clamp(16px, 1.7vw, 19px), clamp(19px, 2.4vw, 24px), clamp(24px, 3.2vw, 34px), clamp(26px, 3vw, 32px), clamp(26px, 3.6vw, 40px), clamp(28px, 3.4vw, 36px), clamp(28px, 4vw, 42px), clamp(38px, 5vw, 50px), clamp(34px, 6.6vw, 70px), clamp(34px, 7vh, 60px)."
       }
     },
     "shadows": [
       {
-        "name": "panel",
-        "value": "0 1px 2px rgba(36, 42, 45, .06), 0 2px 8px -4px rgba(36, 42, 45, .08)",
-        "purpose": "Cards, material tag, horizon tags, source links (--shadow-panel)."
+        "name": "card",
+        "value": "0 1px 2px rgba(36, 42, 45, .05), 0 18px 40px -26px rgba(36, 42, 45, .32)",
+        "purpose": "Panels, step cards, trust card, art frame, material price card, row hover (--shadow-card)."
       },
       {
         "name": "lift",
-        "value": "0 14px 32px -16px rgba(36, 42, 45, .35)",
-        "purpose": "Active horizon tag and landing closing band (--shadow-lift)."
+        "value": "0 1px 2px rgba(36, 42, 45, .06), 0 28px 56px -28px rgba(36, 42, 45, .45)",
+        "purpose": "Home price card over the art, search dropdown, toast (--shadow-lift)."
       },
       {
-        "name": "hanging-tag",
-        "value": "0 34px 60px -34px rgba(36, 42, 45, .6), 0 10px 22px -14px rgba(36, 42, 45, .35)",
-        "purpose": "Landing tag faces only."
+        "name": "search-field",
+        "value": "0 22px 44px -26px rgba(36, 42, 45, .45)",
+        "purpose": "Hero search box (-30px spread on the search page)."
       },
       {
-        "name": "ink-press",
-        "value": "0 12px 22px -14px rgba(36, 42, 45, .8)",
-        "purpose": "Charcoal primary button on the tag."
+        "name": "orange-cta",
+        "value": "0 12px 24px -12px rgba(232, 117, 59, .75)",
+        "purpose": "Primary buttons and the search button (--shadow-cta)."
       },
       {
-        "name": "popover",
-        "value": "0 24px 60px -18px rgba(36, 42, 45, .45)",
-        "purpose": "Material picker popover."
+        "name": "fab",
+        "value": "0 0 0 6px #fff, 0 14px 24px -10px rgba(232, 117, 59, .9)",
+        "purpose": "Raised phone search button; adds 0 0 0 8px orange tint when current."
       },
       {
-        "name": "hairline-drop",
-        "value": "0 1px 0 rgba(36, 42, 45, .14)",
-        "purpose": "Active nav item; .3 under the orange button, .25 under the logo label on the tag."
+        "name": "bottom-bar",
+        "value": "0 -8px 24px -18px rgba(36, 42, 45, .35)",
+        "purpose": "Phone bottom nav."
       },
       {
-        "name": "drawer",
-        "value": "18px 0 50px rgba(36, 42, 45, .18)",
-        "purpose": "Mobile sidebar drawer."
+        "name": "active-tab",
+        "value": "0 1px 2px rgba(36, 42, 45, .08), inset 0 -2px 0 #e8753b",
+        "purpose": "Current top-nav link."
       },
       {
         "name": "focus-halo",
-        "value": "0 0 0 3px rgba(232, 117, 59, .22)",
-        "purpose": "Focused input or open picker, with a charcoal border."
+        "value": "0 0 0 4px rgba(232, 117, 59, .28)",
+        "purpose": "Focused search and quantity fields, with a charcoal border."
       },
       {
-        "name": "printed-rule",
-        "value": "inset -1.5px -1.5px 0 rgba(36, 42, 45, .6)",
-        "purpose": "Field-box rules printed on the landing tag."
+        "name": "step-ring",
+        "value": "0 0 0 6px #fbe3d4",
+        "purpose": "Orange-tint ring around step numbers."
+      },
+      {
+        "name": "stage-halo",
+        "value": "radial-gradient(52% 58% at 50% 56%, rgba(232, 117, 59, .2), transparent 72%)",
+        "purpose": "Background halo behind the home stage only (not a box-shadow); single use."
       }
     ],
     "motion": [
       {
-        "name": "tag-flip",
-        "value": "transform .8s cubic-bezier(.2, .75, .2, 1)",
-        "purpose": "Landing tag turn; 3D (perspective 2400px) only while turning or turned. Reduced motion: .2s opacity crossfade."
-      },
-      {
-        "name": "stamp-settle",
-        "value": ".28s cubic-bezier(.2, .8, .2, 1)",
-        "purpose": "Stamped prices settle (opacity .25 to 1, translateY -4px to 0) when the material changes."
-      },
-      {
         "name": "state",
         "value": ".15s",
-        "purpose": "Hover/selection color, border and 1px lift transitions."
+        "purpose": "Background, border, colour and shadow transitions on buttons, chips, rows, nav."
       },
       {
-        "name": "drawer",
-        "value": "transform .22s cubic-bezier(.2, .8, .2, 1)",
-        "purpose": "Mobile sidebar drawer."
+        "name": "press",
+        "value": "transform .1s, translateY(1px)",
+        "purpose": "Button active state."
+      },
+      {
+        "name": "toast-in",
+        "value": ".22s ease-out",
+        "purpose": "Toast fades up 8px."
+      },
+      {
+        "name": "reduced-motion",
+        "value": ".01ms",
+        "purpose": "All animation and transition durations collapse; smooth scrolling becomes instant."
       }
     ],
     "breakpoints": [
       {
-        "name": "sidebar-drawer",
-        "value": "1100px"
-      },
-      {
-        "name": "tag-fields-6col",
-        "value": "1000px"
-      },
-      {
         "name": "single-column",
-        "value": "800px"
+        "value": "960px"
       },
       {
-        "name": "compact",
-        "value": "760px"
+        "name": "phone-chrome",
+        "value": "767px",
+        "note": "bottom nav replaces top nav"
       },
       {
-        "name": "phone-workspace",
-        "value": "620px"
-      },
-      {
-        "name": "phone-tag",
-        "value": "560px"
+        "name": "phone-content",
+        "value": "640px"
       },
       {
         "name": "narrow",
-        "value": "520px"
+        "value": "360px"
+      },
+      {
+        "name": "short-desktop",
+        "value": "(min-width: 961px) and (max-height: 860px)"
+      },
+      {
+        "name": "short-phone",
+        "value": "(max-width: 767px) and (max-height: 720px)"
       }
     ],
     "radiusSteps": [
-      "2px",
       "6px",
       "8px",
-      "9px",
       "10px",
-      "11px",
       "12px",
-      "13px",
       "14px",
       "16px",
+      "18px",
       "20px",
       "22px",
+      "24px",
+      "26px",
+      "28px",
       "50%",
       "999px"
     ],
+    "layout": {
+      "wrap": "min(1160px, 100% - 32px)",
+      "hero": "900px",
+      "search": "720px",
+      "sections": "1080px",
+      "searchPage": "860px",
+      "stageCardTrack": "450px",
+      "sideColumn": "390px",
+      "header": "72px (62px phones)",
+      "bottomNav": "78px + safe-area"
+    },
     "brandAssets": {
-      "mark": "public/brand/thai-tay-mark.png (opaque #F3F0EA ground; place only on warm white)",
+      "mark": "public/brand/thai-tay-mark.png (opaque #F3F0EA ground; place only on warm white: header, footer, splash)",
       "icons": [
         "public/brand/favicon-32.png",
         "public/brand/favicon-48.png",
         "public/brand/apple-touch-icon.png"
       ],
       "iconNote": "Dark mark on charcoal rounded tile, app icons only."
+    },
+    "illustration": {
+      "component": "SiteArt (photo slot via src/config/photos.ts)",
+      "frame": "#f3e6d8",
+      "palette": [
+        "#f8f1e8",
+        "#efdccb",
+        "#e6d6c6",
+        "#e4d8c8",
+        "#8b9396",
+        "#747d80",
+        "#c55f2a",
+        "#e8753b",
+        "#a84b1a",
+        "#474e51"
+      ],
+      "note": "Illustration-only colours; never UI."
+    },
+    "chart": {
+      "measured": "#242a2d 2.5px solid",
+      "forecast": "#a84b1a 2.5px dashed 6 5, white-filled points",
+      "band": "#e8753b at fillOpacity .2",
+      "grid": "#dcd6cb dashed 3 3",
+      "tick": "#5a6266 12px",
+      "height": "300px (240px phones)"
     }
   },
   "components": [
@@ -641,166 +533,160 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Workspace default action: brand orange with charcoal text.",
-      "html": "<button class=\"ds-btn-primary\">เพิ่มลงใบประมาณราคา</button>",
-      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:8px 16px;border:0;border-radius:10px;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font:600 14px/1 Prompt,system-ui,sans-serif;box-shadow:0 1px 0 rgba(36,42,45,.3);cursor:pointer;transition:background .15s}.ds-btn-primary:hover{background:var(--tag-hover,#f08a55)}.ds-btn-primary:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
+      "description": "Orange action with charcoal text and orange glow.",
+      "html": "<button class=\"ds-btn-primary\">ดูกราฟ และคำนวณต้นทุน</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border:1.5px solid transparent;border-radius:14px;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font:600 16px/1.3 Prompt,system-ui,sans-serif;box-shadow:0 12px 24px -12px rgba(232,117,59,.75);cursor:pointer;transition:background-color .15s,transform .1s}.ds-btn-primary:hover{background:var(--tag-hover,#f08a55)}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
     },
     {
-      "name": "Primary on Orange",
+      "name": "Secondary Button",
       "kind": "button",
-      "refersTo": "button-on-tag",
-      "description": "The primary action where it sits on the orange tag or closing band: charcoal with white text.",
-      "html": "<div class=\"ds-on-tag\"><button class=\"ds-btn-ink\">เปิดพยากรณ์ฉบับเต็ม <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button></div>",
-      "css": ".ds-on-tag{padding:24px;background:var(--tag,#e8753b);border-radius:22px}.ds-btn-ink{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 24px;border:0;border-radius:12px;background:var(--ink,#242a2d);color:#fff;font:600 17px/1 Prompt,system-ui,sans-serif;box-shadow:0 12px 22px -14px rgba(36,42,45,.8);cursor:pointer;transition:transform .15s,background .15s}.ds-btn-ink:hover{background:#3a4246;transform:translateY(-1px)}.ds-btn-ink:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
+      "refersTo": "button-secondary",
+      "description": "White button with a line border; CSV, print, load more.",
+      "html": "<button class=\"ds-btn-secondary\">ดาวน์โหลด CSV</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border:1.5px solid var(--line,#dcd6cb);border-radius:14px;background:#fff;color:var(--ink,#242a2d);font:600 16px/1.3 Prompt,system-ui,sans-serif;cursor:pointer;transition:border-color .15s}.ds-btn-secondary:hover{border-color:var(--concrete,#747d80)}.ds-btn-secondary:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
     },
     {
-      "name": "Flip Button",
-      "kind": "button",
-      "refersTo": "button-on-tag",
-      "description": "Secondary action on the tag that turns it to its provenance face: dashed charcoal edge.",
-      "html": "<div class=\"ds-on-tag\"><button class=\"ds-btn-flip\">ตัวเลขนี้มาจากไหน?</button></div>",
-      "css": ".ds-on-tag{padding:24px;background:var(--tag,#e8753b);border-radius:22px}.ds-btn-flip{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 18px;border:1.5px dashed var(--ink,#242a2d);border-radius:12px;background:transparent;color:var(--ink,#242a2d);font:600 15px/1 Prompt,system-ui,sans-serif;cursor:pointer;transition:background .15s}.ds-btn-flip:hover{background:rgba(36,42,45,.08)}.ds-btn-flip:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
-    },
-    {
-      "name": "Outline Button",
-      "kind": "button",
-      "refersTo": "button-outline",
-      "description": "Secondary workspace action on a panel fill with a concrete edge.",
-      "html": "<button class=\"ds-btn-outline\">ดูรายการวัสดุ</button>",
-      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:8px 16px;border:1px solid var(--concrete,#747d80);border-radius:10px;background:var(--panel,#fcfbf8);color:var(--ink,#242a2d);font:500 14px/1 Prompt,system-ui,sans-serif;cursor:pointer;transition:background .15s}.ds-btn-outline:hover{background:var(--warm-50,#f8f6f1)}.ds-btn-outline:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
-    },
-    {
-      "name": "Search Field",
+      "name": "Search Combobox",
       "kind": "input",
-      "refersTo": "input-field",
-      "description": "Field-white well with a concrete stroke; focus turns the border charcoal with an orange-tint halo.",
-      "html": "<label class=\"ds-search\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input placeholder=\"ค้นหาชื่อ ขนาด หรือรหัสสินค้า\"></label>",
-      "css": ".ds-search{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 12px;border:1px solid var(--concrete,#747d80);border-radius:10px;background:#fff;color:var(--ink-3,#5a6266)}.ds-search:focus-within{border-color:var(--ink,#242a2d);box-shadow:0 0 0 3px rgba(232,117,59,.22)}.ds-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:400 15px/1.6 Prompt,system-ui,sans-serif;color:var(--ink,#242a2d)}.ds-search input::placeholder{color:var(--ink-3,#5a6266)}"
+      "refersTo": "search-field",
+      "description": "68px search field with the orange button inside.",
+      "html": "<form class=\"ds-search\" role=\"search\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"เช่น เหล็กเส้น SD40\" aria-label=\"ค้นหาวัสดุ\"><button type=\"submit\">ค้นหา</button></form>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;width:min(100%,720px);height:68px;padding:0 8px 0 20px;background:#fff;border:1.5px solid var(--concrete,#747d80);border-radius:20px;box-shadow:0 22px 44px -26px rgba(36,42,45,.45);color:var(--ink-3,#5a6266);transition:border-color .15s,box-shadow .15s}.ds-search:focus-within{border-color:var(--ink,#242a2d);box-shadow:0 0 0 4px rgba(232,117,59,.28),0 22px 44px -26px rgba(36,42,45,.45)}.ds-search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--ink,#242a2d);font:400 18px/1.4 Prompt,system-ui,sans-serif}.ds-search input::placeholder{color:var(--ink-3,#5a6266)}.ds-search button{height:52px;padding:0 24px;border:0;border-radius:14px;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font:600 16px/1 Prompt,system-ui,sans-serif;box-shadow:0 12px 24px -12px rgba(232,117,59,.75);cursor:pointer;transition:background-color .15s}.ds-search button:hover{background:var(--tag-hover,#f08a55)}.ds-search button:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
     },
     {
-      "name": "Sidebar Navigation",
+      "name": "Quick-pick Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Round chips; pressed is charcoal with white text.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" aria-pressed=\"true\">เหล็กเส้น SD40</button><button class=\"ds-chip\" aria-pressed=\"false\">คอนกรีตผสมเสร็จ</button><button class=\"ds-chip\" aria-pressed=\"false\">ทรายหยาบ</button></div>",
+      "css": ".ds-chips{display:flex;flex-wrap:wrap;gap:8px}.ds-chip{min-height:40px;padding:0 16px;border:1px solid var(--line,#dcd6cb);border-radius:999px;background:#fff;color:var(--ink-2,#474e51);font:500 14px/1 Prompt,system-ui,sans-serif;cursor:pointer;transition:border-color .15s,background-color .15s,color .15s}.ds-chip:hover{border-color:var(--concrete,#747d80);color:var(--ink,#242a2d)}.ds-chip[aria-pressed=\"true\"]{background:var(--ink,#242a2d);border-color:var(--ink,#242a2d);color:#fff}.ds-chip:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
+    },
+    {
+      "name": "Price Card",
+      "kind": "card",
+      "refersTo": "price-card",
+      "description": "Latest price well, three forecast tiles and a verdict box.",
+      "html": "<article class=\"ds-pc\"><div class=\"ds-pc-top\"><span class=\"ds-pill\">เหล็กเส้นเสริมคอนกรีต</span><span class=\"ds-stamp\">ข้อมูลตัวอย่าง</span></div><h3>เหล็กข้ออ้อย SD40 · 10 มม.</h3><div class=\"ds-pc-now\"><span>ราคาล่าสุด · ต.ค. 69</span><p><b>฿24,295</b><small>ต่อ ตัน</small></p></div><ol class=\"ds-pc-ahead\"><li><span>อีก 1 เดือน</span><strong>฿23,815</strong><em class=\"ds-chg down\">↘ 2.0%</em></li><li><span>อีก 2 เดือน</span><strong>฿23,290</strong><em class=\"ds-chg down\">↘ 4.1%</em></li><li><span>อีก 3 เดือน</span><strong>฿22,785</strong><em class=\"ds-chg down\">↘ 6.2%</em></li></ol><p class=\"ds-verdict\"><b>ราคามีแนวโน้มลงราว 6.2% ใน 3 เดือน</b>ถ้ายังไม่รีบใช้ รอซื้อได้</p></article>",
+      "css": ".ds-pc{display:grid;max-width:420px;padding:24px;background:#fff;border:1px solid rgba(36,42,45,.07);border-radius:26px;box-shadow:0 1px 2px rgba(36,42,45,.06),0 28px 56px -28px rgba(36,42,45,.45);color:var(--ink,#242a2d);font-family:Prompt,system-ui,sans-serif}.ds-pc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.ds-pill{padding:4px 12px;border-radius:999px;background:var(--sunken,#e9e4da);color:var(--ink-2,#474e51);font-size:13px;font-weight:500}.ds-stamp{padding:2px 9px;border:1.5px solid var(--stamp,#c0301e);border-radius:6px;background:#fff;color:var(--stamp,#c0301e);font-size:12px;font-weight:600}.ds-pc h3{margin:0 0 16px;font-size:18px;font-weight:600}.ds-pc-now{padding:16px 18px;border-radius:18px;background:var(--warm-50,#f8f6f1);border:1px solid var(--line,#dcd6cb)}.ds-pc-now span{color:var(--ink-2,#474e51);font-size:14px;font-weight:500}.ds-pc-now p{display:flex;align-items:baseline;gap:10px;margin:2px 0 0}.ds-pc-now b{font-size:44px;font-weight:700;line-height:1.15;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.ds-pc-now small{color:var(--ink-3,#5a6266);font-size:15px}.ds-pc-ahead{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 0;padding:0;list-style:none}.ds-pc-ahead li{display:grid;gap:4px;justify-items:start;padding:12px;border:1px solid var(--line,#dcd6cb);border-radius:16px}.ds-pc-ahead span{color:var(--ink-2,#474e51);font-size:13px;font-weight:500}.ds-pc-ahead strong{color:var(--forecast,#a84b1a);font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}.ds-chg{padding:1px 8px 1px 5px;border-radius:999px;font-size:12.5px;font-weight:600;font-style:normal}.ds-chg.down{background:var(--down-tint,#dcede4);color:var(--down,#2f6f55)}.ds-chg.up{background:var(--up-tint,#f7dbe3);color:var(--up,#9e1b3c)}.ds-verdict{margin:16px 0 0;padding:12px 14px;border-radius:16px;background:var(--sunken,#e9e4da);font-size:14px;line-height:1.55}.ds-verdict b{display:block;font-size:15px}"
+    },
+    {
+      "name": "Top Navigation",
       "kind": "nav",
       "refersTo": "nav-item",
-      "description": "Warm-white sidebar items; active is a brand-orange fill with semibold charcoal text.",
-      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item is-active\" href=\"#\">ภาพรวม</a><a class=\"ds-nav-item\" href=\"#\">ราคาวัสดุ</a><a class=\"ds-nav-item\" href=\"#\">พยากรณ์ราคา</a></nav>",
-      "css": ".ds-nav{width:248px;padding:14px;background:var(--ground,#f3f0ea);border-right:1px solid var(--line,#dcd6cb)}.ds-nav-item{display:flex;align-items:center;min-height:44px;padding:10px 12px;margin:3px 0;border-radius:10px;color:var(--ink-2,#474e51);font:500 14px/1.4 Prompt,system-ui,sans-serif;text-decoration:none;transition:background .15s,color .15s}.ds-nav-item:hover{background:var(--sunken,#e9e4da);color:var(--ink,#242a2d)}.ds-nav-item.is-active{background:var(--tag,#e8753b);color:var(--ink,#242a2d);font-weight:600;box-shadow:0 1px 0 rgba(36,42,45,.14)}.ds-nav-item:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
+      "description": "Desktop links; current page is a white pill with an orange underline.",
+      "html": "<nav class=\"ds-topnav\"><a href=\"#\" aria-current=\"page\">หน้าแรก</a><a href=\"#\">ค้นหาวัสดุ</a><a href=\"#\">ใบประมาณราคา<span class=\"ds-badge\">2</span></a></nav>",
+      "css": ".ds-topnav{display:flex;gap:4px;padding:12px;background:var(--ground,#f3f0ea)}.ds-topnav a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:12px;color:var(--ink-2,#474e51);font:500 15px/1 Prompt,system-ui,sans-serif;text-decoration:none;transition:background-color .15s,color .15s}.ds-topnav a:hover{background:var(--sunken,#e9e4da);color:var(--ink,#242a2d)}.ds-topnav a[aria-current=\"page\"]{background:#fff;color:var(--ink,#242a2d);font-weight:600;box-shadow:0 1px 2px rgba(36,42,45,.08),inset 0 -2px 0 var(--tag,#e8753b)}.ds-topnav a:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}.ds-badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font-size:12px;font-weight:700}"
     },
     {
-      "name": "Category Chip",
-      "kind": "chip",
-      "refersTo": "chip-category",
-      "description": "Round category filter with paint-code bundle dot; selected is brand orange with a charcoal edge.",
-      "html": "<div class=\"ds-chips\"><button class=\"ds-chip is-selected\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"><rect x=\"1\" y=\"10.2\" width=\"22\" height=\"3.6\" rx=\"1.4\" fill=\"#8a8f90\"/><circle cx=\"12\" cy=\"12\" r=\"8.8\" fill=\"#e0a100\" stroke=\"rgba(36,42,45,.6)\" stroke-width=\"1.2\"/><circle cx=\"12\" cy=\"12\" r=\"5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.2\"/></svg>เหล็กเส้นเสริมคอนกรีต <small>74</small></button><button class=\"ds-chip\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"><rect x=\"1\" y=\"10.2\" width=\"22\" height=\"3.6\" rx=\"1.4\" fill=\"#8a8f90\"/><circle cx=\"12\" cy=\"12\" r=\"8.8\" fill=\"#245594\" stroke=\"rgba(36,42,45,.6)\" stroke-width=\"1.2\"/><circle cx=\"12\" cy=\"12\" r=\"5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.2\"/></svg>เหล็กรูปพรรณ <small>43</small></button></div>",
-      "css": ".ds-chips{display:flex;flex-wrap:wrap;gap:8px}.ds-chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px 0 10px;border:1px solid var(--line,#dcd6cb);border-radius:999px;background:var(--panel,#fcfbf8);color:var(--ink,#242a2d);font:500 14px/1 Prompt,system-ui,sans-serif;cursor:pointer;transition:background .15s,border-color .15s}.ds-chip small{font-size:13px;color:var(--ink-3,#5a6266);font-variant-numeric:tabular-nums}.ds-chip:hover{border-color:var(--concrete,#747d80);background:#fff}.ds-chip.is-selected{background:var(--tag,#e8753b);border-color:var(--ink,#242a2d);font-weight:600}.ds-chip.is-selected small{color:var(--ink,#242a2d)}.ds-chip:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
+      "name": "Bottom Navigation",
+      "kind": "nav",
+      "refersTo": "bottom-nav-fab",
+      "description": "Phone 3-button bar with a raised orange search button.",
+      "html": "<nav class=\"ds-bnav\"><a href=\"#\" aria-current=\"page\"><span class=\"ds-bn-icon\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M3 10.5 12 3l9 7.5V21H3z\"/></svg></span>หน้าแรก</a><a href=\"#\"><span class=\"ds-bn-fab\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg></span>ค้นหาราคา</a><a href=\"#\"><span class=\"ds-bn-icon\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\"/><path d=\"M9 9h6M9 13h6M9 17h4\"/></svg></span>ใบประมาณ</a></nav>",
+      "css": ".ds-bnav{display:grid;grid-template-columns:repeat(3,1fr);align-items:end;max-width:390px;margin-top:40px;padding:6px 8px;background:#fff;border-top:1px solid var(--line,#dcd6cb);box-shadow:0 -8px 24px -18px rgba(36,42,45,.35)}.ds-bnav a{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;min-height:58px;color:var(--ink-3,#5a6266);font:500 12.5px/1.3 Prompt,system-ui,sans-serif;text-decoration:none}.ds-bn-icon{display:grid;place-items:center;width:56px;height:32px;border-radius:999px;transition:background-color .15s}.ds-bnav a[aria-current=\"page\"]{color:var(--ink,#242a2d);font-weight:600}.ds-bnav a[aria-current=\"page\"] .ds-bn-icon{background:var(--tag-tint,#fbe3d4)}.ds-bnav a:hover .ds-bn-icon{background:var(--tag-tint,#fbe3d4)}.ds-bn-fab{display:grid;place-items:center;width:60px;height:60px;margin-top:-30px;margin-bottom:2px;border-radius:50%;background:var(--tag,#e8753b);color:var(--ink,#242a2d);box-shadow:0 0 0 6px #fff,0 14px 24px -10px rgba(232,117,59,.9)}.ds-bnav a:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px;border-radius:8px}"
     },
     {
-      "name": "Forecast Horizon Tag",
+      "name": "Segmented Choice",
+      "kind": "custom",
+      "refersTo": "segmented-option",
+      "description": "Four equal options; checked is charcoal with white text.",
+      "html": "<div class=\"ds-seg\"><label><input type=\"radio\" name=\"ds-w\" checked><span>ตอนนี้</span></label><label><input type=\"radio\" name=\"ds-w\"><span>1 เดือน</span></label><label><input type=\"radio\" name=\"ds-w\"><span>2 เดือน</span></label><label><input type=\"radio\" name=\"ds-w\"><span>3 เดือน</span></label></div>",
+      "css": ".ds-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:360px}.ds-seg label{position:relative}.ds-seg input{position:absolute;opacity:0;width:1px;height:1px}.ds-seg span{display:grid;place-items:center;min-height:44px;border:1.5px solid var(--line,#dcd6cb);border-radius:12px;background:#fff;color:var(--ink,#242a2d);font:600 15px/1 Prompt,system-ui,sans-serif;cursor:pointer;transition:border-color .15s,background-color .15s,color .15s}.ds-seg label:hover span{border-color:var(--concrete,#747d80)}.ds-seg input:checked+span{background:var(--ink,#242a2d);border-color:var(--ink,#242a2d);color:#fff}.ds-seg input:focus-visible+span{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
+    },
+    {
+      "name": "Numbered Step",
       "kind": "card",
-      "refersTo": "horizon-tag",
-      "description": "Punched panel tag with a forecast price in dark orange; active turns brand orange with charcoal figures.",
-      "html": "<div class=\"ds-horizons\"><button class=\"ds-horizon is-active\"><span class=\"ds-h-top\"><strong>อีก 1 เดือน</strong> พ.ย. 69</span><span class=\"ds-h-num\">15,575.00</span><span class=\"ds-h-range\">ช่วง 15,215 – 15,930</span></button><button class=\"ds-horizon\"><span class=\"ds-h-top\"><strong>อีก 2 เดือน</strong> ธ.ค. 69</span><span class=\"ds-h-num\">15,625.00</span><span class=\"ds-h-range\">ช่วง 15,095 – 16,155</span></button></div>",
-      "css": ".ds-horizons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:16px;background:var(--ground,#f3f0ea)}.ds-horizon{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:18px 20px 20px;border:1px solid var(--line,#dcd6cb);border-radius:12px;background:var(--panel,#fcfbf8);color:var(--ink,#242a2d);text-align:left;font-family:Prompt,system-ui,sans-serif;box-shadow:0 1px 2px rgba(36,42,45,.06),0 2px 8px -4px rgba(36,42,45,.08);cursor:pointer;transition:border-color .15s,transform .15s,box-shadow .15s}.ds-horizon::before{content:'';position:absolute;top:14px;right:14px;width:11px;height:11px;border-radius:50%;background:var(--ground,#f3f0ea);box-shadow:0 0 0 2px var(--panel,#fcfbf8),0 0 0 3px var(--concrete,#747d80)}.ds-horizon:hover{border-color:var(--concrete,#747d80);transform:translateY(-1px)}.ds-h-top{font-size:13px;color:var(--ink-3,#5a6266)}.ds-h-top strong{font-size:15px;font-weight:600;color:var(--ink,#242a2d)}.ds-h-num{font-size:34px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--forecast,#a84b1a)}.ds-h-range{font-size:13px;color:var(--ink-3,#5a6266)}.ds-horizon.is-active{background:var(--tag,#e8753b);border-color:var(--ink,#242a2d);box-shadow:0 14px 32px -16px rgba(36,42,45,.35)}.ds-horizon.is-active::before{box-shadow:0 0 0 2px var(--tag,#e8753b),0 0 0 3px var(--concrete,#747d80)}.ds-horizon.is-active .ds-h-num,.ds-horizon.is-active .ds-h-range,.ds-horizon.is-active .ds-h-top{color:var(--ink,#242a2d)}.ds-horizon:focus-visible{outline:2px solid var(--ink,#242a2d);outline-offset:2px}"
-    },
-    {
-      "name": "Landing Tag Fields",
-      "kind": "custom",
-      "refersTo": "button-on-tag",
-      "description": "Signature: the orange tag with the logo on a warm-white label and printed field boxes; latest price on a warm-white field, forecasts in charcoal on orange, charcoal inspector stamp.",
-      "html": "<div class=\"ds-tag\"><div class=\"ds-tag-head\"><span class=\"ds-grommet\"></span><span class=\"ds-label\"><b>THAI TAY</b><i>CONSTRUCT</i></span></div><div class=\"ds-fields\"><div class=\"ds-field is-latest\"><small>ราคาล่าสุด · ต.ค. 69</small><strong>15,460.00</strong><small>บาท / ตัน</small></div><div class=\"ds-field\"><small>อีก 1 เดือน · พ.ย. 69</small><strong>15,575.00</strong><small>ช่วง 15,215 – 15,930</small></div></div><span class=\"ds-stamp\">ข้อมูลตัวอย่าง</span></div>",
-      "css": ".ds-tag{position:relative;padding:0 0 24px;border-radius:22px;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font-family:Prompt,system-ui,sans-serif;box-shadow:0 34px 60px -34px rgba(36,42,45,.6),0 10px 22px -14px rgba(36,42,45,.35)}.ds-tag-head{display:flex;align-items:center;gap:16px;min-height:64px;padding:12px 20px 12px 64px;border-bottom:1.5px solid rgba(36,42,45,.6)}.ds-grommet{position:absolute;left:20px;top:16px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,var(--ground,#f3f0ea) 0 7px,#5f6c77 7px 8.5px,#c9d1d7 8.5px 13px,#5f6c77 13px 15px)}.ds-label{display:flex;flex-direction:column;gap:3px;padding:6px 14px;border-radius:10px;background:var(--ground,#f3f0ea);box-shadow:0 1px 0 rgba(36,42,45,.25);line-height:1}.ds-label b{font-size:18px;font-weight:700;letter-spacing:.01em}.ds-label i{font-style:normal;font-size:8.5px;font-weight:500;letter-spacing:.42em;color:var(--concrete,#747d80)}.ds-fields{display:grid;grid-template-columns:1fr 1fr;margin:20px 20px 0;border:1.5px solid rgba(36,42,45,.6);border-radius:13px;overflow:hidden}.ds-field{display:flex;flex-direction:column;gap:4px;padding:14px 18px 16px}.ds-field+.ds-field{box-shadow:inset 1.5px 0 0 rgba(36,42,45,.6)}.ds-field.is-latest{background:var(--ground,#f3f0ea)}.ds-field small{font-size:13px}.ds-field strong{font-size:30px;font-weight:700;line-height:1.3;letter-spacing:.02em;font-variant-numeric:tabular-nums}.ds-stamp{display:inline-block;margin:18px 0 0 24px;padding:1px 12px 0;border:3px solid var(--ink,#242a2d);border-radius:8px;font-weight:700;font-size:18px;letter-spacing:.04em;transform:rotate(-6deg);mix-blend-mode:multiply;opacity:.9}"
-    },
-    {
-      "name": "Demo Stamp (light surface)",
-      "kind": "custom",
-      "refersTo": "demo-stamp",
-      "description": "Inspector stamp marking synthetic prices on light surfaces; the only text use of stamp red.",
-      "html": "<div class=\"ds-banner\"><span class=\"ds-demo\">ข้อมูลตัวอย่าง</span><p>ราคาในหน้านี้เป็นข้อมูลตัวอย่าง จนกว่าจะเชื่อมโมเดลพยากรณ์จริง</p></div>",
-      "css": ".ds-banner{display:flex;gap:14px;align-items:center;padding:12px 16px;border:1px solid var(--line,#dcd6cb);border-radius:12px;background:var(--panel,#fcfbf8);color:var(--ink-2,#474e51);font:400 14px/1.7 Prompt,system-ui,sans-serif}.ds-banner p{margin:0}.ds-demo{flex:0 0 auto;padding:3px 10px 2px;border:2px solid var(--stamp,#c0301e);border-radius:6px;color:var(--stamp,#c0301e);font-weight:700;font-size:15px;letter-spacing:.02em;transform:rotate(-3deg)}"
+      "refersTo": "step-number",
+      "description": "White step card with an orange number in a tint ring.",
+      "html": "<div class=\"ds-step\"><span class=\"ds-step-no\">1</span><div><h3>ค้นหาวัสดุ</h3><p>พิมพ์ชื่อ เช่น เหล็กเส้น SD40 คอนกรีต หรือเสาเข็ม</p></div></div>",
+      "css": ".ds-step{display:grid;gap:18px;max-width:320px;padding:28px 26px;background:#fff;border:1px solid rgba(36,42,45,.08);border-radius:24px;box-shadow:0 1px 2px rgba(36,42,45,.05),0 18px 40px -26px rgba(36,42,45,.32);font-family:Prompt,system-ui,sans-serif;color:var(--ink,#242a2d)}.ds-step-no{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--tag,#e8753b);color:var(--ink,#242a2d);font-size:22px;font-weight:700;box-shadow:0 0 0 6px var(--tag-tint,#fbe3d4)}.ds-step h3{margin:0 0 6px;font-size:19px;font-weight:600;line-height:1.45}.ds-step p{margin:0;color:var(--ink-2,#474e51);font-size:15px;line-height:1.65}"
     }
   ],
   "narrative": {
-    "northStar": "The Rebar Mill Tag",
-    "overview": "THAI TAY reads like the tag wired to a bundle of rebar at the mill. In the owner's THAI TAY CONSTRUCT colors it is an orange field with stamped boxes for material, code, unit and price, hung on a steel wire through a punched grommet over a warm-white yard. The landing shows that tag up close and at full commitment. One orange tag, up to 1200px wide, holds the working material picker, the latest measured price and three stamped forecast months, and it turns over to show where the numbers come from. The workspace keeps the same world in a quieter register: warm-white ground, near-white panels, orange for whatever is selected or pressed, and stamped Prompt numerals for every figure. Nothing in the workspace performs.\n\nThe palette comes from the owner's brand board, and every color has a job. Charcoal is the ink and the small solid controls; it is never a page. Concrete gray belongs to the logo, strong rules, the flow rail and control edges. Brand orange is the tag, the primary action and the selection, and only charcoal text sits on it. A fixed data code runs across every surface: charcoal for measured prices, dark orange for forecasts, crimson and green for up and down, and stamp red for demo data. Nine bar-end paint codes tell the structural categories apart, and each one always sits beside the category's name.\n\nThe pages are dense enough for a quantity surveyor and plain enough for a homeowner. Thai text gets generous line-height (1.6 to 1.75 in body copy) so upper and lower vowel marks have room. Motion is limited to the tag flip, a short settle on stamped numbers when the material changes, and hover feedback. Nothing moves on its own.",
+    "northStar": "The Site-Office Price Board",
+    "overview": "THAI TAY v0.9 works like the price board at a builder's merchant: one big question answered in one line, one place to type, and the numbers printed large. It follows the owner's own apps, AirClean and KickHub, in the owner's THAI TAY CONSTRUCT colours. A warm-white page carries a big centred Thai headline, with its second line marked by an orange-tint highlighter band. Below it sits a wide white search combobox with the orange button inside, a row of quick-pick chips, and a white price card that overlaps a construction illustration (a photo slot for later). Further down come three numbered steps and a \"where prices come from\" card. The site has three pages: home, search plus a per-material page, and the estimate sheet.\n\nThe surfaces are soft and friendly but never cute. White cards with large radii (24–28px) float on warm white under long, low charcoal shadows. Orange marks the action: the search button, primary buttons, step numbers, the raised phone search button and the count badge. A choice the user has made fills charcoal. A fixed data code runs through every price: charcoal for measured prices, dark orange for forecasts, crimson and green only on the small change chips and trend arrows, and stamp red only on the demo-data label.\n\nPrompt is the only typeface, matching the logo's geometric wordmark. Thai text gets generous line-height (body 1.65, display 1.2) so upper and lower vowel marks have room. Motion is limited to short colour and border transitions (.15s), a 1px press, and the toast rising in. Nothing moves on its own.",
     "keyCharacteristics": [
-      "Light theme only: warm-white ground, charcoal ink, no dark pages.",
-      "Brand orange means the tag, the primary action and the selection, and it carries charcoal text only.",
-      "A fixed data code: measured prices in charcoal, forecasts in dark orange, brand orange only on the range band.",
-      "Prompt for display, numerals and body, matching the logo's geometric wordmark.",
-      "The owner's building mark sits only on warm white.",
-      "Punched holes only on real tags; one container level in the workspace.",
-      "Signature: the landing tag on its wire, with stamped field boxes, an inspector stamp and a 3D flip to its provenance face."
+      "Light theme only: a warm-white ground, white cards, charcoal ink, no dark pages.",
+      "Search first: a 68px combobox with the orange button inside, with prices shown in the dropdown rows.",
+      "Big tabular prices: the latest price at up to 50px in charcoal, forecasts in dark orange.",
+      "Orange means action and only takes charcoal text; a selected choice is charcoal with white text.",
+      "Large soft radii that grow with the container: 12–14px controls, 16–18px tiles and wells, 24–28px cards.",
+      "A top nav on desktop, and on phones a 3-button bottom nav with a raised orange search button in the centre.",
+      "The building mark sits only on warm white."
     ],
     "rules": [
       {
         "name": "The No Dark Page Rule",
-        "body": "The site is light only, as the owner requires. Charcoal is ink and small solid controls (a button, a tab, a step tile), and never a page, panel or theme. Black is never used.",
+        "body": "The site is light only, as the owner requires. Charcoal is ink and small solid controls (a selected chip, a segmented option), never a page, header, nav bar, panel or theme. Black is never used.",
         "section": "colors"
       },
       {
         "name": "The Charcoal on Orange Rule",
-        "body": "Every piece of text, every icon and every stamp on brand orange is charcoal. Secondary and tertiary inks collapse to charcoal on the tag. White text never goes on orange.",
+        "body": "Every text, icon and badge digit on brand orange is charcoal. White never goes on orange (2.98:1).",
+        "section": "colors"
+      },
+      {
+        "name": "The Action Is Orange, Choice Is Charcoal Rule",
+        "body": "Orange fills mean \"do this\": search, add, open. A pressed quick-pick, a selected category chip and a checked segmented option are charcoal with white text. A highlighted or current item that is not a pressed choice (search option, bottom-nav pill) gets orange tint.",
         "section": "colors"
       },
       {
         "name": "The Data Code Rule",
-        "body": "Measured prices are charcoal and forecasts are dark orange, on every surface. Brand orange in a chart means the range band and nothing else. On the orange tag, forecast figures are charcoal and are told apart by field position, not by color. Never use crimson or green for anything but direction.",
+        "body": "Measured prices are charcoal and forecast prices are dark orange, on every surface. In a chart, brand orange appears only as the low–high band at low opacity. Crimson and green mark direction only in change chips and trend arrows, never as a box fill, text block or price colour. That is why the verdict box is orange tint (rising) or sunken (falling or flat), with only its icon coloured.",
         "section": "colors"
       },
       {
-        "name": "The Concrete Edge Rule",
-        "body": "Concrete gray draws edges, rules and the rail, and it never sets reading text.",
-        "section": "colors"
-      },
-      {
-        "name": "The Stamped Numeral Rule",
-        "body": "Every price, quantity, code and count is set with tabular numerals (the `.num` and stamped styles). Body text never carries a number the user is meant to compare.",
+        "name": "The Tabular Price Rule",
+        "body": "Every price, quantity, total and count is set in Prompt with tabular numerals (the `.num` style), and every price carries its unit (\"ต่อ ตัน\") beside it in smaller ink-3 text.",
         "section": "typography"
       },
       {
         "name": "The Vowel Room Rule",
-        "body": "Thai body copy never goes below 1.5 line-height, and display type never below 1.2. Don't use clipped or gradient text.",
+        "body": "Thai body copy never goes below 1.5 line-height, and display never below 1.2. Headlines and paragraphs use balanced or pretty wrapping. Emphasis in the headline is a flat orange-tint band behind the text (58–94% of the line box), never gradient or clipped text.",
         "section": "typography"
       },
       {
-        "name": "The One Container Rule",
-        "body": "The workspace has one container level. Panels never nest inside panels. Inside a panel, grouping uses hairline rules, dashed rules or a tonal well (warm white behind the numbers).",
+        "name": "The Soft Pool Rule",
+        "body": "Every neutral shadow is charcoal at alpha with a large blur and negative spread. Never black, never a hard offset block, never a border-like ring except the focus halo, the FAB collar and the step-number tint ring.",
         "section": "elevation"
       },
       {
-        "name": "The Charcoal Shadow Rule",
-        "body": "Every shadow and scrim is charcoal at alpha. Never use black and never use a hard offset block shadow.",
+        "name": "The Orange Glow Rule",
+        "body": "Only orange actions (primary buttons, the search button, the FAB) cast an orange shadow. Cards, chips and selected states never glow.",
         "section": "elevation"
       },
       {
-        "name": "The Punched Hole Rule",
-        "body": "Only real tags get a hole: the landing tag (a drawn steel grommet with its wire), the selected-material tag and the forecast horizon tags (an 11px hole at the top-right corner, filled with warm white and ringed in concrete gray). Plain panels never get one, so a static panel never looks like a selectable tag.",
+        "name": "The Nested Radius Rule",
+        "body": "Anything inside a card uses a smaller radius than the card: 26px card, then an 18px well, then a 16px tile, then a 999px chip. A card's children never match or exceed its radius.",
         "section": "shapes"
       }
     ],
     "dos": [
-      "Do keep every page on warm white, and use charcoal only as ink and small solid controls.",
-      "Do set every text, icon and stamp on brand orange in charcoal, stepping hierarchy by size and weight.",
-      "Do keep brand orange for the tag, the primary action and the current selection.",
-      "Do show measured prices in charcoal and forecasts in dark orange, and keep brand orange in charts for the range band only.",
-      "Do give every forecast its low–high range, and stamp synthetic prices with the demo stamp (red on light surfaces, charcoal on the tag).",
-      "Do draw rules, the rail and control edges in concrete gray, and keep it off reading text.",
-      "Do place the building mark only on warm white, or on a warm-white label set into the tag.",
-      "Do set numbers and codes with Prompt's tabular numerals, and give Thai copy at least 1.5 line-height.",
-      "Do put a punched hole on real tags (the landing tag's grommet, the material tag, forecast horizon tags) and keep plain panels unpunched.",
-      "Do show a paint code only beside its category name.",
-      "Do keep the landing flip 3D only while turning, and crossfade under reduced motion."
+      "**Do** keep every page on warm white with white cards; charcoal is only ink and small selected controls.",
+      "**Do** set every text and icon on brand orange in charcoal.",
+      "**Do** use orange fills for actions and charcoal-with-white for a selected choice; use orange tint for a highlighted or current item.",
+      "**Do** print measured prices in charcoal and forecasts in dark orange, and keep brand orange in charts to the 20% range band.",
+      "**Do** confine crimson and green to change chips and trend arrows, and always pair them with an arrow (and a word outside the tiles).",
+      "**Do** label every synthetic price with the red demo stamp, and give every forecast a low–high range where space allows.",
+      "**Do** set every price in Prompt tabular numerals with its unit beside it.",
+      "**Do** keep Thai body at 1.5 line-height or more and display at 1.2 or more.",
+      "**Do** nest radii downward (card, then well, then tile, then chip).",
+      "**Do** place the building mark only on warm white (header, footer, splash).",
+      "**Do** keep the search box the largest control on the screen, with its orange button inside it.",
+      "**Do** hold touch targets at 44px or more, and keep the bottom nav to three items with search raised in the centre."
     ],
     "donts": [
-      "Don't ship a dark or black page, panel or theme, and don't use black anywhere.",
-      "Don't put white text on brand orange (2.98:1).",
-      "Don't place the mark on orange, white panels or charcoal; its facade disappears into anything but warm white.",
-      "Don't set small text in concrete gray (only the CONSTRUCT line of the logo lockup).",
-      "Don't nest a card inside a card in the workspace; group with rules or a tonal well instead.",
-      "Don't put a kicker or eyebrow line above a heading.",
-      "Don't punch a hole in a plain panel or a static container.",
-      "Don't use forecast orange, crimson or green decoratively, or swap their meanings.",
-      "Don't use stamp red for anything except the demo stamp and the demo status dot.",
-      "Don't fall back to the category defaults the world refused: skyscraper-photo heroes, navy-and-orange feature cards, hazard stripes."
+      "**Don't** ship a dark or black page, header, nav bar or theme, and don't use black anywhere.",
+      "**Don't** put white text on brand orange (2.98:1).",
+      "**Don't** place the mark on white cards, orange or charcoal; its opaque warm-white ground shows as a box on anything else.",
+      "**Don't** set reading text in concrete gray (only the CONSTRUCT line of the lockup).",
+      "**Don't** use crimson or green as a box fill, a price colour or decoration, or forecast orange for anything but forecast figures.",
+      "**Don't** use stamp red for anything but the demo stamp.",
+      "**Don't** fill a selected chip or segmented option with orange; orange fill means action.",
+      "**Don't** give cards, chips or selected states an orange glow; only orange actions cast one.",
+      "**Don't** use gradient or clipped text; the headline emphasis is a flat tint band.",
+      "**Don't** put a kicker or eyebrow line above a heading.",
+      "**Don't** add hard offset or black shadows."
     ]
   }
 }

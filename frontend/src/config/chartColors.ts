@@ -4,7 +4,7 @@ export const CHART = {
   forecast: "#a84b1a", // line + points: dark orange reaches 5.5:1 on panels
   band: "#e8753b",     // range band in brand orange
   grid: "#dcd6cb",
-  axis: "#cfc9be",
+  axis: "#dcd6cb",
   tick: "#5a6266",
-  tooltip: { borderRadius: 10, border: "1px solid #dcd6cb", background: "#fcfbf8", color: "#242a2d" },
+  tooltip: { borderRadius: 12, border: "1px solid #dcd6cb", background: "#ffffff", color: "#242a2d" },
 } as const;
