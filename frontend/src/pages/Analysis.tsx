@@ -6,6 +6,7 @@ import MaterialPicker from "@/components/MaterialPicker.jsx";
 import { PageHeading } from "@/components/ui/scope-layout";
 import { DemoBanner, RangeTabs, SourceLinks, useHistory } from "@/components/ui/price-widgets";
 import { HISTORY_RANGES, formatBaht } from "@/services/priceService";
+import { CHART } from "@/config/chartColors";
 import type { SelectionProps } from "@/types";
 
 export default function Analysis({ selectedId, onSelect }: SelectionProps) {
@@ -43,12 +44,12 @@ export default function Analysis({ selectedId, onSelect }: SelectionProps) {
       <div className="chart-box" aria-busy={loading}>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={points} margin={{ top: 12, right: 12, left: 0, bottom: 0 }}>
-            <defs><linearGradient id="histFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#245594" stopOpacity={0.22} /><stop offset="100%" stopColor="#245594" stopOpacity={0.02} /></linearGradient></defs>
-            <CartesianGrid stroke="#d3d9de" strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="label" minTickGap={36} interval="preserveStartEnd" tick={{ fill: "#56687a", fontSize: 12 }} tickLine={false} axisLine={{ stroke: "#c8d0d6" }} />
-            <YAxis tick={{ fill: "#56687a", fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
-            <Tooltip formatter={(v: number) => [`${formatBaht(v)} บาท / ${material.unit}`, "ราคา"]} contentStyle={{ borderRadius: 10, border: "1px solid #c8d0d6", background: "#fbfcfc", color: "#1b2c3e" }} />
-            <Area type="monotone" dataKey="price" stroke="#245594" strokeWidth={2.5} fill="url(#histFill)" dot={long ? false : { r: 3.5, fill: "#245594" }} activeDot={{ r: 5 }} isAnimationActive={false} />
+            <defs><linearGradient id="histFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={CHART.measured} stopOpacity={0.16} /><stop offset="100%" stopColor={CHART.measured} stopOpacity={0.01} /></linearGradient></defs>
+            <CartesianGrid stroke={CHART.grid} strokeDasharray="3 3" vertical={false} />
+            <XAxis dataKey="label" minTickGap={36} interval="preserveStartEnd" tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={{ stroke: CHART.axis }} />
+            <YAxis tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={64} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
+            <Tooltip formatter={(v: number) => [`${formatBaht(v)} บาท / ${material.unit}`, "ราคา"]} contentStyle={CHART.tooltip} />
+            <Area type="monotone" dataKey="price" stroke={CHART.measured} strokeWidth={2.5} fill="url(#histFill)" dot={long ? false : { r: 3.5, fill: CHART.measured }} activeDot={{ r: 5 }} isAnimationActive={false} />
           </AreaChart>
         </ResponsiveContainer>
       </div>

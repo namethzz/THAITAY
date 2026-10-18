@@ -114,7 +114,7 @@ function App() {
         </nav>
         <div className="sidebar-bottom">
           <div className="system-status"><span className={`dot ${isDemoData ? "" : "live"}`} />{isDemoData ? "ราคาเป็นข้อมูลตัวอย่าง" : "เชื่อมข้อมูลราคาแล้ว"}</div>
-          <div className="version">THAI TAY · Frontend v0.7</div>
+          <div className="version">THAI TAY · Frontend v0.8</div>
         </div>
       </aside>
       {mobileOpen && <button type="button" className="mobile-overlay" tabIndex={-1} onClick={() => setMobileOpen(false)} aria-label="ปิดเมนู" />}

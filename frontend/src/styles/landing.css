@@ -1,10 +1,10 @@
-/* Landing: one rebar bundle tag hung on a wire, then the sections below it on the zinc ground. */
+/* Landing: one orange rebar bundle tag hung on a wire, then the sections below it on the warm white ground. */
 .landing {
   --tag-left: max(24px, calc(50% - 600px));
   --grommet-x: 46px;
   --stage-top: 64px;
   --header-h: 78px;
-  --line-ink: rgba(27, 44, 62, .55);
+  --line-ink: rgba(36, 42, 45, .6);
   min-height: 100dvh;
   background: var(--ground);
   color: var(--ink);
@@ -33,17 +33,20 @@
   border-radius: 22px;
   color: var(--ink);
   background: var(--tag);
-  box-shadow: 0 34px 60px -34px rgba(27, 44, 62, .6), 0 10px 22px -14px rgba(27, 44, 62, .35);
+  box-shadow: 0 34px 60px -34px rgba(36, 42, 45, .6), 0 10px 22px -14px rgba(36, 42, 45, .35);
 }
 .tag-back { transform: rotateY(180deg); }
+/* On orange only charcoal reads (4.9:1): secondary text keeps charcoal and steps down by size and weight instead. */
+.tag-face { --ink-2: var(--ink); --ink-3: var(--ink); }
 
 .tag-header { position: relative; display: flex; align-items: center; gap: 20px; min-height: var(--header-h); padding: 14px 26px 14px 84px; border-bottom: 1.5px solid var(--line-ink); }
-.tag-header .brand-word { font-size: 22px; }
-.tag-header .brand-mark svg rect { fill: #fff6c8; }
+/* The logo is printed on a warm-white label set into the tag. */
+.tag-header .brand-mark { padding: 5px 14px 5px 6px; border-radius: 10px; background: var(--ground); box-shadow: 0 1px 0 rgba(36, 42, 45, .25); }
+.tag-header .brand-mark img { height: 40px; }
 .grommet { position: absolute; left: calc(var(--grommet-x) - 18px); top: calc(var(--header-h) / 2 - 18px); width: 36px; height: 36px; }
 .tag-nav { display: flex; gap: 2px; margin-left: auto; }
 .tag-nav button { min-height: 42px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; color: var(--ink); font-size: 15px; font-weight: 500; }
-.tag-nav button:hover { background: rgba(27, 44, 62, .08); }
+.tag-nav button:hover { background: rgba(36, 42, 45, .08); }
 .tag-ws { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border: 1.5px solid var(--ink); border-radius: 10px; background: transparent; color: var(--ink); font-size: 15px; font-weight: 600; white-space: nowrap; transition: background .15s, color .15s; }
 .tag-ws:hover { background: var(--ink); color: var(--tag); }
 .tag-back-label { margin-left: auto; font-size: 14px; color: var(--ink-2); }
@@ -61,30 +64,32 @@
 .tag-fields > .field:nth-child(3) { grid-column: span 2; box-shadow: inset 0 -1.5px 0 var(--line-ink); }
 .field-price { grid-column: span 3; box-shadow: inset -1.5px 0 0 var(--line-ink); }
 .tag-fields > .field:nth-child(7) { box-shadow: none; }
-.field.is-latest { background: rgba(255, 255, 255, .34); border-bottom-left-radius: 11px; }
+.field.is-latest { background: var(--ground); border-bottom-left-radius: 11px; }
 .field-label { font-size: 13px; font-weight: 500; color: var(--ink-2); }
 .field small { font-size: 13px; color: var(--ink-2); }
 .stamped { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.3; letter-spacing: .02em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .stamped.code { font-size: 19px; letter-spacing: .07em; white-space: nowrap; }
 .stamped.big { font-size: clamp(24px, 2.6vw, 34px); animation: stamp-settle .28s cubic-bezier(.2, .8, .2, 1); }
 .is-latest .stamped { color: var(--measured); }
-/* Forecasts keep the app's bronze code, darkened to read on tag yellow (5.6:1). */
+/* Forecast cells on the orange tag print in charcoal (the only text colour that reads on orange); the measured cell is warm white. */
 .field-price:not(.is-latest) .stamped, .field-price:not(.is-latest) small { color: var(--forecast-on-tag); }
 .inspector-stamp.on-fields { display: none; }
+.tag-face .inspector-stamp { color: var(--ink); border-color: var(--ink); }
 .inspector-stamp { margin-left: auto; margin-right: 6px; padding: 1px 12px 0; border: 3px solid var(--stamp); border-radius: 8px; color: var(--stamp); font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: .04em; transform: rotate(-6deg); mix-blend-mode: multiply; opacity: .9; pointer-events: none; }
 @keyframes stamp-settle { from { opacity: .25; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
 /* Material picker set into the tag as a write-in box. */
-.field-material .mp-trigger { min-height: 64px; background: #fffbe6; border: 1.5px solid var(--ink); }
+.field-material .mp-trigger { min-height: 64px; background: #fff; border: 1.5px solid var(--ink); }
 .field-material .mp-trigger-icon { background: var(--ink); color: var(--tag); }
+.field-material .mp-trigger-copy small, .field-material .mp-trigger-copy em { color: var(--ink-3); }
 .field-material .mp-trigger-unit { display: none; }
 .field-material .mp-trigger { grid-template-columns: auto minmax(0, 1fr) auto; }
 
 .tag-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 26px; }
-.tag-primary { display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding: 0 24px; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font-size: 17px; font-weight: 600; box-shadow: 0 12px 22px -14px rgba(27, 44, 62, .8); transition: transform .15s, background .15s; }
-.tag-primary:hover { background: #26405a; transform: translateY(-1px); }
+.tag-primary { display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding: 0 24px; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font-size: 17px; font-weight: 600; box-shadow: 0 12px 22px -14px rgba(36, 42, 45, .8); transition: transform .15s, background .15s; }
+.tag-primary:hover { background: #3a4246; transform: translateY(-1px); }
 .tag-flip { display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 18px; border: 1.5px dashed var(--ink); border-radius: 12px; background: transparent; color: var(--ink); font-size: 15px; font-weight: 600; transition: background .15s; }
-.tag-flip:hover { background: rgba(27, 44, 62, .08); }
+.tag-flip:hover { background: rgba(36, 42, 45, .08); }
 .tag-note { flex-basis: 100%; margin: 2px 0 0; font-size: 13px; color: var(--ink-2); }
 
 /* Back of the tag */
@@ -106,7 +111,7 @@
 .trace-group small { font-size: 12px; color: var(--ink-2); }
 .trace-group .stamped { font-size: 20px; }
 .trace-group em { font-style: normal; font-size: 12px; color: var(--forecast-on-tag); }
-.trace-group.is-measured ol { background: rgba(255, 255, 255, .34); }
+.trace-group.is-measured ol { background: var(--ground); }
 .trace-group.is-measured .stamped { color: var(--measured); }
 .trace-group.is-forecast .stamped { color: var(--forecast-on-tag); }
 .trace-arrow { display: grid; place-items: center; padding-top: 22px; color: var(--ink); }
@@ -130,8 +135,8 @@
 .flow-no { position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid var(--ink); background: var(--tag); font-family: var(--font-display); font-size: 19px; font-weight: 700; }
 .flow-rail h3 { margin: 0 0 8px; font-size: 22px; line-height: 1.35; }
 .flow-rail p { margin: 0 0 12px; max-width: 40ch; font-size: 16px; line-height: 1.75; color: var(--ink-2); }
-.flow-rail button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--measured); font-size: 16px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
-.flow-rail button:hover { color: var(--ink); }
+.flow-rail button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink); text-decoration-color: var(--link-underline); font-size: 16px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
+.flow-rail button:hover { text-decoration-thickness: 3px; }
 
 .bundle-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--line); }
 .bundle-grid button { display: flex; align-items: center; gap: 16px; min-height: 96px; padding: 18px 22px; border: 0; background: var(--panel); color: var(--ink); text-align: left; transition: background .15s; }
@@ -140,7 +145,7 @@
 .bundle-grid button:hover .paint-dot { transform: scale(1.08); }
 .bundle-grid strong { display: block; font-size: 16px; font-weight: 600; line-height: 1.5; }
 .bundle-grid small { display: block; font-size: 14px; color: var(--ink-3); }
-.bundle-grid button > svg { flex: 0 0 auto; margin-left: auto; color: var(--ink-3); }
+.bundle-grid button > svg:last-child { flex: 0 0 auto; margin-left: auto; color: var(--ink-3); }
 
 .audience-list { margin: 0; border-top: 1.5px solid var(--ink); }
 .audience-list > div { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 2fr); gap: 8px 48px; padding: 24px 0; border-bottom: 1px solid var(--line); }
@@ -149,7 +154,7 @@
 .closing { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin-top: 48px; padding: 28px 32px; border-radius: 20px; background: var(--tag); box-shadow: var(--shadow-lift); }
 .closing p { margin: 0; max-width: 32ch; font-family: var(--font-display); font-size: clamp(20px, 2.3vw, 28px); font-weight: 700; line-height: 1.35; }
 
-.landing-footer { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px 28px; margin-top: 88px; padding: 30px max(24px, calc(50% - 600px)) 38px; border-top: 1px solid var(--line); background: var(--sunken); }
+.landing-footer { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px 28px; margin-top: 88px; padding: 30px max(24px, calc(50% - 600px)) 38px; border-top: 1px solid var(--line); background: var(--ground); }
 .landing-footer p { margin: 0; font-size: 14px; color: var(--ink-2); }
 .landing-footer ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 0; padding: 0; }
 .landing-footer a { font-size: 14px; font-weight: 600; }
@@ -186,8 +191,10 @@
   .tag-face { border-radius: 16px; }
   .tag-header { gap: 10px; padding: 10px 12px 10px 56px; }
   .grommet { width: 30px; height: 30px; left: calc(var(--grommet-x) - 15px); top: calc(var(--header-h) / 2 - 15px); }
-  .tag-header .brand-word { font-size: 18px; }
-  .tag-header .brand-mark svg { display: none; }
+  .tag-header .brand-mark { padding: 4px 10px 4px 4px; }
+  .tag-header .brand-mark img { height: 28px; }
+  .tag-header .brand-word { font-size: 15px; }
+  .tag-header .brand-sub-word { display: none; }
   .tag-ws { min-height: 40px; padding: 0 12px; font-size: 14px; }
   .tag-body { padding: 22px 16px 24px; }
   .tag-title h1 { font-size: clamp(27px, 8.4vw, 34px); }

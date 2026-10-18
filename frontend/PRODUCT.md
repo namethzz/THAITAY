@@ -38,9 +38,10 @@ Forecasts are per specific material item, keyed to the Ministry of Commerce 16-d
 
 ## Brand Commitments
 
-- Name: **THAI TAY**. The site currently renders it as "THAI เท"; the owner's answer names it THAI TAY (open: whether the Thai เท form stays anywhere).
-- Logo and icons will be replaced with assets the owner has already prepared; keep them swappable.
-- Everything else may change. Owner's explicit constraint: no black theme.
+- Name: **THAI TAY**, logo lockup **THAI TAY / CONSTRUCT** (the owner's brand board, supplied in chat).
+- Logo and icon: the owner's building mark (charcoal, concrete gray and orange on warm white) and the dark rounded app tile. Shipped as `public/brand/thai-tay-mark.png` (mark, on warm white) and the favicon / apple-touch icons cut from the board; the wordmark is set as live text in Prompt.
+- Brand palette (binding): Charcoal `#242A2D` (primary), Concrete Gray `#747D80` (secondary), Orange `#E8753B` (accent, energy), Warm White `#F3F0EA` (ground). The mark's light facade shares the ground colour, so the mark only sits on warm white.
+- Owner's explicit constraint: no black theme. The site stays light (warm white ground); charcoal is the ink and small solid controls, never a dark page.
 
 ## Evidence on Hand
 
