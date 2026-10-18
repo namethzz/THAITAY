@@ -124,6 +124,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .toast-copy small { overflow: hidden; color: var(--ink-3); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .toast a { flex: 0 0 auto; font-weight: 600; white-space: nowrap; }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (min-width: 961px) { .toast-region { left: 24px; width: min(440px, 100% - 48px); transform: none; } }
 @media (max-width: 767px) { .toast-region { bottom: calc(92px + env(safe-area-inset-bottom)); } }
 
 /* ---------- Intro splash ---------- */

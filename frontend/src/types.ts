@@ -30,6 +30,8 @@ export interface EstimateLine {
   low: number;
   high: number;
   demo: boolean;
+  /** ราคานี้เป็นราคา ณ วันไหน (YYYY-MM-DD) — มีเฉพาะรายการที่มาจากลิงก์ที่ส่งมา ราคาไม่อัปเดตตามข้อมูลล่าสุด */
+  asOf?: string;
 }
 
 export type AddLine = (line: Omit<EstimateLine, "key">) => void;

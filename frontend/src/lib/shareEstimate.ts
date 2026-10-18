@@ -1,11 +1,11 @@
 import { getMaterialById } from "@/data.js";
-import { monthsLabel } from "@/services/priceService";
+import { isDemoData, monthsLabel } from "@/services/priceService";
 import type { EstimateLine, EstimateMeta } from "@/types";
 
 /**
  * ใบประมาณราคาที่ส่งเป็นลิงก์: รายการ + ราคา ณ วันที่ส่ง อยู่ในลิงก์เอง (#estimate?d=…) ไม่ต้องมีเซิร์ฟเวอร์
  * คนเปิดลิงก์เห็นตัวเลขเดียวกับคนส่ง แม้ราคาจะเปลี่ยนไปแล้ว รูปแบบ v1:
- *   { v, p: โครงการ, c: ลูกค้า, k: % สำรอง, t: VAT 0/1, d: วันที่ส่ง, l: [[รหัสไม่มี MAT-, เดือน, จำนวน, ราคา, ต่ำ, สูง, หน่วยเส้น 0/1, demo 0/1], …] }
+ *   { v, p: โครงการ, c: ลูกค้า, k: % สำรอง, t: VAT 0/1, d: วันที่ส่ง, l: [[รหัสไม่มี MAT-, เดือน, จำนวน, ราคา, ต่ำ, สูง, หน่วยเส้น 0/1, demo 0/1, ราคา ณ วันที่ (ถ้าเก่ากว่าวันส่ง)], …] }
  */
 export interface SharedEstimate { meta: EstimateMeta; lines: EstimateLine[]; date: string }
 
@@ -20,6 +20,10 @@ const fromBase64Url = (code: string) => {
   return new TextDecoder().decode(Uint8Array.from(binary, ch => ch.charCodeAt(0)));
 };
 
+// วันที่ตามเวลาเครื่อง (ไม่ใช่ UTC) — ส่งตอนตีหนึ่งในไทยต้องยังเป็นวันนี้
+const localDate = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+const isIsoDate = (v: unknown): v is string => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
+
 export function encodeEstimate(meta: EstimateMeta, lines: EstimateLine[], date = new Date()) {
   return toBase64Url(JSON.stringify({
     v: 1,
@@ -27,8 +31,8 @@ export function encodeEstimate(meta: EstimateMeta, lines: EstimateLine[], date =
     c: meta.customer.trim(),
     k: meta.contingency,
     t: meta.vat ? 1 : 0,
-    d: date.toISOString().slice(0, 10),
-    l: lines.map(l => [l.materialId.replace(/^MAT-/, ""), l.month, l.qty, l.price, l.low, l.high, l.unit === "เส้น" ? 1 : 0, l.demo ? 1 : 0]),
+    d: localDate(date),
+    l: lines.map(l => [l.materialId.replace(/^MAT-/, ""), l.month, l.qty, l.price, l.low, l.high, l.unit === "เส้น" ? 1 : 0, l.demo ? 1 : 0, ...(l.asOf ? [l.asOf] : [])]),
   }));
 }
 
@@ -40,6 +44,7 @@ export function decodeEstimate(code: string): SharedEstimate | null {
   try {
     const raw = JSON.parse(fromBase64Url(code));
     if (raw?.v !== 1 || !Array.isArray(raw.l)) return null;
+    const date = isIsoDate(raw.d) ? raw.d : "";
     const lines: EstimateLine[] = [];
     raw.l.forEach((row: unknown, index: number) => {
       if (!Array.isArray(row)) return;
@@ -55,12 +60,13 @@ export function decodeEstimate(code: string): SharedEstimate | null {
         month,
         monthLabel: monthsLabel(month),
         qty, price, low, high,
-        demo: row[7] === 1,
+        // ป้ายข้อมูลตัวอย่างเพิ่มได้จากลิงก์ แต่เอาออกไม่ได้: เว็บที่ยังใช้ข้อมูลตัวอย่างติดป้ายเสมอ
+        demo: row[7] === 1 || isDemoData,
+        asOf: isIsoDate(row[8]) ? row[8] : date || undefined,
       });
     });
     if (!lines.length) return null;
     const contingency = [0, 3, 5, 10].includes(raw.k) ? raw.k : 0;
-    const date = /^\d{4}-\d{2}-\d{2}$/.test(raw.d) ? raw.d : "";
     return { meta: { project: text(raw.p), customer: text(raw.c), contingency, vat: raw.t !== 0 }, lines, date };
   } catch {
     return null;

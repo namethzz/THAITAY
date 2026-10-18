@@ -47,7 +47,7 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
     <div className="home">
       <section className="hero" aria-labelledby="hero-title">
         <h1 id="hero-title">รู้ราคาวัสดุก่อสร้าง<br /><span className="hl">ล่วงหน้า 3 เดือน</span></h1>
-        <p className="hero-sub">พิมพ์ชื่อวัสดุงานโครงสร้าง เช่น <span className="nowrap">เหล็กเส้น</span> คอนกรีต เสาเข็ม <span className="nowrap">แล้วเห็นราคาล่าสุด</span>กับราคา<span className="nowrap">อีก 1–3 เดือน</span>ทันที ไม่ต้องสมัครสมาชิก</p>
+        <p className="hero-sub">พิมพ์ชื่อวัสดุงานโครงสร้าง เช่น <span className="nowrap">เหล็กเส้น</span> <span className="nowrap">คอนกรีต</span> <span className="nowrap">เสาเข็ม</span> <span className="nowrap">แล้วเห็นราคาล่าสุด</span>กับราคา<span className="nowrap">อีก 1–3 เดือน</span>ทันที ไม่ต้องสมัครสมาชิก</p>
         <MaterialSearch onPick={show} onShowAll={q => go({ page: "search", q, cat: "all" })} />
         <div className="quick-picks" role="group" aria-label="ตัวอย่างวัสดุ">
           <span>ลองดู</span>

@@ -14,8 +14,12 @@ const CONTINGENCY = [0, 3, 5, 10];
 const VAT_RATE = 0.07;
 const titleOf = (line: EstimateLine) => { const material = getMaterialById(line.materialId); return material ? materialTitle(material).title : line.name; };
 const categoryOf = (line: EstimateLine) => getMaterialById(line.materialId)?.categoryCode ?? "STR-01";
-const whenOf = (line: EstimateLine) => (line.month === 0 ? "ราคาล่าสุด" : `คาดการณ์ ${line.monthLabel}`);
 const thaiDate = (iso?: string) => (iso ? new Date(`${iso}T00:00:00`) : new Date()).toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" });
+// รายการจากลิงก์ที่ส่งมาเป็นราคาที่ตรึงไว้ ณ วันส่ง ต้องบอกวันที่ ไม่ให้ดูเหมือนราคาวันนี้
+const whenOf = (line: EstimateLine) => {
+  const basis = line.month === 0 ? (line.asOf ? "ราคา" : "ราคาล่าสุด") : `คาดการณ์ ${line.monthLabel}`;
+  return line.asOf ? `${basis} ณ ${thaiDate(line.asOf)}` : basis;
+};
 
 function useTotals(lines: EstimateLine[], meta: EstimateMeta) {
   return useMemo(() => {
@@ -227,7 +231,7 @@ function PrintSheet({ lines, meta, totals, date, anyDemo, hasRange }: { lines: E
     <section className="print-sheet">
       <header className="ps-head">
         <div className="ps-brand"><strong>THAI TAY</strong><span>CONSTRUCT</span></div>
-        <div className="ps-title"><h2>ใบประมาณราคาวัสดุ</h2><p>วันที่ {date}</p></div>
+        <div className="ps-title"><h2>ใบประมาณราคาวัสดุ</h2><p>วันที่ {date}</p>{anyDemo && <p className="ps-stamp">ข้อมูลตัวอย่าง ไม่ใช่ราคาจริง</p>}</div>
       </header>
       {(meta.project || meta.customer) && (
         <dl className="ps-meta">
