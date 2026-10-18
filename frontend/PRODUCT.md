@@ -16,7 +16,7 @@ All three read Thai first and think in baht per the material's own unit (ตั�
 
 ## Product Purpose
 
-THAI TAY helps people pick a structural construction material, see how its price has moved, see a forecast of its unit price 1, 2 and 3 months ahead with a plausible range, and turn that into an order cost. Success: a visitor understands where the numbers come from and how the forecast works, then gets from "which material?" to "what will it cost me?" without help.
+THAI TAY tells people what a structural construction material costs now and what it is likely to cost 1, 2 and 3 months ahead, with a plausible low–high range, and turns that into an order cost. The core action is one search: type a material, see its latest price and forecast immediately. Success: a first-time visitor understands within seconds that the site tells construction material prices now and 3 months ahead, and gets from "which material?" to "what will it cost me?" without help or extra choices.
 
 ## Positioning
 
@@ -32,8 +32,8 @@ Forecasts are per specific material item, keyed to the Ministry of Commerce 16-d
 ## Capabilities and Constraints
 
 - Catalog: 287 structural materials in 9 categories (`src/data/structural-materials.json`): rebar, structural steel, wire mesh, tie wire, prestressing wire, ready-mix concrete, lean concrete, piles and precast parts, aggregates. Architecture, masonry, sanitary and electrical are out of scope.
-- Pages: landing, overview, material catalog, price-change analysis (3 months to 10 years), forecast (1–3 months), cost calculator.
-- Prices shown today are **synthetic demo data** generated in `src/services/priceService.ts`, with an on-page demo banner. Backend and ML are not built yet; training data is prepared and the owner plans to use Vertex AI. The API contract is defined (`/prices/{id}/history`, `/prices/{id}/forecast`) and switches on with `VITE_API_BASE`.
+- Pages (three): home (headline, search, live price card, how it works, sources), search (full list with prices, category filter) with a per-material page (latest price, 1–3 month forecast with ranges, buy-now-or-wait hint, 12-month chart, cost box), and the estimate sheet (quantities, contingency, VAT 7%, CSV, print; saved in the browser). Phones get a 3-button bottom nav with search in the centre.
+- Prices shown today are **synthetic demo data** generated in `src/services/priceService.ts`, labelled "ข้อมูลตัวอย่าง" on every price card and in a note at the foot of each page. Backend and ML are not built yet; training data is prepared and the owner plans to use Vertex AI. The API contract is defined (`/prices/{id}/history`, `/prices/{id}/forecast`) and switches on with `VITE_API_BASE`.
 - Frontend only: React 18, Vite, TypeScript, Tailwind CSS 4, shadcn/ui; hash routing; deployed to Vercel and GitHub Pages; no runtime requests to external services except source links the user clicks.
 
 ## Brand Commitments
@@ -50,11 +50,16 @@ Forecasts are per specific material item, keyed to the Ministry of Commerce 16-d
 
 ## Product Principles
 
-1. **Explain before asking for trust**: show where prices come from and how the forecast is made before showing a number.
-2. **Honest numbers**: demo data is labelled, forecasts are ranges, and no accuracy claim appears until a real model has earned it.
-3. **Plain enough for a homeowner, precise enough for a QS**: every number carries its unit and material code.
-4. **One flow**: material → trend → forecast → cost, with the selection carried between steps.
+1. **Say it in one line**: the headline states what the site does; nothing on the first screen competes with it.
+2. **Search first, price instantly**: one search box is the way in; results and the price card show numbers without another click.
+3. **Few choices**: one primary action per screen, one chart, no settings the visitor has to understand before getting an answer.
+4. **Honest numbers**: demo data is labelled, forecasts are ranges, and no accuracy claim appears until a real model has earned it.
+5. **Plain enough for a homeowner, precise enough for a QS**: every number carries its unit; the material page shows the commodity code and the sources.
+
+## Style References
+
+The owner's own apps set the feel: AirClean (light hero, big centred Thai headline, one primary CTA, numbered steps, big price numbers, bottom nav with a raised centre action) and KickHub (large search bar with the button inside, filter chips). THAI TAY follows that family in its own palette.
 
 ## Accessibility & Inclusion
 
-Thai text needs room for upper and lower vowel marks (generous line-height, no clipped gradient text). Respect reduced-motion settings and keep keyboard selection in the material picker working.
+Thai text needs room for upper and lower vowel marks (generous line-height, no clipped gradient text). Respect reduced-motion settings. The search combobox, the buy-when options and the estimate controls all work from the keyboard; "up/down" price changes are stated in words and arrows, never colour alone.

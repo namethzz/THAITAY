@@ -2,13 +2,4 @@
 body{margin:0}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-.app{display:flex}
-.sidebar{position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;z-index:20}
-.brand{display:flex;align-items:center}
-.mobile-close{margin-left:auto;background:none;border:0;color:var(--ink-2)}
-.nav-item{width:100%;border:0;background:transparent;display:flex;align-items:center;text-align:left}
-.dot{width:7px;height:7px;border-radius:50%}
-.topbar{-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0}
-.breadcrumb{display:flex}.mobile-menu{background:none;border:0}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-panel)}.card{padding:22px}
-@media(max-width:1100px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:translateX(0)}}
 @media(pointer:coarse){button{min-height:44px}}

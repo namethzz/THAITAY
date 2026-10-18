@@ -6,7 +6,7 @@
 @import "tw-animate-css";
 @import "./styles/base.css";
 @import "./styles/app.css";
-@import "./styles/structural.css";
+@import "./styles/site.css";
 
 
 @theme inline {

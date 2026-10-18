@@ -1,8 +1,8 @@
-# THAI TAY Frontend v0.8
+# THAI TAY Frontend v0.9
 
 React 18 + Vite 6 + TypeScript + Tailwind CSS 4 + shadcn/ui
 
-Frontend สำหรับเลือกวัสดุงานโครงสร้าง ดูราคาย้อนหลัง พยากรณ์ราคา 1–3 เดือน และคำนวณต้นทุน ข้อมูลราคาตอนนี้เป็น **ข้อมูลตัวอย่าง (Demo)** ที่สร้างใน `src/services/priceService.ts` จนกว่าจะเชื่อม backend ผ่าน `VITE_API_BASE` (ดูหัวข้อ "ข้อมูลราคาและการเชื่อม backend")
+พิมพ์ชื่อวัสดุงานโครงสร้าง แล้วเห็นราคาล่าสุดและราคาคาดการณ์ 1–3 เดือนทันที ใส่จำนวนแล้วได้ใบประมาณราคา ข้อมูลราคาตอนนี้เป็น **ข้อมูลตัวอย่าง (Demo)** ที่สร้างใน `src/services/priceService.ts` จนกว่าจะเชื่อม backend ผ่าน `VITE_API_BASE` (ดูหัวข้อ "ข้อมูลราคาและการเชื่อม backend")
 
 ## รันโครงการ
 
@@ -15,7 +15,7 @@ npm run build
 npm run preview
 ```
 
-build ตรวจ TypeScript ก่อนสร้างไฟล์ production โครงการมี JSX เดิมบางส่วน (`MaterialPicker.jsx`, `data.js`) จึงเปิด allowJs และปิด checkJs หน้าใหม่ใช้ TSX
+build ตรวจ TypeScript ก่อนสร้างไฟล์ production `src/data.js` ยังเป็น JavaScript (มี `data.d.ts` กำกับชนิด) จึงเปิด allowJs และปิด checkJs ส่วนอื่นใช้ TSX
 
 ## Deploy
 
@@ -31,72 +31,71 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 
 ## หน้าในแอป
 
-routing ใช้ hash (`#...`) เก็บใน `src/main.tsx` ทุกหน้า lazy-load แยกไฟล์ เปิดหน้าไหนก็โหลดเฉพาะหน้านั้น
+เว็บมี 3 หน้า routing ใช้ hash (`#...`) แปลง hash ↔ หน้าใน `src/lib/routes.ts` หน้าแรกโหลดพร้อมแอป หน้าอื่น lazy-load แยกไฟล์ (กราฟ recharts โหลดเฉพาะหน้าวัสดุ)
 
 | hash | หน้า | ไฟล์ |
 |---|---|---|
-| ไม่มี hash / `#home` | หน้าแรก (landing) | `src/pages/Landing.tsx` |
-| `#overview` | ภาพรวม | `src/pages/Overview.tsx` |
-| `#prices` | รายการวัสดุ (ชื่อ hash เดิมเพื่อรองรับลิงก์เก่า) | `src/pages/Materials.tsx` |
-| `#analysis` | วิเคราะห์การเปลี่ยนแปลงราคา (3 เดือน – 10 ปี) | `src/pages/Analysis.tsx` |
-| `#forecast` | พยากรณ์ราคา 1–3 เดือน | `src/pages/Forecast.tsx` |
-| `#cost` | คำนวณต้นทุน (VAT 7%, สำรองผันผวน, CSV, พิมพ์) | `src/pages/CostCalculator.tsx` |
+| ไม่มี hash / `#home` | หน้าแรก: หัวข้อ ช่องค้นหา การ์ดราคา วิธีใช้ ที่มาของราคา | `src/pages/Home.tsx` |
+| `#search?q=…&cat=…` | ค้นหาวัสดุ: รายการทั้งหมดพร้อมราคา กรองตามหมวด (คำค้นเก็บใน URL) | `src/pages/Search.tsx` |
+| `#m/<MAT-ID>` | หน้าวัสดุ (อยู่ในส่วน "ค้นหา"): ราคา คาดการณ์ คำแนะนำ กราฟ 12+3 เดือน คำนวณต้นทุน | `src/pages/MaterialPage.tsx` |
+| `#estimate` | ใบประมาณราคา: จำนวน เงินสำรอง VAT 7% ยอดรวม ช่วงต่ำ–สูง CSV พิมพ์ | `src/pages/Estimate.tsx` |
 
-หน้าแรกไม่มี sidebar กดโลโก้ใน sidebar เพื่อกลับหน้าแรก hash ที่ไม่รู้จักจะเปิดหน้าภาพรวม
+ลิงก์ของ v0.8 ยังเปิดได้: `#overview` → หน้าแรก, `#prices` → ค้นหา, `#forecast` / `#analysis` → หน้าวัสดุที่ดูล่าสุด, `#cost` → ใบประมาณราคา hash ที่ไม่รู้จักเปิดหน้าแรก รหัสวัสดุที่ไม่มีเปิดหน้าค้นหา
+
+จอใหญ่ (≥ 768px) มีเมนู 3 ลิงก์ด้านบน มือถือมีแถบล่าง 3 ปุ่ม ปุ่มกลางคือค้นหา
 
 ## ไฟล์หลัก
 
 | ไฟล์ | หน้าที่ |
 |---|---|
 | `src/data/structural-materials.json` | รายชื่อวัสดุ หมวด รหัส และหน่วย ไม่มีราคา |
-| `src/data.js` | ส่งออก catalog ฟังก์ชันค้นหา และเมนู sidebar |
-| `src/services/priceService.ts` | ชั้นข้อมูลราคา: Demo หรือเรียก API เมื่อตั้ง `VITE_API_BASE` |
+| `src/data.js` | ส่งออก catalog และ `searchMaterials()` (ไม่สนตัวพิมพ์ จุด ช่องว่าง ขีด: "sd40" เจอ "SD.40" เรียงชื่อที่ขึ้นต้นด้วยคำค้นก่อน) |
+| `src/services/priceService.ts` | ชั้นข้อมูลราคา: Demo หรือเรียก API เมื่อตั้ง `VITE_API_BASE`, `getQuote()` (ราคาล่าสุด + คาดการณ์ 3 เดือน มีแคช), `trendVerdict()` คำแนะนำซื้อตอนนี้/รอ |
+| `src/main.tsx` | state ร่วม (วัสดุที่ดูล่าสุด, ใบประมาณราคา, แจ้งเตือน) และสลับหน้า |
+| `src/lib/routes.ts` | hash ↔ หน้า และลิงก์เก่า |
+| `src/components/site/chrome.tsx` | แถบบน แถบล่างมือถือ ท้ายเว็บ และแจ้งเตือนหลังเพิ่มรายการ |
+| `src/components/site/material-search.tsx` | ช่องค้นหาแบบ combobox: รายการพร้อมราคา ลูกศร/Enter/Esc คำแนะนำเมื่อไม่พบ |
+| `src/components/site/price-card.tsx` | การ์ดราคา: ราคาล่าสุดตัวใหญ่ + อีก 1–3 เดือน + คำแนะนำ (แบบหน้าแรก / แบบหน้าวัสดุมีช่วงต่ำ–สูง) |
+| `src/components/site/qty-stepper.tsx` | ช่องจำนวน − / + พิมพ์ทศนิยมได้ |
+| `src/components/site/site-art.tsx` + `src/config/photos.ts` | ภาพใต้ช่องค้นหา: รูปจริงจาก `public/photos/` ถ้าตั้งไว้ ไม่งั้นเป็นภาพวาดหน้างาน |
+| `src/components/ui/price-widgets.tsx` | ป้าย/หมายเหตุข้อมูลตัวอย่าง ป้ายแพงขึ้น/ถูกลง ลิงก์แหล่งที่มา hook โหลดราคา |
+| `src/components/ui/brand-mark.tsx` | โลโก้ THAI TAY CONSTRUCT (รูปอาคาร + ชื่อเป็นตัวอักษรจริง) |
 | `src/config/sources.ts` | แหล่งที่มาราคา (ลิงก์เปิดเว็บต้นทาง) |
-| `src/main.tsx` | routing และ state ร่วม (วัสดุที่เลือก, หมวด, รายการคำนวณต้นทุน) |
-| `src/components/MaterialPicker.jsx` | ค้นหาและเลือกวัสดุจาก dropdown |
-| `src/pages/Landing.tsx` + `src/styles/landing.css` | หน้าแรก: ป้ายเหล็กเส้นแขวนลวด เลือกวัสดุบนป้ายได้ พลิกดูที่มาของตัวเลข |
-| `src/components/ui/brand-mark.tsx` | โลโก้ THAI TAY CONSTRUCT (รูปอาคาร + ชื่อเป็นตัวอักษรจริง) และ `PaintDot` |
+| `src/config/chartColors.ts` | สีกราฟ (ราคาจริง charcoal, คาดการณ์ส้มเข้ม, ช่วงส้มอ่อน) |
 | `public/brand/` | รูปอาคารของโลโก้ (`thai-tay-mark.png` พื้น Warm White) และ favicon / apple-touch-icon ตัดจาก brand board |
-| `src/config/chartColors.ts` | สีกราฟ (ราคาจริง charcoal, คาดการณ์ส้ม) |
-| `src/config/categoryPaint.ts` | สีประจำ 9 หมวดวัสดุ (แบบสีทาปลายมัดเหล็ก) |
-| `src/components/ui/header-3.tsx` | แถบบนของพื้นที่ทำงาน |
-| `src/components/ui/saa-s-template.tsx` + `src/components/demo-saas-template.tsx` | component landing ที่แนบมาใน v0.6 ยังเก็บไว้ แต่หน้าแรก v0.7 ไม่ได้ใช้แล้ว |
-| `src/components/ui/button.tsx` | shadcn Button |
-| `src/components/ui/price-widgets.tsx` | แถบ Demo, ตัวเลือกช่วงเวลา, ลิงก์แหล่งที่มา |
-| `src/components/ui/material-categories.tsx` | ปุ่มหมวดวัสดุพร้อมจำนวนรายการ |
-| `src/components/ui/material-details.tsx` | รายละเอียดวัสดุที่เลือก |
-| `src/components/ui/scope-layout.tsx` | หัวข้อหน้าและการ์ดสถิติ |
-| `src/components/ui/intro-splash.tsx` | ตัดสินว่าจะแสดงหน้าต้อนรับหรือไม่ (โหลดทันที ขนาดเล็ก) |
-| `src/components/ui/intro-splash-overlay.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ใช้ motion โหลดแยกเฉพาะตอนที่ต้องแสดง |
+| `src/components/ui/intro-splash.tsx` + `intro-splash-overlay.tsx` + `apple-hello-effect.tsx` | หน้าต้อนรับ "hello" ครั้งแรกที่เปิดแท็บ (motion โหลดแยกเฉพาะตอนแสดง) |
+| `src/components/ui/saa-s-template.tsx` + `src/components/demo-saas-template.tsx` | component landing ที่แนบมาใน v0.6 ยังเก็บไว้ แต่ไม่ได้ใช้ |
+| `src/components/ui/button.tsx` | shadcn Button (หน้าใหม่ใช้ class `.btn` ใน CSS) |
 | `src/lib/utils.ts` | cn() จาก clsx และ tailwind-merge |
 | `src/styles.css` | style entry, ฟอนต์ Prompt และ Tailwind theme |
-| `src/styles/base.css` | reset และ layout พื้นฐาน (ส่วนที่ยังใช้จาก CSS รุ่นแรก) |
-| `src/styles/app.css` | token สีทั้งหมด (`:root`), browser surfaces, sidebar / topbar |
-| `src/styles/structural.css` | หน้าในพื้นที่ทำงาน: ภาพรวม, รายการวัสดุ, ราคา/พยากรณ์, คำนวณต้นทุน, หน้าต้อนรับ |
+| `src/styles/base.css` | reset |
+| `src/styles/app.css` | token สี (`:root`), ปุ่ม, แถบบน/ล่าง, ท้ายเว็บ, แจ้งเตือน, หน้าต้อนรับ |
+| `src/styles/site.css` | ช่องค้นหา การ์ดราคา และทั้ง 3 หน้า + responsive + พิมพ์ |
 | `components.json` | การตั้งค่า shadcn CLI |
 
 `@/` ชี้ไปที่ `src/` ดังนั้น `/components/ui` คือ `frontend/src/components/ui` ซึ่งเป็นตำแหน่งที่ shadcn CLI เพิ่ม component ให้ จึงเก็บ component ที่ใช้ซ้ำไว้ที่นี่
 
-## ระบบสี / ตัวอักษร (v0.8: สีแบรนด์ THAI TAY CONSTRUCT)
+## ระบบสี / ตัวอักษร (สีแบรนด์ THAI TAY CONSTRUCT)
 
-ธีมสว่าง พื้น Warm White ไม่มีหน้ามืด แก้ค่าได้ที่ `:root` ใน `src/styles/app.css`
+ธีมสว่าง พื้น Warm White การ์ดขาว ไม่มีหน้ามืด แก้ค่าได้ที่ `:root` ใน `src/styles/app.css`
 
 | token | ค่า | ใช้กับ |
 |---|---|---|
-| `--ground` | `#F3F0EA` Warm White | พื้นเว็บ, sidebar, พื้นหลังโลโก้ |
-| `--panel` `--sunken` `--line` | `#FCFBF8` `#E9E4DA` `#DCD6CB` | แผ่นเนื้อหา พื้นยุบ เส้นแบ่ง |
-| `--ink` `--ink-2` `--ink-3` | `#242A2D` Charcoal และ 2 ระดับรอง | ตัวอักษร ราคาจริง focus ring |
-| `--concrete` | `#747D80` Concrete Gray | โลโก้ ตัวอักษรใหญ่ ของตกแต่ง (ห้ามใช้กับตัวเล็ก 3.7:1) |
-| `--tag` | `#E8753B` Orange | ป้ายหน้าแรก ปุ่มหลัก สิ่งที่เลือก เมนูที่เปิดอยู่ (ตัวหนังสือบนส้มเป็น charcoal เท่านั้น) |
-| `--forecast` / `--forecast-line` | `#A84B1A` / `#E8753B` | ตัวเลขราคาคาดการณ์ / เส้นและช่วงในกราฟ |
-| `--up` `--down` | `#A3302A` `#2F6F55` | ราคาแพงขึ้น / ถูกลง |
-| `--stamp` | `#C0301E` | ตราประทับ "ข้อมูลตัวอย่าง" บนพื้นสว่าง (บนป้ายส้มใช้หมึก charcoal) |
+| `--ground` | `#F3F0EA` Warm White | พื้นเว็บ แถบบน พื้นหลังโลโก้ |
+| `--surface` `--warm-50` | `#FFFFFF` `#F8F6F1` | การ์ด ช่องกรอก / ช่องราคาในการ์ด |
+| `--sunken` `--line` | `#E9E4DA` `#DCD6CB` | ป้ายหมวด เส้นขอบ |
+| `--ink` `--ink-2` `--ink-3` | `#242A2D` Charcoal และ 2 ระดับรอง | ตัวอักษร ราคาจริง ชิปที่เลือก focus ring |
+| `--concrete` | `#747D80` Concrete Gray | ขอบช่องกรอก (4.2:1) ห้ามใช้กับตัวหนังสือเล็ก |
+| `--tag` `--tag-tint` | `#E8753B` Orange / `#FBE3D4` | ปุ่มหลัก ปุ่มค้นหา สิ่งที่เลือก (ตัวหนังสือบนส้มเป็น charcoal เท่านั้น) / พื้นเน้น |
+| `--forecast` | `#A84B1A` | ตัวเลขราคาคาดการณ์ และเส้นคาดการณ์ในกราฟ |
+| `--up` `--down` | `#9E1B3C` `#2F6F55` | แพงขึ้น / ถูกลง (มีคำและลูกศรกำกับเสมอ) |
+| `--stamp` | `#C0301E` | ป้าย "ข้อมูลตัวอย่าง" |
 
-ฟอนต์ Prompt ทั้งเว็บ (หัวเรื่อง ตัวเลข เนื้อหา) เข้ากับตัวอักษรเรขาคณิตในโลโก้ ทุกคู่สีที่เป็นตัวหนังสือผ่าน WCAG AA (≥ 4.5:1)
+ฟอนต์ Prompt ทั้งเว็บ ทุกคู่สีที่เป็นตัวหนังสือผ่าน WCAG AA (≥ 4.5:1)
 
-โลโก้: รูปอาคารมีผนังสีเดียวกับพื้น Warm White จึงวางได้บนพื้น `#F3F0EA` เท่านั้น บนพื้นสีอื่น (เช่นป้ายส้ม) ให้วางในฉลากสีขาวอุ่น ถ้ามีไฟล์โลโก้ต้นฉบับความละเอียดสูง วางทับ `public/brand/thai-tay-mark.png` ได้เลย
+โลโก้: รูปอาคารมีผนังสีเดียวกับพื้น Warm White จึงวางบนพื้น `#F3F0EA` เท่านั้น (แถบบนและท้ายเว็บใช้สีนี้) ถ้ามีไฟล์โลโก้ต้นฉบับความละเอียดสูง วางทับ `public/brand/thai-tay-mark.png` ได้เลย
 
-ลำดับ CSS: `base.css` → `app.css` → `structural.css` ไฟล์หลังชนะเมื่อ selector เท่ากัน ใน v0.6 ได้ลบ declaration ที่ถูกไฟล์หลังทับเสมอ และ rule ของ class ที่ไม่มีในโค้ดแล้วออกจากทั้งสามไฟล์ (ตรวจด้วยภาพหน้าจอทุกหน้า 5 ขนาดจอ ได้ผลเหมือนเดิมทุก pixel)
+ลำดับ CSS: `base.css` → `app.css` → `site.css`
 
 ## รายการวัสดุในขอบเขต
 
@@ -117,21 +116,21 @@ Catalog ใช้เฉพาะ identity metadata ของรายการ�
 
 Material มี `id`, `name`, `unit`, `categoryCode`, `category`, `familyCode` เก็บ MAT-ID ตาม catalog ค้นด้วยรหัสตัวเลข 16 หลักได้
 
-หน้ารายการวัสดุ: มุมมองทุกหมวดแบ่งหัวข้อและแสดง 6 รายการแรกต่อหมวด กด "ดูหมวดนี้" เพื่อดูทั้งหมวด แบ่งหน้า 12 รายการ ค้นหาได้ด้วยชื่อ รหัส ขนาด หน่วย
+หน้าค้นหา: ไม่พิมพ์อะไรจะเรียงตามหมวด (เหล็กเส้นก่อน) แสดงทีละ 24 รายการ ค้นได้ด้วยชื่อ รหัส ขนาด หน่วย
 
 ## ข้อมูลราคาและการเชื่อม backend
 
 ทุกหน้าเรียกข้อมูลราคาผ่าน `src/services/priceService.ts` เท่านั้น
 
-- ไม่ได้ตั้ง `VITE_API_BASE`: ใช้ข้อมูลตัวอย่าง (Demo) ที่สร้างจากรหัสวัสดุ (วัสดุเดียวกันได้ชุดตัวเลขเดียวกัน) และแสดงแถบเตือน Demo ในหน้า
-- ตั้ง `VITE_API_BASE` (เช่นในไฟล์ `.env`): เรียก API ตาม contract ด้านล่าง แถบ Demo หายเอง
-  - `GET /prices/{materialId}/history?months=3..120` → `{ unit, points: [{ date, price }] }`
+- ไม่ได้ตั้ง `VITE_API_BASE`: ใช้ข้อมูลตัวอย่าง (Demo) ที่สร้างจากรหัสวัสดุ (วัสดุเดียวกันได้ตัวเลขเดียวกันทุกหน้า) มีป้าย "ข้อมูลตัวอย่าง" บนการ์ดราคาและหมายเหตุท้ายหน้า
+- ตั้ง `VITE_API_BASE` (เช่นในไฟล์ `.env`): เรียก API ตาม contract ด้านล่าง ป้าย Demo หายเอง
+  - `GET /prices/{materialId}/history?months=1..12` → `{ unit, points: [{ date, price }] }` (การ์ดราคาใช้ 1 เดือนล่าสุด กราฟใช้ 12)
   - `GET /prices/{materialId}/forecast?months=1..3` → `{ unit, points: [{ month, date, price, low, high }] }`
-- ข้อมูลย้อนหลังจริงไม่ถึง 10 ปี: ตั้ง `VITE_MAX_HISTORY_MONTHS` (เช่น 60) ตัวเลือกช่วงที่ยาวกว่าจะถูกปิด
+- รายการค้นหาแสดงราคาทุกแถวที่เห็น (สูงสุด 24 แถวต่อครั้ง) แต่ละวัสดุเรียก API ครั้งเดียวแล้วเก็บแคช ถ้าจะลดจำนวน request ทำ endpoint รวมหลายรหัสแล้วแก้ `getQuote()` ที่เดียว
 
 ## State
 
-App เก็บวัสดุที่เลือก หมวดที่กรอง และรายการในหน้าคำนวณต้นทุนใน React state ของ `main.tsx` แล้วส่งเป็น props ให้แต่ละหน้า ค่าเหล่านี้ตามไปเมื่อเปลี่ยนหน้า แต่ reload แล้วจะเริ่มใหม่ ไม่มี provider หรือ state library เพิ่ม
+`main.tsx` เก็บวัสดุที่ดูล่าสุด (การ์ดหน้าแรกแสดงวัสดุนี้) รายการในใบประมาณราคา และแจ้งเตือน ใบประมาณราคาบันทึกใน `localStorage` (`thai-tay-estimate-v1`) เปิดเว็บใหม่รายการยังอยู่ ถ้าเบราว์เซอร์บันทึกไม่ได้ก็ใช้งานต่อได้ตามปกติ ไม่มี provider หรือ state library เพิ่ม
 
 ## Dependencies / shadcn
 
@@ -156,17 +155,23 @@ npx shadcn@latest init
 
 ## Responsive / assets
 
-Sidebar ยุบเป็นเมนูบนจอกว้างไม่เกิน 1100px หน้าแรกเปลี่ยนเป็นเมนูมือถือที่ต่ำกว่า 1024px ทุกหน้าตรวจที่ 1440, 1024, 768, 390 และ 320 px ไม่มีหน้าล้นแนวนอน
+ตรวจทุกหน้าที่ 1440, 1024, 768, 390 และ 320 px ไม่มีหน้าล้นแนวนอน ต่ำกว่า 768px เมนูบนซ่อนและใช้แถบล่าง ต่ำกว่า 960px หน้าวัสดุและใบประมาณราคาเรียงเป็นคอลัมน์เดียว
 
-ใช้ lucide-react สำหรับไอคอน ภาพเก็บใน `public/images`:
-
-- `construction-architecture.jpg`: ภาพจาก Unsplash ใช้เป็นภาพตั้งต้นของ `saa-s-template` (หน้าในแอปไม่ได้ใช้)
+ใช้ lucide-react สำหรับไอคอน รูปภาพ:
 
 - `public/brand/*`: โลโก้และไอคอนจาก brand board ของเจ้าของ (ฝังที่มาไว้ในไฟล์)
-
-นอกจากโลโก้ หน้าในแอปไม่ใช้รูปภาพ: ป้าย ห่วงตาไก่ ลวด และจุดสีหมวด วาดด้วย CSS / SVG ขนาดเล็ก
+- `public/photos/*`: รูปจริงของเว็บ (ยังไม่มี) ตั้งชื่อไฟล์ใน `src/config/photos.ts` ถ้ายังไม่ตั้ง ภาพใต้ช่องค้นหาเป็นภาพวาด SVG ใน `site-art.tsx`
+- `public/images/construction-architecture.jpg`: ภาพจาก Unsplash ของ `saa-s-template` (ไม่ได้ใช้)
 
 font bundle อยู่ใน project จึงไม่ต้องเรียกบริการภาพหรือ font ภายนอกเมื่อเปิดเว็บ ลิงก์ภายนอกมีเฉพาะลิงก์แหล่งที่มาราคาที่ผู้ใช้กดเอง
+
+## โค้ดที่นำออกใน v0.9
+
+หน้าและ component ของ v0.8 ที่รวมเป็น 3 หน้าใหม่ กู้คืนได้จาก git (commit `2be6dd7`): `src/pages/Landing.tsx`, `Overview.tsx`, `Materials.tsx`, `Analysis.tsx`, `Forecast.tsx`, `CostCalculator.tsx`, `src/components/MaterialPicker.jsx`, `src/components/ui/header-3.tsx`, `material-categories.tsx`, `material-details.tsx`, `scope-layout.tsx`, `src/config/categoryPaint.ts`, `src/styles/landing.css`, `src/styles/structural.css`
+
+```bash
+git show 2be6dd7:frontend/src/pages/Analysis.tsx > Analysis.tsx
+```
 
 ## โค้ดที่นำออกใน v0.6
 

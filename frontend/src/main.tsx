@@ -1,136 +1,97 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { X } from "lucide-react";
-import { defaultMaterialId, getMaterialById, navItems } from "@/data.js";
-import { Button } from "@/components/ui/button";
-import { BrandMark } from "@/components/ui/brand-mark";
-import { Header } from "@/components/ui/header-3";
+import { defaultMaterialId, getMaterialById } from "@/data.js";
 import { IntroSplash } from "@/components/ui/intro-splash";
-import { isDemoData } from "@/services/priceService";
-import type { EstimateLine, Navigate, PageId } from "@/types";
+import { BottomNav, SiteFooter, SiteHeader, Toast, type ToastMessage } from "@/components/site/chrome";
+import Home from "./pages/Home";
+import { hashFor, routeFromHash } from "@/lib/routes";
+import type { AddLine, EstimateLine, Go, Route } from "@/types";
 import "./styles.css";
 
-const Overview = lazy(() => import("./pages/Overview"));
-const Materials = lazy(() => import("./pages/Materials"));
-const Forecast = lazy(() => import("./pages/Forecast"));
-const Analysis = lazy(() => import("./pages/Analysis"));
-const CostCalculator = lazy(() => import("./pages/CostCalculator"));
-const Landing = lazy(() => import("./pages/Landing"));
+const SearchPage = lazy(() => import("./pages/Search"));
+const MaterialPage = lazy(() => import("./pages/MaterialPage"));
+const Estimate = lazy(() => import("./pages/Estimate"));
 
-function validPage(id: string): id is PageId {
-  return id === "home" || navItems.some(([pageId]) => pageId === id);
+const ESTIMATE_KEY = "thai-tay-estimate-v1";
+
+function loadLines(): EstimateLine[] {
+  try {
+    const saved = JSON.parse(localStorage.getItem(ESTIMATE_KEY) ?? "[]");
+    return Array.isArray(saved) ? saved.filter(line => line && getMaterialById(line.materialId) && Number.isFinite(line.price) && Number.isFinite(line.qty)) : [];
+  } catch {
+    return [];
+  }
 }
 
-function pageFromHash(): PageId {
-  const hash = window.location.hash.replace(/^#\/?/, "");
-  if (!hash) return "home";
-  return validPage(hash) ? hash : "overview";
+function pageTitle(route: Route) {
+  if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
+  if (route.page === "material") return `${getMaterialById(route.id)?.name ?? "วัสดุ"} | THAI TAY`;
+  if (route.page === "estimate") return "ใบประมาณราคา | THAI TAY";
+  return "THAI TAY — รู้ราคาวัสดุก่อสร้างล่วงหน้า 3 เดือน";
 }
 
 function App() {
-  const [page, setPage] = useState<PageId>(pageFromHash);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(defaultMaterialId);
-  const [category, setCategory] = useState("all");
-  const [estimateLines, setEstimateLines] = useState<EstimateLine[]>([]);
-  const sidebarRef = useRef<HTMLElement>(null);
+  const [route, setRoute] = useState<Route>(() => routeFromHash(defaultMaterialId));
+  const [lines, setLines] = useState<EstimateLine[]>(loadLines);
+  const [toast, setToast] = useState<ToastMessage | null>(null);
   const mainRef = useRef<HTMLElement>(null);
-  const title = navItems.find(([id]) => id === page)?.[1] || "ภาพรวม";
-  const selectMaterial = (id: string) => { if (getMaterialById(id)) setSelectedId(id); };
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    const handleHash = () => { setPage(pageFromHash()); setMobileOpen(false); window.scrollTo({ top: 0, behavior: "instant" }); };
-    window.addEventListener("hashchange", handleHash);
-    return () => window.removeEventListener("hashchange", handleHash);
+    const onHash = () => setRoute(routeFromHash(selectedId));
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (route.page === "material") setSelectedId(route.id);
+  }, [route]);
+
+  // เปลี่ยนหน้าแล้วกลับไปบนสุด และย้าย focus ไปที่เนื้อหา ให้โปรแกรมอ่านหน้าจอเริ่มอ่านหน้าใหม่ (ไม่ทำตอนเปิดเว็บครั้งแรก)
+  const pageKey = route.page === "material" ? `m/${route.id}` : route.page;
+  useEffect(() => {
+    document.title = pageTitle(route);
+    setToast(null);
+    if (firstRender.current) { firstRender.current = false; return; }
+    window.scrollTo({ top: 0, behavior: "instant" });
+    if (!mainRef.current?.contains(document.activeElement)) mainRef.current?.focus({ preventScroll: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageKey]);
+
+  useEffect(() => {
+    try { localStorage.setItem(ESTIMATE_KEY, JSON.stringify(lines)); } catch { /* ใช้งานต่อได้แม้บันทึกไม่ได้ */ }
+  }, [lines]);
+
+  const go: Go = useCallback(next => {
+    const hash = hashFor(next);
+    if (window.location.hash === hash) setRoute(next);
+    else window.location.hash = hash;
   }, []);
 
-  useEffect(() => { document.title = page === "home" ? "THAI TAY — ราคาวัสดุโครงสร้างล่วงหน้า 1–3 เดือน" : `${title} | THAI TAY`; }, [page, title]);
+  const clearToast = useCallback(() => setToast(null), []);
 
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const oldOverflow = document.body.style.overflow;
-    const trigger = document.querySelector<HTMLButtonElement>(".mobile-menu");
-    document.body.style.overflow = "hidden";
-    if (mainRef.current) mainRef.current.inert = true;
-    sidebarRef.current?.querySelector<HTMLButtonElement>(".mobile-close")?.focus();
-    const closeOnDesktop = () => { if (window.innerWidth > 1100) setMobileOpen(false); };
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOpen(false);
-      if (event.key !== "Tab") return;
-      const items = Array.from(sidebarRef.current?.querySelectorAll<HTMLElement>("button:not([disabled]), a[href]") || []);
-      const first = items[0];
-      const last = items.at(-1);
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
-    };
-    window.addEventListener("keydown", handleKey);
-    window.addEventListener("resize", closeOnDesktop);
-    return () => {
-      document.body.style.overflow = oldOverflow;
-      if (mainRef.current) mainRef.current.inert = false;
-      window.removeEventListener("keydown", handleKey);
-      window.removeEventListener("resize", closeOnDesktop);
-      trigger?.focus();
-    };
-  }, [mobileOpen]);
-
-  const navigate: Navigate = (nextPage) => {
-    setPage(nextPage);
-    setMobileOpen(false);
-    if (pageFromHash() !== nextPage) window.location.hash = nextPage;
-    window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  };
-
-  if (page === "home") {
-    return (
-      <>
-        <IntroSplash />
-        <Suspense fallback={<div className="min-h-dvh" role="status" aria-label="กำลังเปิดหน้า" />}>
-          <Landing navigate={navigate} selectedId={selectedId} onSelect={selectMaterial} onCategorySelect={code => { setCategory(code); navigate("prices"); }} />
-        </Suspense>
-      </>
-    );
-  }
+  const addLine: AddLine = useCallback(line => {
+    setLines(prev => [...prev, { ...line, key: `${line.materialId}-${line.month}-${Date.now()}` }]);
+    setToast({ id: Date.now(), text: "เพิ่มลงใบประมาณราคาแล้ว", detail: `${line.name} · ${line.qty.toLocaleString("th-TH")} ${line.unit}` });
+  }, []);
 
   return (
-    <div className="app">
+    <div className="site">
       <IntroSplash />
-      <a href="#main-content" className="skip-link" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>ข้ามไปยังเนื้อหา</a>
-      <aside id="primary-navigation" ref={sidebarRef} className={`sidebar ${mobileOpen ? "open" : ""}`} aria-label="เมนูหลัก" role={mobileOpen ? "dialog" : undefined} aria-modal={mobileOpen ? true : undefined}>
-        <div className="brand">
-          <a href="#home" className="brand-link" aria-label="THAI TAY หน้าแรก" onClick={(event) => { event.preventDefault(); navigate("home"); }}>
-            <BrandMark />
-            <span className="brand-sub">ราคาวัสดุโครงสร้าง ล่วงหน้า 1–3 เดือน</span>
-          </a>
-          <Button type="button" variant="ghost" size="icon" className="mobile-close" aria-label="ปิดเมนู" onClick={() => setMobileOpen(false)}><X size={20} /></Button>
-        </div>
-        <div className="nav-label">พื้นที่ทำงาน</div>
-        <nav>
-          {navItems.map(([id, label, Icon]) => (
-            <button type="button" key={id} className={`nav-item ${page === id ? "active" : ""}`} onClick={() => navigate(id)} aria-current={page === id ? "page" : undefined}>
-              <Icon size={18} strokeWidth={1.8} /><span>{label}</span>
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <div className="system-status"><span className={`dot ${isDemoData ? "" : "live"}`} />{isDemoData ? "ราคาเป็นข้อมูลตัวอย่าง" : "เชื่อมข้อมูลราคาแล้ว"}</div>
-          <div className="version">THAI TAY · Frontend v0.8</div>
-        </div>
-      </aside>
-      {mobileOpen && <button type="button" className="mobile-overlay" tabIndex={-1} onClick={() => setMobileOpen(false)} aria-label="ปิดเมนู" />}
-      <main className="main" ref={mainRef}>
-        <Header page={page} title={title} navigate={navigate} onMenu={() => setMobileOpen(true)} />
-        <div id="main-content" className="content" tabIndex={-1}>
-          <Suspense fallback={<div className="page-loading" role="status">กำลังเปิดหน้า...</div>}>
-            {page === "overview" && <Overview navigate={navigate} selectedId={selectedId} onSelect={selectMaterial} onCategorySelect={code => { setCategory(code); navigate("prices"); }} />}
-            {page === "prices" && <Materials selectedId={selectedId} onSelect={selectMaterial} category={category} onCategoryChange={setCategory} navigate={navigate} />}
-            {page === "forecast" && <Forecast selectedId={selectedId} onSelect={selectMaterial} navigate={navigate} />}
-            {page === "cost" && <CostCalculator selectedId={selectedId} onSelect={selectMaterial} lines={estimateLines} setLines={setEstimateLines} />}
-            {page === "analysis" && <Analysis selectedId={selectedId} onSelect={selectMaterial} />}
-          </Suspense>
-          <footer className="workspace-footer"><span>THAI TAY <span className="footer-dot">·</span> ราคาวัสดุโครงสร้าง</span><span>ข้อมูลเพื่อประกอบการวางแผน ไม่ใช่ใบเสนอราคาจากผู้ขาย</span></footer>
-        </div>
+      <a href="#main-content" className="skip-link" onClick={event => { event.preventDefault(); mainRef.current?.focus(); }}>ข้ามไปยังเนื้อหา</a>
+      <SiteHeader route={route} count={lines.length} />
+      <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
+        <Suspense fallback={<div className="page-loading" role="status">กำลังเปิดหน้า…</div>}>
+          {route.page === "home" && <Home selectedId={selectedId} onSelect={setSelectedId} go={go} />}
+          {route.page === "search" && <SearchPage key={`${route.q}|${route.cat}`} initialQuery={route.q} initialCategory={route.cat} />}
+          {route.page === "material" && <MaterialPage key={route.id} id={route.id} go={go} addLine={addLine} />}
+          {route.page === "estimate" && <Estimate lines={lines} setLines={setLines} />}
+        </Suspense>
       </main>
+      <SiteFooter />
+      <BottomNav route={route} count={lines.length} />
+      <Toast message={toast} onDone={clearToast} count={lines.length} />
     </div>
   );
 }
