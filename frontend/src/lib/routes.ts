@@ -10,6 +10,7 @@ export function hashFor(route: Route) {
     return `#search${query ? `?${query}` : ""}`;
   }
   if (route.page === "material") return `#m/${route.id}`;
+  if (route.page === "estimate" && route.shared) return `#estimate?d=${route.shared}`;
   return `#${route.page}`;
 }
 
@@ -23,6 +24,6 @@ export function routeFromHash(lastMaterialId: string): Route {
     return getMaterialById(id) ? { page: "material", id } : { page: "search", q: "", cat: "all" };
   }
   if (path === "forecast" || path === "analysis") return { page: "material", id: lastMaterialId };
-  if (path === "estimate" || path === "cost") return { page: "estimate" };
+  if (path === "estimate" || path === "cost") return params.get("d") ? { page: "estimate", shared: params.get("d")! } : { page: "estimate" };
   return { page: "home" };
 }

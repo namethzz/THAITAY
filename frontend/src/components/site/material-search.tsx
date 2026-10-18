@@ -4,6 +4,7 @@ import { searchMaterials } from "@/data.js";
 import { useQuote } from "@/components/ui/price-widgets";
 import { formatPrice } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
+import { CategoryIcon } from "@/components/site/category-icon";
 import type { Material } from "@/types";
 
 const MAX_OPTIONS = 6;
@@ -147,6 +148,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "аЄДа
                 onPointerMove={event => { if (event.pointerType === "mouse" && active !== index) setActive(index); }}
                 onClick={() => pick(material)}
               >
+                <CategoryIcon code={material.categoryCode} size={36} className="row-icon" />
                 <MaterialName material={material} className="msearch-option-copy" />
                 <QuotePeek material={material} />
               </li>

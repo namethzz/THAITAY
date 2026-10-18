@@ -57,16 +57,16 @@ export function SiteFooter() {
         <BrandMark />
         <p>ราคาวัสดุงานโครงสร้าง ล่าสุดและล่วงหน้า 1–3 เดือน สำหรับผู้รับเหมา QS และเจ้าของบ้าน</p>
         <p className="site-footer-fine">
-          ข้อมูลเพื่อประกอบการวางแผน ไม่ใช่ใบเสนอราคาจากผู้ขาย{isDemoData ? " · ตอนนี้ราคาทั้งหมดเป็นข้อมูลตัวอย่าง" : ""} · v0.9
+          ข้อมูลเพื่อประกอบการวางแผน ไม่ใช่ใบเสนอราคาจากผู้ขาย{isDemoData ? " · ตอนนี้ราคาทั้งหมดเป็นข้อมูลตัวอย่าง" : ""} · v0.10
         </p>
       </div>
     </footer>
   );
 }
 
-export interface ToastMessage { id: number; text: string; detail?: string }
+export interface ToastMessage { id: number; text: string; detail?: string; action?: "estimate" | "home" }
 
-/** แจ้งเตือนสั้น ๆ หลังเพิ่มรายการ พร้อมลิงก์ไปใบประมาณราคา */
+/** แจ้งเตือนสั้น ๆ (เพิ่มรายการ, ติดตามวัสดุ, คัดลอกลิงก์) พร้อมลิงก์ไปที่ที่เกี่ยวข้อง */
 export function Toast({ message, onDone, count }: { message: ToastMessage | null; onDone: () => void; count: number }) {
   useEffect(() => {
     if (!message) return;
@@ -79,7 +79,8 @@ export function Toast({ message, onDone, count }: { message: ToastMessage | null
         <div className="toast" key={message.id}>
           <span className="toast-icon" aria-hidden="true"><Check size={18} strokeWidth={2.6} /></span>
           <span className="toast-copy"><strong>{message.text}</strong>{message.detail && <small>{message.detail}</small>}</span>
-          <a href="#estimate" onClick={onDone}>ดูใบประมาณ ({count})</a>
+          {message.action === "estimate" && <a href="#estimate" onClick={onDone}>ดูใบประมาณ ({count})</a>}
+          {message.action === "home" && <a href="#home" onClick={onDone}>ดูหน้าแรก</a>}
         </div>
       )}
     </div>
