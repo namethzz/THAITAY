@@ -82,6 +82,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
     else inputRef.current?.focus();
   };
 
+  // ไฮไลต์ตามเมาส์เฉพาะตอนเมาส์ขยับจริง: ถ้ารายการเปิดขึ้นมาใต้เมาส์ที่วางนิ่งอยู่ Enter ต้องยังหมายถึง "ดูผลทั้งหมด" ไม่ใช่เลือกแถวแรก
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown" && optionCount) { event.preventDefault(); setOpen(true); setActive(i => Math.min(i + 1, optionCount - 1)); }
     else if (event.key === "ArrowUp" && optionCount) { event.preventDefault(); setActive(i => Math.max(i - 1, -1)); }
@@ -143,7 +144,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
                 aria-selected={index === active}
                 className="msearch-option"
                 onPointerDown={event => event.preventDefault()}
-                onPointerEnter={() => setActive(index)}
+                onPointerMove={event => { if (event.pointerType === "mouse" && active !== index) setActive(index); }}
                 onClick={() => pick(material)}
               >
                 <MaterialName material={material} className="msearch-option-copy" />
@@ -157,7 +158,7 @@ export function MaterialSearch({ onPick, onShowAll, size = "hero", label = "ค�
                 aria-selected={active === options.length}
                 className="msearch-option msearch-all"
                 onPointerDown={event => event.preventDefault()}
-                onPointerEnter={() => setActive(options.length)}
+                onPointerMove={event => { if (event.pointerType === "mouse" && active !== options.length) setActive(options.length); }}
                 onClick={showAll}
               >
                 ดูผลทั้งหมด {all.length.toLocaleString("th-TH")} รายการ<ArrowRight size={16} aria-hidden="true" />
