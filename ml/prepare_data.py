@@ -176,6 +176,57 @@ def to_long(df: pd.DataFrame, args) -> pd.DataFrame | None:
     return long[["material_id", "raw_id", "date", "price", "unit_in"]]
 
 
+# ---------------------------------------------------------------- series links
+def spec_key(name: str):
+    """สเปกที่ใช้จับคู่รหัสเก่า–ใหม่ของวัสดุเดียวกัน: ชนิดผิว, เกรด, Tempcore, ขนาด, ความยาว
+    (สนค. เปลี่ยนรหัสเหล็กเส้นเมื่อ มิ.ย. 2561 และ เม.ย. 2569 ชื่อเขียนต่างกันแต่เป็นสินค้าเดียวกัน)"""
+    grade = re.search(r"\b(S[DR])\.?\s*(\d+)", name)
+    dia = re.search(r"(?:ศก\.?|ศูนย์กลาง)\s*(\d+(?:\.\d+)?)\s*มม", name)
+    if not grade or not dia:
+        return None
+    length = re.search(r"ยาว\s*(\d+(?:\.\d+)?)\s*(?:ม\.|เมตร)", name)
+    surface = "ข้ออ้อย" if "ข้ออ้อย" in name else "เรียบ" if "เรียบ" in name else ""
+    temp = "tempcore" if re.search(r"tempco", name, re.I) else ""
+    return (surface, grade.group(1) + grade.group(2), temp, float(dia.group(1)), length.group(1) if length else "")
+
+
+def find_links(clean: pd.DataFrame, names: pd.Series, units: pd.Series, max_gap: int = 3, max_jump: float = 0.15) -> pd.DataFrame:
+    """จับคู่รหัสที่หยุดกับรหัสที่เริ่มใหม่ภายใน max_gap เดือน สเปกและหน่วยเดียวกัน ราคาต่อกัน (ห่างไม่เกิน max_jump)"""
+    span = clean.groupby("material_id")["date"].agg(["min", "max"])
+    key = pd.Series({m: spec_key(names.get(m, "")) for m in span.index})
+    rows = []
+    for old, s in span.iterrows():
+        if key[old] is None:
+            continue
+        cands = [new for new, t in span.iterrows() if new != old and key[new] == key[old]
+                 and units.get(new) == units.get(old)
+                 and 1 <= (t["min"].year - s["max"].year) * 12 + t["min"].month - s["max"].month <= max_gap]
+        if len(cands) != 1:
+            continue
+        new = cands[0]
+        p_old = clean.loc[(clean.material_id == old) & (clean.date == s["max"]), "price"].iloc[0]
+        p_new = clean.loc[(clean.material_id == new) & (clean.date == span.at[new, "min"]), "price"].iloc[0]
+        rows.append(dict(old_id=old, new_id=new, old_last=s["max"], new_first=span.at[new, "min"],
+                         old_price=p_old, new_price=p_new, change=p_new / p_old - 1,
+                         accepted=abs(p_new / p_old - 1) <= max_jump, old_name=names.get(old), new_name=names.get(new)))
+    return pd.DataFrame(rows)
+
+
+def apply_links(clean: pd.DataFrame, links: pd.DataFrame) -> pd.DataFrame:
+    """เติมประวัติของรหัสเก่าเข้าไปใต้รหัสใหม่ (ต่อเป็นทอด ๆ ได้ เช่น 2561 → 2569) รหัสเก่ายังอยู่เหมือนเดิม"""
+    prev = {r.new_id: r.old_id for r in links[links.accepted].itertuples()}
+    added = []
+    for new in prev:
+        start = clean.loc[clean.material_id == new, "date"].min()
+        old = prev.get(new)
+        while old:
+            h = clean[(clean.material_id == old) & (clean.date < start)].assign(material_id=new)
+            added.append(h)
+            start = min(start, h["date"].min()) if len(h) else start
+            old = prev.get(old)
+    return pd.concat([clean, *added], ignore_index=True) if added else clean
+
+
 # ---------------------------------------------------------------- checks
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -184,6 +235,8 @@ def main() -> None:
     ap.add_argument("--year-col"); ap.add_argument("--month-col"); ap.add_argument("--unit-col")
     ap.add_argument("--out", type=Path, default=HERE / "data" / "prices_clean.csv")
     ap.add_argument("--report", type=Path, default=HERE / "out" / "data_report.md")
+    ap.add_argument("--no-link", action="store_true", help="ไม่เชื่อมประวัติรหัสเก่าเข้ากับรหัสใหม่")
+    ap.add_argument("--stale", type=int, default=3, help="วัสดุที่ไม่มีราคาเกินกี่เดือนก่อนเดือนล่าสุด ถือว่าเลิกเก็บราคาแล้ว")
     ap.add_argument("--jump", type=float, default=0.25, help="เตือนเมื่อราคาเปลี่ยนจากเดือนก่อนเกินสัดส่วนนี้ (ค่าเริ่มต้น 25%%)")
     args = ap.parse_args()
 
@@ -247,6 +300,23 @@ def main() -> None:
             f"  - `{r.material_id}` ในไฟล์: {r.unit_in} / บนเว็บ: {cat.at[r.material_id, 'unit']}" for r in u.head(15).itertuples()])
 
     clean = g.mean().reset_index()
+
+    # รหัสเปลี่ยน: สินค้าเดียวกันที่ สนค. ออกรหัสใหม่ ต่อประวัติให้ ไม่อย่างนั้นรหัสใหม่จะมีข้อมูลแค่ไม่กี่เดือน
+    links = find_links(clean, cat["name"], cat["unit"])
+    lines = ["รหัสที่หยุดเก็บราคาแล้วมีรหัสใหม่สเปกเดียวกันเริ่มต่อทันที ราคาต่อเนื่องกัน (ดูทั้งหมดใน `out/series_links.csv`)", ""]
+    if len(links):
+        ok_links = links[links.accepted]
+        lines += [f"- จับคู่ได้ {len(ok_links):,} คู่" + (" (ไม่ได้ใช้ เพราะสั่ง --no-link)" if args.no_link else " และนำประวัติรหัสเก่ามาต่อให้รหัสใหม่แล้ว"),
+                  f"- คู่ที่ราคาต่างกันเกิน 15% ไม่เชื่อม (ให้ตรวจเอง): {int((~links.accepted).sum()):,}"]
+        for (a, b), grp in links.groupby([links.old_last.dt.strftime("%Y-%m"), links.new_first.dt.strftime("%Y-%m")]):
+            lines.append(f"  - รหัสหยุด {a} → รหัสใหม่เริ่ม {b}: {len(grp)} คู่, ราคาเปลี่ยนตอนต่อ {grp.change.min():+.1%} ถึง {grp.change.max():+.1%}")
+        links.to_csv(args.report.with_name("series_links.csv"), index=False)
+        if not args.no_link:
+            clean = apply_links(clean, links)
+    else:
+        lines.append("- ไม่พบ")
+    section("รหัสสินค้าเปลี่ยน (เชื่อมประวัติ)", lines)
+
     in_cat = clean["material_id"].isin(cat.index)
     extra = sorted(clean.loc[~in_cat, "material_id"].unique())
     missing = sorted(set(cat.index) - set(clean["material_id"]))
@@ -280,8 +350,16 @@ def main() -> None:
         f"- น้อยกว่า 24 เดือน (โมเดลเรียนฤดูกาลไม่ได้): {(st['months'] < 24).sum():,} รายการ",
         f"- น้อยกว่า 12 เดือน (แนะนำตัดออกหรือใช้ค่าเดิม): {(st['months'] < 12).sum():,} รายการ",
         f"- มีเดือนขาดกลางชุด: {(st['gaps'] > 0).sum():,} รายการ (รวม {int(st['gaps'].sum()):,} เดือน)",
-        f"- ไม่มีราคาเดือนล่าสุด ({last_month:%Y-%m}): {(st['stale'] > 0).sum():,} รายการ",
+        f"- ไม่มีราคาเดือนล่าสุด ({last_month:%Y-%m}): {(st['stale'] > 0).sum():,} รายการ"
+        f" ในนั้นหยุดเกิน {args.stale} เดือน (เลิกเก็บราคาแล้ว ไม่ควรพยากรณ์): {(st['stale'] > args.stale).sum():,} รายการ",
         f"- ราคาเท่าเดิมทุกเดือน: {(st['flat'] == st['months'] - 1).sum():,} รายการ (อาจเป็นราคาที่ไม่ได้อัปเดตจริง)",
+    ])
+    st = st.join(cat[["category", "name"]], on="material_id")
+    by = st.assign(active=st.stale <= args.stale, enough=(st.stale <= args.stale) & (st.months >= 24)).groupby("category")
+    section("พร้อมพยากรณ์แค่ไหน แยกหมวด", [
+        "| หมวด | วัสดุบนเว็บ | ยังเก็บราคาอยู่ | ยังเก็บอยู่และมี ≥ 24 เดือน |", "|---|---:|---:|---:|",
+        *[f"| {c} | {len(x)} | {int(x.active.sum())} | {int(x.enough.sum())} |" for c, x in by],
+        "", "วัสดุที่เลิกเก็บราคาแล้วควรเอาออกจากหน้าเว็บ หรือซ่อนราคา เพราะ \"ราคาล่าสุด\" อาจเป็นราคาเมื่อหลายปีก่อน",
     ])
     jumps.sort(key=lambda j: -abs(j[2]))
     section(f"ราคากระโดดเกิน {args.jump:.0%} จากเดือนก่อน (ตรวจว่าพิมพ์ผิด/เปลี่ยนหน่วยหรือไม่)", [f"- {len(jumps):,} จุด"] + [
@@ -293,7 +371,7 @@ def main() -> None:
     clean = clean.sort_values(["material_id", "date"])
     args.out.parent.mkdir(parents=True, exist_ok=True)
     clean.to_csv(args.out, index=False)
-    st.sort_values("months").to_csv(args.report.with_name("series_stats.csv"), index=False)
+    st.drop(columns=["category", "name"]).sort_values("months").to_csv(args.report.with_name("series_stats.csv"), index=False)
 
     section("ไฟล์ที่ได้", [f"- `{args.out.relative_to(HERE) if args.out.is_relative_to(HERE) else args.out}` {len(clean):,} แถว, {clean['material_id'].nunique():,} วัสดุ",
                            "- `out/series_stats.csv` สถิติรายวัสดุ"])

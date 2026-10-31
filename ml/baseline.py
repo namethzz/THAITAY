@@ -85,12 +85,17 @@ def main() -> None:
     ap.add_argument("--select", choices=["per-material", "global"], default="global",
                     help="global = ใช้โมเดลที่ดีที่สุดโดยรวมกับทุกวัสดุ (เสถียรกว่า), per-material = เลือกรายวัสดุ")
     ap.add_argument("--interval", type=float, default=0.8, help="ความกว้างช่วง low–high (0.8 = เปอร์เซ็นไทล์ 10–90)")
+    ap.add_argument("--stale", type=int, default=3, help="ข้ามวัสดุที่ไม่มีราคาเกินกี่เดือนก่อนเดือนล่าสุด (เลิกเก็บราคาแล้ว)")
     ap.add_argument("--out", type=Path, default=HERE / "out")
     args = ap.parse_args()
 
     df = pd.read_csv(args.data, parse_dates=["date"])
     meta = df.drop_duplicates("material_id").set_index("material_id")[["categoryCode"]]
-    series = {m: monthly(g.set_index("date")["price"].sort_index()) for m, g in df.groupby("material_id")}
+    latest = df["date"].max()
+    cutoff = latest - pd.DateOffset(months=args.stale)
+    active = df.groupby("material_id")["date"].max() >= cutoff
+    skipped = int((~active).sum())
+    series = {m: monthly(g.set_index("date")["price"].sort_index()) for m, g in df[df["material_id"].map(active)].groupby("material_id")}
 
     # 1) backtest
     err = []
@@ -166,6 +171,7 @@ def main() -> None:
         "# ผล backtest โมเดลพื้นฐาน", "",
         f"- วัสดุ: {E['material_id'].nunique():,} รายการ, จุดที่ทดสอบ: {len(E) // E['model'].nunique():,} ต่อโมเดล",
         f"- ย้อนทดสอบ {args.origins} เดือนล่าสุด ทายล่วงหน้า 1–3 เดือน",
+        f"- ข้ามวัสดุที่ไม่มีราคาตั้งแต่ก่อน {cutoff:%Y-%m} (เลิกเก็บราคาแล้ว): {skipped:,} รายการ",
         "- ตัวเลขคือ MAPE (%) ยิ่งต่ำยิ่งแม่น", "",
         "## ทุกจุดที่ทดสอบ (rolling)", "", fmt(overall), "",
         "## เฉพาะ 3 เดือนสุดท้าย (holdout)", "",
