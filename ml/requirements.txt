@@ -3,6 +3,7 @@ numpy>=1.26
 openpyxl>=3.1        # อ่านไฟล์ .xlsx
 statsmodels>=0.14    # โมเดล ETS (Holt-Winters) ใน baseline.py
 lightgbm>=4.3          # global_model.py
+scikit-learn>=1.4      # lightgbm sklearn API
 fastapi>=0.110       # serve.py (backend)
 uvicorn>=0.29
 # ใช้เฉพาะตอนส่งงานขึ้น Google Cloud
