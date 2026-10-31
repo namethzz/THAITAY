@@ -242,6 +242,9 @@
 .material-summary { grid-area: summary; min-width: 0; }
 .cost-box { grid-area: cost; position: sticky; top: 92px; }
 .chart-panel { grid-area: chart; }
+.discontinued-note { max-width: 640px; margin-top: 24px; }
+.discontinued-note h2 { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.4; }
+.discontinued-note p { margin: 8px 0 20px; color: var(--ink-2); line-height: 1.7; }
 .cost-box h2, .chart-panel h2, .summary h2 { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.4; }
 .when { min-width: 0; margin: 16px 0 0; padding: 0; border: 0; }
 .when legend, .qty label, .contingency legend { display: block; margin-bottom: 8px; padding: 0; color: var(--ink-2); font-size: 14px; font-weight: 600; }

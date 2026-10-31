@@ -5,9 +5,10 @@ Backend เล็ก ๆ ที่ให้บริการ 2 endpoint ตา�
     GET /prices/{materialId}/forecast?months=1..3  -> { unit, points: [{ month, date, price, low, high }] }
 
 อ่านจากไฟล์ 2 ไฟล์ (ตั้ง path ผ่าน env ได้)
-    PRICES_CSV    data/prices_clean.csv   (จาก prepare_data.py)
-    FORECAST_CSV  out/forecast.csv        (จาก baseline.py หรือผลที่ export จาก BigQuery / Vertex AI ในรูปแบบเดียวกัน)
+    PRICES_CSV    api_data/prices.csv     (สำเนาของ data/prices_clean.csv จาก prepare_data.py)
+    FORECAST_CSV  api_data/forecast.csv   (สำเนาของ out/forecast.csv จาก baseline.py หรือผลจาก BigQuery / Vertex AI รูปแบบเดียวกัน)
     ALLOW_ORIGINS https://thaitay.vercel.app  (คั่นด้วย , ถ้ามีหลายโดเมน)
+ไฟล์ใน api_data/ เป็นราคาสาธารณะของ สนค. จึง commit ไว้ให้ deploy ได้ทันที
 
 รันในเครื่อง:  uvicorn serve:app --reload --port 8080
 """
@@ -21,8 +22,8 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 HERE = Path(__file__).resolve().parent
-PRICES = pd.read_csv(os.environ.get("PRICES_CSV", HERE / "data" / "prices_clean.csv"), dtype={"material_id": str})
-FORECAST = pd.read_csv(os.environ.get("FORECAST_CSV", HERE / "out" / "forecast.csv"), dtype={"material_id": str})
+PRICES = pd.read_csv(os.environ.get("PRICES_CSV", HERE / "api_data" / "prices.csv"), dtype={"material_id": str})
+FORECAST = pd.read_csv(os.environ.get("FORECAST_CSV", HERE / "api_data" / "forecast.csv"), dtype={"material_id": str})
 UNITS = PRICES.drop_duplicates("material_id").set_index("material_id")["unit"].to_dict()
 HISTORY = {m: g.sort_values("date")[["date", "price"]] for m, g in PRICES.groupby("material_id")}
 FORECASTS = {m: g.sort_values("month")[["month", "date", "price", "low", "high"]] for m, g in FORECAST.groupby("material_id")}

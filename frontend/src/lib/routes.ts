@@ -23,7 +23,8 @@ export function routeFromHash(lastMaterialId: string): Route {
   if (path === "search" || path === "prices") return { page: "search", q: params.get("q") ?? "", cat: params.get("cat") ?? "all", filters: readFilters(params) };
   if (path.startsWith("m/")) {
     const id = decodeURIComponent(path.slice(2));
-    return getMaterialById(id) ? { page: "material", id } : { page: "search", q: "", cat: "all" };
+    const material = getMaterialById(id); // รหัสเก่าที่ สนค. เปลี่ยนแล้วพาไปที่รหัสใหม่
+    return material ? { page: "material", id: material.id } : { page: "search", q: "", cat: "all" };
   }
   if (path === "forecast" || path === "analysis") return { page: "material", id: lastMaterialId };
   if (path === "estimate" || path === "cost") return params.get("d") ? { page: "estimate", shared: params.get("d")! } : { page: "estimate" };

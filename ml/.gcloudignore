@@ -1,8 +1,6 @@
-# gcloud ใช้ .gitignore ถ้าไม่มีไฟล์นี้ ซึ่งจะตัด data/ กับ out/ ทิ้ง ไฟล์นี้ส่งเฉพาะที่ Dockerfile ต้องใช้
+# gcloud ใช้ .gitignore ถ้าไม่มีไฟล์นี้ ไฟล์นี้ส่งเฉพาะที่ Dockerfile ต้องใช้
 *
 !Dockerfile
 !serve.py
-!data/
-!data/prices_clean.csv
-!out/
-!out/forecast.csv
+!api_data/
+!api_data/*.csv

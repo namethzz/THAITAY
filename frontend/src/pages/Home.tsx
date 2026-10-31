@@ -17,7 +17,7 @@ const QUICK_PICKS = [
   { label: "คอนกรีตผสมเสร็จ", query: "คอนกรีตผสมเสร็จ 240" },
   { label: "เหล็ก H-Beam", query: "h-beam" },
   { label: "ลวดผูกเหล็ก", query: "ลวดผูกเหล็ก" },
-  { label: "ทรายหยาบ", query: "ทรายหยาบ" },
+  { label: "ไวร์เมช", query: "ไวร์เมช" },
 ]
   .map(pick => ({ ...pick, material: searchMaterials(pick.query, { limit: 1 })[0] }))
   .filter((pick): pick is { label: string; query: string; material: Material } => Boolean(pick.material));

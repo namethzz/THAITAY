@@ -3,6 +3,5 @@ FROM python:3.12-slim
 WORKDIR /app
 RUN pip install --no-cache-dir pandas fastapi uvicorn
 COPY serve.py .
-COPY data/prices_clean.csv data/
-COPY out/forecast.csv out/
+COPY api_data/ api_data/
 CMD exec uvicorn serve:app --host 0.0.0.0 --port ${PORT:-8080}

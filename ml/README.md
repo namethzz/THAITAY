@@ -185,6 +185,18 @@ python vertex/train_automl_forecast.py --project YOUR_PROJECT_ID --region asia-s
 
 ## ขั้นที่ 5: เปิด backend แล้วต่อกับเว็บ
 
+backend อ่านไฟล์ใน `api_data/` ซึ่ง commit ไว้แล้ว (ราคาถึง ก.ย. 2569 และผลพยากรณ์จาก `baseline.py`) เมื่อรันโมเดลใหม่ ให้คัดลอกผลมาทับ:
+
+```bash
+cp data/prices_clean.csv api_data/prices.csv
+```
+
+```bash
+cp out/forecast.csv api_data/forecast.csv
+```
+
+แล้วรัน `python update_catalog_status.py` เพื่อให้หน้าเว็บรู้ว่าวัสดุไหนเลิกเก็บราคา (ซ่อนจากการค้นหา) และรหัสเก่าไหนมีรหัสใหม่แทน
+
 ลองในเครื่องก่อน:
 
 ```bash
@@ -211,7 +223,13 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 
 ## อัปเดตทุกเดือน
 
-เมื่อ สนค. ออกราคาเดือนใหม่: รัน `fetch_tpso.py` → `prepare_data.py data/tpso_prices.csv` → `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh` → `gcloud run deploy` ทำเป็น scheduled query ใน BigQuery ได้ภายหลัง
+เมื่อ สนค. ออกราคาเดือนใหม่:
+
+1. `python fetch_tpso.py`
+2. `python prepare_data.py data/tpso_prices.csv`
+3. `python baseline.py` (หรือ BigQuery: `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh`)
+4. คัดลอก `data/prices_clean.csv` และ `out/forecast.csv` เข้า `api_data/` แล้ว `python update_catalog_status.py`
+5. commit แล้ว `gcloud run deploy` (backend) และ redeploy เว็บ (รายการวัสดุที่ซ่อนอยู่ในไฟล์ของเว็บ)
 
 ## ข้อควรจำ
 

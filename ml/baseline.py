@@ -140,22 +140,27 @@ def main() -> None:
     chosen = E[E["model"] == E["material_id"].map(choice)]
     band = chosen.groupby(["categoryCode", "h"])["log_ratio"].quantile([qlo, qhi]).unstack()
     band_all = chosen.groupby("h")["log_ratio"].quantile([qlo, qhi]).unstack()
+    # ช่วงของเดือนที่ไกลกว่าต้องไม่แคบกว่าเดือนที่ใกล้กว่า (หมวดที่มีจุดน้อยอาจได้ค่าสลับกัน)
+    band[qlo], band[qhi] = band[qlo].groupby(level=0).cummin(), band[qhi].groupby(level=0).cummax()
+    band_all[qlo], band_all[qhi] = band_all[qlo].cummin(), band_all[qhi].cummax()
     inside = chosen.apply(lambda r: band.loc[(r.categoryCode, r.h), qlo] <= r.log_ratio <= band.loc[(r.categoryCode, r.h), qhi], axis=1)
 
     # 2) พยากรณ์จริง
     rows = []
     for mid, s in series.items():
-        y = s.to_numpy(float)
-        if len(y) < 2:
-            continue
+        y = s.to_numpy(float)  # มีจุดเดียวได้ (เช่น เพิ่งกลับมาเก็บราคาหลังหยุดไปนาน) จะใช้ naive
+        # วัสดุที่ราคาเดือนล่าสุดยังไม่ออก (ช้ากว่าเดือนล่าสุดของชุดข้อมูล lag เดือน) ทายจากราคาที่มี
+        # แต่ลงวันที่นับจากเดือนล่าสุดของชุดข้อมูล ให้ "อีก 1 เดือน" บนเว็บเป็นเดือนหน้าจริง และใช้ช่วงต่ำ–สูงที่กว้างขึ้นตาม lag
+        lag = (latest.year - s.index[-1].year) * 12 + latest.month - s.index[-1].month
         name = choice.get(mid, best_global)
-        fc = MODELS[name](y)
+        fc = MODELS[name](y) if lag == 0 and len(y) >= 2 else None
         if fc is None:
             name, fc = "naive", f_naive(y)
         c = meta.at[mid, "categoryCode"]
         for h in range(1, H + 1):
-            lo, hi = band.loc[(c, h)] if (c, h) in band.index else band_all.loc[h] if h in band_all.index else (-0.05 * h, 0.05 * h)
-            d = s.index[-1] + pd.DateOffset(months=h)
+            hb = min(h + lag, H)
+            lo, hi = band.loc[(c, hb)] if (c, hb) in band.index else band_all.loc[hb] if hb in band_all.index else (-0.05 * hb, 0.05 * hb)
+            d = latest + pd.DateOffset(months=h)
             p = fc[h - 1]
             rows.append(dict(material_id=mid, month=h, date=d.strftime("%Y-%m-%d"), price=round(p, 2),
                              low=round(p * np.exp(min(lo, 0)), 2), high=round(p * np.exp(max(hi, 0)), 2), model=name))
