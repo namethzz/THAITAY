@@ -51,7 +51,7 @@
 1. **Backend** ให้บริการ 2 endpoint ที่หน้าเว็บรออยู่แล้ว
    - `GET /prices/{materialId}/history?months=1..12` ราคาย้อนหลัง
    - `GET /prices/{materialId}/forecast?months=1..3` ราคาคาดการณ์พร้อม `low` / `high`
-2. **โมเดล ML** พยากรณ์ราคาแยกรายวัสดุ 1–3 เดือนล่วงหน้า ข้อมูลฝึกเตรียมไว้แล้ว และวางแผนใช้ Vertex AI
+2. **โมเดล ML** พยากรณ์ราคาแยกรายวัสดุ 1–3 เดือนล่วงหน้า โค้ดพร้อมแล้วใน [`ml/`](ml/README.md): script ตรวจข้อมูล, โมเดลพื้นฐานในเครื่อง, BigQuery ML / Vertex AI และ backend (`ml/serve.py`) เหลือใส่ข้อมูลจริงแล้วรันตามคู่มือ
 3. **เปลี่ยนจากข้อมูลตัวอย่างเป็นข้อมูลจริง** ตั้ง `VITE_API_BASE` ให้ชี้ไปที่ backend แล้ว build ใหม่ หน้าเว็บจะเลิกใช้ราคาตัวอย่างใน `frontend/src/services/demoPrices.ts`
 
 หน้าเว็บจะยังไม่แสดงตัวเลขความแม่นยำของโมเดล จนกว่าจะมีผลจากโมเดลจริง
@@ -61,7 +61,8 @@
 | ส่วน | ที่ใช้ |
 |---|---|
 | Frontend | React 18, Vite 6, TypeScript, Tailwind CSS 4, shadcn/ui, Recharts |
-| ข้อมูล | Python, Pandas (เตรียมข้อมูลราคาสำหรับฝึกโมเดล) |
+| ข้อมูลและโมเดล | Python, Pandas, statsmodels, BigQuery ML / Vertex AI |
+| Backend | FastAPI บน Cloud Run (`ml/serve.py`) |
 | Deploy | Vercel (และ GitHub Pages ผ่าน `npm run deploy`) |
 
 ## รันในเครื่อง
@@ -89,6 +90,7 @@ THAITAY/
 │   ├── README.md         รายละเอียดทุกไฟล์และวิธี deploy
 │   ├── PRODUCT.md        ผู้ใช้ เป้าหมาย และหลักการของผลิตภัณฑ์
 │   └── DESIGN.md         สี ตัวอักษร และ component
+├── ml/                   ตรวจข้อมูลราคา ฝึกโมเดลพยากรณ์ และ backend (คู่มือใน ml/README.md)
 ├── preview/              ภาพหน้าจอและผลตรวจของแต่ละเวอร์ชัน
 ├── START_HERE.md         วิธีเปิดบน Windows จากไฟล์ ZIP
 └── CHANGES_v0.*.md       สิ่งที่เปลี่ยนในแต่ละเวอร์ชัน
