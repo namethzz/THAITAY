@@ -229,7 +229,8 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 2. `python prepare_data.py data/tpso_prices.csv`
 3. `python baseline.py` (หรือ BigQuery: `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh`)
 4. คัดลอก `data/prices_clean.csv` และ `out/forecast.csv` เข้า `api_data/` แล้ว `python update_catalog_status.py`
-5. commit แล้ว `gcloud run deploy` (backend) และ redeploy เว็บ (รายการวัสดุที่ซ่อนอยู่ในไฟล์ของเว็บ)
+5. `python build_factors.py data/raw` (ไฟล์ดิบเดือนใหม่จาก Drive "New Data") แล้ว `python change_signal.py` เพื่อเติมโอกาสที่ราคาจะเปลี่ยนลง `api_data/forecast.csv`
+6. commit แล้ว `gcloud run deploy` (backend) และ redeploy เว็บ (รายการวัสดุที่ซ่อนอยู่ในไฟล์ของเว็บ)
 
 ## ข้อควรจำ
 
