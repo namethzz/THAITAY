@@ -41,7 +41,13 @@ pip install -r requirements.txt
 
 ## ขั้นที่ 1: ตรวจข้อมูล (ข้อมูลของผมถูกต้องไหม)
 
-1. คัดลอกไฟล์ราคาที่เตรียมไว้ (จาก Google Drive) มาไว้ใน `ml/data/` ซึ่งไม่ถูก commit ขึ้น git
+1. เอาไฟล์ราคามาไว้ใน `ml/data/` ซึ่งไม่ถูก commit ขึ้น git ทำได้ 2 ทาง
+   - ดึงจากเว็บ สนค. โดยตรง (ได้ถึงเดือนล่าสุดที่ สนค. เผยแพร่):
+
+     ```bash
+     python fetch_tpso.py
+     ```
+   - หรือคัดลอกไฟล์ที่เตรียมไว้ใน Google Drive มาใส่
 2. รันคำสั่งนี้ ใส่หลายไฟล์พร้อมกันได้ และอ่านทุกชีตใน Excel
 
 ```bash
@@ -205,7 +211,7 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 
 ## อัปเดตทุกเดือน
 
-เมื่อ สนค. ออกราคาเดือนใหม่: รัน `prepare_data.py` → `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh` → `gcloud run deploy` ทำเป็น scheduled query ใน BigQuery ได้ภายหลัง
+เมื่อ สนค. ออกราคาเดือนใหม่: รัน `fetch_tpso.py` → `prepare_data.py data/tpso_prices.csv` → `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh` → `gcloud run deploy` ทำเป็น scheduled query ใน BigQuery ได้ภายหลัง
 
 ## ข้อควรจำ
 
