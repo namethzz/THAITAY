@@ -112,6 +112,7 @@
 .pc-verdict.up { background: var(--tag-tint); } .pc-verdict.up svg { color: var(--up); }
 .pc-verdict.down { background: var(--sunken); } .pc-verdict.down svg { color: var(--down); }
 .pc-verdict.flat { background: var(--sunken); } .pc-verdict.flat svg { color: var(--ink-2); }
+.pc-verdict.watch { background: var(--tag-tint); } .pc-verdict.watch svg { color: var(--tag); }
 .price-card > .btn { margin-top: 18px; }
 
 /* How it works */

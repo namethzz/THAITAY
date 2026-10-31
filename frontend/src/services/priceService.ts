@@ -9,13 +9,17 @@ import { demoBasePrice } from "./demoPrices";
  *   GET {API}/prices/{materialId}/history?months=1..12   (การ์ดราคาใช้ 1, กราฟหน้าวัสดุใช้ 12)
  *       -> { unit: string, points: [{ date: "YYYY-MM-DD", price: number }] }
  *   GET {API}/prices/{materialId}/forecast?months=1..3
- *       -> { unit: string, points: [{ month: 1|2|3, date: "YYYY-MM-DD", price: number, low: number, high: number }] }
+ *       -> { unit: string, points: [{ month: 1|2|3, date: "YYYY-MM-DD", price: number, low: number, high: number, changeProb?: number }] }
  */
 
 export type Horizon = 1 | 2 | 3;
 
 export interface HistoryPoint { date: string; label: string; price: number }
-export interface ForecastPoint { month: Horizon; date: string; label: string; price: number; low: number; high: number }
+export interface ForecastPoint {
+  month: Horizon; date: string; label: string; price: number; low: number; high: number;
+  /** โอกาสที่ราคาจะเปลี่ยน (ขึ้นหรือลง) ภายในกี่เดือนนี้ 0–1 ปรับเทียบกับที่เกิดจริงในการทดสอบย้อนหลัง มีเฉพาะเมื่อเชื่อม API */
+  changeProb?: number;
+}
 export interface PriceSeries { demo: boolean; unit: string; points: HistoryPoint[] }
 export interface ForecastSeries { demo: boolean; unit: string; points: ForecastPoint[] }
 
@@ -93,7 +97,7 @@ export async function getHistory(material: Material, months: number): Promise<Pr
 
 export async function getForecast(material: Material, months: Horizon = 3): Promise<ForecastSeries> {
   if (!API_BASE) return demoForecast(material, months);
-  const data = await remote<{ unit: string; points: { month: Horizon; date: string; price: number; low: number; high: number }[] }>(`/prices/${encodeURIComponent(material.id)}/forecast?months=${months}`);
+  const data = await remote<{ unit: string; points: { month: Horizon; date: string; price: number; low: number; high: number; changeProb?: number }[] }>(`/prices/${encodeURIComponent(material.id)}/forecast?months=${months}`);
   return { demo: false, unit: data.unit, points: data.points.map(p => ({ ...p, label: label(new Date(p.date)) })) };
 }
 
@@ -124,6 +128,12 @@ export const formatPrice = (n: number) => formatBaht(n, n >= 100 ? 0 : 2);
 export const formatMoney = (n: number) => formatBaht(n, Math.abs(Math.round(n * 100) % 100) > 0 ? 2 : 0);
 export const monthsLabel = (h: number) => (h === 0 ? "ราคาล่าสุด" : `อีก ${h} เดือน`);
 export const percentChange = (from: number, to: number) => ((to - from) / from) * 100;
+
+/** แสดงป้าย "ราคามีโอกาสเปลี่ยน" เมื่อโอกาสที่เกิดจริงในการทดสอบย้อนหลังตั้งแต่ 70% */
+export const CHANGE_SIGNAL_AT = 0.7;
+export function changeVerdict(prob: number) {
+  return { tone: "watch" as const, title: `ราคามีโอกาสเปลี่ยนภายในเดือนหน้า ราว ${Math.round(prob * 100)}%`, advice: "ยังบอกไม่ได้ว่าจะขึ้นหรือลง ถ้าต้องใช้แน่ ขอใบเสนอราคาและให้ร้านยืนราคาไว้ก่อน" };
+}
 
 /** แปลตัวเลขคาดการณ์ 3 เดือนเป็นคำแนะนำสั้น ๆ ให้คนอ่านรู้ว่าควรทำอะไรต่อ */
 export function trendVerdict(change: number) {

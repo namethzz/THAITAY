@@ -2,7 +2,7 @@
 Backend เล็ก ๆ ที่ให้บริการ 2 endpoint ตามที่หน้าเว็บรออยู่ (frontend/src/services/priceService.ts)
 
     GET /prices/{materialId}/history?months=1..12  -> { unit, points: [{ date, price }] }
-    GET /prices/{materialId}/forecast?months=1..3  -> { unit, points: [{ month, date, price, low, high }] }
+    GET /prices/{materialId}/forecast?months=1..3  -> { unit, points: [{ month, date, price, low, high, changeProb? }] }
 
 อ่านจากไฟล์ 2 ไฟล์ (ตั้ง path ผ่าน env ได้)
     PRICES_CSV    api_data/prices.csv     (สำเนาของ data/prices_clean.csv จาก prepare_data.py)
@@ -26,7 +26,10 @@ PRICES = pd.read_csv(os.environ.get("PRICES_CSV", HERE / "api_data" / "prices.cs
 FORECAST = pd.read_csv(os.environ.get("FORECAST_CSV", HERE / "api_data" / "forecast.csv"), dtype={"material_id": str})
 UNITS = PRICES.drop_duplicates("material_id").set_index("material_id")["unit"].to_dict()
 HISTORY = {m: g.sort_values("date")[["date", "price"]] for m, g in PRICES.groupby("material_id")}
-FORECASTS = {m: g.sort_values("month")[["month", "date", "price", "low", "high"]] for m, g in FORECAST.groupby("material_id")}
+if "change_prob" in FORECAST:  # จาก change_signal.py: โอกาสที่ราคาจะเปลี่ยน (ไม่บอกทิศ)
+    FORECAST = FORECAST.rename(columns={"change_prob": "changeProb"})
+FORECAST_COLS = [c for c in ("month", "date", "price", "low", "high", "changeProb") if c in FORECAST]
+FORECASTS = {m: g.sort_values("month")[FORECAST_COLS] for m, g in FORECAST.groupby("material_id")}
 
 app = FastAPI(title="THAI TAY prices")
 app.add_middleware(
@@ -55,4 +58,5 @@ def forecast(material_id: str, months: int = Query(3, ge=1, le=3)):
     if material_id not in FORECASTS:
         raise HTTPException(404, "ไม่มีราคาคาดการณ์ของวัสดุนี้")
     pts = FORECASTS[material_id].query("month <= @months")
-    return {"unit": UNITS.get(material_id, ""), "points": pts.to_dict("records")}
+    points = [{k: v for k, v in p.items() if not (isinstance(v, float) and v != v)} for p in pts.to_dict("records")]  # ตัด NaN
+    return {"unit": UNITS.get(material_id, ""), "points": points}
