@@ -11,6 +11,7 @@ import { CHART } from "@/config/chartColors";
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { PRICE_REGION } from "@/config/sources";
 import type { AddLine, Go, Material } from "@/types";
 
 export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: { id: string; go: Go; addLine: AddLine; watch: string[]; onToggleWatch: (id: string) => void }) {
@@ -40,6 +41,7 @@ export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: 
 
       <section className="material-sources" aria-labelledby="sources-title">
         <h2 id="sources-title">ที่มาของราคา</h2>
+        <p className="source-region">{PRICE_REGION.note}</p>
         <SourceLinks />
         <DemoNote />
       </section>

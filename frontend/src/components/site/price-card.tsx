@@ -5,6 +5,7 @@ import { CHANGE_SIGNAL_AT, changeVerdict, formatPrice, percentChange, trendVerdi
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { PRICE_REGION } from "@/config/sources";
 import type { Material } from "@/types";
 
 const VERDICT_ICON = { up: TrendingUp, down: TrendingDown, flat: Minus, watch: Activity };
@@ -53,7 +54,7 @@ export function PriceCard({ material, variant = "hero", titleRef, watched = fals
       {variant === "hero" && detail && <p className="pc-detail" title={detail}>{detail}</p>}
 
       <div className="pc-now">
-        <span className="pc-label">ราคาล่าสุด{latest ? ` · ${latest.label}` : ""}</span>
+        <span className="pc-label">ราคาล่าสุด {PRICE_REGION.short}{latest ? ` · ${latest.label}` : ""}</span>
         <p className="pc-price">
           <span className="num">{latest ? `฿${formatPrice(latest.price)}` : "—"}</span>
           <small>ต่อ {material.unit}</small>

@@ -66,6 +66,9 @@
 .hero .hl { padding: 0 .08em; background: linear-gradient(transparent 58%, var(--tag-tint) 58%, var(--tag-tint) 94%, transparent 94%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .hero-sub { max-width: 36em; text-wrap: balance; margin: 18px auto 0; color: var(--ink-2); font-size: clamp(16px, 1.7vw, 19px); line-height: 1.7; }
 .quick-picks { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 18px; }
+.hero-region { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 14px 0 0; color: var(--ink-2); font-size: 14px; }
+.hero-region svg { flex: 0 0 auto; color: var(--tag); }
+.source-region { margin: 0 0 12px; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
 .quick-picks > span { flex: 0 0 auto; margin-right: 2px; color: var(--ink-3); font-size: 14px; white-space: nowrap; }
 .quick-picks button { min-height: 38px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .8); color: var(--ink-2); font-size: 14px; font-weight: 500; white-space: nowrap; transition: border-color .15s, background-color .15s, color .15s; }
 .quick-picks button:hover { border-color: var(--line-strong); color: var(--ink); }
