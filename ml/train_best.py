@@ -21,7 +21,7 @@
   5. พยากรณ์: ฝึกด้วยข้อมูลทั้งหมด ใช้ผู้สมัครที่เลือก ช่วง low/high จาก baseline.py เลื่อนตามการเปลี่ยนแปลงที่ทาย
      ระยะ h ไหนที่ test แพ้ naive จะใช้ naive แทนทั้งระยะ
 
-ผลลัพธ์: out/best_report.md, out/forecast_best.csv
+ผลลัพธ์: out/best_report_lag{0,1}.md, out/forecast_best_lag{0,1}.csv
 """
 from __future__ import annotations
 
@@ -102,7 +102,9 @@ def run(P, origins, active, cols, label) -> pd.DataFrame:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--data", type=Path, default=HERE / "data" / "prices_clean.csv")
-    ap.add_argument("--factors", type=Path, default=HERE / "data" / "macro_monthly_clean.csv")
+    ap.add_argument("--factors", type=Path, default=HERE / "data" / "factors_monthly.csv", help="จาก build_factors.py")
+    ap.add_argument("--market-lag", type=int, choices=[0, 1], default=0,
+                    help="0 = ใช้ราคาตลาดเดือนเดียวกับราคา สนค. ล่าสุด (รู้ครบแล้วตอน สนค. ประกาศต้นเดือนถัดไป), 1 = หน่วง 1 เดือนแบบ notebook")
     ap.add_argument("--baseline-forecast", type=Path, default=HERE / "out" / "forecast.csv")
     ap.add_argument("--stale", type=int, default=3)
     ap.add_argument("--out", type=Path, default=HERE / "out")
@@ -120,6 +122,13 @@ def main() -> None:
     if args.factors.exists():
         factors = pd.read_csv(args.factors, encoding="utf-8-sig", parse_dates=["month_date"]).rename(columns={"month_date": "date"})
         factors = factors[["date", *FACTORS, *[c for c in EXTRA_FACTORS if c in factors]]]
+        if args.market_lag == 0:
+            # โค้ดสร้าง feature อ่านปัจจัยของเดือน t-1 เสมอ เลื่อนวันที่ของราคาตลาดถอยหลัง 1 เดือน ให้แถวเดือน t ได้ค่าของเดือน t
+            # ดัชนีเศษเหล็ก (PPI) ประกาศช้า จึงยังหน่วง 1 เดือน
+            market = [c for c in factors.columns if c not in ("date", "scrap_metal_ppi_index")]
+            moved = factors[["date", *market]].assign(date=lambda d: d["date"] - pd.DateOffset(months=1))
+            keep = factors[["date", *[c for c in factors.columns if c not in market and c != "date"]]]
+            factors = moved.merge(keep, on="date", how="outer").sort_values("date")
     P = build_panel(prices, cat, factors[["date", *FACTORS]] if factors is not None else None)
     P = add_features(P, factors)
     cols = feature_cols(P)
@@ -129,7 +138,7 @@ def main() -> None:
     test_origins = [latest - pd.DateOffset(months=k) for k in range(12, 0, -1)]
     CV = run(P, cv_origins, active, cols, "cv")
     TE = run(P, test_origins, active, cols, "test")
-    TE.to_csv(args.out / "best_test_errors.csv", index=False)
+    TE.to_csv(args.out / f"best_test_errors_lag{args.market_lag}.csv", index=False)
 
     # เลือกต่อหมวด × h จาก CV
     cvm = CV.groupby(["categoryCode", "h"], observed=True)[CANDS].mean()
@@ -157,6 +166,7 @@ def main() -> None:
     report = [
         "# หาโมเดลที่แม่นที่สุด (train_best.py)", "",
         f"- ข้อมูลถึง {latest:%Y-%m}, feature {len(cols)} ตัว (รวมเหล็กฟิวเจอร์ส เศษเหล็ก และราคาเทียบค่าเฉลี่ย 12 เดือน)",
+        f"- ราคาตลาด: {'เดือนเดียวกับราคา สนค. ล่าสุด' if args.market_lag == 0 else 'หน่วง 1 เดือน'}",
         f"- CV ใช้เลือก: {len(cv_origins)} จุดเริ่ม {cv_origins[0]:%Y-%m} ถึง {cv_origins[-1]:%Y-%m} ({len(CV):,} จุด)",
         f"- Test วัดผลอย่างเดียว: {test_origins[0]:%Y-%m} ถึง {test_origins[-1]:%Y-%m} ({len(TE):,} จุด)",
         "- ตัวเลขคือ MAPE (%) ยิ่งต่ำยิ่งแม่น", "",
@@ -184,11 +194,11 @@ def main() -> None:
             out.loc[i, ["price", "low", "high"]] = (out.loc[i, ["price", "low", "high"]] * f).round(2).values
             out.loc[i, "model"] = k
             moved += 1
-    out.to_csv(args.out / "forecast_best.csv", index=False)
+    out.to_csv(args.out / f"forecast_best_lag{args.market_lag}.csv", index=False)
     report += ["## ไฟล์พยากรณ์", "",
                f"- ระยะที่ใช้โมเดล (test ชนะ naive): {deploy_h or 'ไม่มี'}",
-               f"- `out/forecast_best.csv`: โมเดลขยับราคา {moved} จุด จาก {len(out)} จุด ที่เหลือเป็น naive"]
-    (args.out / "best_report.md").write_text("\n".join(report), encoding="utf-8")
+               f"- `out/forecast_best_lag{args.market_lag}.csv`: โมเดลขยับราคา {moved} จุด จาก {len(out)} จุด ที่เหลือเป็น naive"]
+    (args.out / f"best_report_lag{args.market_lag}.md").write_text("\n".join(report), encoding="utf-8")
     print("\n".join(report))
 
 
