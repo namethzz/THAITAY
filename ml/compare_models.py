@@ -138,7 +138,15 @@ def lstm_predict(seqs, P, train_mask, test_mask, seed=7):
 # ---------------------------------------------------------------- run
 def run(P, seqs, origins, active, cols, label):
     rows, t0 = [], time.time()
+    ckpt = OUT / "compare_ckpt"
+    ckpt.mkdir(exist_ok=True)
     for i, o in enumerate(origins):
+        # เก็บผลทีละจุดเริ่ม ถ้างานหยุดกลางทางจะรันต่อจากจุดเดิมได้
+        f = ckpt / f"{label}_{o:%Y-%m}.csv"
+        if f.exists():
+            rows.append(pd.read_csv(f, parse_dates=["origin"]))
+            continue
+        n0 = len(rows)
         at_o = (P["date"] == o) & P["material_id"].isin(active)
         # LSTM: 1 โมเดลต่อจุดเริ่ม ฝึกด้วยแถวที่รู้ target อย่างน้อย h = 1 ณ เดือน o
         lstm_train = (P["date"] + pd.DateOffset(months=1) <= o) & P["y1"].notna()
@@ -160,6 +168,8 @@ def run(P, seqs, origins, active, cols, label):
             r["d_rf"], r["d_rf_half"] = rf, rf / 2
             r["d_lstm"], r["d_lstm_half"] = ls, ls / 2
             rows.append(r)
+        if len(rows) > n0:
+            pd.concat(rows[n0:], ignore_index=True).to_csv(f, index=False)
         print(f"  {label} {i + 1}/{len(origins)} ({time.time() - t0:.0f}s)", flush=True)
     R = pd.concat(rows, ignore_index=True)
     R["actual"] = R["price"] * np.exp(R["y"])

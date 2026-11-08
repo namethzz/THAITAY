@@ -11,7 +11,9 @@ target: ราคาเดือน t+h ต่างจากเดือน t �
 walk-forward แบบเดียวกับ compare_models.py: Validation 27 จุด, Test 12 จุด
 วัดที่ threshold 0.5 (มาตรฐาน) และ 0.7 (เกณฑ์ที่เว็บขึ้นป้าย) + ROC AUC + Confusion Matrix
 
-ผลลัพธ์: out/classify_report.md, out/classify_preds.csv
+ผลลัพธ์: out/classify_report.md, out/classify_preds.csv, report_figures/confusion_h{1,2,3}.png
+
+    python classify_signal.py --plots  # วาด Confusion Matrix ใหม่จาก out/classify_preds.csv โดยไม่ต้องรันใหม่
 """
 from __future__ import annotations
 
@@ -88,7 +90,56 @@ def confusion(R, model, h, t):
                         index=["จริง: ไม่เปลี่ยน", "จริง: เปลี่ยน"])
 
 
+NAMES = {"rule": "กฎตามหมวด (baseline)", "logistic": "Logistic Regression", "lightgbm": "LightGBM"}
+
+
+def plot_confusion(R, t=0.7):
+    """Confusion Matrix ช่วง Test แยกตามระยะทาย สีเข้ม = สัดส่วนสูงในแถวนั้น"""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import LinearSegmentedColormap
+    fig_dir = HERE / "report_figures"
+    fig_dir.mkdir(exist_ok=True)
+    ink, muted, surface = "#0b0b0b", "#898781", "#fcfcfb"
+    cmap = LinearSegmentedColormap.from_list("blue", ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#104281"])
+    plt.rcParams.update({"font.family": "Loma", "font.size": 11, "figure.facecolor": surface,
+                         "savefig.facecolor": surface, "axes.facecolor": surface})
+    for h in sorted(R.h.unique()):
+        fig, axes = plt.subplots(1, 3, figsize=(13, 4.2))
+        for ax, m in zip(axes, NAMES):
+            cm = confusion(R, m, h, t).to_numpy()
+            share = cm / cm.sum(axis=1, keepdims=True)
+            ax.imshow(share, cmap=cmap, vmin=0, vmax=1)
+            for i in range(2):
+                for j in range(2):
+                    r, g_, b, _ = cmap(share[i, j])  # เลือกสีตัวอักษรตามความสว่างของช่อง
+                    dark = 0.2126 * r ** 2.2 + 0.7152 * g_ ** 2.2 + 0.0722 * b ** 2.2 < 0.22
+                    ax.text(j, i, f"{cm[i, j]:,}\n({share[i, j]:.0%} ของแถว)", ha="center", va="center", fontsize=11,
+                            color="white" if dark else ink)
+            g = R[R.h == h]
+            pred = g[f"p_{m}"] >= t
+            prec = (pred & (g.moved == 1)).sum() / max(pred.sum(), 1)
+            rec = (pred & (g.moved == 1)).sum() / max((g.moved == 1).sum(), 1)
+            ax.set_title(f"{NAMES[m]}\nPrecision {prec:.0%}  Recall {rec:.0%}", fontsize=11, color=ink)
+            ax.set_xticks([0, 1], ["ทายว่าไม่เปลี่ยน", "ทายว่าเปลี่ยน"], color=muted)
+            ax.set_yticks([0, 1], ["จริง: ไม่เปลี่ยน", "จริง: เปลี่ยน"], color=muted)
+            ax.tick_params(length=0)
+            for sp in ax.spines.values():
+                sp.set_visible(False)
+        fig.suptitle(f"Confusion Matrix ป้าย \"ราคามีโอกาสเปลี่ยน\" (ทาย {h} เดือน, Test, ขึ้นป้ายเมื่อโอกาส {t:.0%} ขึ้นไป)",
+                     x=0.01, ha="left", color=ink, fontweight="bold")
+        fig.tight_layout()
+        fig.savefig(fig_dir / f"confusion_h{h}.png", dpi=160, bbox_inches="tight")
+        plt.close(fig)
+
+
 def main():
+    import sys
+    if "--plots" in sys.argv:
+        R = pd.read_csv(OUT / "classify_preds.csv")
+        plot_confusion(R[R.split == "test"])
+        return
     t0 = time.time()
     P, latest, active = load()
     cols = feature_cols(P)
@@ -98,8 +149,7 @@ def main():
     TE = run(P, test_origins, active, cols, "test")
     pd.concat([CV.assign(split="validation"), TE.assign(split="test")]).to_csv(OUT / "classify_preds.csv", index=False)
     mcv, mte = metrics(CV), metrics(TE)
-    names = {"rule": "กฎตามหมวด (baseline)", "logistic": "Logistic Regression", "lightgbm": "LightGBM"}
-    tab = lambda m, t: m[m.threshold == t].drop(columns="threshold").assign(model=lambda d: d.model.map(names)).set_index(["h", "model"])
+    tab = lambda m, t: m[m.threshold == t].drop(columns="threshold").assign(model=lambda d: d.model.map(NAMES)).set_index(["h", "model"])
     report = [
         "# วัดผลป้าย \"ราคามีโอกาสเปลี่ยน\" แบบ Classification (classify_signal.py)", "",
         f"- target: ราคาเดือน t+h ต่างจากเดือน t หรือไม่ | Validation {len(CV):,} จุด, Test {len(TE):,} จุด",
@@ -112,6 +162,7 @@ def main():
         "", f"ใช้เวลา {time.time() - t0:.0f} วินาที",
     ]
     (OUT / "classify_report.md").write_text("\n".join(report), encoding="utf-8")
+    plot_confusion(TE)
     print("\n".join(report))
 
 
