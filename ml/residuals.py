@@ -34,6 +34,7 @@ plt.rcParams.update({
     "xtick.color": MUTED, "ytick.color": MUTED, "axes.grid": True, "grid.color": GRID, "grid.linewidth": 0.6,
     "axes.spines.top": False, "axes.spines.right": False, "figure.facecolor": SURFACE, "axes.facecolor": SURFACE,
     "savefig.facecolor": SURFACE, "axes.titlesize": 12, "axes.titleweight": "bold", "axes.titlecolor": INK,
+    "axes.unicode_minus": False,  # ฟอนต์ Loma ไม่มีเครื่องหมายลบแบบ unicode
 })
 
 
@@ -55,7 +56,7 @@ def save(fig, name):
 
 
 def actual_vs_pred(R, h):
-    fig, axes = plt.subplots(1, 4, figsize=(15, 4.2), sharex=True, sharey=True)
+    fig, axes = plt.subplots(1, 4, figsize=(15, 4.4), sharex=True, sharey=True, layout="constrained")
     lim = np.nanpercentile(np.abs(R["actual_chg"]), 99.5) + 2
     for ax, (m, (name, color)) in zip(axes, MODELS.items()):
         ax.plot([-lim, lim], [-lim, lim], color=MUTED, lw=1, ls="--", zorder=1)
@@ -70,13 +71,15 @@ def actual_vs_pred(R, h):
 
 
 def residual_vs_pred(R, h):
-    fig, axes = plt.subplots(1, 4, figsize=(15, 4.2), sharey=True)
+    fig, axes = plt.subplots(1, 4, figsize=(15, 4.4), sharex=True, sharey=True, layout="constrained")
     lim = np.nanpercentile(np.abs(R[[f"res_{m}" for m in MODELS]].to_numpy()), 99.5) + 2
+    xlim = np.nanpercentile(np.abs(R[[f"pred_chg_{m}" for m in MODELS]].to_numpy()), 99.5) + 1
     for ax, (m, (name, color)) in zip(axes, MODELS.items()):
         ax.axhline(0, color=MUTED, lw=1)
         ax.scatter(R[f"pred_chg_{m}"], R[f"res_{m}"], s=10, color=color, alpha=0.35, edgecolors="none")
         ax.set_title(name)
         ax.set_ylim(-lim, lim)
+        ax.set_xlim(-xlim, xlim)
         ax.set_xlabel("% เปลี่ยนที่ทาย")
     axes[0].set_ylabel("residual (%)")
     fig.suptitle(f"Residual เทียบค่าที่ทาย (ทาย {h} เดือน, Test) บวก = ทายต่ำไป ลบ = ทายสูงไป", x=0.01, ha="left", color=INK)
@@ -84,31 +87,38 @@ def residual_vs_pred(R, h):
 
 
 def residual_hist(R, h):
-    fig, axes = plt.subplots(1, 4, figsize=(15, 3.8), sharex=True, sharey=True)
+    fig, axes = plt.subplots(1, 4, figsize=(15, 4.0), sharex=True, sharey=True, layout="constrained")
     bins = np.linspace(-15, 15, 61)
     for ax, (m, (name, color)) in zip(axes, MODELS.items()):
         r = R[f"res_{m}"].clip(-15, 15)
         ax.hist(r, bins=bins, color=color, edgecolor=SURFACE, linewidth=0.8)
-        ax.set_title(f"{name}\nเฉลี่ย {R[f'res_{m}'].mean():+.2f}%  |MAE| {R[f'res_{m}'].abs().mean():.2f}%", fontsize=11)
+        ax.set_title(f"{name}\nเฉลี่ย {R[f'res_{m}'].mean():+.2f}%  MAE {R[f'res_{m}'].abs().mean():.2f}%", fontsize=11)
         ax.set_xlabel("residual (%)")
     axes[0].set_ylabel("จำนวนการทาย")
-    fig.suptitle(f"การกระจายของ residual (ทาย {h} เดือน, Test, ตัดที่ ±15%)", x=0.01, ha="left", color=INK, y=1.04)
+    fig.suptitle(f"การกระจายของ residual (ทาย {h} เดือน, Test, ตัดที่ ±15%)", x=0.01, ha="left", color=INK)
     save(fig, f"residual_hist_h{h}.png")
 
 
 def error_by_month(R, h):
-    fig, ax = plt.subplots(figsize=(10, 4.4))
+    fig, ax = plt.subplots(figsize=(10, 4.8), layout="constrained")
     g = R.groupby("target_month")[[f"res_{m}" for m in MODELS]].apply(lambda d: d.abs().mean())
     for m, (name, color) in MODELS.items():
         ax.plot(g.index, g[f"res_{m}"], color=color, lw=2, marker="o", ms=4, label=name)
-    last = g.index[-1]
-    for m, (name, color) in MODELS.items():
-        ax.annotate(name, (last, g[f"res_{m}"].iloc[-1]), xytext=(6, 0), textcoords="offset points",
+    # ป้ายชื่อท้ายเส้น กันไม่ให้ซ้อนกัน
+    last, top = g.index[-1], g.max().max()
+    ends = sorted(((g[f"res_{m}"].iloc[-1], name) for m, (name, _) in MODELS.items()))
+    gap, ys = top * 0.06, []
+    for v, _ in ends:
+        ys.append(max(v, ys[-1] + gap) if ys else v)
+    for (v, name), y in zip(ends, ys):
+        ax.annotate(name, (last, v), xytext=(last + pd.Timedelta(days=8), y), textcoords="data",
                     va="center", fontsize=9, color=INK)
     ax.set_ylabel("MAE (%)")
     ax.set_ylim(bottom=0)
-    ax.set_title(f"ความผิดพลาดรายเดือน (ทาย {h} เดือน, Test) ช่วง มี.ค.–มิ.ย. 2569 เหล็กพุ่งแล้วลง", loc="left")
-    ax.legend(frameon=False, ncol=4, loc="upper left")
+    ax.set_xlim(right=last + pd.Timedelta(days=60))
+    ax.set_xticks(g.index)
+    ax.set_title(f"ความผิดพลาดรายเดือน (ทาย {h} เดือน, Test) แกนนอน = เดือนที่ทาย", loc="left")
+    ax.legend(frameon=False, ncol=4, loc="upper center", bbox_to_anchor=(0.5, -0.12))
     ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%m/%y"))
     save(fig, f"error_by_month_h{h}.png")
 
@@ -116,18 +126,20 @@ def error_by_month(R, h):
 def error_by_category(R, h):
     R = R[R["categoryCode"].isin(CAT)]
     g = R.groupby("categoryCode")[[f"res_{m}" for m in MODELS]].apply(lambda d: d.abs().mean())
-    g = g.sort_values("res_naive")
-    fig, ax = plt.subplots(figsize=(10, 5.2))
+    g = g.sort_values("res_naive", ascending=False)
+    fig, ax = plt.subplots(figsize=(10, 5.6), layout="constrained")
     y = np.arange(len(g))
     w = 0.2
     for k, (m, (name, color)) in enumerate(MODELS.items()):
         ax.barh(y + (k - 1.5) * w, g[f"res_{m}"], height=w - 0.03, color=color, label=name)
     ax.set_yticks(y)
     ax.set_yticklabels([CAT[c] for c in g.index])
+    ax.invert_yaxis()
+    ax.set_axisbelow(True)
     ax.set_xlabel("MAE (%)")
     ax.grid(axis="y", visible=False)
     ax.set_title(f"ความผิดพลาดแยกหมวด (ทาย {h} เดือน, Test)", loc="left")
-    ax.legend(frameon=False, ncol=4, loc="lower right")
+    ax.legend(frameon=False, ncol=4, loc="upper center", bbox_to_anchor=(0.5, -0.12))
     save(fig, f"error_by_category_h{h}.png")
 
 
