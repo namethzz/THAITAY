@@ -232,6 +232,17 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 5. `python build_factors.py data/raw` (ไฟล์ดิบเดือนใหม่จาก Drive "New Data") แล้ว `python change_signal.py` เพื่อเติมโอกาสที่ราคาจะเปลี่ยนลง `api_data/forecast.csv`
 6. commit แล้ว `gcloud run deploy` (backend) และ redeploy เว็บ (รายการวัสดุที่ซ่อนอยู่ในไฟล์ของเว็บ)
 
+## สคริปต์ทดลองเทียบโมเดล (ผลอยู่ใน `DATA_REVIEW.md`)
+
+| สคริปต์ | ทำอะไร | เวลา (4 คอร์) |
+|---|---|---|
+| `tune.py` | ค้นหาค่า hyperparameter ของ LightGBM | ~40 นาที |
+| `compare_models.py` | เทียบ Naive, LightGBM, Random Forest, LSTM แบบ walk-forward (หยุดกลางทางแล้วรันต่อได้) | ~15 นาที |
+| `classify_signal.py` | วัดป้าย "ราคามีโอกาสเปลี่ยน" ด้วย Precision, Recall, F1, Confusion Matrix เทียบ Logistic Regression | ~90 นาที |
+| `residuals.py` | กราฟ residual ช่วง Test (ต้องรัน `compare_models.py` ก่อน) | ไม่ถึง 1 นาที |
+
+กราฟทั้งหมดอยู่ใน `report_figures/` อย่ารัน 2 สคริปต์พร้อมกัน เพราะแย่ง CPU กันจนช้าลงหลายสิบเท่า
+
 ## ข้อควรจำ
 
 - หน้าเว็บยังไม่แสดงตัวเลขความแม่นยำ (ตามหลักใน `frontend/PRODUCT.md`) ให้ใส่ได้เมื่อมีผล backtest จากข้อมูลจริงแล้วเท่านั้น
