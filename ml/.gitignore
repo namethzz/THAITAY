@@ -3,3 +3,4 @@ data/*
 out/
 __pycache__/
 .venv/
+colab/thaitay_colab.zip

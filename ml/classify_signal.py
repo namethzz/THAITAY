@@ -125,6 +125,7 @@ def plot_confusion(R, t=0.7):
             ax.set_xticks([0, 1], ["ทายว่าไม่เปลี่ยน", "ทายว่าเปลี่ยน"], color=muted)
             ax.set_yticks([0, 1], ["จริง: ไม่เปลี่ยน", "จริง: เปลี่ยน"], color=muted)
             ax.tick_params(length=0)
+            ax.grid(False)
             for sp in ax.spines.values():
                 sp.set_visible(False)
         fig.suptitle(f"Confusion Matrix ป้าย \"ราคามีโอกาสเปลี่ยน\" (ทาย {h} เดือน, Test, ขึ้นป้ายเมื่อโอกาส {t:.0%} ขึ้นไป)",
