@@ -7,8 +7,8 @@
   → prepare_data.py   ตรวจและทำความสะอาดข้อมูล ได้รายงานว่าข้อมูลถูกต้องแค่ไหน
   → baseline.py       โมเดลพื้นฐานในเครื่อง ได้ "เกณฑ์ขั้นต่ำ" ที่โมเดลบน cloud ต้องชนะ
   → BigQuery ML / Vertex AI   โมเดลจริงบน Google Cloud
-  → serve.py          backend 2 endpoint ที่หน้าเว็บรออยู่
-  → ตั้ง VITE_API_BASE บน Vercel แล้วเว็บจะเลิกใช้ข้อมูลตัวอย่าง
+  → export_static.py  แปลงราคาเป็นไฟล์ JSON ใส่ในหน้าเว็บ push ขึ้น GitHub แล้ว Vercel deploy เอง
+  (serve.py เป็น backend ทางเลือก ถ้าวันหนึ่งต้องคำนวณราคาสด)
 ```
 
 ## ควรใช้ตัวไหน
@@ -183,9 +183,9 @@ python vertex/train_automl_forecast.py --project YOUR_PROJECT_ID --region asia-s
 
 เลือกตัวที่ MAPE ต่ำกว่า naive อย่างชัดเจน ถ้าทุกตัวสูสีกัน ให้เลือกตัวที่ถูกและดูแลง่ายที่สุด
 
-## ขั้นที่ 5: เปิด backend แล้วต่อกับเว็บ
+## ขั้นที่ 5: เอาราคาขึ้นเว็บ
 
-backend อ่านไฟล์ใน `api_data/` ซึ่ง commit ไว้แล้ว (ราคาถึง ก.ย. 2569 และผลพยากรณ์จาก `baseline.py`) เมื่อรันโมเดลใหม่ ให้คัดลอกผลมาทับ:
+ราคาบนเว็บมาจากไฟล์ใน `api_data/` ซึ่ง commit ไว้แล้ว (ราคาถึง ก.ย. 2569 และผลพยากรณ์จาก `baseline.py`) เมื่อรันโมเดลใหม่ ให้คัดลอกผลมาทับ:
 
 ```bash
 cp data/prices_clean.csv api_data/prices.csv
@@ -197,7 +197,17 @@ cp out/forecast.csv api_data/forecast.csv
 
 แล้วรัน `python update_catalog_status.py` เพื่อให้หน้าเว็บรู้ว่าวัสดุไหนเลิกเก็บราคา (ซ่อนจากการค้นหา) และรหัสเก่าไหนมีรหัสใหม่แทน
 
-ลองในเครื่องก่อน:
+แปลงราคาเป็นไฟล์ที่หน้าเว็บอ่านเอง (`frontend/public/data/prices/{materialId}.json` วัสดุละไฟล์ ข้อมูลเหมือนที่ `serve.py` ตอบ):
+
+```bash
+python export_static.py
+```
+
+ลองดูในเครื่องด้วย `cd ../frontend && npm run dev` แล้ว commit ไฟล์ใน `frontend/public/data/prices/` push ขึ้น GitHub Vercel จะ build และ deploy เอง ไม่ต้องมี backend
+
+### ทางเลือก: backend `serve.py` บน Cloud Run
+
+ใช้เมื่อต้องคำนวณราคาสดแทนไฟล์สำเร็จรูป ลองในเครื่องก่อน:
 
 ```bash
 uvicorn serve:app --reload --port 8080
@@ -209,7 +219,7 @@ uvicorn serve:app --reload --port 8080
 cd ../frontend && VITE_API_BASE=http://localhost:8080 npm run dev
 ```
 
-ป้าย "ข้อมูลตัวอย่าง" จะหายไปเอง ถ้าทุกอย่างถูกต้อง ให้ deploy backend ขึ้น Cloud Run:
+ถ้าทุกอย่างถูกต้อง ให้ deploy backend ขึ้น Cloud Run:
 
 ```bash
 gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauthenticated
@@ -230,7 +240,8 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 3. `python baseline.py` (หรือ BigQuery: `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh`)
 4. คัดลอก `data/prices_clean.csv` และ `out/forecast.csv` เข้า `api_data/` แล้ว `python update_catalog_status.py`
 5. `python build_factors.py data/raw` (ไฟล์ดิบเดือนใหม่จาก Drive "New Data") แล้ว `python change_signal.py` เพื่อเติมโอกาสที่ราคาจะเปลี่ยนลง `api_data/forecast.csv`
-6. commit แล้ว `gcloud run deploy` (backend) และ redeploy เว็บ (รายการวัสดุที่ซ่อนอยู่ในไฟล์ของเว็บ)
+6. `python bands.py` ถ้าต้องการตรวจช่วงราคาใหม่ (`baseline.py` ใช้วิธีเดียวกันอยู่แล้ว)
+7. `python export_static.py` แล้ว commit ไฟล์ที่เปลี่ยนทั้งหมด (`api_data/`, `frontend/public/data/prices/`, `frontend/src/data/structural-materials.json`) push ขึ้น GitHub Vercel deploy เอง
 
 ## สคริปต์ทดลองเทียบโมเดล (ผลอยู่ใน `DATA_REVIEW.md`)
 

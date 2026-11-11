@@ -2,7 +2,7 @@
 
 React 18 + Vite 6 + TypeScript + Tailwind CSS 4 + shadcn/ui
 
-พิมพ์ชื่อวัสดุงานโครงสร้าง แล้วเห็นราคาล่าสุดและราคาคาดการณ์ 1–3 เดือนทันที ใส่จำนวนแล้วได้ใบประมาณราคา ข้อมูลราคาตอนนี้เป็น **ข้อมูลตัวอย่าง (Demo)** ที่สร้างใน `src/services/priceService.ts` จนกว่าจะเชื่อม backend ผ่าน `VITE_API_BASE` (ดูหัวข้อ "ข้อมูลราคาและการเชื่อม backend")
+พิมพ์ชื่อวัสดุงานโครงสร้าง แล้วเห็นราคาล่าสุดและราคาคาดการณ์ 1–3 เดือนทันที ใส่จำนวนแล้วได้ใบประมาณราคา ราคาเป็นราคาจริงจาก สนค. ที่เก็บเป็นไฟล์ใน `public/data/prices/` (ดูหัวข้อ "ข้อมูลราคาและการเชื่อม backend")
 
 ## รันโครงการ
 
@@ -58,7 +58,7 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 | `src/components/site/category-filter.tsx` | ปุ่มเลือกหมวดแบบเดียวในหน้าค้นหา (กล่องลอยบนจอใหญ่ / แผ่นจากด้านล่างบนมือถือ) |
 | `src/lib/storage.ts` | `usePersistentState` จำค่าใน localStorage (บันทึกไม่ได้ก็ใช้งานต่อได้) |
 | `src/components/site/category-icon.tsx` + `public/icons/categories/STR-0X.webp` | icon 9 หมวดจากชุดของเจ้าของเว็บ (ไฟล์ `.webp.json` ข้าง ๆ คือที่มาของภาพ) |
-| `src/services/priceService.ts` | ชั้นข้อมูลราคา: Demo หรือเรียก API เมื่อตั้ง `VITE_API_BASE`, `getQuote()` (ราคาล่าสุด + คาดการณ์ 3 เดือน มีแคช), `trendVerdict()` คำแนะนำซื้อตอนนี้/รอ |
+| `src/services/priceService.ts` | ชั้นข้อมูลราคา: ไฟล์ราคาจริงใน `public/data/prices/`, API เมื่อตั้ง `VITE_API_BASE` หรือ Demo เมื่อตั้ง `VITE_DEMO_DATA=true`, `getQuote()` (ราคาล่าสุด + คาดการณ์ 3 เดือน มีแคช), `trendVerdict()` คำแนะนำซื้อตอนนี้/รอ |
 | `src/services/demoPrices.ts` | ระดับราคาตั้งต้นของข้อมูลตัวอย่างตามสเปก (เกรด ขนาด น้ำหนัก กำลังอัด หน้าตัด) ไม่ถูกใช้เมื่อเชื่อม API |
 | `src/main.tsx` | state ร่วม (วัสดุที่ดูล่าสุด, ใบประมาณราคา, แจ้งเตือน) และสลับหน้า |
 | `src/lib/routes.ts` | hash ↔ หน้า และลิงก์เก่า |
@@ -133,8 +133,9 @@ Material มี `id`, `name`, `unit`, `categoryCode`, `category`, `familyCode` �
 
 ทุกหน้าเรียกข้อมูลราคาผ่าน `src/services/priceService.ts` เท่านั้น
 
-- ไม่ได้ตั้ง `VITE_API_BASE`: ใช้ข้อมูลตัวอย่าง (Demo) ที่สร้างจากรหัสวัสดุ (วัสดุเดียวกันได้ตัวเลขเดียวกันทุกหน้า) มีป้าย "ข้อมูลตัวอย่าง" บนการ์ดราคาและหมายเหตุท้ายหน้า
-- ตั้ง `VITE_API_BASE` (เช่นในไฟล์ `.env`): เรียก API ตาม contract ด้านล่าง ป้าย Demo หายเอง
+- ค่าเริ่มต้น: อ่านไฟล์ `public/data/prices/{materialId}.json` (ราคาล่าสุดกับย้อนหลัง 12 เดือน และราคาคาดการณ์ 1–3 เดือน) ที่สร้างด้วย `python ml/export_static.py` ข้อมูลเดียวกับที่ API ตอบ Vercel ส่งไฟล์ไปพร้อมหน้าเว็บ ไม่ต้องมี backend วัสดุที่ไม่มีไฟล์จะใช้ข้อมูลตัวอย่างและติดป้าย "ข้อมูลตัวอย่าง"
+- ตั้ง `VITE_DEMO_DATA=true`: ใช้ข้อมูลตัวอย่าง (Demo) ทั้งหมด ที่สร้างจากรหัสวัสดุ (วัสดุเดียวกันได้ตัวเลขเดียวกันทุกหน้า) มีป้าย "ข้อมูลตัวอย่าง" บนการ์ดราคาและหมายเหตุท้ายหน้า
+- ตั้ง `VITE_API_BASE` (เช่นในไฟล์ `.env`): เรียก backend `ml/serve.py` ตาม contract ด้านล่างแทนไฟล์
   - `GET /prices/{materialId}/history?months=1..12` → `{ unit, points: [{ date, price }] }` (การ์ดราคาใช้ 1 เดือนล่าสุด กราฟใช้ 12)
   - `GET /prices/{materialId}/forecast?months=1..3` → `{ unit, points: [{ month, date, price, low, high }] }`
 - รายการค้นหาแสดงราคาทุกแถวที่เห็น (สูงสุด 24 แถวต่อครั้ง) แต่ละวัสดุเรียก API ครั้งเดียวแล้วเก็บแคช ถ้าจะลดจำนวน request ทำ endpoint รวมหลายรหัสแล้วแก้ `getQuote()` ที่เดียว
