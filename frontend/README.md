@@ -198,4 +198,4 @@ git show 2be6dd7:frontend/src/pages/Analysis.tsx > Analysis.tsx
 git show 9c0c9cd:frontend/src/future/CostPlanner.jsx > CostPlanner.jsx
 ```
 
-ผลตรวจและภาพตัวอย่างอยู่ที่ `../preview/verification.md`
+ผลตรวจและภาพตัวอย่างอยู่ที่ [`docs/screenshots/verification.md`](../docs/screenshots/verification.md)
