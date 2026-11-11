@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 TMP=$(mktemp -d)
 B=$TMP/thaitay_colab
 mkdir -p "$B/ml/data" "$B/ml/out" "$B/frontend/src/data" "$B/fonts"
-cp baseline.py global_model.py train_best.py tune.py compare_models.py final_experiments.py classify_signal.py residuals.py "$B/ml/"
+cp baseline.py bands.py global_model.py train_best.py tune.py compare_models.py final_experiments.py classify_signal.py residuals.py "$B/ml/"
 cp data/prices_clean.csv data/factors_monthly.csv "$B/ml/data/"
 cp out/final_preds_cv.csv out/final_preds_test.csv out/compare_preds_test.csv out/classify_preds.csv \
    out/tune_results.csv out/tune_screen.csv out/tune_rf_lstm.csv out/series_links.csv "$B/ml/out/"

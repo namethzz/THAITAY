@@ -84,7 +84,6 @@ def main() -> None:
     ap.add_argument("--min-train", type=int, default=12, help="ต้องมีข้อมูลอย่างน้อยกี่เดือนก่อนจุดที่ทาย")
     ap.add_argument("--select", choices=["per-material", "global"], default="global",
                     help="global = ใช้โมเดลที่ดีที่สุดโดยรวมกับทุกวัสดุ (เสถียรกว่า), per-material = เลือกรายวัสดุ")
-    ap.add_argument("--interval", type=float, default=0.8, help="ความกว้างช่วง low–high (0.8 = เปอร์เซ็นไทล์ 10–90)")
     ap.add_argument("--stale", type=int, default=3, help="ข้ามวัสดุที่ไม่มีราคาเกินกี่เดือนก่อนเดือนล่าสุด (เลิกเก็บราคาแล้ว)")
     ap.add_argument("--out", type=Path, default=HERE / "out")
     args = ap.parse_args()
@@ -135,15 +134,6 @@ def main() -> None:
     per_mat = E.groupby(["material_id", "model"])["ape"].mean().unstack()
     choice = per_mat.idxmin(axis=1) if args.select == "per-material" else pd.Series(best_global, index=per_mat.index)
 
-    # ช่วง low–high: เปอร์เซ็นไทล์ของ log(จริง/ทาย) ของโมเดลที่เลือก แยกหมวด × h (รวมกันเพื่อให้มีจุดพอ)
-    qlo, qhi = (1 - args.interval) / 2, 1 - (1 - args.interval) / 2
-    chosen = E[E["model"] == E["material_id"].map(choice)]
-    band = chosen.groupby(["categoryCode", "h"])["log_ratio"].quantile([qlo, qhi]).unstack()
-    band_all = chosen.groupby("h")["log_ratio"].quantile([qlo, qhi]).unstack()
-    # ช่วงของเดือนที่ไกลกว่าต้องไม่แคบกว่าเดือนที่ใกล้กว่า (หมวดที่มีจุดน้อยอาจได้ค่าสลับกัน)
-    band[qlo], band[qhi] = band[qlo].groupby(level=0).cummin(), band[qhi].groupby(level=0).cummax()
-    band_all[qlo], band_all[qhi] = band_all[qlo].cummin(), band_all[qhi].cummax()
-    inside = chosen.apply(lambda r: band.loc[(r.categoryCode, r.h), qlo] <= r.log_ratio <= band.loc[(r.categoryCode, r.h), qhi], axis=1)
 
     # 2) พยากรณ์จริง
     rows = []
@@ -156,15 +146,19 @@ def main() -> None:
         fc = MODELS[name](y) if lag == 0 and len(y) >= 2 else None
         if fc is None:
             name, fc = "naive", f_naive(y)
-        c = meta.at[mid, "categoryCode"]
         for h in range(1, H + 1):
-            hb = min(h + lag, H)
-            lo, hi = band.loc[(c, hb)] if (c, hb) in band.index else band_all.loc[hb] if hb in band_all.index else (-0.05 * hb, 0.05 * hb)
             d = latest + pd.DateOffset(months=h)
             p = fc[h - 1]
             rows.append(dict(material_id=mid, month=h, date=d.strftime("%Y-%m-%d"), price=round(p, 2),
-                             low=round(p * np.exp(min(lo, 0)), 2), high=round(p * np.exp(max(hi, 0)), 2), model=name))
+                             low=np.nan, high=np.nan, model=name, hb=min(h + lag, H)))
     F = pd.DataFrame(rows)
+    # ช่วง low–high: วิธีใน bands.py เลือกด้วย Validation และวัดบน Test แบบแยกชุด (ดู out/bands_report.md)
+    # ราคาล่าสุดที่ช้ากว่าเดือนล่าสุด lag เดือน ใช้ช่วงของระยะที่ไกลขึ้นตาม lag (hb)
+    from bands import CHOSEN, bands_at, history
+    R = F.join(df.drop_duplicates("material_id").set_index("material_id")[["categoryCode", "familyCode"]], on="material_id")
+    lo, hi = bands_at(history(df), latest, R, CHOSEN, h_col="hb")
+    F["low"], F["high"] = (F["price"] * np.exp(lo)).round(2), (F["price"] * np.exp(hi)).round(2)
+    F = F.drop(columns="hb")
     F.to_csv(args.out / "forecast.csv", index=False)
 
     fmt = lambda t: t.round(2).to_markdown() if hasattr(t, "to_markdown") else t.round(2).to_string()
@@ -185,8 +179,7 @@ def main() -> None:
         "## โมเดลที่ใช้พยากรณ์", "",
         f"- วิธีเลือก: {args.select}" + (f" → `{best_global}` กับทุกวัสดุ" if args.select == "global" else ""),
         *(f"- `{k}`: {v} วัสดุ" for k, v in F.drop_duplicates("material_id")["model"].value_counts().items()),
-        f"- ช่วง low–high ตั้งเป้า {args.interval:.0%} ใน backtest ราคาจริงตกในช่วง {inside.mean():.0%}"
-        " (ช่วงคำนวณจาก backtest ชุดเดียวกัน ตัวเลขจริงในอนาคตมักต่ำกว่านี้เล็กน้อย)",
+        f"- ช่วง low–high: `bands.py` {CHOSEN} (ผลวัดแบบแยกชุดอยู่ใน out/bands_report.md)",
         "", f"ไฟล์พยากรณ์: `out/forecast.csv` ({F['material_id'].nunique():,} วัสดุ)",
     ]
     (args.out / "backtest_summary.md").write_text("\n".join(md), encoding="utf-8")
