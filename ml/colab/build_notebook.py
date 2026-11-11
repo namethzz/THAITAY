@@ -8,22 +8,35 @@ import nbformat as nbf
 
 OUT = sys.argv[1]
 FACTS = {
-    "N_VARIANTS": "",
-    "R1_DECIDE": "",
-    "R3_DECIDE": "",
-    "R5_DECIDE": "",
-    "R7_DECIDE": "",
-    "R9_MAE": "",
+    "N_VARIANTS": "16",
+    "R1_DECIDE": "Naive ดีที่สุดทั้งสองช่วงทุกระยะ · Seasonal naive แย่สุด (ผิด 5–7%) เพราะราคาวัสดุไม่ขึ้นลงตามฤดูกาล · "
+                 "Drift และ ETS ต่อแนวโน้มเดิมออกไป เลยผิดตอนราคาหยุดขยับหรือเปลี่ยนทิศ · ใช้ Naive เป็นเกณฑ์ที่ทุกโมเดลต้องชนะ",
+    "R3_DECIDE": "2 ขั้นดีกว่าทายตรงชัดเจน และขยับครึ่งเดียวช่วยแทบทุกครั้ง · แบบที่ใกล้สุดคือเกณฑ์ 85% ขยับครึ่งเดียว: "
+                 "Validation ทาย 1 เดือนเสมอ Naive แต่ 2–3 เดือนแพ้ · เกณฑ์ 70% ชนะใน Test ที่ 1 เดือน (1.65%) แต่แพ้ใน Validation · "
+                 "ยังไม่ผ่านกติกา รอบต่อไปลองปรับข้อมูลภายนอก",
+    "R5_DECIDE": "ทาย 1 เดือนเสมอ Naive ทั้งสองช่วง เพราะเส้นตรงทายขยับน้อยมากจนใกล้ Naive · ทาย 3 เดือนดีกว่าเล็กน้อยใน Test "
+                 "(5.03% เทียบ 5.06%) แต่แพ้ใน Validation (2.53% เทียบ 2.14%) · ไม่ผ่านกติกา",
+    "R7_DECIDE": "จูนแล้วดีขึ้นทั้งคู่ ชุดที่ดีที่สุดคือชุดที่คุมความซับซ้อน (Random Forest ชุด F ใบใหญ่ขึ้น สุ่มฟีเจอร์น้อยลง, "
+                 "LSTM ชุด B เล็กลงเหลือ 16 หน่วย) แต่ยังแพ้ Naive ทุกระยะในรอบคัด จึงไม่ไปรอบเต็ม · "
+                 "ผลเต็มของชุดเดิม: แพ้ทุกระยะใน Validation ส่วน LSTM ทาย 3 เดือนชนะใน Test (4.96% เทียบ 5.06%) แต่ Validation ไม่ยืนยัน · "
+                 "ไม่ผ่านกติกา",
+    "R9_MAE": "ไม่มีแบบไหนดีกว่า Naive ในช่วง Validation เลยแม้แต่ระยะเดียว ดีที่สุดคือเสมอที่ทาย 1 เดือน "
+              "ช่วง Test มีบางแบบดีกว่าเล็กน้อย เช่น LightGBM จูนแล้ว, LightGBM 2 ขั้นเกณฑ์ 70% (1 เดือน), LSTM และ Linear (3 เดือน) "
+              "แต่ Validation ไม่ยืนยัน จึงไม่ผ่านกติกาสักแบบ",
 }
 
 cells = []
 
 
-def md(s):
+def fill(s):
     for k, v in FACTS.items():
         s = s.replace("{{" + k + "}}", v)
     assert "{{" not in s, s[:200]
-    cells.append(nbf.v4.new_markdown_cell(s.strip("\n")))
+    return s
+
+
+def md(s):
+    cells.append(nbf.v4.new_markdown_cell(fill(s).strip("\n")))
 
 
 def code(s):
@@ -31,14 +44,16 @@ def code(s):
 
 
 def round_card(title, why, what, decide):
+    """หัวข้อแต่ละรอบ: ข้อความที่คั่นด้วย " · " กลายเป็นหัวข้อย่อย"""
+    def items(text):
+        parts = [x.strip() for x in fill(text).split(" · ")]
+        return parts[0] if len(parts) == 1 else "\n" + "\n".join(f"  - {x}" for x in parts)
     md(f"""
 ### {title}
 
-| | |
-|---|---|
-| **ทำไมลอง** | {why} |
-| **ทำอะไร** | {what} |
-| **ตัดสินใจ** | {decide} |
+- **ทำไมลอง:** {items(why)}
+- **ทำอะไร:** {items(what)}
+- **ตัดสินใจ:** {items(decide)}
 """)
 
 
@@ -52,7 +67,7 @@ notebook นี้คือบทสรุปสุดท้ายของง�
 
 > **ทายราคาวัสดุงานโครงสร้างทุกชนิด ทุกระยะ (1–3 เดือน) ด้วย Naive** คือให้ราคาเดือนหน้าเท่ากับราคาเดือนล่าสุด
 >
-> เราทดลอง 8 รอบ เทียบ {{N_VARIANTS}} แบบกับ Naive บนข้อมูลชุดเดียวกัน **ไม่มีแบบไหนชนะ Naive ได้ทั้งช่วง Validation (ย้อนหลัง 7 ปี) และช่วง Test (12 เดือนล่าสุด)** ส่วน ML ใช้ได้ดีกับงานอีกแบบ คือป้าย "ราคามีโอกาสเปลี่ยน" ซึ่งขึ้นป้ายแล้วราคาเปลี่ยนจริง 80%
+> เราทดลอง 8 รอบ เทียบ {{N_VARIANTS}} แบบกับ Naive บนข้อมูลชุดเดียวกัน และลองค่าตั้งตอนจูนอีก 31 ชุด **ไม่มีแบบไหนชนะ Naive ได้ทั้งช่วง Validation (ย้อนหลัง 7 ปี) และช่วง Test (12 เดือนล่าสุด)** ส่วน ML ใช้ได้ดีกับงานอีกแบบ คือป้าย "ราคามีโอกาสเปลี่ยน" ซึ่งขึ้นป้ายแล้วราคาเปลี่ยนจริง 80%
 
 | ส่วนบนเว็บ | ใช้อะไร | ผล |
 |---|---|---|
@@ -544,16 +559,17 @@ show(["snaive", "drift", "ets"])
 round_card(
     "8.2 รอบที่ 2: LightGBM ทายตรง",
     "ML ใช้ฟีเจอร์ได้หลายตัวพร้อมกัน ทั้งประวัติราคา วัสดุกลุ่มเดียวกัน และปัจจัยภายนอก และเรียนจากทุกวัสดุพร้อมกันได้",
-    "LightGBM regressor ทาย % การเปลี่ยนตรง ๆ ใช้ L1 loss (ตรงกับ MAE) ค่าตั้งเริ่มต้น: 300 ต้น, 15 ใบ, learning rate 0.03, "
-    "ใบละอย่างน้อย 40 แถว เวอร์ชันแรกใช้ฟีเจอร์ 33 ตัว ปัจจัยภายนอก 6 ตัวแบบหน่วง 1 เดือน ภายหลังเพิ่มเป็น 52 ตัว",
-    "แพ้ทั้งสองช่วง สาเหตุคือโมเดลทาย \"ขยับนิดหน่อย\" แทบทุกครั้ง ทั้งที่ราคาส่วนใหญ่ไม่เปลี่ยน (ตารางที่สอง) "
+    "LightGBM regressor ทาย % การเปลี่ยนตรง ๆ ใช้ L1 loss (ตรงกับ MAE) · ค่าตั้งเริ่มต้น: 300 ต้น, 15 ใบ, learning rate 0.03, "
+    "ใบละอย่างน้อย 40 แถว · เวอร์ชันแรกใช้ฟีเจอร์ 33 ตัว ปัจจัยภายนอก 6 ตัวแบบหน่วง 1 เดือน ภายหลังเพิ่มเป็น 52 ตัว",
+    "แพ้ทั้งสองช่วง · สาเหตุคือโมเดลทาย \"ขยับนิดหน่อย\" แทบทุกครั้ง ทั้งที่ราคาส่วนใหญ่ไม่เปลี่ยน (ตารางที่สอง) · "
     "รอบต่อไปจึงลองให้โมเดลขยับเฉพาะตอนมั่นใจ",
 )
 code(r'''
 # @title ผลรอบที่ 2 และสาเหตุที่แพ้ { display-mode: "form" }
 show(["lgbm0_direct"])
 exact = lambda R, m: (errors(R, m) < 0.01).mean() * 100
-display(pd.DataFrame({"ทายถูกพอดี (% ของการทาย, Test ทาย 1 เดือน)": {NAMES[m]: exact(TE[TE.h == 1], m) for m in ("naive", "lgbm0_direct")}}))
+display(pd.DataFrame({"ทายถูกพอดี (Test ทาย 1 เดือน)": {NAMES[m]: exact(TE[TE.h == 1], m) for m in ("naive", "lgbm0_direct")}})
+        .style.format("{:.0f}% ของการทาย"))
 ''')
 md("""
 **เวอร์ชันแรก** (ฟีเจอร์ 33 ตัว ปัจจัย 6 ตัวหน่วง 1 เดือน): Test 1.88 / 3.91 / 5.85% เทียบ Naive 1.75 / 3.47 / 5.06% ตอนนั้นใช้ Validation แค่ 12 เดือน (ก.ย. 2567 – ส.ค. 2568) ซึ่งราคานิ่งมาก Naive ผิดแค่ 0.49% ทำให้เลือกโมเดลผิด เราจึงขยาย Validation เป็น 27 จุด 7 ปีตามที่ใช้ในทุกตาราง
@@ -581,9 +597,9 @@ round_card(
     "8.4 รอบที่ 4: ปรับข้อมูลภายนอก และเลือกโมเดลแยกหมวด",
     "เวอร์ชันแรกใช้ปัจจัยภายนอกหน่วง 1 เดือน ทั้งที่ตอน สนค. ประกาศราคา (ราววันที่ 9 ของเดือนถัดไป) เรารู้ราคาตลาดเดือนเดียวกันครบแล้ว "
     "และบางหมวดอาจเหมาะกับคนละโมเดล",
-    "1) เพิ่มปัจจัยเหล็กฟิวเจอร์ส (แก้รูปแบบวันที่ที่เป็น ปี-วัน-เดือน) ดัชนีเศษเหล็ก และราคาเทียบค่าเฉลี่ย 12 เดือน รวม 52 ฟีเจอร์ "
-    "2) เทียบปัจจัยหน่วง 1 เดือน กับเดือนเดียวกัน 3) ให้ Validation เลือกโมเดลที่ดีที่สุดแยกทีละหมวด",
-    "ใช้ปัจจัยเดือนเดียวกันต่อ เพราะถูกต้องตามเวลาจริงและดีขึ้นเล็กน้อย แต่ยังไม่ผ่านกติกา "
+    "เพิ่มปัจจัยเหล็กฟิวเจอร์ส (แก้รูปแบบวันที่ที่เป็น ปี-วัน-เดือน) ดัชนีเศษเหล็ก และราคาเทียบค่าเฉลี่ย 12 เดือน รวม 52 ฟีเจอร์ · "
+    "เทียบปัจจัยหน่วง 1 เดือน กับเดือนเดียวกัน · ให้ Validation เลือกโมเดลที่ดีที่สุดแยกทีละหมวด",
+    "ใช้ปัจจัยเดือนเดียวกันต่อ เพราะถูกต้องตามเวลาจริงและดีขึ้นเล็กน้อย แต่ยังไม่ผ่านกติกา · "
     "การเลือกแยกหมวดสุดท้ายเลือก Naive เกือบทุกหมวด ผลรวมจึงเท่า Naive",
 )
 md("""
@@ -625,7 +641,7 @@ round_card(
     "Random Search: สุ่มค่าตั้ง 20 ชุด + ค่าเริ่มต้น 1 ชุด จาก 7 ค่าในตารางด้านล่าง ใช้ Validation อย่างเดียว · "
     "รอบคัด: ทั้ง 21 ชุดบน 9 จุดเริ่ม · รอบตัดสิน: 5 ชุดที่ดีที่สุด + ค่าเริ่มต้น บน 27 จุดเต็ม · "
     "เลือกชุดและแบบที่ดีที่สุดแยกตามระยะทาย แล้ววัดบน Test ครั้งเดียว",
-    "จูนแล้วชนะเล็กน้อยใน Test ทุกระยะ แต่ Validation เสมอที่ 1 เดือนและแพ้ที่ 2–3 เดือน ไม่ผ่านกติกา "
+    "จูนแล้วชนะเล็กน้อยใน Test ทุกระยะ แต่ Validation เสมอที่ 1 เดือนและแพ้ที่ 2–3 เดือน ไม่ผ่านกติกา · "
     "ค่าตั้งที่ต่างกันให้ผลต่างกันไม่ถึง 0.1 จุด % แปลว่าปัญหาไม่ได้อยู่ที่ค่าตั้ง",
 )
 code(r'''
@@ -640,16 +656,18 @@ display(pd.DataFrame({"ค่าที่สุ่มเลือก": {k: ", ".
 code(r'''
 # @title 8.6.2 รอบคัด: 21 ชุด บน 9 จุดเริ่ม { display-mode: "form" }
 S = pd.read_csv(f"{ROOT}/ml/out/tune_screen.csv").sort_values("quick_best")
-fig, ax = plt.subplots(figsize=(10, 5.2), layout="constrained")
+fig, ax = plt.subplots(figsize=(10, 5.4), layout="constrained")
 labels = [f"ชุด {c}" + (" (ค่าเริ่มต้น)" if c == 0 else "") for c in S.config]
-ax.barh(labels, S.quick_best, color=MODEL["lgbm"][1], height=0.6)
-ax.axvline(S.quick_naive.iloc[0], color=MODEL["naive"][1], lw=2, ls="--")
-ax.text(S.quick_naive.iloc[0], -0.9, f" Naive {S.quick_naive.iloc[0]:.2f}", color=INK, fontsize=10, va="top")
-ax.invert_yaxis()
-ax.set_xlim(S.quick_best.min() - 0.05, S.quick_best.max() + 0.05)
-ax.set_xlabel("MAE (%) เฉลี่ย 3 ระยะ (แบบที่ดีที่สุดของแต่ละชุด)")
+y = np.arange(len(S))
+naive_q = S.quick_naive.iloc[0]
+ax.axvline(naive_q, color=MODEL["naive"][1], lw=2, ls="--", zorder=1)
+ax.scatter(S.quick_best, y, s=70, color=MODEL["lgbm"][1], edgecolors=SURFACE, linewidths=1.5, zorder=3, label="LightGBM แต่ละชุด")
+ax.text(naive_q + 0.002, len(S) - 0.6, f"Naive {naive_q:.2f}", color=INK, fontsize=10, va="bottom")
+ax.set_yticks(y, labels)
+ax.set_ylim(len(S) - 0.3, -0.7)
+ax.set_xlabel("MAE (%) เฉลี่ย 3 ระยะ (แบบที่ดีที่สุดของแต่ละชุด) ยิ่งซ้ายยิ่งดี")
 ax.grid(axis="y", visible=False)
-ax.set_title("รอบคัด: หลายชุดดูเหมือนชนะ Naive (แท่งซ้ายของเส้นประ)", loc="left")
+ax.set_title("รอบคัด 9 จุด: ทุกชุดดูเหมือนชนะ Naive (จุดอยู่ซ้ายเส้นประ)", loc="left")
 plt.show()
 print("5 ชุดที่ดีที่สุดไปรอบตัดสิน:", ", ".join(f"ชุด {c}" for c in S.config.head(5)))
 ''')
@@ -663,7 +681,7 @@ best.columns = [f"{h} เดือน" for h in best.columns]
 display(best.sort_values("1 เดือน").style.format("{:.2f}").highlight_min(axis=0, props="font-weight:bold"))
 ''')
 md("""
-**บทเรียนจากรอบคัด:** ในรอบคัด 9 จุด หลายชุดดูเหมือนชนะ Naive (1.37 เทียบ 1.43) แต่พอทดสอบเต็ม 27 จุด ไม่มีชุดไหนชนะเลย ถ้าเราตัดสินจากรอบคัดอย่างเดียว จะสรุปผิด การทดสอบบนข้อมูลช่วงยาวจึงสำคัญ
+**บทเรียนจากรอบคัด:** ในรอบคัด 9 จุด ทั้ง 21 ชุดดูเหมือนชนะ Naive (ดีสุด 1.37 เทียบ 1.43) แต่พอทดสอบเต็ม 27 จุด ไม่มีชุดไหนชนะเลย ถ้าเราตัดสินจากรอบคัดอย่างเดียว จะสรุปผิด การทดสอบบนข้อมูลช่วงยาวจึงสำคัญ
 
 ชุดที่ได้เลือก: ทาย 1 เดือน = ค่าเริ่มต้น แบบ 2 ขั้น 85% ขยับครึ่งเดียว · ทาย 2 เดือน = ชุด 7 (63 ใบ, learning rate 0.01, 600 ต้น) แบบเดียวกัน · ทาย 3 เดือน = ชุด 5 (15 ใบ, reg_lambda 10) แบบทายตรงขยับครึ่งเดียว
 """)
@@ -685,18 +703,22 @@ round_card(
 code(r'''
 # @title 8.7.1 ชุดค่าที่ลอง และผลรอบคัด (9 จุดเริ่ม, MAE %) { display-mode: "form" }
 from final_experiments import LSTM_GRID, RF_GRID
-display(pd.concat({
-    "Random Forest": pd.DataFrame(RF_GRID).T.rename(columns={"min_samples_leaf": "ขนาดใบขั้นต่ำ", "max_features": "สุ่มฟีเจอร์"}),
-    "LSTM": pd.DataFrame(LSTM_GRID).T.rename(columns={"hidden": "หน่วย", "lr": "learning rate", "dropout": "dropout", "seq": "ดูย้อนหลัง (เดือน)"}),
-}).fillna("").astype(str))
+tag = lambda k: f"ชุด {k}" + (" (ค่าเดิม)" if k == "A" else "")
+display(pd.DataFrame({tag(k): {"ขนาดใบขั้นต่ำ (แถว)": str(v["min_samples_leaf"]), "สุ่มฟีเจอร์ต่อการแตกกิ่ง": f"{v['max_features']:.0%}"}
+                      for k, v in RF_GRID.items()}).T.style.set_caption("Random Forest (200 ต้นทุกชุด)"))
+display(pd.DataFrame({tag(k): {"หน่วย LSTM": str(v["hidden"]), "learning rate": str(v["lr"]), "dropout": str(v["dropout"]),
+                               "ดูย้อนหลัง (เดือน)": str(v["seq"])} for k, v in LSTM_GRID.items()}).T.style.set_caption("LSTM"))
 Q = pd.read_csv(f"{ROOT}/ml/out/tune_rf_lstm.csv")
 Q["ดีกว่าระหว่างเต็มกับครึ่งเดียว"] = Q[["เต็ม", "ครึ่งเดียว"]].min(axis=1)
 q = Q.pivot_table(index=["model", "config"], columns="h", values="ดีกว่าระหว่างเต็มกับครึ่งเดียว")
 q.columns = [f"{h} เดือน" for h in q.columns]
 q.index = [("Naive (baseline)" if m == "naive" else f"{'Random Forest' if m == 'rf' else 'LSTM'} ชุด {c}") for m, c in q.index]
+q = q.loc[["Naive (baseline)"] + [i for i in q.index if i.startswith("Random")] + [i for i in q.index if i.startswith("LSTM")]]
 nq = q.loc["Naive (baseline)"]
 display(q.style.format("{:.2f}").apply(lambda col: [f"background-color:{BETTER}" if v <= nq[col.name] - TOL else
-                                                    f"background-color:{WORSE}" if v >= nq[col.name] + TOL else "" for v in col]))
+                                                    f"background-color:{WORSE}" if v >= nq[col.name] + TOL else "" for v in col])
+        .set_properties(subset=pd.IndexSlice[["Naive (baseline)"], :], **{"font-weight": "bold"})
+        .set_caption("รอบคัด 9 จุดเริ่ม: MAE (%) แบบที่ดีกว่าระหว่างขยับเต็มกับขยับครึ่งเดียว"))
 ''')
 code(r'''
 # @title 8.7.2 ผลเต็ม 27 + 12 จุดเริ่ม { display-mode: "form" }
@@ -894,6 +916,7 @@ for split, R in (("ปีปกติ (Validation)", CV), ("ปีล่าส�
         g = R[R.h == h]
         rows[(split, f"ทาย {h} เดือน")] = errors(g, "naive").groupby(g.categoryCode.map(CAT)).mean()
 acc = pd.DataFrame(rows)
+acc.index.name = "หมวด"
 acc.insert(0, ("", "วัสดุ"), TE[TE.h == 1].groupby(TE.categoryCode.map(CAT)).material_id.nunique())
 display(acc.sort_values(("ปีล่าสุด (Test)", "ทาย 3 เดือน")).style.format("{:.2f}", subset=acc.columns[1:]))
 ''')
