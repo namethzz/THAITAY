@@ -1,60 +1,91 @@
 # โมเดลพยากรณ์ราคา (ml/)
 
-ไฟล์ในโฟลเดอร์นี้พาข้อมูลราคาจาก สนค. ไปจนเป็นตัวเลขบนเว็บ ทำตามนี้ทีละขั้น:
+โฟลเดอร์นี้ดึงราคาจาก สนค. คำนวณราคาคาดการณ์ ช่วงราคา และป้าย แล้วเขียนเป็นไฟล์ JSON ให้หน้าเว็บอ่าน งานประจำมีคำสั่งเดียวคือ `bash monthly_update.sh` เดือนละครั้ง
 
 ```text
-ไฟล์ราคา (.xlsx/.csv)
-  → prepare_data.py   ตรวจและทำความสะอาดข้อมูล ได้รายงานว่าข้อมูลถูกต้องแค่ไหน
-  → baseline.py       โมเดลพื้นฐานในเครื่อง ได้ "เกณฑ์ขั้นต่ำ" ที่โมเดลบน cloud ต้องชนะ
-  → BigQuery ML / Vertex AI   โมเดลจริงบน Google Cloud
-  → export_static.py  แปลงราคาเป็นไฟล์ JSON ใส่ในหน้าเว็บ push ขึ้น GitHub แล้ว Vercel deploy เอง
-  (serve.py เป็น backend ทางเลือก ถ้าวันหนึ่งต้องคำนวณราคาสด)
+สนค. (index.tpso.go.th)
+  → fetch_tpso.py, prepare_data.py      ดึงราคาและทำความสะอาด ได้ data/prices_clean.csv
+  → build_factors.py                    ปัจจัยภายนอกย้อนหลังจากไฟล์ทีมใน Google Drive
+  → baseline.py (ใช้ bands.py)          ราคาคาดการณ์ 1–3 เดือนแบบ Naive พร้อมช่วงต่ำ–สูง → api_data/
+  → update_catalog_status.py            บอกหน้าเว็บว่าวัสดุไหน สนค. เลิกเก็บราคา
+  → fetch_factors.py                    ต่อปัจจัยภายนอกถึงเดือนล่าสุด (Yahoo Finance, ปตท.)
+  → change_signal.py                    ป้าย "ราคามีโอกาสเปลี่ยน" (LightGBM) เติมลง api_data/forecast.csv
+  → export_static.py                    ไฟล์ JSON ของเว็บใน ../frontend/public/data/prices/
+  → live_check.py                       สอบคำทายเดือนก่อนกับราคาจริง
 ```
 
-## ควรใช้ตัวไหน
+ไม่มี backend หน้าเว็บอ่านไฟล์ JSON เอง เพราะราคาเปลี่ยนเดือนละครั้ง ตอนผู้ใช้เปิดเว็บจึงไม่มีอะไรต้องคำนวณ Vercel ส่งไฟล์ไปพร้อมหน้าเว็บ (`serve.py` เป็นทางเลือก ดูท้ายไฟล์)
 
-ข้อมูลของ THAI TAY เป็นราคารายเดือนของวัสดุราว 287 รายการ ถ้ามีย้อนหลัง 5 ปี จะได้ประมาณ 17,000 แถว ซึ่งถือว่าเล็ก ไม่ต้องใช้ของใหญ่ตั้งแต่แรก
+## ใช้อะไรบนเว็บ
 
-| ลำดับ | ตัวเลือก | อยู่ที่ไหน | เหมาะกับ | ค่าใช้จ่าย |
-|---|---|---|---|---|
-| 1 | **โมเดลพื้นฐาน** (`baseline.py`) | ในเครื่อง | ตรวจข้อมูล และหาเกณฑ์ขั้นต่ำ | ฟรี |
-| 2 | **BigQuery ML `ARIMA_PLUS`** ⭐ แนะนำ | Google Cloud | เขียน SQL 1 คำสั่ง ได้โมเดลแยกรายวัสดุพร้อมช่วงต่ำ–สูง | ต่ำมากสำหรับข้อมูลขนาดนี้ |
-| 3 | **BigQuery `AI.FORECAST` (TimesFM)** | Google Cloud | โมเดลสำเร็จรูปของ Google ไม่ต้องฝึก เอาไว้เทียบกับ ARIMA_PLUS | ต่ำ |
-| 4 | **Vertex AI AutoML Forecasting** | Google Cloud | ลองเมื่อข้อ 2–3 ยังแม่นไม่พอ เรียนจากทุกวัสดุพร้อมกัน ใส่ตัวแปรอื่นเพิ่มได้ | สูงสุด คิดตามชั่วโมงเครื่องที่ใช้ฝึก |
+| ส่วนบนเว็บ | ใช้อะไร | ผลทดสอบ 12 เดือนล่าสุด |
+|---|---|---|
+| ราคาคาดการณ์ 1 / 2 / 3 เดือน | Naive: ราคาเดือนหน้า = ราคาล่าสุด | ทายผิดเฉลี่ย 1.75 / 3.47 / 5.06% |
+| ช่วงราคาต่ำ–สูง | `bands.py`: การเปลี่ยนราคาจริงในอดีตของแต่ละหมวด ตัดหัวท้าย 2.5% | ครอบราคาจริง 87 / 87 / 83% |
+| ป้าย "ราคามีโอกาสเปลี่ยน" | `change_signal.py`: LightGBM ขึ้นป้ายเมื่อโอกาส 70% ขึ้นไป | ขึ้นป้ายแล้วเปลี่ยนจริง 80% |
 
-ทั้ง BigQuery ML และ Vertex AI อยู่ใน Google Cloud และใช้บัญชีเดียวกัน คำแนะนำคือเริ่มจากข้อ 2 ก่อน เพราะเรียนรู้ง่ายและถูกที่สุด แล้วค่อยขยับไป Vertex AI เมื่อมีตัวเลขยืนยันว่าคุ้ม
-
-> ราคาวัสดุก่อสร้างรายเดือนมักเปลี่ยนช้า โมเดล "ใช้ราคาเดือนล่าสุด" (naive) จึงมักแม่นพอสมควรแล้ว โมเดลไหนแม่นไม่เกิน naive ก็ไม่ควรเอาขึ้นเว็บ
-
----
+ทดลองไป 16 แบบ (LightGBM, Random Forest, LSTM, Linear Regression, ETS และอื่น ๆ) ไม่มีแบบไหนทายราคาแม่นกว่า Naive ได้ทั้งช่วง Validation (2562–2568) และ Test (12 เดือนล่าสุด) จึงใช้ Naive ทายราคา และใช้ ML กับป้ายเท่านั้น รายละเอียดทุกการทดลองอยู่ใน [`DATA_REVIEW.md`](DATA_REVIEW.md) และ notebook [`colab/THAITAY_ML.ipynb`](colab/THAITAY_ML.ipynb)
 
 ## ขั้นที่ 0: ติดตั้ง
 
-ต้องมี Python 3.10 ขึ้นไป
+ต้องมี Python 3.10 ขึ้นไป (ทดสอบล่าสุดกับ 3.13) บน Windows ให้รันคำสั่งใน Git Bash หรือ WSL เพราะ `monthly_update.sh` เป็นสคริปต์ bash
 
 ```bash
 cd ml
 python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+source .venv/bin/activate          # Windows (Git Bash): source .venv/Scripts/activate
+pip install pandas numpy openpyxl statsmodels lightgbm scikit-learn
 ```
 
-## ขั้นที่ 1: ตรวจข้อมูล (ข้อมูลของผมถูกต้องไหม)
+เท่านี้พอสำหรับงานรายเดือน ถ้าจะรันการทดลองซ้ำ (LSTM, กราฟ, backend) ให้ลงครบด้วย `pip install -r requirements.txt`
 
-1. เอาไฟล์ราคามาไว้ใน `ml/data/` ซึ่งไม่ถูก commit ขึ้น git ทำได้ 2 ทาง
-   - ดึงจากเว็บ สนค. โดยตรง (ได้ถึงเดือนล่าสุดที่ สนค. เผยแพร่):
+## ขั้นที่ 1: อัปเดตราคาทุกเดือน
 
-     ```bash
-     python fetch_tpso.py
-     ```
-   - หรือคัดลอกไฟล์ที่เตรียมไว้ใน Google Drive มาใส่
-2. รันคำสั่งนี้ ใส่หลายไฟล์พร้อมกันได้ และอ่านทุกชีตใน Excel
+สนค. ออกราคาเดือนใหม่ราววันที่ 9 รันจากโฟลเดอร์ `ml/`:
 
 ```bash
-python prepare_data.py data/ไฟล์ราคา.xlsx
+bash monthly_update.sh
 ```
 
-script เดารูปแบบไฟล์ให้เอง ใช้ได้ทั้งแบบ 1 แถวต่อ 1 เดือน (`รหัสสินค้า | เดือน | ราคา`) และแบบมีเดือนเป็นคอลัมน์ (`รหัสสินค้า | ม.ค. 67 | ก.พ. 67 | ...`) อ่านเดือนได้ทั้ง พ.ศ. และ ค.ศ. ถ้าเดาชื่อคอลัมน์ผิด ให้ระบุเอง:
+- ไม่ต้องมีไฟล์ข้อมูลมาก่อน สคริปต์ดึงเองทั้งหมด ต้องเข้าเว็บได้: `index.tpso.go.th`, `drive.usercontent.google.com`, `query1.finance.yahoo.com`, `orapiweb.pttor.com`
+- ถ้า สนค. ยังไม่ประกาศเดือนใหม่ สคริปต์หยุดด้วย exit 3 และไม่เปลี่ยนไฟล์ใน `api_data/`
+- ถ้าเรียก Python ด้วยชื่ออื่น ให้ตั้ง `PYTHON` เช่น `PYTHON=python3 bash monthly_update.sh`
+
+ไฟล์ที่เปลี่ยนและต้อง commit:
+
+- `api_data/prices.csv` และ `api_data/forecast.csv`
+- `../frontend/public/data/prices/*.json`
+- `../frontend/src/data/structural-materials.json` (ช่องวัสดุที่เลิกเก็บราคา)
+
+ก่อน merge ให้อ่าน `out/live_check.md` ทายผิดเฉลี่ยควรอยู่ราว 0.7–1.8% และราคาจริงควรอยู่ในช่วงต่ำ–สูงเกือบทั้งหมด ถ้าหลุดไปมาก ให้ดูก่อนว่าเกิดอะไร พอ merge เข้า `main` แล้ว Vercel deploy เอง
+
+ตอนนี้มีงานตั้งเวลาใน Claude รันขั้นนี้ทุกวันที่ 10 เวลา 09:39 (เวลาไทย) แล้วเปิด PR รอคนตรวจ ไม่ merge เอง งานนี้อยู่ในบัญชี Claude ของผู้ดูแลโปรเจกต์ ถ้างานไม่ทำงาน ให้รันเองตามด้านบน
+
+ข้างในสคริปต์มี 8 ขั้น จะรันทีละขั้นก็ได้ คำสั่งเต็มดูใน `monthly_update.sh`
+
+| ขั้น | สคริปต์ | ทำอะไร |
+|---|---|---|
+| 1 | `fetch_tpso.py`, `prepare_data.py` | ดึงราคาจาก สนค. และทำความสะอาด ได้ `data/prices_clean.csv` |
+| 2 | `build_factors.py` | โหลดไฟล์ดิบปัจจัยภายนอก 8 ไฟล์ของทีมจาก Google Drive (ID ไฟล์อยู่ในสคริปต์) ได้ `data/factors_monthly.csv` |
+| 3 | `baseline.py` | ราคาคาดการณ์และช่วงต่ำ–สูง แล้วคัดลอกผลเข้า `api_data/` |
+| 4 | `update_catalog_status.py` | เขียนว่าวัสดุไหนเลิกเก็บราคา และรหัสเก่าไหนมีรหัสใหม่แทน |
+| 5 | `fetch_factors.py` | ต่อปัจจัยภายนอกถึงเดือนล่าสุด รายงานอยู่ที่ `out/factors_update.md` |
+| 6 | `change_signal.py` | ป้าย "ราคามีโอกาสเปลี่ยน" |
+| 7 | `export_static.py` | ไฟล์ JSON ของเว็บ วัสดุละ 1 ไฟล์ (ลบไฟล์เก่าในโฟลเดอร์ก่อนเขียน) |
+| 8 | `live_check.py` | สอบคำทายเดือนก่อนกับราคาจริง เขียน `out/live_check.md` |
+
+- ไฟล์ทีมใน Drive ต้องเปิดแชร์แบบ "ทุกคนที่มีลิงก์" ไว้ ถ้าแทนด้วยไฟล์ใหม่ ต้องแก้ ID ใน `monthly_update.sh`
+- ถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์ส ยังไม่มีแหล่งอัตโนมัติ `fetch_factors.py` ใช้ค่าเดือนล่าสุดที่มีแทน และบอกไว้ในรายงาน
+
+## ตรวจข้อมูลราคา (`prepare_data.py`)
+
+`monthly_update.sh` รันขั้นนี้ให้แล้ว อ่านส่วนนี้เมื่อรายงานเจอปัญหา หรือเมื่อจะใช้ไฟล์ราคาจากที่อื่น
+
+```bash
+python prepare_data.py data/tpso_prices.csv
+```
+
+ใส่หลายไฟล์พร้อมกันได้ และอ่านทุกชีตใน Excel script เดารูปแบบไฟล์ให้เอง ใช้ได้ทั้งแบบ 1 แถวต่อ 1 เดือน (`รหัสสินค้า | เดือน | ราคา`) และแบบมีเดือนเป็นคอลัมน์ (`รหัสสินค้า | ม.ค. 67 | ก.พ. 67 | ...`) อ่านเดือนได้ทั้ง พ.ศ. และ ค.ศ. ถ้าเดาชื่อคอลัมน์ผิด ให้ระบุเอง:
 
 ```bash
 python prepare_data.py data/prices.csv --id-col "รหัสสินค้า" --date-col "เดือน" --price-col "ราคา"
@@ -67,7 +98,7 @@ python prepare_data.py data/prices.csv --id-col "รหัสสินค้า"
 | เลขแบบ `1.01E+14` | Excel ตัดหลักของรหัสทิ้งไปแล้ว ให้ดึงข้อมูลใหม่โดยตั้งคอลัมน์รหัสเป็น Text |
 | ข้อมูลซ้ำที่ราคาไม่ตรงกัน | ดูว่ามาจากคนละไฟล์หรือคนละจังหวัดหรือไม่ ถ้าเป็นเพราะคนละจังหวัด ต้องเลือกว่าจะใช้ราคาไหน (script ใช้ค่าเฉลี่ย) |
 | หน่วยไม่ตรงกับแคตตาล็อก | สำคัญมาก ถ้าไฟล์เป็นบาท/กก. แต่เว็บแสดงบาท/ตัน ตัวเลขจะผิด 1,000 เท่า |
-| วัสดุบนเว็บที่ไม่มีราคาเลย | วัสดุเหล่านี้จะขึ้นข้อความ error บนเว็บ ให้หาข้อมูลเพิ่ม หรือเอาออกจาก `structural-materials.json` |
+| วัสดุบนเว็บที่ไม่มีราคาเลย | ไม่มีไฟล์ราคา หน้าเว็บจะใช้ราคาตัวอย่างพร้อมป้าย "ข้อมูลตัวอย่าง" แทน ให้หาข้อมูลเพิ่ม หรือเอาออกจาก `structural-materials.json` |
 | น้อยกว่า 12–24 เดือน | ข้อมูลน้อยเกินกว่าจะพยากรณ์ได้ดี |
 | ราคาเท่าเดิมทุกเดือน | มักเป็นราคาที่ไม่ได้อัปเดตจริง |
 | ราคากระโดดเกิน 25% | ดูทีละจุดว่าพิมพ์ผิด เปลี่ยนหน่วย หรือราคาขึ้นจริง ถ้าผิดให้แก้ในไฟล์ต้นฉบับแล้วรันใหม่ |
@@ -77,137 +108,40 @@ script ทำ 2 อย่างให้อัตโนมัติด้วย:
 - **เชื่อมรหัสที่ สนค. เปลี่ยน**: สินค้าสเปกเดียวกันที่รหัสเก่าหยุดและรหัสใหม่เริ่มต่อภายใน 3 เดือน ราคาห่างไม่เกิน 15% จะถูกนำประวัติมาต่อกัน รายการคู่อยู่ใน `out/series_links.csv` (ปิดได้ด้วย `--no-link`)
 - **แยกวัสดุที่เลิกเก็บราคา**: ไม่มีราคาเกิน 3 เดือน (`--stale`) จะไม่ถูกพยากรณ์
 
-ผลตรวจข้อมูลจริงรอบล่าสุดอยู่ใน [`DATA_REVIEW.md`](DATA_REVIEW.md)
-
-แก้ไฟล์ต้นฉบับแล้วรันซ้ำจนรายงานไม่มีอะไรน่าสงสัย จะได้ `data/prices_clean.csv` ที่ใช้ในขั้นต่อไปทั้งหมด
-
-## ขั้นที่ 2: โมเดลพื้นฐานในเครื่อง
+## ราคาคาดการณ์และการวัดผล (`baseline.py`)
 
 ```bash
 python baseline.py
 ```
 
-ใช้เวลาประมาณ 1 นาที ผลที่ได้มีดังนี้:
+ใช้เวลาประมาณ 1 นาที script เทียบ naive, drift, seasonal naive และ ETS ด้วยการย้อนไปยืนที่แต่ละเดือนในช่วง 12 เดือนล่าสุด ให้โมเดลทายโดยเห็นเฉพาะข้อมูลก่อนเดือนนั้น แล้วเทียบกับราคาจริง จากนั้นใช้ตัวที่ทายผิดน้อยที่สุด ซึ่งตอนนี้คือ naive
 
-- `out/backtest_summary.md` บอกว่าแต่ละโมเดลทายผิดเฉลี่ยกี่ % (MAPE) ที่ 1, 2 และ 3 เดือน ให้จดตาราง **holdout** ไว้เทียบกับ cloud
-- `out/forecast.csv` ราคาคาดการณ์ 1–3 เดือนพร้อม low/high ใช้ขึ้นเว็บได้ทันทีถ้ายังไม่พร้อมใช้ cloud
+- `out/backtest_summary.md` ทายผิดเฉลี่ย (MAPE) ของแต่ละโมเดลที่ 1, 2 และ 3 เดือน
+- `out/forecast.csv` ราคาคาดการณ์ 1–3 เดือน พร้อมช่วงต่ำ–สูงจาก `bands.py`
 
-วิธีวัด: script ย้อนกลับไปยืนที่แต่ละเดือนในช่วง 12 เดือนล่าสุด ให้โมเดลทายโดยเห็นเฉพาะข้อมูลก่อนเดือนนั้น แล้วเทียบกับราคาจริงที่เกิดขึ้น
+## สคริปต์ทดลองเทียบโมเดล
 
-## ขั้นที่ 3: เตรียม Google Cloud (ทำครั้งเดียว)
+ไม่ต้องรันทุกเดือน ผลทั้งหมดอยู่ใน [`DATA_REVIEW.md`](DATA_REVIEW.md)
 
-1. สร้างโปรเจกต์ที่ https://console.cloud.google.com แล้วผูกบัญชีเรียกเก็บเงิน (Billing)
-2. **ตั้ง Budget alert ก่อนเลย** ที่ Billing → Budgets & alerts เช่นแจ้งเตือนที่ 300 บาท/เดือน
-3. ติดตั้ง [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) แล้วรัน:
+| สคริปต์ | ทำอะไร | เวลา (4 คอร์) |
+|---|---|---|
+| `global_model.py` | LightGBM ตัวเดียวทุกวัสดุ ทายว่าราคาจะเปลี่ยนกี่ % (มีฟังก์ชัน `md` ที่สคริปต์อื่นใช้ด้วย) | ไม่ได้จับเวลา |
+| `train_best.py` | หาโมเดลที่แม่นที่สุดโดยไม่ใช้ข้อมูลอนาคต | ~5 นาที |
+| `tune.py` | ค้นหาค่า hyperparameter ของ LightGBM | ~40 นาที |
+| `two_stage_model.py` | ขยับจาก naive เฉพาะตอนที่มั่นใจว่าราคาจะเปลี่ยน | ไม่ได้จับเวลา |
+| `compare_models.py` | เทียบ Naive, LightGBM, Random Forest, LSTM แบบ walk-forward (หยุดกลางทางแล้วรันต่อได้) | ~15 นาที |
+| `final_experiments.py` | เพิ่ม Seasonal naive, Drift, ETS, Linear Regression, LightGBM ค่าเริ่มต้น และจูน Random Forest กับ LSTM บนจุดเริ่มชุดเดียวกัน | ~25 นาที |
+| `classify_signal.py` | วัดป้าย "ราคามีโอกาสเปลี่ยน" ด้วย Precision, Recall, F1, Confusion Matrix เทียบ Logistic Regression | ~90 นาที |
+| `residuals.py` | กราฟ residual ช่วง Test (ต้องรัน `compare_models.py` ก่อน) | ไม่ถึง 1 นาที |
+| `bands.py` | เลือกวิธีตั้งช่วงราคาต่ำ–สูงด้วย Validation แล้ววัดบน Test (`baseline.py` ใช้ค่าที่เลือกใน `bands.CHOSEN`) | ไม่ถึง 1 นาที |
 
-```bash
-gcloud auth login
-```
+กราฟทั้งหมดอยู่ใน `report_figures/` notebook ที่อธิบายทุกการทดลองแบบอ่านง่ายอยู่ใน `colab/THAITAY_ML.ipynb` ถ้าจะรันซ้ำบน Colab ใช้ไฟล์ `thaitay_colab.zip` ใน Google Drive ของทีม หรือสร้างใหม่ด้วย `colab/make_bundle.sh` (ต้องรันสคริปต์ทดลองให้ได้ผลใน `out/` ก่อน)
 
-```bash
-gcloud auth application-default login
-```
+อย่ารันสคริปต์ทดลอง 2 ตัวพร้อมกัน เพราะแย่ง CPU กันจนช้าลงหลายสิบเท่า
 
-```bash
-gcloud config set project YOUR_PROJECT_ID
-```
+## ทางเลือก: backend `serve.py`
 
-```bash
-gcloud services enable bigquery.googleapis.com aiplatform.googleapis.com run.googleapis.com
-```
-
-4. สร้าง dataset ไว้ที่สิงคโปร์ (ใกล้ไทยที่สุด) แล้วโหลดข้อมูลเข้าไป:
-
-```bash
-bq mk --location=asia-southeast1 --dataset thaitay
-```
-
-```bash
-bq load --replace --source_format=CSV --skip_leading_rows=1 thaitay.prices data/prices_clean.csv material_id:STRING,date:DATE,price:FLOAT64,unit:STRING,categoryCode:STRING,familyCode:STRING
-```
-
-## ขั้นที่ 4ก: BigQuery ML ARIMA_PLUS (แนะนำ)
-
-ARIMA_PLUS สร้างโมเดลแยกให้วัสดุแต่ละรายการโดยอัตโนมัติ และจัดการแนวโน้ม ฤดูกาล และราคาที่กระโดดผิดปกติให้เอง
-
-```bash
-bq query --use_legacy_sql=false < bigquery/01_arima_plus_evaluate.sql
-```
-
-ได้ `mape_avg` ของการทาย 3 เดือนสุดท้าย ให้เอาไปเทียบกับตาราง holdout ใน `out/backtest_summary.md` ถ้าแม่นกว่า naive ให้รันต่อ:
-
-```bash
-bq query --use_legacy_sql=false < bigquery/02_arima_plus_forecast.sql
-```
-
-```bash
-./export_forecast.sh
-```
-
-`out/forecast.csv` จะเปลี่ยนเป็นผลจาก ARIMA_PLUS (ช่วง low/high คือช่วงความเชื่อมั่น 80%)
-
-## ขั้นที่ 4ข: TimesFM ผ่าน AI.FORECAST (ทางเลือก)
-
-```bash
-bq query --use_legacy_sql=false < bigquery/03_timesfm_forecast.sql
-```
-
-```bash
-./export_forecast.sh forecast_timesfm
-```
-
-## ขั้นที่ 4ค: Vertex AI AutoML Forecasting (เมื่อต้องการมากกว่านี้)
-
-ข้อดีคือโมเดลเดียวเรียนจากทุกวัสดุพร้อมกัน และเพิ่มตัวแปรภายนอกได้ภายหลัง เช่น ราคาเหล็กโลก ราคาน้ำมัน หรือดัชนี CMI ข้อเสียคือแพงกว่าและใช้เวลาฝึกนานหลายชั่วโมง
-
-```bash
-python vertex/train_automl_forecast.py --project YOUR_PROJECT_ID --region asia-southeast1 --budget 1000
-```
-
-- ดูความแม่นได้ที่ Vertex AI → Model Registry → `thaitay-price-forecast` → Evaluate (ดูค่า MAPE)
-- ผลพยากรณ์ถูกเขียนลงตารางใน dataset `thaitay` ให้เปิดดูชื่อคอลัมน์ แล้วแปลงเป็น `material_id, month, date, price, low, high, model` ก่อน export
-
-ถ้าจะทำผ่านหน้าเว็บแทนโค้ด ก็ทำได้: Vertex AI → Datasets → Create → Tabular → Forecasting → เลือกตาราง `thaitay.prices` → ตั้ง Series identifier = `material_id`, Timestamp = `date`, Target = `price`, Granularity = Monthly, Horizon = 3
-
-## เลือกโมเดลที่จะขึ้นเว็บ
-
-จดผลไว้ในตารางเดียวกัน ทุกตัวต้องวัดที่ 3 เดือนสุดท้ายเหมือนกัน (holdout):
-
-| โมเดล | MAPE 1 เดือน | MAPE 3 เดือน | หมายเหตุ |
-|---|---|---|---|
-| naive (baseline.py) | | | เกณฑ์ขั้นต่ำ |
-| ets (baseline.py) | | | |
-| ARIMA_PLUS | | | |
-| TimesFM | | | |
-| Vertex AI AutoML | | | |
-
-เลือกตัวที่ MAPE ต่ำกว่า naive อย่างชัดเจน ถ้าทุกตัวสูสีกัน ให้เลือกตัวที่ถูกและดูแลง่ายที่สุด
-
-## ขั้นที่ 5: เอาราคาขึ้นเว็บ
-
-ราคาบนเว็บมาจากไฟล์ใน `api_data/` ซึ่ง commit ไว้แล้ว (ราคาถึง ก.ย. 2569 และผลพยากรณ์จาก `baseline.py`) เมื่อรันโมเดลใหม่ ให้คัดลอกผลมาทับ:
-
-```bash
-cp data/prices_clean.csv api_data/prices.csv
-```
-
-```bash
-cp out/forecast.csv api_data/forecast.csv
-```
-
-แล้วรัน `python update_catalog_status.py` เพื่อให้หน้าเว็บรู้ว่าวัสดุไหนเลิกเก็บราคา (ซ่อนจากการค้นหา) และรหัสเก่าไหนมีรหัสใหม่แทน
-
-แปลงราคาเป็นไฟล์ที่หน้าเว็บอ่านเอง (`frontend/public/data/prices/{materialId}.json` วัสดุละไฟล์ ข้อมูลเหมือนที่ `serve.py` ตอบ):
-
-```bash
-python export_static.py
-```
-
-ลองดูในเครื่องด้วย `cd ../frontend && npm run dev` แล้ว commit ไฟล์ใน `frontend/public/data/prices/` push ขึ้น GitHub Vercel จะ build และ deploy เอง ไม่ต้องมี backend
-
-### ทางเลือก: backend `serve.py` บน Cloud Run
-
-ใช้เมื่อต้องคำนวณราคาสดแทนไฟล์สำเร็จรูป ลองในเครื่องก่อน:
+ใช้เมื่อวันหนึ่งต้องคำนวณราคาสดแทนไฟล์สำเร็จรูป ต้องลง `fastapi` และ `uvicorn` (อยู่ใน `requirements.txt`) ลองในเครื่องก่อน:
 
 ```bash
 uvicorn serve:app --reload --port 8080
@@ -219,7 +153,7 @@ uvicorn serve:app --reload --port 8080
 cd ../frontend && VITE_API_BASE=http://localhost:8080 npm run dev
 ```
 
-ถ้าทุกอย่างถูกต้อง ให้ deploy backend ขึ้น Cloud Run:
+ถ้าจะขึ้น Cloud Run (ต้องมีบัญชี Google Cloud ที่ผูกบัญชีจ่ายเงิน):
 
 ```bash
 gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauthenticated
@@ -231,42 +165,12 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 2. Redeploy เว็บ (ค่า `VITE_*` ถูกใส่ตอน build จึงต้อง build ใหม่)
 3. ถ้าใช้โดเมนอื่นนอกจาก `thaitay.vercel.app` ให้ deploy ใหม่พร้อม `--set-env-vars ALLOW_ORIGINS=https://โดเมนของคุณ`
 
-## อัปเดตทุกเดือน
+## แผนเดิมบน Google Cloud (ไม่ได้ใช้)
 
-เมื่อ สนค. ออกราคาเดือนใหม่ (ราววันที่ 9) รันคำสั่งเดียวจากโฟลเดอร์ `ml/` ได้ทุกขั้น รวมการสอบจริงคำทายเดือนก่อน (`out/live_check.md`) ถ้า สนค. ยังไม่ประกาศ สคริปต์จะหยุดด้วย exit 3 โดยไม่เปลี่ยนไฟล์:
-
-```bash
-./monthly_update.sh
-```
-
-แล้ว commit ไฟล์ที่เปลี่ยน push ขึ้น GitHub Vercel deploy เอง มีงานตั้งเวลาให้ Claude ทำขั้นนี้ทุกวันที่ 10 แล้วเปิด PR รอ merge
-
-ขั้นตอนข้างในสคริปต์ ถ้าจะทำทีละขั้น:
-
-1. `python fetch_tpso.py`
-2. `python prepare_data.py data/tpso_prices.csv`
-3. `python baseline.py` (หรือ BigQuery: `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh`)
-4. คัดลอก `data/prices_clean.csv` และ `out/forecast.csv` เข้า `api_data/` แล้ว `python update_catalog_status.py`
-5. `python fetch_factors.py` ต่อปัจจัยภายนอกให้ถึงเดือนล่าสุดเอง (Yahoo Finance, ราคาดีเซล ปตท.) แล้ว `python change_signal.py` เพื่อเติมโอกาสที่ราคาจะเปลี่ยนลง `api_data/forecast.csv` ถ้าทีมมีไฟล์ดิบเดือนใหม่ใน Drive "New Data" ให้รัน `python build_factors.py data/raw` ก่อน ถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์สยังไม่มีแหล่งอัตโนมัติ สคริปต์จะใช้ค่าเดือนล่าสุดที่มีแทน
-6. `python bands.py` ถ้าต้องการตรวจช่วงราคาใหม่ (`baseline.py` ใช้วิธีเดียวกันอยู่แล้ว)
-7. `python export_static.py` แล้ว commit ไฟล์ที่เปลี่ยนทั้งหมด (`api_data/`, `frontend/public/data/prices/`, `frontend/src/data/structural-materials.json`) push ขึ้น GitHub Vercel deploy เอง
-
-## สคริปต์ทดลองเทียบโมเดล (ผลอยู่ใน `DATA_REVIEW.md`)
-
-| สคริปต์ | ทำอะไร | เวลา (4 คอร์) |
-|---|---|---|
-| `tune.py` | ค้นหาค่า hyperparameter ของ LightGBM | ~40 นาที |
-| `compare_models.py` | เทียบ Naive, LightGBM, Random Forest, LSTM แบบ walk-forward (หยุดกลางทางแล้วรันต่อได้) | ~15 นาที |
-| `final_experiments.py` | เพิ่ม Seasonal naive, Drift, ETS, Linear Regression, LightGBM ค่าเริ่มต้นทุกแบบ และจูน Random Forest กับ LSTM บนจุดเริ่มชุดเดียวกัน | ~25 นาที |
-| `classify_signal.py` | วัดป้าย "ราคามีโอกาสเปลี่ยน" ด้วย Precision, Recall, F1, Confusion Matrix เทียบ Logistic Regression | ~90 นาที |
-| `residuals.py` | กราฟ residual ช่วง Test (ต้องรัน `compare_models.py` ก่อน) | ไม่ถึง 1 นาที |
-| `fetch_factors.py` | ต่อปัจจัยภายนอกรายเดือนจากแหล่งสาธารณะ เทียบกับไฟล์ของทีมแล้ว (รายละเอียดแหล่งอยู่ต้นไฟล์) | ไม่ถึง 1 นาที |
-| `live_check.py` | สอบจริง: เทียบคำทายที่ขึ้นเว็บเดือนก่อนกับราคาจริงที่เพิ่งประกาศ | ไม่ถึง 1 นาที |
-| `bands.py` | ค้นหาวิธีตั้งช่วงราคาต่ำ–สูงด้วย Validation วัดบน Test แล้วเขียนช่วงลง `api_data/forecast.csv` (`baseline.py` ใช้ค่าที่เลือกใน `bands.CHOSEN` อยู่แล้ว) | ไม่ถึง 1 นาที |
-
-กราฟทั้งหมดอยู่ใน `report_figures/` บทสรุปทุกการทดลองแบบอ่านง่ายอยู่ใน `colab/THAITAY_ML.ipynb` (สร้างไฟล์ข้อมูลประกอบด้วย `colab/make_bundle.sh`) อย่ารัน 2 สคริปต์พร้อมกัน เพราะแย่ง CPU กันจนช้าลงหลายสิบเท่า
+ช่วงแรกวางแผนให้ BigQuery ML และ Vertex AI ทายราคา ไฟล์ยังอยู่ใน `bigquery/`, `vertex/` และ `export_forecast.sh` แต่ไม่ได้ใช้บนเว็บ ขั้นตอนถ้าจะลองอยู่ใน [`bigquery/README.md`](bigquery/README.md)
 
 ## ข้อควรจำ
 
-- หน้าเว็บยังไม่แสดงตัวเลขความแม่นยำ (ตามหลักใน `frontend/PRODUCT.md`) ให้ใส่ได้เมื่อมีผล backtest จากข้อมูลจริงแล้วเท่านั้น
-- ไฟล์ใน `data/` และ `out/` ไม่ถูก commit ขึ้น git ถ้า repo เป็น public ข้อมูลจะไม่หลุดออกไป
+- อย่าแก้ไฟล์ใน `api_data/` และ `../frontend/public/data/prices/` ด้วยมือ สคริปต์เขียนทับทุกเดือน
+- ไฟล์ใน `data/` และ `out/` ไม่ถูก commit ขึ้น git สคริปต์สร้างใหม่ทุกครั้ง clone ใหม่แล้วรันได้เลย
+- หน้าเว็บไม่แสดงตัวเลขความแม่นยำของโมเดล (ตามหลักใน `frontend/PRODUCT.md`) ถ้าจะแสดง ให้ใช้ผลทดสอบจริงจาก `DATA_REVIEW.md` เท่านั้น
