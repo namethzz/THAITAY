@@ -233,7 +233,15 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 
 ## อัปเดตทุกเดือน
 
-เมื่อ สนค. ออกราคาเดือนใหม่:
+เมื่อ สนค. ออกราคาเดือนใหม่ (ราววันที่ 9) รันคำสั่งเดียวจากโฟลเดอร์ `ml/` ได้ทุกขั้น รวมการสอบจริงคำทายเดือนก่อน (`out/live_check.md`) ถ้า สนค. ยังไม่ประกาศ สคริปต์จะหยุดด้วย exit 3 โดยไม่เปลี่ยนไฟล์:
+
+```bash
+./monthly_update.sh
+```
+
+แล้ว commit ไฟล์ที่เปลี่ยน push ขึ้น GitHub Vercel deploy เอง มีงานตั้งเวลาให้ Claude ทำขั้นนี้ทุกวันที่ 10 แล้วเปิด PR รอ merge
+
+ขั้นตอนข้างในสคริปต์ ถ้าจะทำทีละขั้น:
 
 1. `python fetch_tpso.py`
 2. `python prepare_data.py data/tpso_prices.csv`
@@ -253,6 +261,7 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 | `classify_signal.py` | วัดป้าย "ราคามีโอกาสเปลี่ยน" ด้วย Precision, Recall, F1, Confusion Matrix เทียบ Logistic Regression | ~90 นาที |
 | `residuals.py` | กราฟ residual ช่วง Test (ต้องรัน `compare_models.py` ก่อน) | ไม่ถึง 1 นาที |
 | `fetch_factors.py` | ต่อปัจจัยภายนอกรายเดือนจากแหล่งสาธารณะ เทียบกับไฟล์ของทีมแล้ว (รายละเอียดแหล่งอยู่ต้นไฟล์) | ไม่ถึง 1 นาที |
+| `live_check.py` | สอบจริง: เทียบคำทายที่ขึ้นเว็บเดือนก่อนกับราคาจริงที่เพิ่งประกาศ | ไม่ถึง 1 นาที |
 | `bands.py` | ค้นหาวิธีตั้งช่วงราคาต่ำ–สูงด้วย Validation วัดบน Test แล้วเขียนช่วงลง `api_data/forecast.csv` (`baseline.py` ใช้ค่าที่เลือกใน `bands.CHOSEN` อยู่แล้ว) | ไม่ถึง 1 นาที |
 
 กราฟทั้งหมดอยู่ใน `report_figures/` บทสรุปทุกการทดลองแบบอ่านง่ายอยู่ใน `colab/THAITAY_ML.ipynb` (สร้างไฟล์ข้อมูลประกอบด้วย `colab/make_bundle.sh`) อย่ารัน 2 สคริปต์พร้อมกัน เพราะแย่ง CPU กันจนช้าลงหลายสิบเท่า
