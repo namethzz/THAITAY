@@ -17,6 +17,10 @@ export interface Material {
   category: string;
   name: string;
   unit: string;
+  /** "YYYY-MM" เดือนสุดท้ายที่ สนค. มีราคา: วัสดุที่เลิกเก็บราคาแล้ว ไม่แสดงในการค้นหา */
+  discontinued?: string;
+  /** รหัสใหม่ที่ สนค. ใช้แทนรหัสนี้ (ประวัติราคาต่อกันแล้ว) ลิงก์ของรหัสเก่าพาไปที่รหัสใหม่ */
+  replacedBy?: string;
 }
 
 export interface EstimateLine {

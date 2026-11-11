@@ -26,7 +26,9 @@ const cleanMeta = (saved: unknown): EstimateMeta => {
     vat: s.vat !== false,
   };
 };
-const cleanWatch = (saved: unknown): string[] => (Array.isArray(saved) ? saved.filter(id => typeof id === "string" && getMaterialById(id)) : []);
+// รหัสเก่าที่ สนค. เปลี่ยนแล้วกลายเป็นรหัสใหม่ วัสดุที่เลิกเก็บราคาหลุดจากรายการติดตาม
+const cleanWatch = (saved: unknown): string[] =>
+  Array.isArray(saved) ? [...new Set(saved.flatMap(id => { const m = typeof id === "string" ? getMaterialById(id) : null; return m && !m.discontinued ? [m.id] : []; }))] : [];
 
 const titleOf = (id: string, fallback: string) => { const material = getMaterialById(id); return material ? materialTitle(material).title : fallback; };
 

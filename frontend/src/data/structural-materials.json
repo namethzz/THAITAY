@@ -533,7 +533,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030401"
+      "familyCode": "FAM-030401",
+      "discontinued": "2024-04"
     },
     {
       "id": "MAT-0304010100200000",
@@ -541,7 +542,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030401"
+      "familyCode": "FAM-030401",
+      "discontinued": "2024-04"
     },
     {
       "id": "MAT-0304010100300000",
@@ -549,7 +551,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030401"
+      "familyCode": "FAM-030401",
+      "discontinued": "2024-04"
     },
     {
       "id": "MAT-0304010100400000",
@@ -557,7 +560,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030401"
+      "familyCode": "FAM-030401",
+      "discontinued": "2024-04"
     },
     {
       "id": "MAT-0304010100500000",
@@ -565,7 +569,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030401"
+      "familyCode": "FAM-030401",
+      "discontinued": "2024-04"
     },
     {
       "id": "MAT-0304020100100000",
@@ -573,7 +578,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030402"
+      "familyCode": "FAM-030402",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0304020100200000",
@@ -581,7 +587,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030402"
+      "familyCode": "FAM-030402",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0304020100300000",
@@ -589,7 +596,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030402"
+      "familyCode": "FAM-030402",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0304020100400000",
@@ -597,7 +605,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030402"
+      "familyCode": "FAM-030402",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0304020100500000",
@@ -605,7 +614,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030402"
+      "familyCode": "FAM-030402",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0304020100800000",
@@ -645,7 +655,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030402"
+      "familyCode": "FAM-030402",
+      "discontinued": "2020-05"
     },
     {
       "id": "MAT-0306010100100000",
@@ -653,7 +664,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030601"
+      "familyCode": "FAM-030601",
+      "discontinued": "2025-06"
     },
     {
       "id": "MAT-0306010100200000",
@@ -661,7 +673,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030601"
+      "familyCode": "FAM-030601",
+      "discontinued": "2025-06"
     },
     {
       "id": "MAT-0306010100300000",
@@ -669,7 +682,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030601"
+      "familyCode": "FAM-030601",
+      "discontinued": "2025-06"
     },
     {
       "id": "MAT-0306010100400000",
@@ -677,7 +691,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030601"
+      "familyCode": "FAM-030601",
+      "discontinued": "2025-06"
     },
     {
       "id": "MAT-0306010100500000",
@@ -685,7 +700,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030601"
+      "familyCode": "FAM-030601",
+      "discontinued": "2025-06"
     },
     {
       "id": "MAT-0306010100600000",
@@ -693,7 +709,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030601"
+      "familyCode": "FAM-030601",
+      "discontinued": "2025-06"
     },
     {
       "id": "MAT-0307010100500000",
@@ -749,7 +766,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100200000",
@@ -757,7 +775,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100300000",
@@ -765,7 +784,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100400000",
@@ -773,7 +793,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100500000",
@@ -781,7 +802,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100600000",
@@ -789,7 +811,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100700000",
@@ -797,7 +820,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100800000",
@@ -805,7 +829,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010100900000",
@@ -813,7 +838,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010101000000",
@@ -821,7 +847,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010101100000",
@@ -829,7 +856,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010101200000",
@@ -837,7 +865,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010101300000",
@@ -845,7 +874,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010101400000",
@@ -853,7 +883,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030801"
+      "familyCode": "FAM-030801",
+      "discontinued": "2017-08"
     },
     {
       "id": "MAT-0308010101500000",
@@ -973,7 +1004,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040101"
+      "familyCode": "FAM-040101",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401010101500000"
     },
     {
       "id": "MAT-0401010100200000",
@@ -981,7 +1014,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040101"
+      "familyCode": "FAM-040101",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401010101600000"
     },
     {
       "id": "MAT-0401010100300000",
@@ -989,7 +1024,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040101"
+      "familyCode": "FAM-040101",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401010101700000"
     },
     {
       "id": "MAT-0401010100400000",
@@ -997,7 +1034,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040101"
+      "familyCode": "FAM-040101",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401010101800000"
     },
     {
       "id": "MAT-0401010100500000",
@@ -1005,7 +1044,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040101"
+      "familyCode": "FAM-040101",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401010101900000"
     },
     {
       "id": "MAT-0401010100600000",
@@ -1013,7 +1054,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040101"
+      "familyCode": "FAM-040101",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401010102500000"
     },
     {
       "id": "MAT-0401010101500000",
@@ -1069,7 +1112,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020100200000",
@@ -1077,7 +1121,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020100300000",
@@ -1085,7 +1130,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020100400000",
@@ -1093,7 +1139,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020200100000",
@@ -1101,7 +1148,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020200200000",
@@ -1109,7 +1157,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203000000"
     },
     {
       "id": "MAT-0401020200300000",
@@ -1117,7 +1167,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203100000"
     },
     {
       "id": "MAT-0401020200400000",
@@ -1125,7 +1177,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203200000"
     },
     {
       "id": "MAT-0401020200500000",
@@ -1133,7 +1187,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203300000"
     },
     {
       "id": "MAT-0401020200600000",
@@ -1141,7 +1197,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203400000"
     },
     {
       "id": "MAT-0401020200700000",
@@ -1149,7 +1207,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203500000"
     },
     {
       "id": "MAT-0401020201500000",
@@ -1157,7 +1217,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020202200000"
     },
     {
       "id": "MAT-0401020201600000",
@@ -1165,7 +1227,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020203700000"
     },
     {
       "id": "MAT-0401020201700000",
@@ -1173,7 +1237,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020203800000"
     },
     {
       "id": "MAT-0401020201800000",
@@ -1181,7 +1247,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020203900000"
     },
     {
       "id": "MAT-0401020201900000",
@@ -1189,7 +1257,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020204000000"
     },
     {
       "id": "MAT-0401020202000000",
@@ -1197,7 +1267,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020204100000"
     },
     {
       "id": "MAT-0401020202100000",
@@ -1205,7 +1277,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020204200000"
     },
     {
       "id": "MAT-0401020202200000",
@@ -1213,7 +1287,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2024-05"
     },
     {
       "id": "MAT-0401020202300000",
@@ -1221,7 +1296,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203700000"
     },
     {
       "id": "MAT-0401020202400000",
@@ -1229,7 +1306,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203800000"
     },
     {
       "id": "MAT-0401020202500000",
@@ -1237,7 +1316,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020203900000"
     },
     {
       "id": "MAT-0401020202600000",
@@ -1245,7 +1326,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020204000000"
     },
     {
       "id": "MAT-0401020202700000",
@@ -1253,7 +1336,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020204100000"
     },
     {
       "id": "MAT-0401020202800000",
@@ -1261,7 +1346,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020204200000"
     },
     {
       "id": "MAT-0401020203000000",
@@ -1373,7 +1460,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020300700000",
@@ -1381,7 +1469,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020300800000",
@@ -1389,7 +1478,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-01"
     },
     {
       "id": "MAT-0401020300900000",
@@ -1397,7 +1487,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302300000"
     },
     {
       "id": "MAT-0401020301000000",
@@ -1405,7 +1497,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302400000"
     },
     {
       "id": "MAT-0401020301100000",
@@ -1413,7 +1507,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302500000"
     },
     {
       "id": "MAT-0401020301200000",
@@ -1421,7 +1517,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302600000"
     },
     {
       "id": "MAT-0401020301300000",
@@ -1429,7 +1527,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302700000"
     },
     {
       "id": "MAT-0401020301400000",
@@ -1437,7 +1537,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302800000"
     },
     {
       "id": "MAT-0401020301500000",
@@ -1445,7 +1547,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2018-05",
+      "replacedBy": "MAT-0401020302900000"
     },
     {
       "id": "MAT-0401020301600000",
@@ -1453,7 +1557,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302300000"
     },
     {
       "id": "MAT-0401020301700000",
@@ -1461,7 +1567,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302400000"
     },
     {
       "id": "MAT-0401020301800000",
@@ -1469,7 +1577,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302500000"
     },
     {
       "id": "MAT-0401020301900000",
@@ -1477,7 +1587,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302600000"
     },
     {
       "id": "MAT-0401020302000000",
@@ -1485,7 +1597,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302700000"
     },
     {
       "id": "MAT-0401020302100000",
@@ -1493,7 +1607,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302800000"
     },
     {
       "id": "MAT-0401020302200000",
@@ -1501,7 +1617,9 @@
       "unit": "ตัน",
       "categoryCode": "STR-01",
       "category": "เหล็กเส้นเสริมคอนกรีต",
-      "familyCode": "FAM-040102"
+      "familyCode": "FAM-040102",
+      "discontinued": "2026-03",
+      "replacedBy": "MAT-0401020302900000"
     },
     {
       "id": "MAT-0401020302300000",
@@ -1645,7 +1763,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040100200000",
@@ -1653,7 +1772,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040100300000",
@@ -1661,7 +1781,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040100400000",
@@ -1669,7 +1790,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2025-12"
     },
     {
       "id": "MAT-0402040100500000",
@@ -1677,7 +1799,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040100600000",
@@ -1685,7 +1808,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040100700000",
@@ -1693,7 +1817,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040100800000",
@@ -1701,7 +1826,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2025-12"
     },
     {
       "id": "MAT-0402040200100000",
@@ -1717,7 +1843,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040200300000",
@@ -1741,7 +1868,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040200600000",
@@ -1757,7 +1885,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040204"
+      "familyCode": "FAM-040204",
+      "discontinued": "2016-03"
     },
     {
       "id": "MAT-0402040200800000",
@@ -1813,7 +1942,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040205"
+      "familyCode": "FAM-040205",
+      "discontinued": "2024-05"
     },
     {
       "id": "MAT-0402050101000000",
@@ -1853,7 +1983,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040206"
+      "familyCode": "FAM-040206",
+      "discontinued": "2024-03"
     },
     {
       "id": "MAT-0402060100300000",
@@ -1861,7 +1992,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040206"
+      "familyCode": "FAM-040206",
+      "discontinued": "2024-03"
     },
     {
       "id": "MAT-0402060100400000",
@@ -1869,7 +2001,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-02",
       "category": "เหล็กรูปพรรณ",
-      "familyCode": "FAM-040206"
+      "familyCode": "FAM-040206",
+      "discontinued": "2024-03"
     },
     {
       "id": "MAT-0402060100500000",
@@ -1925,7 +2058,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-05",
       "category": "ลวดอัดแรง",
-      "familyCode": "FAM-040401"
+      "familyCode": "FAM-040401",
+      "discontinued": "2020-12"
     },
     {
       "id": "MAT-0404010100200000",
@@ -1933,7 +2067,8 @@
       "unit": "ตัน",
       "categoryCode": "STR-05",
       "category": "ลวดอัดแรง",
-      "familyCode": "FAM-040401"
+      "familyCode": "FAM-040401",
+      "discontinued": "2020-12"
     },
     {
       "id": "MAT-0404010100600000",
@@ -2317,7 +2452,8 @@
       "unit": "ลบ.ม.",
       "categoryCode": "STR-09",
       "category": "มวลรวมคอนกรีต",
-      "familyCode": "FAM-160101"
+      "familyCode": "FAM-160101",
+      "discontinued": "2026-03"
     },
     {
       "id": "MAT-1602030100100000",
@@ -2325,7 +2461,8 @@
       "unit": "ลบ.ม.",
       "categoryCode": "STR-09",
       "category": "มวลรวมคอนกรีต",
-      "familyCode": "FAM-160203"
+      "familyCode": "FAM-160203",
+      "discontinued": "2026-03"
     },
     {
       "id": "MAT-1602030100200000",
@@ -2333,7 +2470,8 @@
       "unit": "ลบ.ม.",
       "categoryCode": "STR-09",
       "category": "มวลรวมคอนกรีต",
-      "familyCode": "FAM-160203"
+      "familyCode": "FAM-160203",
+      "discontinued": "2026-03"
     }
   ]
 }

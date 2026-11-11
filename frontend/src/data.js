@@ -1,17 +1,22 @@
 import catalog from './data/structural-materials.json';
 
-// Frontend catalog only: names, identities, groups and units. No prices or ML readiness.
-export const materialCatalog = catalog.materials;
+// Frontend catalog only: names, identities, groups and units. No prices.
+// Items TPSO no longer prices carry `discontinued` (set by ml/update_catalog_status.py): they stay resolvable for old
+// links, watch lists and shared estimates, but search, categories and counts only use the items still priced.
+const allMaterials = catalog.materials;
+export const materialCatalog = allMaterials.filter(item => !item.discontinued);
 export const materials = materialCatalog;
-export const materialCategories = catalog.categories.map(category => ({
-  ...category,
-  count: materialCatalog.filter(item => item.categoryCode === category.code).length,
-}));
+export const materialCategories = catalog.categories
+  .map(category => ({ ...category, count: materialCatalog.filter(item => item.categoryCode === category.code).length }))
+  .filter(category => category.count > 0);
 export const materialUnits = Object.freeze([...new Set(materialCatalog.map(item => item.unit))]);
-const byId = new Map(materialCatalog.map(material => [material.id, material]));
+const byId = new Map(allMaterials.map(material => [material.id, material]));
+/** Looks up any catalog item; an old code TPSO replaced resolves to its replacement. */
 export function getMaterialById(id) {
   const value = String(id ?? '');
-  return byId.get(value) ?? byId.get(`MAT-${value}`) ?? null;
+  let material = byId.get(value) ?? byId.get(`MAT-${value}`) ?? null;
+  for (let hops = 0; material?.replacedBy && hops < 5; hops++) material = byId.get(material.replacedBy) ?? material;
+  return material;
 }
 // Search folds case and the dots/spaces/hyphens people skip when typing: "sd40" finds "SD.40", "h beam" finds "H-Beam".
 function fold(text) {

@@ -13,7 +13,7 @@ export const PRICE_SOURCES: PriceSource[] = [
     id: "tpso-building-material-prices",
     name: "ราคาวัสดุก่อสร้าง",
     owner: "สำนักงานนโยบายและยุทธศาสตร์การค้า (สนค.) · กระทรวงพาณิชย์",
-    description: "ราคาวัสดุก่อสร้างรายสินค้า รายเดือน (แหล่งราคาหลักของเว็บ)",
+    description: "ราคาวัสดุก่อสร้างรายสินค้า รายเดือน ส่วนกลาง (แหล่งราคาหลักของเว็บ)",
     url: "https://index.tpso.go.th/construction-material-prices/prices-building-materials",
   },
   {
@@ -26,3 +26,10 @@ export const PRICE_SOURCES: PriceSource[] = [
 ];
 
 export const PRIMARY_SOURCE = PRICE_SOURCES[0];
+
+/** พื้นที่ของราคาบนเว็บ: สนค. แยกราคา "ส่วนกลาง" (กรุงเทพฯ) กับรายจังหวัด เว็บใช้เฉพาะส่วนกลาง */
+export const PRICE_REGION = {
+  short: "กรุงเทพฯ",
+  label: "ราคากรุงเทพฯ (ส่วนกลาง สนค.)",
+  note: "ราคาทั้งหมดบนเว็บเป็นราคาส่วนกลาง (กรุงเทพฯ) ที่ สนค. สำรวจ ราคาต่างจังหวัดอาจต่างจากนี้",
+};

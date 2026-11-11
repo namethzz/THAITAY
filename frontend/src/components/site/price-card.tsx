@@ -1,13 +1,14 @@
 import type { ReactNode, Ref } from "react";
-import { Minus, Star, TrendingDown, TrendingUp } from "lucide-react";
+import { Activity, Minus, Star, TrendingDown, TrendingUp } from "lucide-react";
 import { ChangeChip, DemoStamp, useQuote } from "@/components/ui/price-widgets";
-import { formatPrice, percentChange, trendVerdict } from "@/services/priceService";
+import { CHANGE_SIGNAL_AT, changeVerdict, formatPrice, percentChange, trendVerdict } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { PRICE_REGION } from "@/config/sources";
 import type { Material } from "@/types";
 
-const VERDICT_ICON = { up: TrendingUp, down: TrendingDown, flat: Minus };
+const VERDICT_ICON = { up: TrendingUp, down: TrendingDown, flat: Minus, watch: Activity };
 
 interface Props {
   material: Material;
@@ -26,7 +27,11 @@ export function PriceCard({ material, variant = "hero", titleRef, watched = fals
   const latest = data?.latest;
   const forecast = data?.forecast ?? [];
   const last = forecast.at(-1);
-  const verdict = latest && last ? trendVerdict(percentChange(latest.price, last.price)) : null;
+  // โมเดลทายจังหวะที่ราคาจะเปลี่ยนได้ดี แต่ยังทายทิศไม่ได้: ถ้าโอกาสเปลี่ยนเดือนหน้าสูง บอกแบบนั้นแทนคำว่า "ทรงตัว"
+  const changeProb = forecast[0]?.changeProb;
+  const verdict = latest && last
+    ? (changeProb != null && changeProb >= CHANGE_SIGNAL_AT ? changeVerdict(changeProb) : trendVerdict(percentChange(latest.price, last.price)))
+    : null;
   const VerdictIcon = verdict ? VERDICT_ICON[verdict.tone] : Minus;
   const { title, detail } = materialTitle(material);
   const bar = rebarSpec(material);
@@ -49,7 +54,7 @@ export function PriceCard({ material, variant = "hero", titleRef, watched = fals
       {variant === "hero" && detail && <p className="pc-detail" title={detail}>{detail}</p>}
 
       <div className="pc-now">
-        <span className="pc-label">ราคาล่าสุด{latest ? ` · ${latest.label}` : ""}</span>
+        <span className="pc-label">ราคาล่าสุด {PRICE_REGION.short}{latest ? ` · ${latest.label}` : ""}</span>
         <p className="pc-price">
           <span className="num">{latest ? `฿${formatPrice(latest.price)}` : "—"}</span>
           <small>ต่อ {material.unit}</small>

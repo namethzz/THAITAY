@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowLeft, Plus } from "lucide-react";
-import { getMaterialById } from "@/data.js";
+import { getMaterialById, materialCategories } from "@/data.js";
 import { MaterialSearch } from "@/components/site/material-search";
 import { PriceCard } from "@/components/site/price-card";
 import { QtyStepper } from "@/components/site/qty-stepper";
@@ -11,11 +11,11 @@ import { CHART } from "@/config/chartColors";
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { PRICE_REGION } from "@/config/sources";
 import type { AddLine, Go, Material } from "@/types";
 
 export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: { id: string; go: Go; addLine: AddLine; watch: string[]; onToggleWatch: (id: string) => void }) {
   const material = getMaterialById(id)!;
-  const quote = useQuote(material);
   const { title, detail } = materialTitle(material);
 
   return (
@@ -35,18 +35,46 @@ export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: 
         </div>
       </header>
 
-      <div className="material-grid">
-        <div className="material-summary"><PriceCard material={material} variant="detail" watched={watch.includes(material.id)} onToggleWatch={() => onToggleWatch(material.id)} /></div>
-        <CostBox material={material} quote={quote.data} addLine={addLine} />
-        <PriceChart material={material} quote={quote.data} />
-      </div>
+      {material.discontinued
+        ? <Discontinued material={material} />
+        : <MaterialPrices material={material} addLine={addLine} watched={watch.includes(material.id)} onToggleWatch={() => onToggleWatch(material.id)} />}
 
       <section className="material-sources" aria-labelledby="sources-title">
         <h2 id="sources-title">ที่มาของราคา</h2>
+        <p className="source-region">{PRICE_REGION.note}</p>
         <SourceLinks />
         <DemoNote />
       </section>
     </div>
+  );
+}
+
+/** ราคา ราคาคาดการณ์ ต้นทุน และกราฟ (เรียกราคาเฉพาะวัสดุที่ยังเก็บราคาอยู่) */
+function MaterialPrices({ material, addLine, watched, onToggleWatch }: { material: Material; addLine: AddLine; watched: boolean; onToggleWatch: () => void }) {
+  const quote = useQuote(material);
+  return (
+    <div className="material-grid">
+      <div className="material-summary"><PriceCard material={material} variant="detail" watched={watched} onToggleWatch={onToggleWatch} /></div>
+      <CostBox material={material} quote={quote.data} addLine={addLine} />
+      <PriceChart material={material} quote={quote.data} />
+    </div>
+  );
+}
+
+const TH_MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+const monthName = (ym: string) => { const [y, m] = ym.split("-").map(Number); return y && m ? `${TH_MONTHS[m - 1]} ${y + 543}` : ""; };
+
+/** วัสดุที่ สนค. เลิกเก็บราคาแล้ว: ไม่แสดงราคาเก่าเป็นราคาล่าสุด และไม่พยากรณ์ */
+function Discontinued({ material }: { material: Material }) {
+  const last = monthName(material.discontinued ?? "");
+  return (
+    <section className="panel discontinued-note" role="note">
+      <h2>ไม่มีราคาล่าสุดของวัสดุนี้</h2>
+      <p>สนค. หยุดเผยแพร่ราคาวัสดุรายการนี้{last && <> ราคาสุดท้ายเป็นของเดือน {last}</>} เว็บจึงไม่แสดงราคาและไม่คาดการณ์ราคาให้</p>
+      {materialCategories.some(c => c.code === material.categoryCode)
+        ? <a className="btn btn-primary" href={`#search?cat=${material.categoryCode}`}>ดู{material.category}ที่ยังมีราคา</a>
+        : <a className="btn btn-primary" href="#search">ดูวัสดุที่ยังมีราคา</a>}
+    </section>
   );
 }
 

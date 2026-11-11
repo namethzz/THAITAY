@@ -1,10 +1,11 @@
 import { useRef } from "react";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, MapPin, Search } from "lucide-react";
 import { getMaterialById, materialCatalog, materialCategories, searchMaterials } from "@/data.js";
 import { MaterialSearch } from "@/components/site/material-search";
 import { PriceCard } from "@/components/site/price-card";
 import { SiteArt } from "@/components/site/site-art";
 import { CategoryIcon } from "@/components/site/category-icon";
+import { PRICE_REGION } from "@/config/sources";
 import { ChangeChip, DemoNote, SourceLinks, useQuote } from "@/components/ui/price-widgets";
 import { formatPrice } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
@@ -17,7 +18,7 @@ const QUICK_PICKS = [
   { label: "คอนกรีตผสมเสร็จ", query: "คอนกรีตผสมเสร็จ 240" },
   { label: "เหล็ก H-Beam", query: "h-beam" },
   { label: "ลวดผูกเหล็ก", query: "ลวดผูกเหล็ก" },
-  { label: "ทรายหยาบ", query: "ทรายหยาบ" },
+  { label: "ไวร์เมช", query: "ไวร์เมช" },
 ]
   .map(pick => ({ ...pick, material: searchMaterials(pick.query, { limit: 1 })[0] }))
   .filter((pick): pick is { label: string; query: string; material: Material } => Boolean(pick.material));
@@ -55,6 +56,7 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
             <button type="button" key={pick.label} aria-pressed={pick.material.id === selectedId} onClick={() => show(pick.material)}>{pick.label}</button>
           ))}
         </div>
+        <p className="hero-region"><MapPin size={15} aria-hidden="true" />{PRICE_REGION.label}</p>
       </section>
 
       <section className="stage" aria-label="ราคาวัสดุที่เลือก">
@@ -112,7 +114,7 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
       <section className="trust" aria-labelledby="trust-title">
         <div className="trust-copy">
           <h2 id="trust-title">ราคามาจากไหน</h2>
-          <p>THAI TAY ใช้ราคาวัสดุรายเดือนจากหน่วยงานรัฐ แล้วให้โมเดลคาดการณ์ราคา 1–3 เดือนข้างหน้า พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ยิ่งมองไกล ช่วงยิ่งกว้าง</p>
+          <p>THAI TAY ใช้ราคาวัสดุรายเดือนส่วนกลาง (กรุงเทพฯ) จาก สนค. แล้วให้โมเดลคาดการณ์ราคา 1–3 เดือนข้างหน้า พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ยิ่งมองไกล ช่วงยิ่งกว้าง ราคาต่างจังหวัดอาจต่างจากนี้</p>
           <DemoNote />
         </div>
         <SourceLinks />

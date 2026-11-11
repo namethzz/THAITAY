@@ -1,0 +1,6 @@
+# gcloud ใช้ .gitignore ถ้าไม่มีไฟล์นี้ ไฟล์นี้ส่งเฉพาะที่ Dockerfile ต้องใช้
+*
+!Dockerfile
+!serve.py
+!api_data/
+!api_data/*.csv
