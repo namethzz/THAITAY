@@ -1,13 +1,28 @@
-"""สร้าง colab/THAITAY_ML.ipynb ใหม่ (ยังไม่รัน): python colab/build_notebook.py colab/THAITAY_ML.ipynb"""
+"""สร้าง colab/THAITAY_ML.ipynb ใหม่ (ยังไม่รัน): python colab/build_notebook.py colab/THAITAY_ML.ipynb
+
+ข้อความที่มีตัวเลขจาก final_experiments.py อยู่ใน FACTS ด้านล่าง แก้ที่เดียวถ้ารันการทดลองใหม่
+"""
 import sys
 
 import nbformat as nbf
 
 OUT = sys.argv[1]
+FACTS = {
+    "N_VARIANTS": "",
+    "R1_DECIDE": "",
+    "R3_DECIDE": "",
+    "R5_DECIDE": "",
+    "R7_DECIDE": "",
+    "R9_MAE": "",
+}
+
 cells = []
 
 
 def md(s):
+    for k, v in FACTS.items():
+        s = s.replace("{{" + k + "}}", v)
+    assert "{{" not in s, s[:200]
     cells.append(nbf.v4.new_markdown_cell(s.strip("\n")))
 
 
@@ -15,35 +30,56 @@ def code(s):
     cells.append(nbf.v4.new_code_cell(s.strip("\n")))
 
 
-# ------------------------------------------------------------------ หัวเรื่อง
-md("""
-# THAI TAY: ทายราคาวัสดุก่อสร้างล่วงหน้า 1–3 เดือน
+def round_card(title, why, what, decide):
+    md(f"""
+### {title}
 
-notebook นี้เล่าทุกขั้นตอนที่ทีมทำ ตั้งแต่ข้อมูลจนถึงผลลัพธ์ ผลทุกช่องบันทึกไว้แล้ว อ่านได้เลยโดยไม่ต้องรัน
-
-## ผลสั้น ๆ
-
-| คำถาม | คำตอบ |
+| | |
 |---|---|
-| ทายอะไร | ราคาวัสดุงานโครงสร้าง 188 รายการ ราคากรุงเทพฯ ของ สนค. ล่วงหน้า 1, 2, 3 เดือน |
-| ลองกี่โมเดล | 9 แบบ ตั้งแต่ Naive ไปจนถึง LightGBM, Random Forest และ LSTM |
-| โมเดลไหนดีที่สุด | Naive (ราคาเดือนหน้า = ราคาเดือนนี้) ไม่มีโมเดลไหนชนะได้ทั้งช่วง Validation และ Test |
-| แม่นแค่ไหน | ปีปกติ ทาย 1 เดือนผิดเฉลี่ย 0.67% ปีล่าสุดที่เหล็กแกว่งแรง ผิด 1.75% (1 เดือน) ถึง 5.06% (3 เดือน) |
-| ML ช่วยตรงไหน | ป้าย "ราคามีโอกาสเปลี่ยน" ใช้ LightGBM ขึ้นป้ายแล้วราคาเปลี่ยนจริง 80% |
-| ทำไมทายยาก | คอนกรีตและเสาเข็มราคาเท่าเดิมราว 9 ใน 10 เดือน ส่วนเหล็กขยับทุกเดือน แต่ข้อมูลที่หาได้ไม่มีตัวไหนรู้ก่อนว่าจะขึ้นหรือลง |
+| **ทำไมลอง** | {why} |
+| **ทำอะไร** | {what} |
+| **ตัดสินใจ** | {decide} |
+""")
+
+
+# ================================================================== หัวเรื่อง
+md("""
+# THAI TAY: บทสรุปการสร้างโมเดลทายราคาวัสดุก่อสร้าง
+
+notebook นี้คือบทสรุปสุดท้ายของงาน ML ในโปรเจค THAI TAY เล่าตั้งแต่โจทย์ ข้อมูล การทดลองทุกรอบ การปรับจูน จนถึงข้อสรุป ผลทุกช่องบันทึกไว้แล้ว อ่านได้เลยโดยไม่ต้องรัน
+
+## คำตอบสุดท้าย
+
+> **ทายราคาวัสดุงานโครงสร้างทุกชนิด ทุกระยะ (1–3 เดือน) ด้วย Naive** คือให้ราคาเดือนหน้าเท่ากับราคาเดือนล่าสุด
+>
+> เราทดลอง 8 รอบ เทียบ {{N_VARIANTS}} แบบกับ Naive บนข้อมูลชุดเดียวกัน **ไม่มีแบบไหนชนะ Naive ได้ทั้งช่วง Validation (ย้อนหลัง 7 ปี) และช่วง Test (12 เดือนล่าสุด)** ส่วน ML ใช้ได้ดีกับงานอีกแบบ คือป้าย "ราคามีโอกาสเปลี่ยน" ซึ่งขึ้นป้ายแล้วราคาเปลี่ยนจริง 80%
+
+| ส่วนบนเว็บ | ใช้อะไร | ผล |
+|---|---|---|
+| ตัวเลขราคาที่ทาย | Naive | ปีปกติ ทาย 1 เดือนผิดเฉลี่ย 0.67% ปีล่าสุดที่ตลาดแกว่ง ผิด 1.75% (1 เดือน) ถึง 5.06% (3 เดือน) |
+| ช่วงราคาต่ำ–สูง | ความผิดพลาดในอดีตของแต่ละหมวด | ครอบราคาจริง 83% |
+| ป้าย "ราคามีโอกาสเปลี่ยน" | LightGBM Classifier | ขึ้นป้ายแล้วราคาเปลี่ยนจริง 80% |
+
+## เนื้อหา
+
+| ส่วน | หัวข้อ |
+|---|---|
+| เตรียมข้อมูล | 1. โจทย์และกติกา · 2. ข้อมูล · 3. ทำความสะอาด · 4. ฟีเจอร์ · 5. แบ่งข้อมูล · 6. วัดผล |
+| ทดลอง | 7. ลองฝึกทุกโมเดลจริง · 8. การทดลอง 8 รอบ (รวมการจูน) |
+| สรุป | 9. ผลรวมทุกโมเดล · 10. Residual · 11. ป้ายเตือน · 12. ปัญหาที่เจอ · 13. บทสรุป |
 
 ## วิธีรันเอง (ไม่บังคับ)
 
 1. กด **Runtime → Run all**
 2. ช่องแรกจะขอไฟล์ ให้เลือก `thaitay_colab.zip` ที่ได้มาพร้อม notebook
-3. รอราว 3 นาที การทดลองเต็มใช้เวลาเกือบ 2 ชั่วโมง notebook จึงโหลดผลที่บันทึกไว้มาแสดง (ถ้าจะรันใหม่ทั้งหมด ดูภาคผนวก)
+3. รอราว 3 นาที การทดลองเต็มใช้เวลาหลายชั่วโมง notebook จึงโหลดผลที่บันทึกไว้มาแสดง (ดูภาคผนวกถ้าจะรันใหม่ทั้งหมด)
 
 ช่องโค้ดส่วนใหญ่ซ่อนไว้ ดับเบิลคลิกที่หัวช่องเพื่อดูโค้ด
 """)
 
 code(r'''
-# @title 0. เตรียมเครื่อง: โหลดไฟล์ข้อมูล โค้ด และฟอนต์ไทย { display-mode: "form" }
-import glob, os, subprocess, sys, warnings, zipfile
+# @title 0. เตรียมเครื่อง: โหลดไฟล์ข้อมูล โค้ด ผลการทดลอง และฟอนต์ไทย { display-mode: "form" }
+import glob, json, os, subprocess, sys, warnings, zipfile
 warnings.filterwarnings("ignore")
 
 ROOT = "thaitay_colab"
@@ -56,7 +92,7 @@ if not os.path.isdir(ROOT):
     else:
         raise FileNotFoundError("แตกไฟล์ thaitay_colab.zip ไว้ในโฟลเดอร์เดียวกับ notebook ก่อน")
 
-for module, package in (("lightgbm", "lightgbm"), ("sklearn", "scikit-learn"), ("torch", "torch")):
+for module, package in (("lightgbm", "lightgbm"), ("sklearn", "scikit-learn"), ("torch", "torch"), ("statsmodels", "statsmodels")):
     try:
         __import__(module)
     except ImportError:
@@ -69,14 +105,17 @@ import numpy as np
 import pandas as pd
 from IPython.display import Image, display
 from matplotlib import font_manager
+from matplotlib.colors import LinearSegmentedColormap
 
 for f in glob.glob(f"{ROOT}/fonts/*.otf"):
     font_manager.fontManager.addfont(f)
 INK, MUTED, GRID, SURFACE = "#0b0b0b", "#898781", "#e1e0d9", "#fcfcfb"
-SERIES = "#52514e"                       # สีเส้นเดี่ยว
+SERIES = "#52514e"
 SPLIT = {"Validation": "#6250d6", "Test": "#e87ba4", "Train": "#d6d5ce"}
 MODEL = {"naive": ("Naive (baseline)", "#2a78d6"), "lgbm": ("LightGBM", "#eb6834"),
          "rf": ("Random Forest", "#1baf7a"), "lstm": ("LSTM", "#eda100")}
+BETTER, WORSE = "#cde2fb", "#f6d3d3"          # พื้นตาราง: ดีกว่า / แย่กว่า Naive
+DIVERGING = LinearSegmentedColormap.from_list("div", ["#1c5cab", "#86b6ef", "#f0efec", "#ef9a9a", "#c62f2f"])
 plt.rcParams.update({
     "font.family": "Loma", "font.size": 11, "axes.unicode_minus": False, "axes.edgecolor": "#c3c2b7",
     "axes.labelcolor": INK, "xtick.color": MUTED, "ytick.color": MUTED, "axes.grid": True, "grid.color": GRID,
@@ -94,28 +133,95 @@ CAT = {"STR-01": "เหล็กเส้น", "STR-02": "เหล็กรู
        "STR-05": "ลวดอัดแรง", "STR-06": "คอนกรีตผสมเสร็จ", "STR-07": "คอนกรีตหยาบ", "STR-08": "เสาเข็ม/สำเร็จรูป",
        "STR-09": "ทราย หิน"}
 
+# ผลการทดลองทุกโมเดล: 1 แถว = วัสดุ × จุดเริ่ม × ระยะทาย, คอลัมน์ d_* = % การเปลี่ยนที่โมเดลทาย (log)
+CV = pd.read_csv(f"{ROOT}/ml/out/final_preds_cv.csv", parse_dates=["origin"])
+TE = pd.read_csv(f"{ROOT}/ml/out/final_preds_test.csv", parse_dates=["origin"])
+NAMES = {
+    "naive": "Naive (baseline)", "snaive": "Seasonal naive", "drift": "Drift", "ets": "ETS",
+    "lgbm0_direct": "LightGBM ทายตรง", "lgbm0_direct_half": "LightGBM ทายตรง ขยับครึ่งเดียว",
+    "lgbm0_ts_ev": "LightGBM 2 ขั้น แบบค่าคาดหวัง", "lgbm0_ts_t70": "LightGBM 2 ขั้น เกณฑ์ 70%",
+    "lgbm0_ts_t85": "LightGBM 2 ขั้น เกณฑ์ 85%", "lgbm0_ts_t85_half": "LightGBM 2 ขั้น เกณฑ์ 85% ขยับครึ่งเดียว",
+    "huber": "Linear Regression (Huber)", "huber_half": "Linear Regression ขยับครึ่งเดียว",
+    "lgbm": "LightGBM จูนแล้ว", "rf": "Random Forest", "rf_half": "Random Forest ขยับครึ่งเดียว",
+    "rf_tuned": "Random Forest จูนแล้ว", "lstm": "LSTM", "lstm_half": "LSTM ขยับครึ่งเดียว", "lstm_tuned": "LSTM จูนแล้ว",
+}
+NAMES = {k: v for k, v in NAMES.items() if f"d_{k}" in TE.columns}
+TOL = 0.01  # ต่างกันไม่ถึง 0.01 จุด % ถือว่าเสมอ
 
-def mae_pct(price, d, actual):
-    """MAE (%) ของคำทายแบบ % การเปลี่ยน d (log) เทียบราคาจริง"""
-    return (np.abs(price * np.exp(d) - actual) / actual * 100).mean()
+
+def errors(R, m):
+    """ความผิดพลาด (%) ของแต่ละการทาย"""
+    return np.abs(R.price * np.exp(R[f"d_{m}"]) - R.actual) / R.actual * 100
 
 
-print("พร้อมแล้ว")
+def mae_table(models):
+    rows = {}
+    for m in ["naive"] + [x for x in models if x != "naive"]:
+        rows[NAMES[m]] = {(split, f"{h} เดือน"): errors(R[R.h == h], m).mean()
+                          for split, R in (("Validation", CV), ("Test", TE)) for h in (1, 2, 3)}
+    return pd.DataFrame(rows).T
+
+
+def verdict(t):
+    """ผ่านเกณฑ์ = ดีกว่า Naive ทั้ง Validation และ Test ในระยะเดียวกัน"""
+    base = t.loc[NAMES["naive"]]
+    out = []
+    for name, row in t.iterrows():
+        if name == NAMES["naive"]:
+            out.append("เกณฑ์")
+            continue
+        win = [h for h in (1, 2, 3) if row[("Validation", f"{h} เดือน")] <= base[("Validation", f"{h} เดือน")] - TOL
+               and row[("Test", f"{h} เดือน")] <= base[("Test", f"{h} เดือน")] - TOL]
+        out.append("✅ ผ่าน (" + ", ".join(f"{h} เดือน" for h in win) + ")" if win else "❌ ไม่ผ่าน")
+    return out
+
+
+def show(models, caption=None):
+    """ตาราง MAE (%) ช่วง Validation และ Test พื้นฟ้า = ดีกว่า Naive, พื้นแดง = แย่กว่า Naive"""
+    t = mae_table(models)
+    base = t.loc[NAMES["naive"]]
+
+    def color(col):
+        b = base[col.name]
+        return [f"background-color:{BETTER}" if v <= b - TOL else f"background-color:{WORSE}" if v >= b + TOL else ""
+                for v in col]
+
+    t2 = t.copy()
+    t2[("ผล", "ชนะทั้ง 2 ช่วง?")] = verdict(t)
+    num = t2.columns[:-1]
+    sty = (t2.style.format("{:.2f}", subset=num).apply(color, subset=num)
+           .set_properties(subset=pd.IndexSlice[[NAMES["naive"]], :], **{"font-weight": "bold"}))
+    if caption:
+        sty = sty.set_caption(caption)
+    display(sty)
+
+
+print(f"พร้อมแล้ว: ผลการทดลอง {len(NAMES)} แบบ, Validation {len(CV):,} การทาย, Test {len(TE):,} การทาย")
 ''')
 
-# ------------------------------------------------------------------ 1. โจทย์
+# ================================================================== 1. โจทย์
 md("""
-## 1. โจทย์
+# ส่วนที่ 1: เตรียมข้อมูล
+
+## 1. โจทย์และกติกาตัดสิน
 
 - **ทายอะไร:** ราคาวัสดุหมวดงานโครงสร้าง เช่น เหล็กเส้น เหล็กรูปพรรณ คอนกรีต เสาเข็ม ใช้ราคาส่วนกลาง (กรุงเทพฯ) ของสำนักงานนโยบายและยุทธศาสตร์การค้า (สนค.)
 - **ล่วงหน้าเท่าไร:** 1, 2 และ 3 เดือน แยกทีละวัสดุ
 - **ใช้ทำอะไร:** เว็บ THAI TAY บอกผู้รับเหมาและเจ้าของบ้านว่าราคาน่าจะขยับไหม ควรซื้อตอนนี้หรือรอ
 - **ประเภทงาน ML:** Regression (ทายตัวเลขราคา) และ Classification (ทายว่าราคาจะเปลี่ยนหรือไม่)
+
+**กติกาที่ตั้งไว้ก่อนเริ่มทดลอง**
+
+1. ทุกโมเดลต้องเทียบกับ **Naive** (ราคาเดือนหน้า = ราคาเดือนนี้) บนข้อมูลชุดเดียวกัน
+2. โมเดลจะได้ขึ้นเว็บก็ต่อเมื่อ **ชนะ Naive ทั้งช่วง Validation และช่วง Test** ในระยะทายเดียวกัน
+3. ชนะแค่ช่วงเดียวถือว่าบังเอิญ เพราะช่วงเดียวอาจมีเหตุการณ์ที่โมเดลโชคดี
+
+เราตั้งกติกานี้ก่อนเห็นผล จะได้ไม่เลือกตัวเลขที่ดูดีภายหลัง
 """)
 
-# ------------------------------------------------------------------ 2. ข้อมูล
+# ================================================================== 2. ข้อมูล
 md("""
-## 2. เก็บข้อมูล
+## 2. ข้อมูล
 
 | ข้อมูล | ที่มา | ช่วง |
 |---|---|---|
@@ -136,14 +242,8 @@ code(r'''
 from tune import load
 
 P, latest, active = load()   # ตารางหลัก: 1 แถว = วัสดุ 1 ตัว × 1 เดือน พร้อมฟีเจอร์ทั้งหมด
-summary = pd.DataFrame({"ค่า": [
-    f"{th(P.date.min())} – {th(latest)}",
-    f"{P.material_id.nunique():,}",
-    f"{len(active):,}",
-    f"{len(P):,}",
-]}, index=["ช่วงข้อมูล", "วัสดุทั้งหมด (หลังต่อรหัส)", "วัสดุที่ยังเก็บราคา (ใช้ทาย)", "จำนวนแถว (วัสดุ × เดือน)"])
-display(summary)
-
+display(pd.DataFrame({"ค่า": [f"{th(P.date.min())} – {th(latest)}", f"{P.material_id.nunique():,}", f"{len(active):,}", f"{len(P):,}"]},
+                     index=["ช่วงข้อมูล", "วัสดุทั้งหมด (หลังต่อรหัส)", "วัสดุที่ยังเก็บราคา (ใช้ทาย)", "จำนวนแถว (วัสดุ × เดือน)"]))
 Pc = P.assign(หมวด=P.categoryCode.astype(str).map(CAT))
 by_cat = pd.DataFrame({"วัสดุทั้งหมด": Pc.groupby("หมวด").material_id.nunique(),
                        "ยังเก็บราคา (ใช้ทาย)": Pc[Pc.material_id.isin(active)].groupby("หมวด").material_id.nunique()})
@@ -168,13 +268,15 @@ plt.show()
 
 md("""
 เหล็กเส้นขึ้นแรง 2 ช่วง คือปี 2564–2565 และ มี.ค.–มิ.ย. 2569 ส่วนคอนกรีตผสมเสร็จกับเสาเข็มขยับเป็นขั้นบันได นาน ๆ ครั้ง เช่น คอนกรีตผสมเสร็จขึ้นทีเดียว 20–25% ใน พ.ค. 2569 ช่วง Test (พื้นชมพู) จึงมีทั้งเหล็กพุ่งแล้วลงและคอนกรีตกระโดด ทายยากกว่าปีปกติ
+
+กราฟเส้นไม่จำเป็นต้องเริ่มแกนตั้งที่ 0 เพราะเราดูการขึ้นลงของเส้น ดัชนี 120 แปลว่าแพงขึ้น 20% จากตอนเริ่ม
 """)
 
-# ------------------------------------------------------------------ 3. ทำความสะอาด
+# ================================================================== 3. ทำความสะอาด
 md("""
 ## 3. ตรวจและทำความสะอาดข้อมูล
 
-เราเทียบข้อมูลกับเว็บ สนค. ทุกจุด (24,163 จุด) ตรงกันทั้งหมด ไม่มีแถวซ้ำ หน่วยตรงกับเว็บ แต่เจอ 3 เรื่องที่ต้องจัดการ:
+เราเทียบข้อมูลกับเว็บ สนค. ทุกจุด (24,163 จุด) ตรงกันทั้งหมด ไม่มีแถวซ้ำ หน่วยตรงกับเว็บ แต่เจอเรื่องที่ต้องจัดการ:
 
 | เรื่องที่เจอ | เราทำอะไร |
 |---|---|
@@ -191,11 +293,11 @@ code(r'''
 links = pd.read_csv(f"{ROOT}/ml/out/series_links.csv", parse_dates=["old_last", "new_first"])
 links = links[links.accepted]
 print(f"ต่อรหัสทั้งหมด {len(links)} คู่")
-show = links.groupby(links.new_first.dt.year).head(2)
+show_ = links.groupby(links.new_first.dt.year).head(2)
 display(pd.DataFrame({
-    "ชื่อเดิม": show.old_name, "ชื่อใหม่": show.new_name,
-    "รหัสเดิมหยุด": show.old_last.map(th), "รหัสใหม่เริ่ม": show.new_first.map(th),
-    "ราคาขยับตอนต่อ (%)": show.change * 100,
+    "ชื่อเดิม": show_.old_name, "ชื่อใหม่": show_.new_name,
+    "รหัสเดิมหยุด": show_.old_last.map(th), "รหัสใหม่เริ่ม": show_.new_first.map(th),
+    "ราคาขยับตอนต่อ (%)": show_.change * 100,
 }).reset_index(drop=True))
 ''')
 
@@ -211,18 +313,18 @@ for y, v in enumerate(share.values):
 ax.set_xlim(0, 105)
 ax.set_xlabel("% ของเดือนที่ราคาเท่าเดือนก่อน")
 ax.grid(axis="y", visible=False)
-ax.set_title("ราคาส่วนใหญ่ไม่เปลี่ยนในแต่ละเดือน", loc="left")
+ax.set_title("ราคาหลายหมวดไม่เปลี่ยนเกือบทุกเดือน", loc="left")
 plt.show()
 ''')
 
 md("""
 - **คอนกรีต เสาเข็ม ตะแกรงเหล็ก:** ราคาเท่าเดิมราว 9 ใน 10 เดือน ทายว่า "ไม่เปลี่ยน" ก็ถูกเกือบตลอด
-- **เหล็กเส้น ลวดผูกเหล็ก:** ราคาเปลี่ยนเกือบทุกเดือน แต่ขึ้นหรือลงเดายาก หมวดนี้ทำให้ทายผิดมากสุด (ดูข้อ 11)
+- **เหล็กเส้น ลวดผูกเหล็ก:** ราคาเปลี่ยนเกือบทุกเดือน แต่ขึ้นหรือลงเดายาก หมวดนี้ทำให้ทายผิดมากสุด
 
-โมเดลที่จะชนะต้องรู้ว่า **เดือนไหน** ราคาจะขยับ และขยับ **ขึ้นหรือลง**
+โมเดลที่จะชนะ Naive ต้องรู้ว่า **เดือนไหน** ราคาจะขยับ และขยับ **ขึ้นหรือลง** ข้อนี้คือโจทย์จริงของการทดลองทั้งหมดด้านล่าง
 """)
 
-# ------------------------------------------------------------------ 4. ฟีเจอร์
+# ================================================================== 4. ฟีเจอร์
 md("""
 ## 4. สร้างฟีเจอร์ (Feature Engineering)
 
@@ -235,7 +337,6 @@ md("""
 
 code(r'''
 # @title 4.1 ช่วงราคาวัสดุ และกลุ่มฟีเจอร์ { display-mode: "form" }
-import json
 from global_model import feature_cols
 
 catalog = {m["id"]: m for m in json.load(open(f"{ROOT}/frontend/src/data/structural-materials.json", encoding="utf-8"))["materials"]}
@@ -265,10 +366,10 @@ for name, meaning, rule in groups:
     used |= set(fs)
     rows.append({"กลุ่ม": name, "จำนวน": len(fs), "ความหมาย": meaning, "ตัวอย่าง": ", ".join(fs[:4]) + (" ..." if len(fs) > 4 else "")})
 display(pd.DataFrame(rows).set_index("กลุ่ม"))
-print(f"รวม {sum(r['จำนวน'] for r in rows)} ฟีเจอร์ (ครบ {len(cols)} ตัว: {len(used) == len(cols)})")
+print(f"รวม {sum(r['จำนวน'] for r in rows)} ฟีเจอร์")
 ''')
 
-# ------------------------------------------------------------------ 5. แบ่งข้อมูล
+# ================================================================== 5. แบ่งข้อมูล
 md("""
 ## 5. แบ่งข้อมูล: Train / Validation / Test
 
@@ -284,7 +385,7 @@ md("""
 | Validation | 27 จุด ทุก 3 เดือน ม.ค. 2562 – ก.ค. 2568 | 13,680 | เลือกโมเดลและจูนค่า ครอบช่วงเหล็กพุ่งปี 2564–2565 |
 | Test | 12 จุด ทุกเดือน ก.ย. 2568 – ส.ค. 2569 | 6,093 | วัดผลสุดท้าย ไม่แตะตอนเลือกหรือจูนโมเดล |
 
-**กติกาที่ตั้งไว้ก่อนเริ่ม:** โมเดลต้องชนะ Naive ทั้งใน Validation และ Test ถึงจะเอาขึ้นเว็บ ถ้าชนะแค่ชุดเดียว ถือว่าบังเอิญ
+ทุกโมเดลในการทดลองทั้ง 8 รอบใช้จุดเริ่มชุดเดียวกันนี้ ตัวเลขทุกตารางจึงเทียบกันได้ตรง ๆ
 """)
 
 code(r'''
@@ -312,7 +413,7 @@ ax.set_title("แถบเทา = ข้อมูลที่ใช้ฝึก
 plt.show()
 ''')
 
-# ------------------------------------------------------------------ 6. วัดผล
+# ================================================================== 6. วัดผล
 md("""
 ## 6. วัดผลยังไง
 
@@ -322,88 +423,45 @@ md("""
 | **RMSE (%)** | คล้าย MAE แต่นับการผิดก้อนใหญ่หนักกว่า | ต่ำ |
 | **R² ของ % การเปลี่ยน** | โมเดลอธิบายการขึ้นลงของราคาได้กี่ส่วน 0 = ไม่ดีกว่าทายว่าไม่เปลี่ยน | ใกล้ 1 |
 
-**กับดัก R²:** ถ้าวัด R² จากตัวราคา Naive ได้เกือบ 1 ทั้งที่ไม่ได้ทายอะไรเลย เหตุผลคือเสาเข็มราคาหลักพัน ลวดราคาหลักสิบ แค่รู้ว่าวัสดุไหนแพงกว่าก็ได้ R² สูงแล้ว เราจึงวัด R² จาก % การเปลี่ยนแทน ดูตัวอย่างด้านล่าง
+เราใช้ **MAE เป็นตัวตัดสินหลัก** เพราะอ่านเป็นบาทได้ตรง ๆ ส่วน RMSE และ R² ใช้ดูประกอบ
+
+**กับดัก R²:** ถ้าวัด R² จากตัวราคา Naive ได้เกือบ 1 ทั้งที่ไม่ได้ทายอะไรเลย เหตุผลคือเสาเข็มราคาหลักพัน ลวดราคาหลักสิบ แค่รู้ว่าวัสดุไหนแพงกว่าก็ได้ R² สูงแล้ว เราจึงวัด R² จาก % การเปลี่ยนแทน
 """)
 
 code(r'''
 # @title 6.1 R² ของ Naive: วัดจากราคา เทียบวัดจาก % การเปลี่ยน (ช่วง Test, ทาย 1 เดือน) { display-mode: "form" }
-TE = pd.read_csv(f"{ROOT}/ml/out/compare_preds_test.csv", parse_dates=["origin"])
-CV = pd.read_csv(f"{ROOT}/ml/out/compare_preds_cv.csv", parse_dates=["origin"])
 g = TE[TE.h == 1]
 r2 = lambda a, p: 1 - ((a - p) ** 2).sum() / ((a - a.mean()) ** 2).sum()
 display(pd.DataFrame({"R²": [r2(g.actual, g.price), r2(g.y, 0 * g.y)]},
                      index=["วัดจากราคา (หลอกตา)", "วัดจาก % การเปลี่ยน (ใช้จริง)"]))
 ''')
 
-# ------------------------------------------------------------------ 7. baseline
+# ================================================================== 7. ลองฝึกจริง
 md("""
-## 7. Baseline: เกณฑ์ขั้นต่ำ
+# ส่วนที่ 2: การทดลอง
 
-Baseline คือวิธีง่ายที่สุดที่ไม่ต้องใช้ ML ถ้าโมเดล ML แพ้ baseline ก็ไม่มีเหตุผลจะใช้
+## 7. ลองฝึกทุกโมเดลจริงที่จุดเริ่มเดียว
 
-| วิธี | ทายยังไง |
-|---|---|
-| **Naive** | ราคาเดือนหน้า = ราคาเดือนนี้ |
-| Seasonal naive | ราคาเดือนหน้า = ราคาเดือนเดียวกันของปีที่แล้ว (เทียบส่วนต่างจากเดือนนี้) |
-| Drift | ลากเส้นแนวโน้มเฉลี่ยจากอดีตต่อไปข้างหน้า |
-""")
+ก่อนดูผลรวม ช่องนี้ฝึกทุกอัลกอริทึมจริงที่จุดเริ่มเดียว (ก.ย. 2568, ทาย 1 เดือน) ให้เห็นโค้ดและค่าตั้งที่ใช้ เราฝึก **โมเดลรวมตัวเดียวจากทุกวัสดุ** (global model) แทนการฝึกแยกทีละวัสดุ เพราะวัสดุแต่ละตัวเปลี่ยนราคาแค่ไม่กี่ครั้ง โมเดลรวมได้เรียนจากการเปลี่ยนราคาหลายพันครั้ง
 
-code(r'''
-# @title 7.1 เทียบ baseline 3 แบบ (MAE %) { display-mode: "form" }
-L = np.log(P.pivot(index="date", columns="material_id", values="price"))
-first = L.apply(lambda s: s.dropna().iloc[0] if s.notna().any() else np.nan)
-n = L.notna().cumsum()
-
-
-def baselines(R):
-    out = {}
-    for h in (1, 2, 3):
-        g = R[R.h == h]
-        sn = (L.shift(12 - h) - L).stack().rename("d")          # ราคาเดือนเดียวกันปีก่อน
-        dr = ((L - first) / (n - 1) * h).stack().rename("d")   # แนวโน้มเฉลี่ย × h
-        key = pd.MultiIndex.from_arrays([g.origin, g.material_id])
-        d_sn = sn.reindex(key).fillna(0).values                # ไม่มีประวัติพอ ใช้ Naive แทน
-        d_dr = dr.reindex(key).fillna(0).values
-        out[f"{h} เดือน"] = {"Naive": mae_pct(g.price, 0, g.actual), "Seasonal naive": mae_pct(g.price.values, d_sn, g.actual.values),
-                             "Drift": mae_pct(g.price.values, d_dr, g.actual.values)}
-    return pd.DataFrame(out)
-
-
-display(pd.concat({"Validation": baselines(CV), "Test": baselines(TE)}, axis=1))
-''')
-
-md("""
-Naive ชนะขาดทั้ง 2 ชุด Seasonal naive แย่สุด เพราะราคาวัสดุก่อสร้างไม่ขึ้นลงตามฤดูกาล เราลอง ETS (exponential smoothing) ด้วย `baseline.py` ก็แพ้ Naive เช่นกัน (Test 1.91 / 3.81 / 5.62% เทียบ Naive 1.69 / 3.43 / 5.10% บนชุดวัสดุของสคริปต์นั้น)
-
-**Naive จึงเป็นเกณฑ์ที่โมเดล ML ทุกตัวต้องชนะ**
-""")
-
-# ------------------------------------------------------------------ 8. โมเดล
-md("""
-## 8. โมเดลและอัลกอริทึมที่ลอง
-
-เราฝึก **โมเดลรวมตัวเดียวจากทุกวัสดุ** (global model) แทนการฝึกแยกทีละวัสดุ เพราะวัสดุแต่ละตัวเปลี่ยนราคาแค่ไม่กี่ครั้ง โมเดลรวมได้เรียนจากการเปลี่ยนราคาหลายพันครั้ง
-
-| โมเดล | อัลกอริทึม | ทำงานยังไง |
+| อัลกอริทึม | ประเภท | ทำงานยังไง |
 |---|---|---|
-| Linear (Huber) | Linear Regression | หาเส้นตรงที่ใกล้ข้อมูลที่สุด ทนค่าโดด ลองกับหมวดเหล็ก |
-| Random Forest | Bagging | สร้างต้นไม้ตัดสินใจ 200 ต้น แต่ละต้นฝึกจากข้อมูลที่สุ่มมาคนละชุด แล้วเฉลี่ยคำตอบ |
+| Naive | Baseline | ราคาเดือนหน้า = ราคาเดือนนี้ |
+| ETS | สถิติอนุกรมเวลา | ถ่วงน้ำหนักราคาล่าสุดมากกว่าราคาเก่า แล้วต่อแนวโน้มแบบค่อย ๆ แผ่ว |
+| Linear Regression (Huber) | Regression เส้นตรง | หาเส้นตรงที่ใกล้ข้อมูลที่สุด ทนค่าโดด |
+| Random Forest | Bagging | ต้นไม้ตัดสินใจ 200 ต้น แต่ละต้นฝึกจากข้อมูลที่สุ่มมาคนละชุด แล้วเฉลี่ยคำตอบ |
 | LightGBM | Gradient Boosting | สร้างต้นไม้ทีละต้น ต้นใหม่แก้จุดที่ต้นก่อนหน้าทายผิด |
-| LightGBM 2 ขั้น | Classifier + Regressor | ขั้นแรกทายโอกาสที่ราคาจะเปลี่ยน ถ้าเกิน 85% ขั้นสองทายว่าเปลี่ยนเท่าไร ถ้าไม่ถึง ทายว่าเท่าเดิม |
 | LSTM | Deep Learning (RNN) | อ่านข้อมูลย้อนหลัง 12 เดือนเป็นลำดับ แล้วทาย 1, 2, 3 เดือนพร้อมกัน |
-| Logistic Regression | Classification | ทายโอกาสที่ราคาจะเปลี่ยน ใช้เทียบกับ LightGBM ในข้อ 12 |
 
-**เทคนิค "ขยับครึ่งเดียว":** หารคำทายของโมเดลด้วย 2 คำทายจะเข้าใกล้ Naive ช่วยลดความเสียหายตอนโมเดลทายผิดทิศ
-
-ช่องด้านล่างฝึกทุกโมเดลจริงที่จุดเริ่มเดียว (ก.ย. 2568, ทาย 1 เดือน) ให้เห็นโค้ดและค่าตั้งที่ใช้ ใช้เวลาราว 1 นาที
+ใช้เวลาราว 1 นาที
 """)
 
 code(r'''
-# 8.1 ฝึกทุกโมเดลที่จุดเริ่มเดียว
+# 7.1 ฝึกทุกโมเดลที่จุดเริ่มเดียว
 from compare_models import FIXED, LGBM_PICK, build_sequences, lstm_feature_cols, lstm_predict, rf_predict
+from final_experiments import LGBM_DEFAULT, huber_predict
 from tune import fit_all as lightgbm_models
 
-cols = feature_cols(P)
 P2, seqs = build_sequences(P, lstm_feature_cols(P))   # LSTM: ลำดับ 12 เดือน × 32 ฟีเจอร์ ต่อแถว
 for c in ("categoryCode", "familyCode"):
     P2[c] = P2[c].astype("category")
@@ -415,15 +473,20 @@ print(f"ฝึกด้วย {len(train):,} แถว   ทาย {len(test):,}
 
 pred = {"naive": np.zeros(len(test))}
 
-# LightGBM: ค่าตั้งที่จูนแล้วสำหรับทาย 1 เดือน + แบบ 2 ขั้น ขยับครึ่งเดียว
+# Linear Regression (Huber): เติมค่าว่างด้วยมัธยฐาน -> ปรับสเกล -> HuberRegressor
+pred["huber"] = huber_predict(train, test, h, cols)
+
+# LightGBM ค่าเริ่มต้น ทายตรง: 300 ต้น, 15 ใบ, learning rate 0.03, L1 loss
+pred["lgbm0_direct"] = lightgbm_models(train, test, h, cols, LGBM_DEFAULT)["direct"]
+
+# LightGBM จูนแล้ว: ค่าตั้งที่ชนะรอบจูนสำหรับทาย 1 เดือน + แบบ 2 ขั้น ขยับครึ่งเดียว
 params, how = LGBM_PICK[h]
-print("LightGBM:", params, "| แบบ:", how)
 pred["lgbm"] = lightgbm_models(train, test, h, cols, {**params, **FIXED})[how]
 
 # Random Forest: 200 ต้น ใบละอย่างน้อย 50 แถว สุ่มฟีเจอร์ครึ่งหนึ่งต่อการแตกกิ่ง
 pred["rf"] = rf_predict(train, test, h, cols)
 
-# LSTM: LSTM 32 หน่วย -> Dropout 0.2 -> ทาย 3 ระยะ, Adam lr 0.001, early stopping 4 รอบ
+# LSTM: LSTM 32 หน่วย -> Dropout 0.2 -> ทาย 3 ระยะ, Adam lr 0.001, หยุดเมื่อไม่ดีขึ้น 4 รอบ
 known = P2.assign(**{f"y{k}": P2[f"y{k}"].where(P2.date + pd.DateOffset(months=k) <= o) for k in (1, 2, 3)})
 at_o = ((P2.date == o) & P2.material_id.isin(active)).values
 out = lstm_predict(seqs, known, ((P2.date + pd.DateOffset(months=1) <= o) & P2.y1.notna()).values, at_o)
@@ -433,140 +496,306 @@ pred["lstm"] = np.array([out[pos[j], h - 1] for j in test.index])
 actual = test.price * np.exp(test[f"y{h}"])
 saved = TE[(TE.origin == o) & (TE.h == h)]
 display(pd.DataFrame({
-    "MAE (%) ที่เพิ่งฝึก": {MODEL[m][0]: mae_pct(test.price, d, actual) for m, d in pred.items()},
-    "MAE (%) ในผลที่บันทึกไว้": {MODEL[m][0]: mae_pct(saved.price, saved[f"d_{m}"], saved.actual) for m in pred},
+    "MAE (%) ที่เพิ่งฝึก": {NAMES[m]: (np.abs(test.price * np.exp(d) - actual) / actual * 100).mean() for m, d in pred.items()},
+    "MAE (%) ในผลที่บันทึกไว้": {NAMES[m]: errors(saved, m).mean() for m in pred},
 }))
 ''')
 
 md("""
-จุดเริ่มเดียวยังสรุปอะไรไม่ได้ ข้อ 10 รวมผลทุกจุดเริ่ม (Random Forest และ LSTM สุ่มน้ำหนักเริ่มต้น ตัวเลขบนเครื่องอื่นอาจต่างจากผลที่บันทึกไว้เล็กน้อย)
+จุดเริ่มเดียวยังสรุปอะไรไม่ได้ ข้อ 8 รวมผลทุกจุดเริ่ม (Random Forest และ LSTM สุ่มค่าเริ่มต้น ตัวเลขบนเครื่องอื่นอาจต่างจากผลที่บันทึกไว้เล็กน้อย)
 """)
 
-# ------------------------------------------------------------------ 9. จูน
+# ================================================================== 8. การทดลอง 8 รอบ
 md("""
-## 9. จูนโมเดล (Hyperparameter Tuning)
+## 8. การทดลอง 8 รอบ
 
-**LightGBM:** สุ่มค่าตั้ง 20 ชุด + ค่าเริ่มต้น 1 ชุด (Random Search) จาก 7 ค่าในตารางด้านล่าง ใช้ข้อมูล Validation อย่างเดียว:
+เราทดลองตามลำดับนี้ แต่ละรอบเกิดจากสิ่งที่เห็นในรอบก่อน ทุกรอบแสดงผลแบบเดียวกัน:
 
-1. **รอบคัด:** ทดสอบทั้ง 21 ชุดบน 9 จุดเริ่ม
-2. **รอบตัดสิน:** 5 ชุดที่ดีที่สุด + ค่าเริ่มต้น ทดสอบเต็ม 27 จุด
-3. เลือกชุดที่ดีที่สุดแยกตามระยะทาย แล้ววัดบน Test ครั้งเดียว
+- ตัวเลขคือ **MAE (%)** ยิ่งต่ำยิ่งดี
+- **พื้นฟ้า** = ดีกว่า Naive, **พื้นแดง** = แย่กว่า Naive, ไม่มีสี = เสมอ (ต่างกันไม่ถึง 0.01 จุด %)
+- คอลัมน์สุดท้ายบอกว่าผ่านกติกาไหม คือชนะ Naive ทั้ง Validation และ Test ในระยะทายเดียวกัน
 
-**สิ่งอื่นที่จูน**
-
-| โมเดล | จูนอะไร | ได้ค่าไหน |
+| รอบ | ลองอะไร | ผ่านกติกา? |
 |---|---|---|
-| LightGBM 2 ขั้น | เกณฑ์ความมั่นใจก่อนขยับจาก Naive | 0.85 (ลอง 0.70 ด้วย) |
-| ทุกโมเดล | ขยับเต็มหรือครึ่งเดียว | ครึ่งเดียวดีกว่าทุกครั้ง |
-| ทุกโมเดล | ปัจจัยภายนอกเดือนเดียวกันหรือหน่วง 1 เดือน | เดือนเดียวกัน (ดีขึ้นเล็กน้อย) |
-| Random Forest | ขนาดใบขั้นต่ำ กัน overfit | 50 แถว |
-| LSTM | จำนวนรอบฝึก | หยุดเมื่อผลบนข้อมูล 10% ล่าสุดของ Train ไม่ดีขึ้น 4 รอบ (early stopping) |
+| 1 | Baseline แบบสถิติ: Seasonal naive, Drift, ETS | ❌ |
+| 2 | LightGBM ทายตรง | ❌ |
+| 3 | LightGBM 2 ขั้น และเทคนิคขยับครึ่งเดียว | ❌ |
+| 4 | ปรับข้อมูลภายนอก: เดือนเดียวกัน และเลือกโมเดลแยกหมวด | ❌ |
+| 5 | Linear Regression (Huber) | ❌ |
+| 6 | จูน LightGBM (Random Search 21 ชุด) | ❌ |
+| 7 | Random Forest และ LSTM พร้อมจูน | ❌ |
+| 8 | หาข้อมูลเพิ่ม 5 แหล่ง | ไม่มีข้อมูลที่บอกล่วงหน้าได้ |
 """)
 
+# ---------------------------------------------------------------- รอบ 1
+round_card(
+    "8.1 รอบที่ 1: Baseline แบบสถิติ",
+    "ต้องมีเกณฑ์ขั้นต่ำก่อน และลองวิธีอนุกรมเวลาคลาสสิกที่ไม่ต้องใช้ ML",
+    "Naive: ราคาเท่าเดือนล่าสุด · Seasonal naive: ใช้รูปแบบของเดือนเดียวกันปีก่อน ปรับระดับให้เท่าปีนี้ · "
+    "Drift: ต่อแนวโน้มเฉลี่ย 12 เดือนล่าสุด · ETS: exponential smoothing แบบแนวโน้มค่อย ๆ แผ่ว (damped trend) ฝึกแยกทีละวัสดุ",
+    "{{R1_DECIDE}}",
+)
 code(r'''
-# @title 9.1 ช่วงค่าที่สุ่ม และผลรอบตัดสิน (Validation, MAE %) { display-mode: "form" }
-from tune import SPACE
+# @title ผลรอบที่ 1 { display-mode: "form" }
+show(["snaive", "drift", "ets"])
+''')
 
+# ---------------------------------------------------------------- รอบ 2
+round_card(
+    "8.2 รอบที่ 2: LightGBM ทายตรง",
+    "ML ใช้ฟีเจอร์ได้หลายตัวพร้อมกัน ทั้งประวัติราคา วัสดุกลุ่มเดียวกัน และปัจจัยภายนอก และเรียนจากทุกวัสดุพร้อมกันได้",
+    "LightGBM regressor ทาย % การเปลี่ยนตรง ๆ ใช้ L1 loss (ตรงกับ MAE) ค่าตั้งเริ่มต้น: 300 ต้น, 15 ใบ, learning rate 0.03, "
+    "ใบละอย่างน้อย 40 แถว เวอร์ชันแรกใช้ฟีเจอร์ 33 ตัว ปัจจัยภายนอก 6 ตัวแบบหน่วง 1 เดือน ภายหลังเพิ่มเป็น 52 ตัว",
+    "แพ้ทั้งสองช่วง สาเหตุคือโมเดลทาย \"ขยับนิดหน่อย\" แทบทุกครั้ง ทั้งที่ราคาส่วนใหญ่ไม่เปลี่ยน (ตารางที่สอง) "
+    "รอบต่อไปจึงลองให้โมเดลขยับเฉพาะตอนมั่นใจ",
+)
+code(r'''
+# @title ผลรอบที่ 2 และสาเหตุที่แพ้ { display-mode: "form" }
+show(["lgbm0_direct"])
+exact = lambda R, m: (errors(R, m) < 0.01).mean() * 100
+display(pd.DataFrame({"ทายถูกพอดี (% ของการทาย, Test ทาย 1 เดือน)": {NAMES[m]: exact(TE[TE.h == 1], m) for m in ("naive", "lgbm0_direct")}}))
+''')
+md("""
+**เวอร์ชันแรก** (ฟีเจอร์ 33 ตัว ปัจจัย 6 ตัวหน่วง 1 เดือน): Test 1.88 / 3.91 / 5.85% เทียบ Naive 1.75 / 3.47 / 5.06% ตอนนั้นใช้ Validation แค่ 12 เดือน (ก.ย. 2567 – ส.ค. 2568) ซึ่งราคานิ่งมาก Naive ผิดแค่ 0.49% ทำให้เลือกโมเดลผิด เราจึงขยาย Validation เป็น 27 จุด 7 ปีตามที่ใช้ในทุกตาราง
+""")
+
+# ---------------------------------------------------------------- รอบ 3
+round_card(
+    "8.3 รอบที่ 3: LightGBM 2 ขั้น และขยับครึ่งเดียว",
+    "รอบ 2 แพ้เพราะทายขยับทุกครั้ง ถ้าแยกถามก่อนว่า \"ราคาจะเปลี่ยนไหม\" แล้วขยับเฉพาะตอนมั่นใจ น่าจะลดการผิดเล็ก ๆ ได้",
+    "ขั้นที่ 1: LightGBM classifier ทายโอกาสที่ราคาจะเปลี่ยน · ขั้นที่ 2: LightGBM regressor ฝึกเฉพาะเดือนที่ราคาเปลี่ยน ทายว่าเปลี่ยนเท่าไร · "
+    "ลองรวม 3 แบบ: ค่าคาดหวัง (โอกาส × ขนาด), ขยับเมื่อโอกาสเกิน 70%, ขยับเมื่อโอกาสเกิน 85% · "
+    "และเทคนิค **ขยับครึ่งเดียว** คือหารคำทายด้วย 2 ให้เข้าใกล้ Naive ลดความเสียหายเวลาทายผิดทิศ",
+    "{{R3_DECIDE}}",
+)
+code(r'''
+# @title ผลรอบที่ 3 { display-mode: "form" }
+show(["lgbm0_direct", "lgbm0_direct_half", "lgbm0_ts_ev", "lgbm0_ts_t70", "lgbm0_ts_t85", "lgbm0_ts_t85_half"])
+''')
+md("""
+**ทำไมยังไม่ชนะ:** ขั้นที่ 1 รู้ค่อนข้างดีว่าราคาจะเปลี่ยน (ข้อ 11) แต่ขั้นที่ 2 บอกทิศได้แย่ ทายขึ้นหรือลงถูกราว 55% ใกล้การเดาสุ่ม ตอนเหล็กพุ่ง มี.ค.–เม.ย. 2569 โมเดลจับทิศได้บางส่วน แต่พอราคากลับลง มิ.ย.–ส.ค. โมเดลยังทายว่าขึ้นต่อ
+""")
+
+# ---------------------------------------------------------------- รอบ 4
+round_card(
+    "8.4 รอบที่ 4: ปรับข้อมูลภายนอก และเลือกโมเดลแยกหมวด",
+    "เวอร์ชันแรกใช้ปัจจัยภายนอกหน่วง 1 เดือน ทั้งที่ตอน สนค. ประกาศราคา (ราววันที่ 9 ของเดือนถัดไป) เรารู้ราคาตลาดเดือนเดียวกันครบแล้ว "
+    "และบางหมวดอาจเหมาะกับคนละโมเดล",
+    "1) เพิ่มปัจจัยเหล็กฟิวเจอร์ส (แก้รูปแบบวันที่ที่เป็น ปี-วัน-เดือน) ดัชนีเศษเหล็ก และราคาเทียบค่าเฉลี่ย 12 เดือน รวม 52 ฟีเจอร์ "
+    "2) เทียบปัจจัยหน่วง 1 เดือน กับเดือนเดียวกัน 3) ให้ Validation เลือกโมเดลที่ดีที่สุดแยกทีละหมวด",
+    "ใช้ปัจจัยเดือนเดียวกันต่อ เพราะถูกต้องตามเวลาจริงและดีขึ้นเล็กน้อย แต่ยังไม่ผ่านกติกา "
+    "การเลือกแยกหมวดสุดท้ายเลือก Naive เกือบทุกหมวด ผลรวมจึงเท่า Naive",
+)
+md("""
+ผลจาก `train_best.py` (MAE %, ทาย 1 / 2 / 3 เดือน) บนจุดเริ่มชุดเดียวกัน
+
+| แบบ | ปัจจัยภายนอก | Validation | Test |
+|---|---|---|---|
+| **Naive** | | **0.67 / 1.35 / 2.14** | 1.75 / 3.47 / 5.06 |
+| LightGBM 2 ขั้น เกณฑ์ 70% | หน่วง 1 เดือน | 0.81 / 1.61 / 2.57 | 1.73 / 3.53 / 5.20 |
+| LightGBM 2 ขั้น เกณฑ์ 70% | เดือนเดียวกัน | 0.73 / 1.66 / 2.53 | **1.65** / 3.44 / 5.37 |
+| LightGBM 2 ขั้น 85% ขยับครึ่งเดียว | หน่วง 1 เดือน | 0.70 / 1.42 / 2.28 | 1.74 / 3.47 / 5.06 |
+| LightGBM 2 ขั้น 85% ขยับครึ่งเดียว | เดือนเดียวกัน | 0.67 / 1.44 / 2.29 | 1.71 / **3.43** / 5.15 |
+| เลือกโมเดลแยกหมวดด้วย Validation | หน่วง 1 เดือน | 0.67 / 1.35 / 2.14 | 1.75 / 3.47 / 5.07 |
+| เลือกโมเดลแยกหมวดด้วย Validation | เดือนเดียวกัน | 0.67 / 1.35 / 2.14 | 1.75 / 3.47 / 5.06 |
+
+ปัจจัยเดือนเดียวกันทำให้ Test ดีขึ้น (1 เดือน 1.65% ดีที่สุดที่เคยได้) แต่ Validation ยังแพ้ ส่วนการเลือกแยกหมวด Validation เลือก Naive ให้เกือบทุกหมวด เหลือแค่ลวดผูกเหล็กที่ได้โมเดลอื่น ผลจึงแทบเท่า Naive
+""")
+
+# ---------------------------------------------------------------- รอบ 5
+round_card(
+    "8.5 รอบที่ 5: Linear Regression (Huber)",
+    "โมเดลต้นไม้ซับซ้อนแล้วยังแพ้ ลองโมเดลเส้นตรงที่ง่ายที่สุด ถ้าความสัมพันธ์ระหว่างต้นทุนกับราคาเป็นเส้นตรง โมเดลนี้น่าจะจับได้",
+    "HuberRegressor (เส้นตรงที่ไม่ไหวตามค่าโดด) ใช้ฟีเจอร์ตัวเลขทั้งหมด + หมวดแบบ one-hot, เติมค่าว่างด้วยมัธยฐาน, "
+    "ปรับสเกลด้วยค่าเฉลี่ยและส่วนเบี่ยงเบนจาก Train เท่านั้น และลองแบบขยับครึ่งเดียว",
+    "{{R5_DECIDE}}",
+)
+code(r'''
+# @title ผลรอบที่ 5 { display-mode: "form" }
+show(["huber", "huber_half"])
+''')
+md("""
+ก่อนหน้านี้เราลอง Huber เฉพาะหมวดเหล็กด้วย ช่วง Test เหล็กเส้นทาย 3 เดือนผิด 7.75% เทียบ Naive 9.93% ดูดีมาก แต่ช่วง Validation ทาย 1 เดือนผิด 4.24% เทียบ Naive 1.97% แพ้หนัก ผลไม่นิ่งจึงไม่ใช้
+""")
+
+# ---------------------------------------------------------------- รอบ 6
+round_card(
+    "8.6 รอบที่ 6: จูน LightGBM (Hyperparameter Tuning)",
+    "ค่าตั้งเริ่มต้นอาจไม่เหมาะ ถ้าจูนแล้ว LightGBM อาจชนะได้",
+    "Random Search: สุ่มค่าตั้ง 20 ชุด + ค่าเริ่มต้น 1 ชุด จาก 7 ค่าในตารางด้านล่าง ใช้ Validation อย่างเดียว · "
+    "รอบคัด: ทั้ง 21 ชุดบน 9 จุดเริ่ม · รอบตัดสิน: 5 ชุดที่ดีที่สุด + ค่าเริ่มต้น บน 27 จุดเต็ม · "
+    "เลือกชุดและแบบที่ดีที่สุดแยกตามระยะทาย แล้ววัดบน Test ครั้งเดียว",
+    "จูนแล้วชนะเล็กน้อยใน Test ทุกระยะ แต่ Validation เสมอที่ 1 เดือนและแพ้ที่ 2–3 เดือน ไม่ผ่านกติกา "
+    "ค่าตั้งที่ต่างกันให้ผลต่างกันไม่ถึง 0.1 จุด % แปลว่าปัญหาไม่ได้อยู่ที่ค่าตั้ง",
+)
+code(r'''
+# @title 8.6.1 ช่วงค่าที่สุ่ม { display-mode: "form" }
+from tune import SPACE
 meaning = {"num_leaves": "จำนวนใบสูงสุดต่อต้น (ต้นซับซ้อนแค่ไหน)", "learning_rate": "ต้นใหม่แก้ต้นเก่าแรงแค่ไหน",
            "n_estimators": "จำนวนต้นไม้", "min_child_samples": "ข้อมูลขั้นต่ำต่อใบ (กัน overfit)",
            "subsample": "สุ่มแถวกี่ % ต่อต้น", "colsample_bytree": "สุ่มฟีเจอร์กี่ % ต่อต้น",
            "reg_lambda": "ลงโทษค่าที่ใหญ่เกิน (กัน overfit)"}
 display(pd.DataFrame({"ค่าที่สุ่มเลือก": {k: ", ".join(map(str, v)) for k, v in SPACE.items()}, "ความหมาย": meaning}))
-
+''')
+code(r'''
+# @title 8.6.2 รอบคัด: 21 ชุด บน 9 จุดเริ่ม { display-mode: "form" }
+S = pd.read_csv(f"{ROOT}/ml/out/tune_screen.csv").sort_values("quick_best")
+fig, ax = plt.subplots(figsize=(10, 5.2), layout="constrained")
+labels = [f"ชุด {c}" + (" (ค่าเริ่มต้น)" if c == 0 else "") for c in S.config]
+ax.barh(labels, S.quick_best, color=MODEL["lgbm"][1], height=0.6)
+ax.axvline(S.quick_naive.iloc[0], color=MODEL["naive"][1], lw=2, ls="--")
+ax.text(S.quick_naive.iloc[0], -0.9, f" Naive {S.quick_naive.iloc[0]:.2f}", color=INK, fontsize=10, va="top")
+ax.invert_yaxis()
+ax.set_xlim(S.quick_best.min() - 0.05, S.quick_best.max() + 0.05)
+ax.set_xlabel("MAE (%) เฉลี่ย 3 ระยะ (แบบที่ดีที่สุดของแต่ละชุด)")
+ax.grid(axis="y", visible=False)
+ax.set_title("รอบคัด: หลายชุดดูเหมือนชนะ Naive (แท่งซ้ายของเส้นประ)", loc="left")
+plt.show()
+print("5 ชุดที่ดีที่สุดไปรอบตัดสิน:", ", ".join(f"ชุด {c}" for c in S.config.head(5)))
+''')
+code(r'''
+# @title 8.6.3 รอบตัดสิน: 6 ชุด บน 27 จุดเริ่ม (Validation, MAE %) { display-mode: "form" }
 T = pd.read_csv(f"{ROOT}/ml/out/tune_results.csv")
 best = T[T.candidate != "naive"].groupby(["config", "h"])["cv_mae"].min().unstack()
-best.index = [f"config {i}" + (" (ค่าเริ่มต้น)" if i == 0 else "") for i in best.index]
+best.index = [f"ชุด {i}" + (" (ค่าเริ่มต้น)" if i == 0 else "") for i in best.index]
 best.loc["Naive (baseline)"] = T[T.candidate == "naive"].groupby("h")["cv_mae"].first()
 best.columns = [f"{h} เดือน" for h in best.columns]
-display(best.sort_values("1 เดือน"))
+display(best.sort_values("1 เดือน").style.format("{:.2f}").highlight_min(axis=0, props="font-weight:bold"))
+''')
+md("""
+**บทเรียนจากรอบคัด:** ในรอบคัด 9 จุด หลายชุดดูเหมือนชนะ Naive (1.37 เทียบ 1.43) แต่พอทดสอบเต็ม 27 จุด ไม่มีชุดไหนชนะเลย ถ้าเราตัดสินจากรอบคัดอย่างเดียว จะสรุปผิด การทดสอบบนข้อมูลช่วงยาวจึงสำคัญ
+
+ชุดที่ได้เลือก: ทาย 1 เดือน = ค่าเริ่มต้น แบบ 2 ขั้น 85% ขยับครึ่งเดียว · ทาย 2 เดือน = ชุด 7 (63 ใบ, learning rate 0.01, 600 ต้น) แบบเดียวกัน · ทาย 3 เดือน = ชุด 5 (15 ใบ, reg_lambda 10) แบบทายตรงขยับครึ่งเดียว
+""")
+code(r'''
+# @title 8.6.4 ผลของ LightGBM ที่จูนแล้ว { display-mode: "form" }
+show(["lgbm0_ts_t85_half", "lgbm"])
 ''')
 
-md("""
-จูนแล้วยังไม่มีชุดไหนชนะ Naive ใน Validation ค่าตั้งที่ต่างกันให้ผลต่างกันไม่ถึง 0.1 จุด % แปลว่าปัญหาไม่ได้อยู่ที่ค่าตั้งของโมเดล
-""")
-
-# ------------------------------------------------------------------ 10. ผล
-md("""
-## 10. ผลเทียบทุกโมเดล
-
-ทุกโมเดลทดสอบแบบเดียวกัน: 27 จุดเริ่มใน Validation และ 12 จุดใน Test ฝึกใหม่ทุกจุดเริ่ม
-""")
-
+# ---------------------------------------------------------------- รอบ 7
+round_card(
+    "8.7 รอบที่ 7: Random Forest และ LSTM พร้อมจูน",
+    "ลองอัลกอริทึมคนละแบบกับ Boosting: Random Forest (Bagging) ซึ่งมักไม่ค่อย overfit และ LSTM (Deep Learning) ที่อ่านข้อมูลเป็นลำดับเวลา",
+    "Random Forest: 200 ต้น ลอง 6 ชุดค่า (ขนาดใบขั้นต่ำ 20–200 แถว, สุ่มฟีเจอร์ 30–100%) · "
+    "LSTM: ลอง 4 ชุด (หน่วย 16/32/64, learning rate 0.001/0.003, dropout 0.2/0.3, ดูย้อนหลัง 6 หรือ 12 เดือน) "
+    "หยุดฝึกเมื่อผลบนข้อมูล 10% ล่าสุดของ Train ไม่ดีขึ้น 4 รอบ (early stopping) · "
+    "จูนแบบเดียวกับ LightGBM: รอบคัด 9 จุด ชุดที่ดีที่สุดได้ไปรอบเต็มเฉพาะเมื่อชนะ Naive ในรอบคัด",
+    "{{R7_DECIDE}}",
+)
 code(r'''
-# @title 10.1 ตารางผล { display-mode: "form" }
-NAMES = {"naive": "Naive (baseline)", "lgbm": "LightGBM (จูนแล้ว)", "rf": "Random Forest", "rf_half": "Random Forest ขยับครึ่งเดียว",
-         "lstm": "LSTM", "lstm_half": "LSTM ขยับครึ่งเดียว"}
-
-
-def score(R, kind):
-    out = {}
-    for m in NAMES:
-        row = {}
-        for h in (1, 2, 3):
-            g = R[R.h == h]
-            pe = (g.price * np.exp(g[f"d_{m}"]) - g.actual) / g.actual * 100
-            row[f"{h} เดือน"] = {"MAE": pe.abs().mean(), "RMSE": np.sqrt((pe ** 2).mean()),
-                                 "R2": 1 - ((g.y - g[f"d_{m}"]) ** 2).sum() / ((g.y - g.y.mean()) ** 2).sum()}[kind]
-        out[NAMES[m]] = row
-    return pd.DataFrame(out).T
-
-
-def highlight_best(df):
-    return df.style.format("{:.2f}").highlight_min(axis=0, props="font-weight:bold; background-color:#e6efe9")
-
-
-print("MAE (%) ยิ่งต่ำยิ่งดี")
-display(pd.concat({"Validation": score(CV, "MAE"), "Test": score(TE, "MAE")}, axis=1).pipe(highlight_best))
-print("RMSE (%) ช่วง Test ยิ่งต่ำยิ่งดี")
-display(score(TE, "RMSE").pipe(highlight_best))
-print("R² ของ % การเปลี่ยน ช่วง Test (0 = ไม่ดีกว่าทายว่าไม่เปลี่ยน)")
-display(score(TE, "R2").style.format("{:.2f}"))
+# @title 8.7.1 ชุดค่าที่ลอง และผลรอบคัด (9 จุดเริ่ม, MAE %) { display-mode: "form" }
+from final_experiments import LSTM_GRID, RF_GRID
+display(pd.concat({
+    "Random Forest": pd.DataFrame(RF_GRID).T.rename(columns={"min_samples_leaf": "ขนาดใบขั้นต่ำ", "max_features": "สุ่มฟีเจอร์"}),
+    "LSTM": pd.DataFrame(LSTM_GRID).T.rename(columns={"hidden": "หน่วย", "lr": "learning rate", "dropout": "dropout", "seq": "ดูย้อนหลัง (เดือน)"}),
+}).fillna("").astype(str))
+Q = pd.read_csv(f"{ROOT}/ml/out/tune_rf_lstm.csv")
+Q["ดีกว่าระหว่างเต็มกับครึ่งเดียว"] = Q[["เต็ม", "ครึ่งเดียว"]].min(axis=1)
+q = Q.pivot_table(index=["model", "config"], columns="h", values="ดีกว่าระหว่างเต็มกับครึ่งเดียว")
+q.columns = [f"{h} เดือน" for h in q.columns]
+q.index = [("Naive (baseline)" if m == "naive" else f"{'Random Forest' if m == 'rf' else 'LSTM'} ชุด {c}") for m, c in q.index]
+nq = q.loc["Naive (baseline)"]
+display(q.style.format("{:.2f}").apply(lambda col: [f"background-color:{BETTER}" if v <= nq[col.name] - TOL else
+                                                    f"background-color:{WORSE}" if v >= nq[col.name] + TOL else "" for v in col]))
+''')
+code(r'''
+# @title 8.7.2 ผลเต็ม 27 + 12 จุดเริ่ม { display-mode: "form" }
+show([m for m in ("rf", "rf_half", "rf_tuned", "lstm", "lstm_half", "lstm_tuned") if m in NAMES])
 ''')
 
+# ---------------------------------------------------------------- รอบ 8
+round_card(
+    "8.8 รอบที่ 8: หาข้อมูลที่บอกล่วงหน้าได้",
+    "ทุกโมเดลแพ้ด้วยเหตุผลเดียวกัน คือไม่รู้ล่วงหน้าว่าราคาจะขึ้นหรือลง ถ้าหาข้อมูลที่ขยับก่อนราคา สนค. ได้ โมเดลน่าจะชนะ",
+    "หาข้อมูลเพิ่ม 5 แหล่ง + ราคาเหล็กต่างจังหวัด + ราคาจากร้านค้าออนไลน์ แล้ววัดว่าขยับก่อนราคา สนค. ไหม (สหสัมพันธ์กับราคาเดือนถัดไป)",
+    "ไม่มีแหล่งไหนบอกล่วงหน้าได้พอ จึงไม่เพิ่มลงโมเดล",
+)
+md("""
+| ข้อมูล | ผล |
+|---|---|
+| ราคาเหล็กเส้นรายสัปดาห์ในไทย | ไม่มีแหล่งสาธารณะย้อนหลัง สถาบันเหล็กฯ เว็บล่ม |
+| ข่าวโรงงานเหล็กประกาศปรับราคา | ไม่มีรายการย้อนหลัง มีแต่ข่าวกระจัดกระจาย |
+| ค่าไฟฟ้า Ft รายเดือน 2557–2569 | ได้ครบ แต่สหสัมพันธ์ −0.17 ถึง 0.11 |
+| ราคานำเข้าเหล็กจาก UN Comtrade | สหสัมพันธ์ไม่เกิน 0.17 และออกช้าราว 4 เดือน |
+| มาตรการตอบโต้การทุ่มตลาดเหล็ก | ส่วนใหญ่เป็นเหล็กแผ่น จำนวนเหตุการณ์น้อยเกินทดสอบ |
+| ราคาเหล็กเส้น 6 จังหวัด (สนค.) | ขยับพร้อมกรุงเทพฯ ไม่ได้ขยับก่อน |
+| ราคาจากร้านค้าออนไลน์ (SteelLead) | สหสัมพันธ์กับเดือนถัดไป 0.16–0.22 ร้านอื่นไม่มีประวัติย้อนหลัง |
+
+สหสัมพันธ์ 0.2 แปลว่าข้อมูลนั้นอธิบายการขึ้นลงของราคาเดือนถัดไปได้ราว 4% (0.2²) น้อยเกินจะช่วยโมเดล
+""")
+
+# ================================================================== 9. ผลรวม
+md("""
+# ส่วนที่ 3: ผลรวมและบทสรุป
+
+## 9. ผลรวมทุกโมเดล
+
+ตารางนี้รวมทุกแบบจากทั้ง 8 รอบ ตัวเลขคือ **MAE ของโมเดล ลบ MAE ของ Naive** (จุด %)
+
+- **สีน้ำเงิน** = ดีกว่า Naive
+- **สีแดง** = แย่กว่า Naive
+- สีเข้มขึ้นแปลว่าห่างจาก Naive มากขึ้น
+
+แบบที่จะผ่านกติกาต้องเป็นสีน้ำเงินทั้งฝั่ง Validation และ Test ในระยะเดียวกัน
+""")
 code(r'''
-# @title 10.2 กราฟเทียบ MAE { display-mode: "form" }
+# @title 9.1 ทุกแบบเทียบ Naive { display-mode: "form" }
+t = mae_table([m for m in NAMES if m != "naive"])
+diff = t - t.loc[NAMES["naive"]]
+diff = diff.drop(index=NAMES["naive"])
+diff[("ผล", "ชนะทั้ง 2 ช่วง?")] = verdict(t)[1:]
+diff = diff.sort_values(("Validation", "1 เดือน"))
+m = diff.iloc[:, :-1].abs().to_numpy().max()
+num = diff.columns[:-1]
+display(diff.style.format("{:+.2f}", subset=num).background_gradient(cmap=DIVERGING, vmin=-m, vmax=m, subset=num))
+passed = sum(v.startswith("✅") for v in diff[("ผล", "ชนะทั้ง 2 ช่วง?")])
+print(f"ผ่านกติกา {passed} จาก {len(diff)} แบบ")
+print("MAE ของ Naive:", ", ".join(f"{s} {h}: {v:.2f}%" for (s, h), v in t.loc[NAMES['naive']].items()))
+''')
+code(r'''
+# @title 9.2 กราฟเทียบโมเดลหลัก { display-mode: "form" }
+main = ["naive", "lgbm", "rf", "lstm"]
+s = mae_table(main)
 fig, axes = plt.subplots(1, 2, figsize=(13, 4.2), layout="constrained")
-for ax, (name, R) in zip(axes, (("Validation", CV), ("Test", TE))):
-    s = score(R, "MAE")
-    for k, m in enumerate(MODEL):
-        vals = s.loc[NAMES[m]].values
+for ax, split in zip(axes, ("Validation", "Test")):
+    for k, m in enumerate(main):
+        vals = s.loc[NAMES[m], split].values
         ax.bar(np.arange(3) + (k - 1.5) * 0.2, vals, width=0.18, color=MODEL[m][1], label=MODEL[m][0])
     ax.set_xticks(range(3), ["ทาย 1 เดือน", "ทาย 2 เดือน", "ทาย 3 เดือน"])
     ax.set_ylabel("MAE (%)")
     ax.grid(axis="x", visible=False)
-    ax.set_title(name, loc="left")
+    ax.set_title(split, loc="left")
 handles, labels = axes[0].get_legend_handles_labels()
 fig.legend(handles, labels, frameon=False, ncol=4, loc="outside lower center")
 plt.show()
 ''')
-
+code(r'''
+# @title 9.3 RMSE และ R² ของโมเดลหลัก (ช่วง Test) { display-mode: "form" }
+rows = {}
+for m in ["naive", "ets", "huber", "lgbm", "rf", "lstm"]:
+    for h in (1, 2, 3):
+        g = TE[TE.h == h]
+        pe = (g.price * np.exp(g[f"d_{m}"]) - g.actual) / g.actual * 100
+        rows.setdefault(NAMES[m], {})[("RMSE (%)", f"{h} เดือน")] = np.sqrt((pe ** 2).mean())
+        rows[NAMES[m]][("R² ของ % การเปลี่ยน", f"{h} เดือน")] = 1 - ((g.y - g[f"d_{m}"]) ** 2).sum() / ((g.y - g.y.mean()) ** 2).sum()
+display(pd.DataFrame(rows).T.style.format("{:.2f}"))
+''')
 md("""
 **อ่านผล**
 
-- **Validation:** ไม่มีโมเดลไหนชนะ Naive LightGBM เสมอที่ 1 เดือน Random Forest และ LSTM แพ้ชัดเจน
-- **Test:** LightGBM และ LSTM ชนะเล็กน้อย (ไม่เกิน 0.1 จุด %) แต่ Validation ไม่ยืนยัน ตามกติกาจึงถือว่าบังเอิญ
-- **RMSE:** Random Forest ต่ำสุดใน Test เพราะลดการผิดก้อนใหญ่ได้บ้าง แต่ MAE สูงกว่า เพราะทาย "ขยับนิดหน่อย" ทุกวัสดุ ทั้งที่ราคาส่วนใหญ่นิ่ง
+- **MAE:** {{R9_MAE}}
+- **RMSE:** บางโมเดล เช่น Random Forest มี RMSE ต่ำกว่า Naive ในช่วง Test เพราะลดการผิดก้อนใหญ่ช่วงเหล็กพุ่งได้บ้าง แต่ MAE สูงกว่า เพราะทาย "ขยับนิดหน่อย" ทุกวัสดุ ทั้งที่ราคาส่วนใหญ่นิ่ง
 - **R²:** ทุกโมเดลใกล้ 0 คืออธิบายการขึ้นลงของราคาแทบไม่ได้
-
-**การทดลองก่อนหน้า (ช่วง Test เดียวกัน, MAE %)**
-
-| การทดลอง | 1 / 2 / 3 เดือน | Naive | ผล |
-|---|---|---|---|
-| LightGBM ตัวแรก (ปัจจัย 6 ตัว ยังไม่จูน) | 1.88 / 3.91 / 5.85 | 1.75 / 3.47 / 5.06 | แพ้ทุกระยะ |
-| LightGBM 2 ขั้น (p > 0.85) | 1.66 / 3.65 / 5.50 | 1.75 / 3.47 / 5.06 | ชนะเฉพาะ 1 เดือน Validation ไม่ยืนยัน |
-| ใช้ปัจจัยภายนอกเดือนเดียวกัน | 1.65 / 3.43 / 5.15 | 1.75 / 3.47 / 5.06 | ชนะ 1–2 เดือน Validation ไม่ยืนยัน |
-| Linear (Huber) เฉพาะเหล็กเส้น ทาย 3 เดือน | 7.75 | 9.93 | ชนะใน Test แต่ Validation แพ้หนัก |
 """)
 
-# ------------------------------------------------------------------ 11. residual
+# ================================================================== 10. residual
 md("""
-## 11. ดู Residual
+## 10. ดู Residual (ช่วง Test)
 
 residual = (ราคาจริง − ราคาที่ทาย) / ราคาจริง × 100 ค่าบวกคือทายต่ำไป ค่าลบคือทายสูงไป
 """)
-
 code(r'''
-# @title 11.1 กราฟ residual ช่วง Test { display-mode: "form" }
+# @title 10.1 กราฟ residual { display-mode: "form" }
 import residuals
 
 for h in (1, 3):
@@ -577,7 +806,6 @@ for h in (1, 3):
 for f in ("residual_hist_h1", "error_by_month_h1", "error_by_month_h3", "error_by_category_h3"):
     display(Image(f"{ROOT}/ml/report_figures/{f}.png", width=1000))
 ''')
-
 md("""
 **อ่านกราฟ**
 
@@ -587,11 +815,11 @@ md("""
 - **รายหมวด:** เหล็กเส้นผิดมากสุด (ทาย 3 เดือนผิดเฉลี่ยเกือบ 10%) คอนกรีตหยาบผิดน้อยสุด
 """)
 
-# ------------------------------------------------------------------ 12. classification
+# ================================================================== 11. classification
 md("""
-## 12. ป้าย "ราคามีโอกาสเปลี่ยน" (Classification)
+## 11. ป้าย "ราคามีโอกาสเปลี่ยน" (Classification)
 
-โมเดลทายตัวเลขราคาไม่ชนะ Naive แต่เราพบว่าโมเดลบอกได้ดีว่า **ราคากำลังจะขยับ** แม้ไม่รู้ทิศ เว็บจึงใช้ส่วนนี้ขึ้นป้ายเตือนเมื่อโอกาสถึง 70%
+ขั้นที่ 1 ของโมเดล 2 ขั้น (รอบ 3) บอกได้ดีว่า **ราคากำลังจะขยับ** แม้ไม่รู้ทิศ เว็บจึงใช้ส่วนนี้ขึ้นป้ายเตือนเมื่อโอกาสถึง 70%
 
 - **target:** ราคาเดือนที่ทายต่างจากเดือนนี้หรือไม่ (1 = เปลี่ยน, 0 = เท่าเดิม)
 - **เทียบ 3 แบบ:** กฎตามหมวด (baseline: โอกาส = สัดส่วนเดือนที่หมวดนั้นเคยเปลี่ยน), Logistic Regression, LightGBM
@@ -606,22 +834,20 @@ md("""
 
 Accuracy ใช้ตัวเดียวไม่ได้ เพราะทาย "ไม่เปลี่ยน" ทุกตัวก็ได้ 68% แล้ว
 """)
-
 code(r'''
-# @title 12.1 ผลช่วง Test ที่เกณฑ์ 70% และ Confusion Matrix { display-mode: "form" }
+# @title 11.1 ผลช่วง Test ที่เกณฑ์ 70% และ Confusion Matrix { display-mode: "form" }
 import classify_signal
 
 C = pd.read_csv(f"{ROOT}/ml/out/classify_preds.csv")
 CT = C[C.split == "test"]
-m = classify_signal.metrics(CT, thresholds=(0.7,))
-m["model"] = m.model.map(classify_signal.NAMES)
-m["h"] = m.h.map(lambda h: f"ทาย {h} เดือน")
-display(m.drop(columns=["threshold"]).set_index(["h", "model"])
+mt = classify_signal.metrics(CT, thresholds=(0.7,))
+mt["model"] = mt.model.map(classify_signal.NAMES)
+mt["h"] = mt.h.map(lambda h: f"ทาย {h} เดือน")
+display(mt.drop(columns=["threshold"]).set_index(["h", "model"])
         .style.format({"AUC": "{:.2f}", "Accuracy": "{:.0%}", "Precision": "{:.0%}", "Recall": "{:.0%}", "F1": "{:.2f}", "ขึ้นป้าย (%)": "{:.0f}"}))
 classify_signal.plot_confusion(CT)
 display(Image(f"{ROOT}/ml/report_figures/confusion_h1.png", width=1000))
 ''')
-
 md("""
 **อ่านผล**
 
@@ -631,70 +857,99 @@ md("""
 - เว็บเลือก LightGBM เพราะป้ายที่ขึ้นแล้วผิดบ่อยจะทำให้ผู้ใช้ไม่เชื่อป้าย ตัวเลขบนเว็บผ่านการปรับโอกาสให้ตรงกับที่เกิดจริง (calibration) จึงต่างจากตารางนี้เล็กน้อย
 """)
 
-# ------------------------------------------------------------------ 13. ปัญหา
+# ================================================================== 12. ปัญหา
 md("""
-## 13. ปัญหาที่เจอและสิ่งที่ลอง
+## 12. ปัญหาที่เจอและวิธีแก้
 
-| ลำดับ | ปัญหา | เราลองอะไร | ผล |
+| ลำดับ | ปัญหา | เราทำอะไร | ผล |
 |---:|---|---|---|
 | 1 | เหล็กเส้นรหัสใหม่มีประวัติแค่ 5 เดือน | ต่อรหัสเก่ากับรหัสใหม่ 39 คู่ | เหล็กเส้น 25 จาก 26 รายการมีประวัติพอทาย |
-| 2 | 100 วัสดุเลิกเก็บราคา เว็บโชว์ราคาเก่าหลายปี | แยกวัสดุที่ยังเก็บราคา ซ่อนตัวที่เลิกแล้ว | ทาย 188 วัสดุที่ยังมีราคา |
-| 3 | LightGBM ตัวแรกแพ้ Naive | ดูผลแล้วพบว่าโมเดลทายขยับทุกเดือนทั้งที่ราคานิ่ง | สร้างโมเดล 2 ขั้น ขยับเฉพาะตอนมั่นใจ |
-| 4 | Validation ช่วงแรก (12 เดือน) ราคานิ่งเกินไป เลือกโมเดลผิด | ขยาย Validation เป็น 27 จุด 7 ปี | ผลน่าเชื่อขึ้น ครอบช่วงเหล็กพุ่ง |
+| 2 | 100 วัสดุไม่มีราคาล่าสุด เว็บโชว์ราคาเก่าหลายปี | แยกวัสดุที่ยังเก็บราคา ซ่อนตัวที่เลิกแล้ว | ทาย 188 วัสดุที่ยังมีราคา |
+| 3 | LightGBM เวอร์ชันแรกแพ้ Naive | ดูผลแล้วพบว่าโมเดลทายขยับทุกครั้ง | สร้างโมเดล 2 ขั้น ขยับเฉพาะตอนมั่นใจ (รอบ 3) |
+| 4 | Validation ช่วงแรก 12 เดือนราคานิ่งเกินไป เลือกโมเดลผิด | ขยาย Validation เป็น 27 จุด 7 ปี | ผลน่าเชื่อขึ้น ครอบช่วงเหล็กพุ่ง |
 | 5 | ข้อมูลเหล็กฟิวเจอร์สเรียงวันที่แบบ ปี-วัน-เดือน | ตรวจและแปลงวันที่ใหม่ | ใช้ข้อมูลนี้ได้ถูกต้อง |
-| 6 | ปัจจัยภายนอกหน่วง 1 เดือน | ใช้ค่าเดือนเดียวกัน (สนค. ประกาศวันที่ 9 ของเดือนถัดไป) | ดีขึ้นเล็กน้อยใน Test Validation ไม่ยืนยัน |
-| 7 | ค่าตั้งโมเดลอาจไม่ดี | Random Search 21 ชุด | ต่างกันไม่ถึง 0.1 จุด % |
-| 8 | อัลกอริทึมอาจไม่เหมาะ | Random Forest, LSTM, Linear | แพ้ Naive ใน Validation |
-| 9 | ไม่มีข้อมูลบอกล่วงหน้า | หาเพิ่ม: ราคาเหล็กต่างจังหวัด, ราคาร้านค้า, ค่าไฟ Ft, ราคานำเข้า (UN Comtrade), มาตรการกันทุ่มตลาด | ไม่มีตัวไหนรู้ก่อนราคา สนค. (สหสัมพันธ์ไม่เกิน 0.22) |
+| 6 | ปัจจัยภายนอกหน่วง 1 เดือนโดยไม่จำเป็น | ใช้ค่าเดือนเดียวกันตามวันประกาศจริงของ สนค. | Test ดีขึ้นเล็กน้อย Validation ไม่ยืนยัน (รอบ 4) |
+| 7 | รอบคัดของการจูนให้ผลดีเกินจริง | ทดสอบรอบตัดสินบน 27 จุดเต็มทุกครั้ง | ไม่สรุปผิดจากข้อมูลช่วงสั้น (รอบ 6) |
+| 8 | อัลกอริทึมอาจไม่เหมาะ | ลอง ETS, Linear, Random Forest, LSTM พร้อมจูน | ทุกแบบแพ้ Naive ใน Validation (รอบ 1, 5, 7) |
+| 9 | ไม่มีข้อมูลบอกล่วงหน้า | หาข้อมูลเพิ่ม 7 แหล่ง | สหสัมพันธ์ไม่เกิน 0.22 (รอบ 8) |
 """)
 
-# ------------------------------------------------------------------ 14. สรุป
+# ================================================================== 13. บทสรุป
 md("""
-## 14. สรุป
+## 13. บทสรุป
 
-**สิ่งที่ใช้บนเว็บ**
+### ระบบที่ใช้บนเว็บ
 
 | ส่วน | ใช้อะไร | ผล |
 |---|---|---|
-| ทายราคา 1–3 เดือน | Naive + ช่วงราคาต่ำ–สูงจากความผิดพลาดในอดีต | ช่วงราคาครอบราคาจริง 83% |
-| ป้าย "ราคามีโอกาสเปลี่ยน" | LightGBM Classifier | ขึ้นป้ายแล้วราคาเปลี่ยนจริง 80% |
-
-**แม่นแค่ไหน (ภาษาคน)**
-
-- ปีปกติ: ราคา 100 บาท ทาย 1 เดือนผิดเฉลี่ยราว 70 สตางค์
-- ปีล่าสุดที่เหล็กแกว่งแรง: ทาย 1 เดือนผิดเฉลี่ย 1.75 บาท ทาย 3 เดือนผิดเฉลี่ยราว 5 บาท
-- เหล็กเส้นยากสุด: ทาย 1 เดือนผิดเฉลี่ย 778 บาทต่อตัน ทาย 3 เดือน 1,948 บาทต่อตัน
-
-**ทำไม ML ไม่ชนะ Naive**
-
-คอนกรีตและเสาเข็มราคานิ่งเกือบทุกเดือน Naive จึงถูกเกือบตลอด ส่วนเหล็กขยับทุกเดือน แต่ข้อมูลที่เรามีบอกได้แค่ว่า "จะขยับ" ไม่รู้ว่าขึ้นหรือลง ทุกโมเดลจึงพลาดพร้อมกันในเดือนเดียวกัน สิ่งที่ขาดคือข้อมูลที่รู้ก่อน อัลกอริทึมที่ดีกว่าช่วยไม่ได้
-
-**ถ้าจะทำต่อ**
-
-หาข้อมูลที่รู้ก่อน สนค. ประกาศ เช่น ราคาที่โรงงานเหล็กประกาศรายสัปดาห์ แหล่งฟรีย้อนหลังไม่มี ต้องซื้อหรือเก็บเองต่อเนื่อง
+| ตัวเลขราคา 1–3 เดือน | **Naive** | ไม่มีแบบไหนชนะได้ทั้ง 2 ช่วง ({{N_VARIANTS}} แบบ) |
+| ช่วงราคาต่ำ–สูง | ความผิดพลาดในอดีตของแต่ละหมวดและระยะทาย | ครอบราคาจริง 83% |
+| ป้าย "ราคามีโอกาสเปลี่ยน" | **LightGBM Classifier** | ขึ้นป้ายแล้วราคาเปลี่ยนจริง 80% |
 """)
-
-# ------------------------------------------------------------------ ภาคผนวก
+code(r'''
+# @title 13.1 ความแม่นของ Naive แยกหมวด (MAE %) { display-mode: "form" }
+rows = {}
+for split, R in (("ปีปกติ (Validation)", CV), ("ปีล่าสุด (Test)", TE)):
+    for h in (1, 3):
+        g = R[R.h == h]
+        rows[(split, f"ทาย {h} เดือน")] = errors(g, "naive").groupby(g.categoryCode.map(CAT)).mean()
+acc = pd.DataFrame(rows)
+acc.insert(0, ("", "วัสดุ"), TE[TE.h == 1].groupby(TE.categoryCode.map(CAT)).material_id.nunique())
+display(acc.sort_values(("ปีล่าสุด (Test)", "ทาย 3 เดือน")).style.format("{:.2f}", subset=acc.columns[1:]))
+''')
 md("""
-## ภาคผนวก: รันการทดลองเต็มใหม่
+คอนกรีตและเสาเข็มทายได้แม่นมาก ส่วนเหล็กเส้นยากสุด ทาย 3 เดือนในปีที่ตลาดแกว่งผิดได้เกือบ 10%
 
-ตั้ง `RUN_FULL = True` แล้วรันช่องนี้ ผลใหม่จะเขียนทับไฟล์ใน `thaitay_colab/ml/out/` แล้วรันข้อ 6 ถึง 12 ซ้ำเพื่อดูผลใหม่
+**แปลเป็นเงิน:** ราคา 100 บาท ปีปกติทาย 1 เดือนผิดเฉลี่ยราว 70 สตางค์ ปีล่าสุด 1.75 บาท เหล็กเส้นทาย 1 เดือนผิดเฉลี่ย 778 บาทต่อตัน ทาย 3 เดือน 1,948 บาทต่อตัน
 
-| การทดลอง | เวลาโดยประมาณบน Colab |
-|---|---|
-| เทียบ Naive, LightGBM, Random Forest, LSTM | 25–40 นาที |
-| ป้าย Classification | 30–60 นาที |
-| จูน LightGBM | 60–90 นาที |
+### ทำไม ML ทายตัวเลขไม่ชนะ Naive
+
+1. **ราคานิ่งเป็นส่วนใหญ่:** คอนกรีตและเสาเข็มราคาเท่าเดิมราว 9 ใน 10 เดือน Naive จึงถูกเกือบตลอด โมเดลที่ทายขยับแม้นิดเดียวก็เสียเปรียบ (รอบ 2)
+2. **รู้ว่าจะขยับ แต่ไม่รู้ทิศ:** ข้อมูลที่มีบอกได้ว่าราคากำลังจะเปลี่ยน (ป้ายแม่น 80%) แต่ทายขึ้นหรือลงถูกราว 55% ใกล้การเดาสุ่ม (รอบ 3)
+3. **ไม่มีข้อมูลที่รู้ก่อน:** ทุกโมเดลพลาดพร้อมกันในเดือนเดียวกัน (ข้อ 10) และข้อมูลที่หาเพิ่มไม่มีตัวไหนขยับก่อนราคา สนค. (รอบ 8)
+
+สิ่งที่ขาดคือข้อมูล อัลกอริทึมที่ดีกว่าหรือการจูนเพิ่มช่วยไม่ได้ เห็นได้จากรอบ 6 และ 7 ที่จูนแล้วผลแทบไม่เปลี่ยน
+
+### สิ่งที่ได้เรียนรู้
+
+- **ต้องมี baseline เสมอ:** ถ้าไม่เทียบกับ Naive ตัวเลข LightGBM 1.71% อาจดูดี ทั้งที่ Naive ได้ 1.75% อยู่แล้ว
+- **ตั้งกติกาก่อนดูผล:** ช่วง Test ช่วงเดียวทำให้หลายโมเดลดูชนะ แต่ Validation 7 ปีบอกว่าบังเอิญ
+- **เลือกตัววัดให้ถูก:** R² จากราคาได้ 0.99 ทั้งที่โมเดลไม่ได้ทายอะไร
+- **ใช้ ML ตรงที่ได้ผล:** ทายตัวเลขไม่ชนะ แต่ทายว่า "จะเปลี่ยนไหม" ได้ดี จึงนำไปทำป้ายเตือนแทน
+
+### ถ้าทำต่อ
+
+1. **รัน LightGBM คู่กับ Naive ทุกเดือน** โดยยังไม่โชว์บนเว็บ ถ้าเหล็กเส้นชนะต่อเนื่องราว 12 เดือน ค่อยเปลี่ยนเหล็กเส้นไปใช้ LightGBM
+2. **หาข้อมูลที่รู้ก่อน สนค. ประกาศ** เช่น ราคาที่โรงงานเหล็กประกาศรายสัปดาห์ แหล่งฟรีย้อนหลังไม่มี ต้องซื้อหรือเก็บเองต่อเนื่อง
+
+> **ประโยคสรุป:** ใช้ Naive พร้อมช่วงราคาเป็นตัวทายราคาทุกวัสดุ และใช้ LightGBM ทำป้ายเตือนว่าราคาใกล้เปลี่ยน เพราะจากการทดลอง 8 รอบ {{N_VARIANTS}} แบบ ทั้งช่วง 7 ปีและ 12 เดือนล่าสุด ไม่มีแบบไหนทายตัวเลขได้ดีกว่า Naive อย่างสม่ำเสมอ ข้อจำกัดอยู่ที่ข้อมูลที่ยังไม่มีสัญญาณบอกล่วงหน้า
 """)
 
+# ================================================================== ภาคผนวก
+md("""
+## ภาคผนวก: สคริปต์และการรันใหม่
+
+| สคริปต์ | ทำอะไร | เวลา (4 คอร์) |
+|---|---|---|
+| `prepare_data.py` | ตรวจและทำความสะอาดข้อมูล ต่อรหัสเหล็กเส้น | ไม่ถึง 1 นาที |
+| `build_factors.py` | รวมปัจจัยภายนอกเป็นรายเดือน | ไม่ถึง 1 นาที |
+| `compare_models.py` | Naive, LightGBM จูนแล้ว, Random Forest, LSTM | ~15 นาที |
+| `final_experiments.py` | Seasonal naive, Drift, ETS, Linear, LightGBM ค่าเริ่มต้นทุกแบบ, จูน RF และ LSTM | ~40 นาที |
+| `tune.py` | จูน LightGBM | ~40 นาที |
+| `classify_signal.py` | ป้ายเตือน: Precision, Recall, F1 | ~90 นาที |
+| `residuals.py` | กราฟ residual | ไม่ถึง 1 นาที |
+
+ตั้ง `RUN_FULL = True` แล้วรันช่องนี้เพื่อรันการทดลองหลักใหม่ (บน Colab ใช้เวลาหลายชั่วโมง) ผลใหม่จะเขียนทับไฟล์ใน `thaitay_colab/ml/out/` แล้วรันข้อ 0 ถึง 13 ซ้ำเพื่อดูผลใหม่
+""")
 code(r'''
 RUN_FULL = False
 
 if RUN_FULL:
-    import compare_models, classify_signal, tune
+    import classify_signal, compare_models, final_experiments, tune
     compare_models.main()
-    classify_signal.main()
+    final_experiments.main()
     tune.main()
+    classify_signal.main()
 ''')
 
 nb = nbf.v4.new_notebook(cells=cells)
