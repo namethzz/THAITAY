@@ -8,7 +8,7 @@
 
 เว็บที่ deploy อยู่: https://thaitay.vercel.app
 
-> **สถานะ:** หน้าเว็บใช้งานได้ครบแล้ว (v0.10) backend (`ml/serve.py`) และราคาจริงจาก สนค. ถึง ก.ย. 2569 พร้อมราคาคาดการณ์ (โมเดลพื้นฐาน naive) อยู่ใน `ml/api_data/` แล้ว แต่ยังไม่ได้ deploy เว็บที่ deploy อยู่ตอนนี้จึงยังแสดง **ข้อมูลตัวอย่าง** พร้อมป้าย "ข้อมูลตัวอย่าง" จนกว่าจะตั้ง `VITE_API_BASE`
+> **สถานะ:** หน้าเว็บแสดงราคาจริงจาก สนค. ถึง ก.ย. 2569 พร้อมราคาคาดการณ์ 1–3 เดือน (Naive) ช่วงราคาต่ำ–สูง และป้าย "ราคามีโอกาสเปลี่ยน" (LightGBM) ข้อมูลเก็บเป็นไฟล์ในเว็บเอง (`frontend/public/data/prices/` สร้างด้วย `ml/export_static.py`) จึงไม่ต้องมี backend ผลการทดลองทั้งหมดอยู่ใน [`ml/DATA_REVIEW.md`](ml/DATA_REVIEW.md) และ notebook `ml/colab/THAITAY_ML.ipynb`
 
 ![หน้าแรกของ THAI TAY](preview/home-desktop.png)
 
@@ -48,12 +48,9 @@
 
 ## งานที่ยังเหลือ
 
-1. **Deploy backend** `ml/serve.py` ขึ้น Cloud Run (คำสั่งอยู่ใน [`ml/README.md`](ml/README.md) ขั้นที่ 5) ให้บริการ 2 endpoint ที่หน้าเว็บรออยู่
-   - `GET /prices/{materialId}/history?months=1..12` ราคาย้อนหลัง
-   - `GET /prices/{materialId}/forecast?months=1..3` ราคาคาดการณ์พร้อม `low` / `high`
-2. **เปลี่ยนจากข้อมูลตัวอย่างเป็นข้อมูลจริง** ตั้ง `VITE_API_BASE` บน Vercel ให้ชี้ไปที่ backend แล้ว build ใหม่
-3. **โมเดลที่แม่นกว่า naive** ตอนนี้ใช้ราคาเดือนล่าสุดพร้อมช่วงต่ำ–สูง (ทายผิดเฉลี่ย 1.7% / 3.4% / 5.0% ที่ 1 / 2 / 3 เดือน ดู [`ml/DATA_REVIEW.md`](ml/DATA_REVIEW.md)) ขั้นต่อไปคือลอง Vertex AI หรือ BigQuery ML โดยใส่ปัจจัยภายนอก
-4. **อัปเดตราคาทุกเดือน** ตามขั้นตอนใน `ml/README.md` (ดึงจาก สนค. → รันโมเดล → `api_data/` → deploy)
+1. **อัปเดตราคาทุกเดือน** ตามขั้นตอนใน [`ml/README.md`](ml/README.md) (ดึงจาก สนค. → รันโมเดล → `api_data/` → `python export_static.py` → push ขึ้น GitHub แล้ว Vercel deploy เอง)
+2. **โมเดลที่แม่นกว่า naive** ทดลองแล้ว 16 แบบ (LightGBM, Random Forest, LSTM, Linear, ETS และอื่น ๆ) ยังไม่มีแบบไหนชนะ naive ได้ทั้งช่วงทดสอบย้อนหลัง 7 ปีและ 12 เดือนล่าสุด ขั้นต่อไปคือหาข้อมูลที่รู้ก่อน สนค. ประกาศ เช่น ราคาโรงงานเหล็กรายสัปดาห์ และรัน LightGBM คู่กับ naive ทุกเดือน
+3. **backend (ทางเลือก)** ถ้าวันหนึ่งต้องคำนวณราคาสด ใช้ `ml/serve.py` บน Cloud Run แล้วตั้ง `VITE_API_BASE` (ดู `ml/README.md` ขั้นที่ 5)
 
 หน้าเว็บจะยังไม่แสดงตัวเลขความแม่นยำของโมเดล จนกว่าจะมีผลจากโมเดลจริง
 
