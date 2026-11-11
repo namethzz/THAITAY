@@ -239,7 +239,7 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 2. `python prepare_data.py data/tpso_prices.csv`
 3. `python baseline.py` (หรือ BigQuery: `bq load` → `02_arima_plus_forecast.sql` → `./export_forecast.sh`)
 4. คัดลอก `data/prices_clean.csv` และ `out/forecast.csv` เข้า `api_data/` แล้ว `python update_catalog_status.py`
-5. `python build_factors.py data/raw` (ไฟล์ดิบเดือนใหม่จาก Drive "New Data") แล้ว `python change_signal.py` เพื่อเติมโอกาสที่ราคาจะเปลี่ยนลง `api_data/forecast.csv`
+5. `python fetch_factors.py` ต่อปัจจัยภายนอกให้ถึงเดือนล่าสุดเอง (Yahoo Finance, ราคาดีเซล ปตท.) แล้ว `python change_signal.py` เพื่อเติมโอกาสที่ราคาจะเปลี่ยนลง `api_data/forecast.csv` ถ้าทีมมีไฟล์ดิบเดือนใหม่ใน Drive "New Data" ให้รัน `python build_factors.py data/raw` ก่อน ถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์สยังไม่มีแหล่งอัตโนมัติ สคริปต์จะใช้ค่าเดือนล่าสุดที่มีแทน
 6. `python bands.py` ถ้าต้องการตรวจช่วงราคาใหม่ (`baseline.py` ใช้วิธีเดียวกันอยู่แล้ว)
 7. `python export_static.py` แล้ว commit ไฟล์ที่เปลี่ยนทั้งหมด (`api_data/`, `frontend/public/data/prices/`, `frontend/src/data/structural-materials.json`) push ขึ้น GitHub Vercel deploy เอง
 
@@ -252,6 +252,7 @@ gcloud run deploy thaitay-api --source . --region asia-southeast1 --allow-unauth
 | `final_experiments.py` | เพิ่ม Seasonal naive, Drift, ETS, Linear Regression, LightGBM ค่าเริ่มต้นทุกแบบ และจูน Random Forest กับ LSTM บนจุดเริ่มชุดเดียวกัน | ~25 นาที |
 | `classify_signal.py` | วัดป้าย "ราคามีโอกาสเปลี่ยน" ด้วย Precision, Recall, F1, Confusion Matrix เทียบ Logistic Regression | ~90 นาที |
 | `residuals.py` | กราฟ residual ช่วง Test (ต้องรัน `compare_models.py` ก่อน) | ไม่ถึง 1 นาที |
+| `fetch_factors.py` | ต่อปัจจัยภายนอกรายเดือนจากแหล่งสาธารณะ เทียบกับไฟล์ของทีมแล้ว (รายละเอียดแหล่งอยู่ต้นไฟล์) | ไม่ถึง 1 นาที |
 | `bands.py` | ค้นหาวิธีตั้งช่วงราคาต่ำ–สูงด้วย Validation วัดบน Test แล้วเขียนช่วงลง `api_data/forecast.csv` (`baseline.py` ใช้ค่าที่เลือกใน `bands.CHOSEN` อยู่แล้ว) | ไม่ถึง 1 นาที |
 
 กราฟทั้งหมดอยู่ใน `report_figures/` บทสรุปทุกการทดลองแบบอ่านง่ายอยู่ใน `colab/THAITAY_ML.ipynb` (สร้างไฟล์ข้อมูลประกอบด้วย `colab/make_bundle.sh`) อย่ารัน 2 สคริปต์พร้อมกัน เพราะแย่ง CPU กันจนช้าลงหลายสิบเท่า

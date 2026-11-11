@@ -125,7 +125,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030101"
+      "familyCode": "FAM-030101",
+      "discontinued": "2026-06"
     },
     {
       "id": "MAT-0301010100200000",
@@ -133,7 +134,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030101"
+      "familyCode": "FAM-030101",
+      "discontinued": "2026-06"
     },
     {
       "id": "MAT-0301010100300000",
@@ -141,7 +143,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030101"
+      "familyCode": "FAM-030101",
+      "discontinued": "2026-06"
     },
     {
       "id": "MAT-0301010100400000",
@@ -149,7 +152,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030101"
+      "familyCode": "FAM-030101",
+      "discontinued": "2026-06"
     },
     {
       "id": "MAT-0301010100500000",
@@ -157,7 +161,8 @@
       "unit": "ท่อน",
       "categoryCode": "STR-08",
       "category": "เสาเข็มและชิ้นส่วนคอนกรีตสำเร็จรูป",
-      "familyCode": "FAM-030101"
+      "familyCode": "FAM-030101",
+      "discontinued": "2026-06"
     },
     {
       "id": "MAT-0303010100100000",
