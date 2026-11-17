@@ -1,0 +1,51 @@
+{
+  "started_at_utc": "2026-11-17T07:14:42.484422+00:00",
+  "factor_set": "supported",
+  "excluded_factors": [
+    "newcastle_coal_usd_ton",
+    "steel_futures_unverified",
+    "scrap_metal_ppi_index"
+  ],
+  "factor_lag_months": 1,
+  "latest": "2026-10-01",
+  "test_origin_start": "2025-10-01",
+  "calibration_origin_frequency": "3MS from 2019-01",
+  "test_origin_frequency": "MS",
+  "threshold": 0.7,
+  "bins": [
+    0.0,
+    0.3,
+    0.5,
+    0.7,
+    0.85,
+    1.0001
+  ],
+  "min_bin": 30,
+  "threads": 4,
+  "publication_timing_verified": false,
+  "fresh_holdout": false,
+  "inputs_sha256": {
+    "E:\\University\\4rd\\Project\\THAITAY\\ml\\data\\prices_clean.csv": "dccb2ca8d9361ef8721e6e03be53bbc340644d979b2ff1c6f811038c7178bcf0",
+    "E:\\University\\4rd\\Project\\THAITAY\\ml\\data\\factors_monthly.csv": "52e78c3a520939d31f707bc75cbafd03c95e8017f992cf0b9c621f646538dd88",
+    "E:\\University\\4rd\\Project\\THAITAY\\frontend\\src\\data\\structural-materials.json": "54ee29d526f85f231c1c0857909db026eaf5fffa01955049c28da5013ef3090d"
+  },
+  "code_sha256": {
+    "change_signal.py": "c03cc075e439cc32667bf7cc98e0dee2d01d49411b6d8da72eeede2777654664",
+    "factor_policy.py": "9177948892a92ea02343a2abdc994869d9542f6602b6ed2680e1552c4aa27456",
+    "global_model.py": "12801cf28cab61b7e9d950faa73973ab22873160480e6ef043c1f085485df443",
+    "train_best.py": "7e877805de6e3b43fa69359a9c735b35e0077622d0bcfcfc260435d9a3fa7ee8",
+    "baseline.py": "83e865de5fc7f504e4e499410cd9f996ea1693e3efbeacbf1a095f9ccf45c3c3"
+  },
+  "python": "3.13.15",
+  "params": {
+    "n_estimators": 300,
+    "learning_rate": 0.03,
+    "num_leaves": 15,
+    "min_child_samples": 40,
+    "subsample": 0.8,
+    "subsample_freq": 1,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 1.0,
+    "verbose": -1
+  }
+}

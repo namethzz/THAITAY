@@ -1,0 +1,356 @@
+{
+  "issued_at_utc": "2026-11-17T07:15:27.951094+00:00",
+  "origin_month": "2026-10-01",
+  "method": "supported_factors_temporal_calibration",
+  "factor_lag_months": 1,
+  "excluded_factors": [
+    "newcastle_coal_usd_ton",
+    "steel_futures_unverified",
+    "scrap_metal_ppi_index"
+  ],
+  "threshold": 0.7,
+  "calibration": {
+    "1": {
+      "prior": 0.23575484628940668,
+      "rates": {
+        "0": 0.08535630383711824,
+        "1": 0.28342245989304815,
+        "2": 0.624390243902439,
+        "3": 0.6632124352331606,
+        "4": 0.8219971056439942
+      },
+      "categories": {
+        "STR-01": 0.8370883882149047,
+        "STR-02": 0.4544303797468354,
+        "STR-03": 0.1189083820662768,
+        "STR-04": 0.46153846153846156,
+        "STR-05": 0.34285714285714286,
+        "STR-06": 0.0,
+        "STR-07": 0.0,
+        "STR-08": 0.08493870402802102,
+        "STR-09": 0.12345679012345678
+      },
+      "bins": [
+        {
+          "bin": 0,
+          "count": 3831,
+          "observed_rate": 0.08535630383711824,
+          "applied_rate": 0.08535630383711824
+        },
+        {
+          "bin": 1,
+          "count": 187,
+          "observed_rate": 0.28342245989304815,
+          "applied_rate": 0.28342245989304815
+        },
+        {
+          "bin": 2,
+          "count": 205,
+          "observed_rate": 0.624390243902439,
+          "applied_rate": 0.624390243902439
+        },
+        {
+          "bin": 3,
+          "count": 193,
+          "observed_rate": 0.6632124352331606,
+          "applied_rate": 0.6632124352331606
+        },
+        {
+          "bin": 4,
+          "count": 691,
+          "observed_rate": 0.8219971056439942,
+          "applied_rate": 0.8219971056439942
+        }
+      ],
+      "calibration_origin_end": "2025-07-01",
+      "calibration_target_end": "2025-08-01",
+      "test_origin_start": "2025-10-01"
+    },
+    "2": {
+      "prior": 0.3262786596119929,
+      "rates": {
+        "0": 0.13843843843843845,
+        "1": 0.4241645244215938,
+        "2": 0.3880597014925373,
+        "3": 0.6071428571428571,
+        "4": 0.8869565217391304
+      },
+      "categories": {
+        "STR-01": 0.90625,
+        "STR-02": 0.6552598225602028,
+        "STR-03": 0.21637426900584794,
+        "STR-04": 0.6923076923076923,
+        "STR-05": 0.45714285714285713,
+        "STR-06": 0.035398230088495575,
+        "STR-07": 0.07692307692307693,
+        "STR-08": 0.14410862899693386,
+        "STR-09": 0.18518518518518517
+      },
+      "bins": [
+        {
+          "bin": 0,
+          "count": 3330,
+          "observed_rate": 0.13843843843843845,
+          "applied_rate": 0.13843843843843845
+        },
+        {
+          "bin": 1,
+          "count": 389,
+          "observed_rate": 0.4241645244215938,
+          "applied_rate": 0.4241645244215938
+        },
+        {
+          "bin": 2,
+          "count": 268,
+          "observed_rate": 0.3880597014925373,
+          "applied_rate": 0.3880597014925373
+        },
+        {
+          "bin": 3,
+          "count": 196,
+          "observed_rate": 0.6071428571428571,
+          "applied_rate": 0.6071428571428571
+        },
+        {
+          "bin": 4,
+          "count": 920,
+          "observed_rate": 0.8869565217391304,
+          "applied_rate": 0.8869565217391304
+        }
+      ],
+      "calibration_origin_end": "2025-07-01",
+      "calibration_target_end": "2025-09-01",
+      "test_origin_start": "2025-10-01"
+    },
+    "3": {
+      "prior": 0.41673212882953653,
+      "rates": {
+        "0": 0.19318181818181818,
+        "1": 0.41414141414141414,
+        "2": 0.5150684931506849,
+        "3": 0.6223776223776224,
+        "4": 0.9369544131910766
+      },
+      "categories": {
+        "STR-01": 0.9878472222222222,
+        "STR-02": 0.7646310432569975,
+        "STR-03": 0.2719298245614035,
+        "STR-04": 0.8,
+        "STR-05": 0.45588235294117646,
+        "STR-06": 0.18141592920353983,
+        "STR-07": 0.2222222222222222,
+        "STR-08": 0.24242424242424243,
+        "STR-09": 0.2839506172839506
+      },
+      "bins": [
+        {
+          "bin": 0,
+          "count": 2816,
+          "observed_rate": 0.19318181818181818,
+          "applied_rate": 0.19318181818181818
+        },
+        {
+          "bin": 1,
+          "count": 594,
+          "observed_rate": 0.41414141414141414,
+          "applied_rate": 0.41414141414141414
+        },
+        {
+          "bin": 2,
+          "count": 365,
+          "observed_rate": 0.5150684931506849,
+          "applied_rate": 0.5150684931506849
+        },
+        {
+          "bin": 3,
+          "count": 286,
+          "observed_rate": 0.6223776223776224,
+          "applied_rate": 0.6223776223776224
+        },
+        {
+          "bin": 4,
+          "count": 1031,
+          "observed_rate": 0.9369544131910766,
+          "applied_rate": 0.9369544131910766
+        }
+      ],
+      "calibration_origin_end": "2025-07-01",
+      "calibration_target_end": "2025-10-01",
+      "test_origin_start": "2025-10-01"
+    }
+  },
+  "forecast_sha256": "8128cc19c505259a094171fc016bc1851c0a241e50bc2fdafec8fde20073c543",
+  "protocol_sha256": "2085740d20c8ad9a8460c9953427a1d364b02854f2637466062eda4a90e21aba",
+  "test_metrics": [
+    {
+      "h": 1,
+      "method": "raw_model",
+      "samples": 2228,
+      "actual_changes": 728,
+      "flags": 423,
+      "tp": 325,
+      "fp": 98,
+      "fn": 403,
+      "precision": 0.7683215130023641,
+      "recall": 0.44642857142857145,
+      "f1": 0.5647263249348393,
+      "brier": 0.18187916798083928
+    },
+    {
+      "h": 1,
+      "method": "calibrated_model",
+      "samples": 2228,
+      "actual_changes": 728,
+      "flags": 212,
+      "tp": 148,
+      "fp": 64,
+      "fn": 580,
+      "precision": 0.6981132075471698,
+      "recall": 0.2032967032967033,
+      "f1": 0.3148936170212766,
+      "brier": 0.17874841180740653
+    },
+    {
+      "h": 1,
+      "method": "category_baseline",
+      "samples": 2228,
+      "actual_changes": 728,
+      "flags": 306,
+      "tp": 229,
+      "fp": 77,
+      "fn": 499,
+      "precision": 0.7483660130718954,
+      "recall": 0.31456043956043955,
+      "f1": 0.44294003868471954,
+      "brier": 0.1760552950474625
+    },
+    {
+      "h": 1,
+      "method": "constant_baseline",
+      "samples": 2228,
+      "actual_changes": 728,
+      "flags": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 728,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier": 0.22826479270272268
+    },
+    {
+      "h": 2,
+      "method": "raw_model",
+      "samples": 2035,
+      "actual_changes": 1028,
+      "flags": 632,
+      "tp": 478,
+      "fp": 154,
+      "fn": 550,
+      "precision": 0.7563291139240507,
+      "recall": 0.4649805447470817,
+      "f1": 0.5759036144578313,
+      "brier": 0.24826958425460752
+    },
+    {
+      "h": 2,
+      "method": "calibrated_model",
+      "samples": 2035,
+      "actual_changes": 1028,
+      "flags": 477,
+      "tp": 384,
+      "fp": 93,
+      "fn": 644,
+      "precision": 0.8050314465408805,
+      "recall": 0.3735408560311284,
+      "f1": 0.5102990033222591,
+      "brier": 0.2450150679125906
+    },
+    {
+      "h": 2,
+      "method": "category_baseline",
+      "samples": 2035,
+      "actual_changes": 1028,
+      "flags": 280,
+      "tp": 254,
+      "fp": 26,
+      "fn": 774,
+      "precision": 0.9071428571428571,
+      "recall": 0.24708171206225682,
+      "f1": 0.38837920489296635,
+      "brier": 0.22295035579005562
+    },
+    {
+      "h": 2,
+      "method": "constant_baseline",
+      "samples": 2035,
+      "actual_changes": 1028,
+      "flags": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1028,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier": 0.2819718058989077
+    },
+    {
+      "h": 3,
+      "method": "raw_model",
+      "samples": 1843,
+      "actual_changes": 1174,
+      "flags": 619,
+      "tp": 502,
+      "fp": 117,
+      "fn": 672,
+      "precision": 0.8109854604200323,
+      "recall": 0.42759795570698467,
+      "f1": 0.5599553820412716,
+      "brier": 0.24891710741767992
+    },
+    {
+      "h": 3,
+      "method": "calibrated_model",
+      "samples": 1843,
+      "actual_changes": 1174,
+      "flags": 461,
+      "tp": 435,
+      "fp": 26,
+      "fn": 739,
+      "precision": 0.9436008676789588,
+      "recall": 0.37052810902896083,
+      "f1": 0.5321100917431193,
+      "brier": 0.23063765307334363
+    },
+    {
+      "h": 3,
+      "method": "category_baseline",
+      "samples": 1843,
+      "actual_changes": 1174,
+      "flags": 542,
+      "tp": 495,
+      "fp": 47,
+      "fn": 679,
+      "precision": 0.9132841328413284,
+      "recall": 0.42163543441226575,
+      "f1": 0.5769230769230769,
+      "brier": 0.23791705768756122
+    },
+    {
+      "h": 3,
+      "method": "constant_baseline",
+      "samples": 1843,
+      "actual_changes": 1174,
+      "flags": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1174,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier": 0.2797497483210157
+    }
+  ],
+  "fresh_holdout": false,
+  "publication_timing_verified": false
+}

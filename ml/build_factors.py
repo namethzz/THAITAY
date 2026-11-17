@@ -4,19 +4,20 @@
     python build_factors.py data/raw          # โฟลเดอร์ที่มีไฟล์ดิบ
     -> data/factors_monthly.csv
 
-ทำแบบเดียวกับ notebook ของทีม (THAI_TAY_Data_Preparation.ipynb) แต่เก็บถึงเดือนล่าสุดที่ไฟล์ดิบมี
-  - ไฟล์รายเดือน (Brent, ค่าเงิน, แร่เหล็ก, ถ่านหิน, เศษเหล็ก) ใช้ค่าตามไฟล์
-  - เหล็กฟิวเจอร์ส: วันที่ในไฟล์เป็น ปี-วัน-เดือน (เช่น 2026-01-09 = ก.ย. 2569) ตรวจแล้วจากลำดับเดือน
+ค่าเริ่มต้นใช้ 5 ปัจจัยที่มีแหล่งอัปเดต: Brent ค่าเงิน 2 ตัว แร่เหล็ก และดีเซล
+  - --include-unverified เพิ่มถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์สเฉพาะทำซ้ำงานวิจัยเดิม
+  - เหล็กฟิวเจอร์สในโหมดวิจัย: วันที่เป็น ปี-วัน-เดือน ไม่ใช่ ปี-เดือน-วัน
   - ดีเซล: ราคาตามวันที่มีผล ลากค่าไปจนวันที่เปลี่ยน แล้วเฉลี่ยรายวันในแต่ละเดือน
 ถ้ามี data/macro_monthly_clean.csv (ไฟล์ของทีม) จะเทียบเดือนที่ซ้อนกันให้ดูว่าตรงกัน
 """
 from __future__ import annotations
 
-import sys
+import argparse
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from factor_policy import EXCLUDED_FACTORS
 
 HERE = Path(__file__).resolve().parent
 
@@ -40,18 +41,27 @@ def diesel(path: Path) -> pd.Series:
 
 
 def main() -> None:
-    raw = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "data" / "raw"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("raw", nargs="?", type=Path, default=HERE / "data/raw")
+    parser.add_argument("--include-unverified", action="store_true", help="Historical research reproduction only; not for the monthly signal")
+    args = parser.parse_args()
+    raw = args.raw
     cols = [
         monthly(raw / "Brent_Crude_prices.csv", "brent_crude_usd_barrel"),
         monthly(raw / "fx_usd_thb.csv", "fx_usd_thb"),
         monthly(raw / "fx_cny_thb.csv", "fx_cny_thb"),
         monthly(raw / "Iron_Ore_prices.csv", "iron_ore_62fe_usd_ton"),
-        monthly(raw / "newcastle_coal_usd-prices_ton.csv", "newcastle_coal_usd_ton"),
         diesel(raw / "Fuels_prices.csv"),
-        monthly(raw / "Steel_Futures_prices.csv", "price", ydm=True).rename("steel_futures_unverified"),
-        monthly(raw / "scrap_metal_prices.csv", "scrap_metal_ppi_index"),
     ]
-    F = pd.concat(cols, axis=1).sort_index()
+    if args.include_unverified:
+        cols.extend([
+            monthly(raw / "newcastle_coal_usd-prices_ton.csv", "newcastle_coal_usd_ton"),
+            monthly(raw / "Steel_Futures_prices.csv", "price", ydm=True).rename("steel_futures_unverified"),
+            monthly(raw / "scrap_metal_prices.csv", "scrap_metal_ppi_index"),
+        ])
+    else:
+        print("ไม่ใช้ปัจจัยที่ยังไม่ยืนยันแหล่ง: " + ", ".join(EXCLUDED_FACTORS))
+    F = pd.concat(cols, axis=1, sort=True).sort_index()
     F.index.name = "month_date"
     out = HERE / "data" / "factors_monthly.csv"
     F.to_csv(out, date_format="%Y-%m-%d")

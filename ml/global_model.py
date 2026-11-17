@@ -42,10 +42,10 @@ PARAMS = dict(n_estimators=300, learning_rate=0.03, num_leaves=15, min_child_sam
 
 
 # ---------------------------------------------------------------- features
-def build_panel(prices: pd.DataFrame, meta: pd.DataFrame, factors: pd.DataFrame | None) -> pd.DataFrame:
+def build_panel(prices: pd.DataFrame, meta: pd.DataFrame, factors: pd.DataFrame | None, *, monthly_fn=monthly) -> pd.DataFrame:
     rows = []
     for mid, g in prices.groupby("material_id"):
-        s = monthly(g.set_index("date")["price"].sort_index())
+        s = monthly_fn(g.set_index("date")["price"].sort_index())
         if len(s) < 2:
             continue
         lp = np.log(s)

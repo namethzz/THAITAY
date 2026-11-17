@@ -22,7 +22,7 @@
 |---|---|---|
 | ราคาคาดการณ์ 1 / 2 / 3 เดือน | Naive: ราคาเดือนหน้า = ราคาล่าสุด | ทายผิดเฉลี่ย 1.75 / 3.47 / 5.06% |
 | ช่วงราคาต่ำ–สูง | `bands.py`: การเปลี่ยนราคาจริงในอดีตของแต่ละหมวด ตัดหัวท้าย 2.5% | ครอบราคาจริง 87 / 87 / 83% |
-| ป้าย "ราคามีโอกาสเปลี่ยน" | `change_signal.py`: LightGBM ขึ้นป้ายเมื่อโอกาส 70% ขึ้นไป | ขึ้นป้ายแล้วเปลี่ยนจริง 80% |
+| ป้าย "ราคามีโอกาสเปลี่ยน" | `change_signal.py`: LightGBM + calibration ก่อนช่วง test; ใช้ 5 ปัจจัย หน่วง 1 เดือน | ดู [ผลตรวจฉบับ 17 พ.ย.](../docs/SIGNAL_REVISION_2026-11-17.md) แทนคะแนนเดิมที่ปรับเทียบและวัดบนชุดเดียวกัน |
 
 ทดลองไป 16 แบบ (LightGBM, Random Forest, LSTM, Linear Regression, ETS และอื่น ๆ) ไม่มีแบบไหนทายราคาแม่นกว่า Naive ได้ทั้งช่วง Validation (2562–2568) และ Test (12 เดือนล่าสุด) จึงใช้ Naive ทายราคา และใช้ ML กับป้ายเท่านั้น รายละเอียดทุกการทดลองอยู่ใน [`DATA_REVIEW.md`](DATA_REVIEW.md) และ notebook [`colab/THAITAY_ML.ipynb`](colab/THAITAY_ML.ipynb)
 
@@ -34,10 +34,10 @@
 cd ml
 python -m venv .venv
 source .venv/bin/activate          # Windows (Git Bash): source .venv/Scripts/activate
-pip install pandas numpy openpyxl statsmodels lightgbm scikit-learn
+pip install -r requirements-monthly.txt
 ```
 
-เท่านี้พอสำหรับงานรายเดือน ถ้าจะรันการทดลองซ้ำ (LSTM, กราฟ, backend) ให้ลงครบด้วย `pip install -r requirements.txt`
+เท่านี้พอสำหรับงานรายเดือน `requirements-monthly.txt` ล็อกเวอร์ชันที่ทดสอบด้วย Python 3.13 บน Windows เมื่อ 17 พ.ย. 2569 ถ้าจะรันการทดลองซ้ำ (LSTM, กราฟ, backend) ให้ลงครบด้วย `pip install -r requirements.txt`
 
 ## ขั้นที่ 1: อัปเดตราคาทุกเดือน
 
@@ -66,16 +66,28 @@ bash monthly_update.sh
 | ขั้น | สคริปต์ | ทำอะไร |
 |---|---|---|
 | 1 | `fetch_tpso.py`, `prepare_data.py` | ดึงราคาจาก สนค. และทำความสะอาด ได้ `data/prices_clean.csv` |
-| 2 | `build_factors.py` | โหลดไฟล์ดิบปัจจัยภายนอก 8 ไฟล์ของทีมจาก Google Drive (ID ไฟล์อยู่ในสคริปต์) ได้ `data/factors_monthly.csv` |
+| 2 | `build_factors.py` | โหลดไฟล์ดิบปัจจัยภายนอก 5 ไฟล์ของทีมจาก Google Drive (ID ไฟล์อยู่ในสคริปต์) ได้ `data/factors_monthly.csv` |
 | 3 | `baseline.py` | ราคาคาดการณ์และช่วงต่ำ–สูง แล้วคัดลอกผลเข้า `api_data/` |
 | 4 | `update_catalog_status.py` | เขียนว่าวัสดุไหนเลิกเก็บราคา และรหัสเก่าไหนมีรหัสใหม่แทน |
 | 5 | `fetch_factors.py` | ต่อปัจจัยภายนอกถึงเดือนล่าสุด รายงานอยู่ที่ `out/factors_update.md` |
-| 6 | `change_signal.py` | ป้าย "ราคามีโอกาสเปลี่ยน" |
+| 6 | `change_signal.py --apply` | ฝึกป้ายด้วย 5 ปัจจัย, ปรับเทียบก่อนช่วง test และเขียนเฉพาะ change_prob พร้อม signal_manifest.json |
 | 7 | `export_static.py` | ไฟล์ JSON ของเว็บ วัสดุละ 1 ไฟล์ (ลบไฟล์เก่าในโฟลเดอร์ก่อนเขียน) |
 | 8 | `live_check.py` | สอบคำทายเดือนก่อนกับราคาจริง เขียน `out/live_check.md` |
 
 - ไฟล์ทีมใน Drive ต้องเปิดแชร์แบบ "ทุกคนที่มีลิงก์" ไว้ ถ้าแทนด้วยไฟล์ใหม่ ต้องแก้ ID ใน `monthly_update.sh`
-- ถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์ส ยังไม่มีแหล่งอัตโนมัติ `fetch_factors.py` ใช้ค่าเดือนล่าสุดที่มีแทน และบอกไว้ในรายงาน
+- ถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์สถูกถอดออกจากเส้นทางรายเดือน `fetch_factors.py` ไม่เติมค่าเก่าแทนอีกแล้ว หาก 5 ปัจจัยที่รองรับยังโหลดไม่ครบ สคริปต์จะหยุดและไม่เขียนไฟล์ปัจจัยใหม่
+
+### ประเมินป้ายโดยไม่เปลี่ยนไฟล์เว็บ
+
+```bash
+python change_signal.py
+```
+
+ค่าเริ่มต้นเขียนรายงานใน `out/signal_supported/` เท่านั้น ใช้ `--apply` เมื่อจะอัปเดตป้ายใน `api_data/forecast.csv` โดยไม่เปลี่ยนราคาและช่วงราคา และเขียน `api_data/signal_manifest.json` บันทึกวิธี เดือนข้อมูล วันเวลาออกผล และ hash
+
+Calibration ใช้ origins ทุก 3 เดือนตั้งแต่ปี 2019 ก่อน test โดยคำตอบต้องรู้แล้ว ณ origin แรกของ test; test ใช้ origins รายเดือน 12 เดือนล่าสุดและเฉพาะ target ที่มีราคาจริง ตัวปรับเทียบและ baseline ไม่เรียนจาก test; ไม่มีการ interpolation เพื่อสร้าง actual หรือฟีเจอร์ของป้าย ตัวแปรปัจจัยใช้เดือน t-1 หรือก่อนหน้า คะแนนยังเป็น historical development evaluation ไม่ใช่ fresh holdout และยังไม่มีเวลาเผยแพร่ข้อมูลย้อนหลังครบทุกแหล่ง
+
+สคริปต์ทดลองรุ่นเก่าบางตัวต้องใช้ 8 ปัจจัย หากต้องทำซ้ำให้ใช้ `python build_factors.py data/raw --include-unverified` อย่างชัดเจน (ต้องมีไฟล์ดิบเก่าครบ) แล้วเก็บผลแยก โหมดนี้ไม่ใช้ใน monthly pipeline และไม่ทำให้แหล่งข้อมูลที่ขาดได้รับการยืนยัน
 
 ## ตรวจข้อมูลราคา (`prepare_data.py`)
 

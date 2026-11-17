@@ -39,7 +39,7 @@ def main() -> None:
     rebar = R[R["หมวด"] == "เหล็กเส้น"]
     summary = pd.DataFrame({"ผล": {
         "วัสดุที่เทียบได้": f"{len(R)}",
-        "ทายผิดเฉลี่ย (MAE)": f"{R['err'].mean():.2f}%",
+        "ทายผิดเฉลี่ย (MAPE)": f"{R['err'].mean():.2f}%",
         "ราคาจริงอยู่ในช่วงต่ำ–สูง": f"{R['inside'].sum()} / {len(R)} ({R['inside'].mean():.0%})",
         "ราคาเปลี่ยนจริง": f"{R['moved'].sum()} วัสดุ ({R['moved'].mean():.0%})",
         "ขึ้นป้ายแล้วราคาเปลี่ยนจริง": f"{(flag & R['moved']).sum()} / {flag.sum()} ({(flag & R['moved']).sum() / max(flag.sum(), 1):.0%})",
