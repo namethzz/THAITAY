@@ -1,0 +1,17 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+
+# Generated dependencies, builds, Python caches, and local logs
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.py[cod]
+*.log
+.DS_Store
+Thumbs.db
