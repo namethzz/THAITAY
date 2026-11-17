@@ -1,4 +1,4 @@
-import { useMemo, type Dispatch, type SetStateAction } from "react";
+import { lazy, Suspense, useMemo, type Dispatch, type SetStateAction } from "react";
 import { ClipboardList, Download, Link2, Printer, Search, Send, Trash2 } from "lucide-react";
 import { QtyStepper } from "@/components/site/qty-stepper";
 import { CategoryIcon } from "@/components/site/category-icon";
@@ -12,6 +12,7 @@ import type { EstimateLine, EstimateMeta, Go } from "@/types";
 
 const CONTINGENCY = [0, 3, 5, 10];
 const VAT_RATE = 0.07;
+const CostBreakdown = lazy(() => import("@/components/site/cost-breakdown"));
 const titleOf = (line: EstimateLine) => { const material = getMaterialById(line.materialId); return material ? materialTitle(material).title : line.name; };
 const categoryOf = (line: EstimateLine) => getMaterialById(line.materialId)?.categoryCode ?? "STR-01";
 const thaiDate = (iso?: string) => (iso ? new Date(`${iso}T00:00:00`) : new Date()).toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" });
@@ -217,6 +218,7 @@ export default function Estimate({ shared, lines: myLines, setLines, meta: myMet
         </div>
       </div>
 
+      <Suspense fallback={<p role="status">กำลังโหลดกราฟต้นทุน…</p>}><CostBreakdown lines={lines} /></Suspense>
       <PrintSheet lines={lines} meta={meta} totals={totals} date={thaiDate(received?.date)} anyDemo={anyDemo} hasRange={hasRange} />
     </div>
   );

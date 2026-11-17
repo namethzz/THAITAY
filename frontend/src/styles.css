@@ -7,6 +7,7 @@
 @import "./styles/base.css";
 @import "./styles/app.css";
 @import "./styles/site.css";
+@import "./styles/charts.css";
 
 
 @theme inline {

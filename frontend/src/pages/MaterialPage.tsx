@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowLeft, Plus } from "lucide-react";
 import { getMaterialById, materialCategories } from "@/data.js";
 import { MaterialSearch } from "@/components/site/material-search";
 import { PriceCard } from "@/components/site/price-card";
 import { QtyStepper } from "@/components/site/qty-stepper";
-import { DemoNote, SourceLinks, useHistory, useQuote } from "@/components/ui/price-widgets";
+import { DemoNote, SourceLinks, useQuote } from "@/components/ui/price-widgets";
 import { formatBaht, formatMoney, formatPrice, monthsLabel, type Quote } from "@/services/priceService";
-import { CHART } from "@/config/chartColors";
+import MaterialHistoryChart from "@/components/site/material-history-chart";
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
 import { CategoryIcon } from "@/components/site/category-icon";
@@ -143,40 +142,6 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
   );
 }
 
-/** กราฟเดียว: ราคาจริง 12 เดือนล่าสุด ต่อด้วยราคาคาดการณ์ 3 เดือนพร้อมช่วงต่ำ–สูง */
 function PriceChart({ material, quote }: { material: Material; quote: Quote | null }) {
-  const history = useHistory(material, 12);
-  const hist = history.data?.points ?? [];
-  const fc = quote?.forecast ?? [];
-  const data = [
-    ...hist.map((p, i) => ({ label: p.label, actual: p.price, ...(i === hist.length - 1 && fc.length ? { predicted: p.price, band: [p.price, p.price] } : {}) })),
-    ...(hist.length ? fc.map(p => ({ label: p.label, predicted: p.price, band: [p.low, p.high] })) : []),
-  ];
-
-  return (
-    <section className="panel chart-panel" aria-labelledby="chart-title">
-      <h2 id="chart-title">ราคาย้อนหลัง 12 เดือน และคาดการณ์ 3 เดือน</h2>
-      <div className="chart-legend" aria-hidden="true">
-        <span><i className="lg-actual" />ราคาจริง</span>
-        <span><i className="lg-pred" />ราคาคาดการณ์</span>
-        <span><i className="lg-band" />ช่วงที่เป็นไปได้</span>
-      </div>
-      <div className="chart-box" aria-busy={history.loading} role="img" aria-label={hist.length && fc.length ? `ราคาจริงล่าสุด ${formatPrice(hist.at(-1)!.price)} บาท คาดการณ์อีก 3 เดือน ${formatPrice(fc.at(-1)!.price)} บาท ต่อ ${material.unit}` : "กำลังโหลดกราฟราคา"}>
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-            <CartesianGrid stroke={CHART.grid} strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="label" tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={{ stroke: CHART.axis }} interval="preserveStartEnd" minTickGap={18} />
-            <YAxis tick={{ fill: CHART.tick, fontSize: 12 }} tickLine={false} axisLine={false} domain={["auto", "auto"]} width={58} tickFormatter={(v: number) => v.toLocaleString("th-TH")} />
-            <Tooltip
-              formatter={(v: number | number[], name: string) => Array.isArray(v) ? [`${formatPrice(v[0])} – ${formatPrice(v[1])}`, "ช่วงที่เป็นไปได้"] : [`฿${formatPrice(v)} ต่อ ${material.unit}`, name === "actual" ? "ราคาจริง" : "ราคาคาดการณ์"]}
-              contentStyle={CHART.tooltip}
-            />
-            <Area dataKey="band" stroke="none" fill={CHART.band} fillOpacity={0.2} isAnimationActive={false} />
-            <Line dataKey="actual" stroke={CHART.measured} strokeWidth={2.5} dot={false} activeDot={{ r: 4 }} connectNulls isAnimationActive={false} />
-            <Line dataKey="predicted" stroke={CHART.forecast} strokeWidth={2.5} strokeDasharray="6 5" dot={{ r: 3.5, fill: "#fff", stroke: CHART.forecast, strokeWidth: 2 }} connectNulls isAnimationActive={false} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-    </section>
-  );
+  return <MaterialHistoryChart material={material} quote={quote} />;
 }

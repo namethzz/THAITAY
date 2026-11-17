@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { lazy, Suspense, useRef } from "react";
 import { ArrowRight, MapPin, Search } from "lucide-react";
 import { getMaterialById, materialCatalog, materialCategories, searchMaterials } from "@/data.js";
 import { MaterialSearch } from "@/components/site/material-search";
@@ -11,6 +11,8 @@ import { formatPrice } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
 import { hashFor } from "@/lib/routes";
 import type { Go, Material } from "@/types";
+
+const MarketCharts = lazy(() => import("@/components/site/market-charts"));
 
 // ปุ่มลัดใต้ช่องค้นหา: กดแล้วการ์ดราคาเปลี่ยนเป็นวัสดุนั้นทันที
 const QUICK_PICKS = [
@@ -79,6 +81,8 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
           </ul>
         </section>
       )}
+
+      <Suspense fallback={<section className="market-section" role="status">กำลังโหลดกราฟราคาจริง…</section>}><MarketCharts /></Suspense>
 
       <section className="categories" aria-labelledby="cat-title">
         <div className="section-head">

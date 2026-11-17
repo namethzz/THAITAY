@@ -7,4 +7,5 @@ export const CHART = {
   axis: "#dcd6cb",
   tick: "#5a6266",
   tooltip: { borderRadius: 12, border: "1px solid #dcd6cb", background: "#ffffff", color: "#242a2d" },
+  tooltipWrapper: { width: "min(260px, 100%)", pointerEvents: "none" },
 } as const;

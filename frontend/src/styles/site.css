@@ -431,13 +431,20 @@
 @media (max-width: 400px) {
   .pc-top { flex-wrap: wrap; row-gap: 8px; }
   .pc-top-end { margin-left: auto; }
+  .result-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px 10px; }
+  .result-row > .row-icon { grid-column: 1; grid-row: 1; }
+  .result-row > .result-copy { grid-column: 2; grid-row: 1; }
+  .result-row > .result-chevron { grid-column: 3; grid-row: 1 / span 2; }
+  .result-row > .peek { grid-column: 2; grid-row: 2; justify-items: start; text-align: left; }
+  .line { grid-template-areas: "icon copy remove" "qty qty qty" "total total total"; }
+  .line-readonly { grid-template-areas: "icon copy copy" "qty qty qty" "total total total"; }
 }
 @media (max-width: 360px) {
   .seg span { font-size: 14px; }
   .pc-ahead { grid-template-columns: minmax(0, 1fr); }
   .pc-ahead li { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
   .pc-ahead li .change-chip { grid-column: 2; grid-row: 1 / span 2; }
-  .line-qty > span { display: none; }
+  .line:not(.line-readonly) .line-qty > span { display: none; }
 }
 
 /* Short screens (1366×768 laptops, small phones): tighten the hero so the sample price stays in the first view */
@@ -462,6 +469,16 @@
   .stage-card { margin-top: 0; }
   .pc-detail { display: none; }
   .pc-name { margin-bottom: 12px; }
+}
+
+/* Landscape phones need a bounded sheet too: an anchored popup can extend below the screen. */
+@media (max-width: 960px) and (max-height: 500px) {
+  .cat-filter-backdrop { position: fixed; inset: 0; z-index: 80; display: block; background: rgba(36, 42, 45, .32); }
+  .cat-filter-panel { position: fixed; top: auto; left: 0; right: 0; bottom: 0; z-index: 81; display: flex; flex-direction: column; width: auto; max-height: calc(100dvh - 80px); overflow: hidden; padding: 8px 0 0; border-radius: 22px 22px 0 0; }
+  .cat-filter-head { display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; padding: 8px 16px; }
+  .cat-filter-panel ul { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 12px calc(16px + env(safe-area-inset-bottom)); }
+  .filter-panel .filter-body { flex: 1 1 auto; min-height: 0; max-height: none; overscroll-behavior: contain; }
+  .filter-panel .filter-foot { flex: 0 0 auto; padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
 }
 
 @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
