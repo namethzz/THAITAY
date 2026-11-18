@@ -8,6 +8,9 @@ export default defineConfig({
   resolve: {
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },
+  server: {
+    proxy: { "/api": "http://localhost:5000" },
+  },
   // Vercel serves the site at the domain root; GitHub Pages (npm run deploy) serves it under the repo path.
   // Override either with VITE_BASE, e.g. VITE_BASE=/ npm run build
   base: process.env.VITE_BASE ?? (process.env.VERCEL ? "/" : "/construction-price-intelligence/"),

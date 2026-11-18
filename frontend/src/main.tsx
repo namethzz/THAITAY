@@ -7,8 +7,11 @@ import Home from "./pages/Home";
 import { hashFor, routeFromHash } from "@/lib/routes";
 import { materialTitle } from "@/lib/materialTitle";
 import { usePersistentState } from "@/lib/storage";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+import AuthPage from "@/pages/AuthPage";
 import type { AddLine, EstimateLine, EstimateMeta, Go, Route } from "@/types";
 import "./styles.css";
+import "./styles/auth.css";
 
 const SearchPage = lazy(() => import("./pages/Search"));
 const MaterialPage = lazy(() => import("./pages/MaterialPage"));
@@ -33,6 +36,8 @@ const cleanWatch = (saved: unknown): string[] =>
 const titleOf = (id: string, fallback: string) => { const material = getMaterialById(id); return material ? materialTitle(material).title : fallback; };
 
 function pageTitle(route: Route) {
+  if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
+  if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
   if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
   if (route.page === "material") { const material = getMaterialById(route.id); return `${material ? materialTitle(material).title : "วัสดุ"} | THAI TAY`; }
   if (route.page === "estimate") return "ใบประมาณราคา | THAI TAY";
@@ -40,8 +45,10 @@ function pageTitle(route: Route) {
 }
 
 function App() {
+  const { user, loading: authLoading, logout } = useAuth();
   const [selectedId, setSelectedId] = useState(defaultMaterialId);
   const [route, setRoute] = useState<Route>(() => routeFromHash(defaultMaterialId));
+  const authHasBeenVisited = useRef(route.page === "login" || route.page === "register");
   const [lines, setLines] = usePersistentState<EstimateLine[]>("thai-tay-estimate-v1", [], cleanLines);
   const [meta, setMeta] = usePersistentState<EstimateMeta>("thai-tay-estimate-meta-v1", DEFAULT_META, cleanMeta);
   const [watch, setWatch] = usePersistentState<string[]>("thai-tay-watch-v1", [], cleanWatch);
@@ -54,6 +61,10 @@ function App() {
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, [selectedId]);
+
+  useEffect(() => {
+    if (route.page === "login" || route.page === "register") authHasBeenVisited.current = true;
+  }, [route.page]);
 
   useEffect(() => {
     if (route.page === "material") setSelectedId(route.id);
@@ -76,7 +87,28 @@ function App() {
     else window.location.hash = hash;
   }, []);
 
+  useEffect(() => {
+    if (!authLoading && user && (route.page === "login" || route.page === "register")) {
+      go({ page: "home" });
+    }
+  }, [authLoading, user, route.page, go]);
+
   const clearToast = useCallback(() => setToast(null), []);
+  const onLogout = useCallback(async () => {
+    try {
+      await logout();
+      go({ page: "login" });
+    } catch (error) {
+      setToast({
+        id: Date.now(),
+        text: "ออกจากระบบไม่สำเร็จ",
+        detail: error instanceof Error ? error.message : "กรุณาลองอีกครั้ง",
+        tone: "error",
+      });
+    }
+  }, [logout, go]);
+  const onAuthSuccess = useCallback(() => go({ page: "home" }), [go]);
+  const authPage = route.page === "login" || route.page === "register";
 
   const addLine: AddLine = useCallback(line => {
     setLines(prev => [...prev, { ...line, key: `${line.materialId}-${line.month}-${Date.now()}` }]);
@@ -93,20 +125,22 @@ function App() {
   const watchProps = { watch, onToggleWatch: toggleWatch };
 
   return (
-    <div className="site">
-      <IntroSplash />
-      <a href="#main-content" className="skip-link" onClick={event => { event.preventDefault(); mainRef.current?.focus(); }}>ข้ามไปยังเนื้อหา</a>
-      <SiteHeader route={route} count={lines.length} />
+    <div className={authPage ? "site auth-site" : "site"}>
+      {!authPage && !authHasBeenVisited.current && <IntroSplash />}
+      {!authPage && <a href="#main-content" className="skip-link" onClick={event => { event.preventDefault(); mainRef.current?.focus(); }}>ข้ามไปยังเนื้อหา</a>}
+      {!authPage && <SiteHeader route={route} count={lines.length} user={user} authLoading={authLoading} onLogout={() => { void onLogout(); }} />}
       <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
         <Suspense fallback={<div className="page-loading" role="status">กำลังเปิดหน้า…</div>}>
+          {authPage && authLoading && <div className="auth-page"><p className="auth-checking" role="status">กำลังตรวจสอบบัญชี…</p></div>}
+          {authPage && !authLoading && <AuthPage mode={route.page} onSuccess={onAuthSuccess} />}
           {route.page === "home" && <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />}
           {route.page === "search" && <SearchPage key={hashFor(route)} initialQuery={route.q} initialCategory={route.cat} initialFilters={route.filters} />}
           {route.page === "material" && <MaterialPage key={route.id} id={route.id} go={go} addLine={addLine} {...watchProps} />}
           {route.page === "estimate" && <Estimate key={route.shared ?? "mine"} shared={route.shared} lines={lines} setLines={setLines} meta={meta} setMeta={setMeta} go={go} notify={setToast} />}
         </Suspense>
       </main>
-      <SiteFooter />
-      <BottomNav route={route} count={lines.length} />
+      {!authPage && <SiteFooter />}
+      {!authPage && <BottomNav route={route} count={lines.length} />}
       <Toast message={toast} onDone={clearToast} count={lines.length} />
     </div>
   );
@@ -114,4 +148,4 @@ function App() {
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element is missing");
-createRoot(root).render(<App />);
+createRoot(root).render(<AuthProvider><App /></AuthProvider>);
