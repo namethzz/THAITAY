@@ -1,0 +1,5 @@
+# Preserve the executed source snapshot exactly for its recorded SHA256.
+# It contains historical trailing spaces; application source still uses normal checks.
+docs/signal_revision_2026-11-17/supported_final/change_signal_executed.py -text whitespace=-blank-at-eol
+# Keep published forecast bytes stable so the manifest SHA256 survives checkout.
+ml/api_data/forecast.csv -text whitespace=cr-at-eol

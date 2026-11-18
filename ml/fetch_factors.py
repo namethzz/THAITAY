@@ -13,9 +13,8 @@
   fx_usd_thb                Yahoo THB=X ราคาปิดวันสุดท้ายของเดือน    ต่างเฉลี่ย 0.17%
   fx_cny_thb                Yahoo THB=X ÷ CNY=X สิ้นเดือน            ต่างเฉลี่ย 0.63% จึงต่อจากค่าเดิมด้วย % การเปลี่ยน
   fuel_Hi_Diesel_thb_litre  ราคาดีเซลรายวันของ ปตท. (orapiweb.pttor.com) เฉลี่ยทั้งเดือน  ตรงกับไฟล์ทีม
-  newcastle_coal_usd_ton, steel_futures_unverified, scrap_metal_ppi_index
-                            ยังไม่รู้แหล่งของทีม ใช้ค่าเดือนล่าสุดที่มีไปก่อน และบอกไว้ในรายงาน
-                            (ค่า scrap ในไฟล์ทีมดูเป็นราคาเศษเหล็ก ดอลลาร์ต่อตัน ไม่ใช่ดัชนี PPI)
+  ถ่านหิน เหล็กฟิวเจอร์ส และเศษเหล็กถูกตัดออกจากไฟล์ใช้งาน
+  ไม่เติมค่าเก่าหรือเปลี่ยนไปใช้ข้อมูลคนละหน่วยแทนแหล่งที่ยังยืนยันไม่ได้
 
 ผลลัพธ์: data/factors_monthly.csv (สำรองไฟล์เดิมเป็น data/factors_monthly.before_fetch.csv), out/factors_update.md
 """
@@ -34,11 +33,11 @@ import numpy as np
 import pandas as pd
 
 from global_model import md
+from factor_policy import SUPPORTED_FACTORS, EXCLUDED_FACTORS
 
 HERE = Path(__file__).resolve().parent
 UA = {"User-Agent": "Mozilla/5.0 (THAITAY factor update)"}
 DIRECT = {"brent_crude_usd_barrel": "BZ=F", "iron_ore_62fe_usd_ton": "TIO=F"}
-CARRY = ["newcastle_coal_usd_ton", "steel_futures_unverified", "scrap_metal_ppi_index"]
 
 
 def get(url: str, data: bytes | None = None, headers: dict | None = None, tries: int = 4) -> bytes:
@@ -97,6 +96,9 @@ def main() -> None:
 
     path = HERE / "data" / "factors_monthly.csv"
     F = pd.read_csv(path, parse_dates=["month_date"]).set_index("month_date").sort_index()
+    if F.index.duplicated().any() or not set(SUPPORTED_FACTORS).issubset(F.columns):
+        raise SystemExit("ไฟล์ปัจจัยซ้ำหรือขาดคอลัมน์ที่รองรับ")
+    F = F.loc[:, list(SUPPORTED_FACTORS)]
     target = pd.Timestamp(args.to + "-01") if args.to else pd.read_csv(HERE / "data" / "prices_clean.csv", parse_dates=["date"])["date"].max()
     today = pd.Timestamp.today().normalize()
     if target + pd.offsets.MonthEnd(0) >= today:
@@ -128,17 +130,13 @@ def main() -> None:
     F.loc[months, "fuel_Hi_Diesel_thb_litre"] = [ptt_diesel(m) for m in months]
     notes.append("- fuel_Hi_Diesel_thb_litre: ราคาดีเซลรายวันของ ปตท. เฉลี่ยทั้งเดือน")
 
-    for col in CARRY:
-        if col in F:
-            known = F.loc[: last, col].dropna()
-            fill = [m for m in months if pd.isna(F.at[m, col])]
-            F.loc[fill, col] = known.iloc[-1]
-            notes.append(f"- {col}: ยังไม่รู้แหล่ง ใช้ค่า {known.index[-1]:%Y-%m} ({known.iloc[-1]:,.2f}) กับเดือน "
-                         + (", ".join(f"{m:%Y-%m}" for m in fill) or "-"))
+    notes.append("- ตัดปัจจัยที่ยังไม่ยืนยันแหล่งออก ไม่ใช้ค่าเก่าแทน: " + ", ".join(EXCLUDED_FACTORS))
 
     missing = F.loc[months].isna().sum()
     if missing.any():
         raise SystemExit(f"ยังมีค่าว่าง: {missing[missing > 0].to_dict()} ไม่ได้เขียนไฟล์")
+    if not (np.isfinite(F.loc[months]).all().all() and F.loc[months].gt(0).all().all()):
+        raise SystemExit("ปัจจัยเดือนที่อัปเดตต้องเป็นค่าบวกและ finite ไม่ได้เขียนไฟล์")
     F.reset_index().rename(columns={"index": "month_date"}).to_csv(path, index=False, date_format="%Y-%m-%d")
 
     show = pd.concat({"เดิม": before.T, "ใหม่": F.loc[months].T}, axis=1)

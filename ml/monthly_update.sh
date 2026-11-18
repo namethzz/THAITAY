@@ -27,7 +27,7 @@ if [ "$after" \< "$before" ] || [ "$after" = "$before" ]; then
 fi
 cp api_data/forecast.csv out/forecast_published_before.csv
 
-echo "== 2/8 ไฟล์ดิบปัจจัยภายนอกของทีม (Google Drive) สำหรับประวัติย้อนหลัง"
+echo "== 2/8 ปัจจัยที่มีแหล่งอัปเดต 5 ไฟล์ (Google Drive) สำหรับประวัติย้อนหลัง"
 while read -r name id; do
   curl -sSfL --retry 3 --max-time 120 -o "data/raw/$name" "https://drive.usercontent.google.com/download?id=$id&export=download&confirm=t"
 done <<'EOF'
@@ -36,9 +36,6 @@ Fuels_prices.csv 1qX3rLGiRtOmbItPQkMf2Ji_j_pbH-vSm
 fx_cny_thb.csv 1Av4gFErdLvwUVimzjgayrzFhRuIjKkIx
 fx_usd_thb.csv 15aJ6J640W15mLAYi0vzf4t1DvVvNmduS
 Iron_Ore_prices.csv 1LIg_3bPhmQstNjYRAdtKCwIOM0lfEaBl
-newcastle_coal_usd-prices_ton.csv 1xN2QqiwMlZTx5M_EohQI4amNSkpdzvh7
-scrap_metal_prices.csv 1iNEfG5H54hKKWdJMZjfSPFsxajTfgwSr
-Steel_Futures_prices.csv 1Df5_AsPNTyomz2ZKDrzTJxRJtnB_N3jB
 EOF
 "$PY" build_factors.py data/raw > out/build_factors.log
 
@@ -55,7 +52,7 @@ echo "== 5/8 ปัจจัยภายนอกถึงเดือนล่�
 cat out/factors_update.md | grep "^- " || true
 
 echo "== 6/8 ป้าย ราคามีโอกาสเปลี่ยน"
-"$PY" change_signal.py > out/change_signal.log
+"$PY" change_signal.py --apply > out/change_signal.log
 
 echo "== 7/8 ไฟล์ราคาของเว็บ"
 "$PY" export_static.py
