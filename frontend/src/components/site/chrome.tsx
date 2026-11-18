@@ -1,17 +1,28 @@
 import { useEffect } from "react";
-import { Check, ClipboardList, Home, Search } from "lucide-react";
+import { AlertCircle, Check, ClipboardList, Home, LogIn, LogOut, Search } from "lucide-react";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { isDemoData } from "@/services/priceService";
 import type { Route } from "@/types";
+import type { AuthUser } from "@/context/AuthContext";
 
 type Section = "home" | "search" | "estimate";
-const sectionOf = (route: Route): Section => (route.page === "material" ? "search" : route.page);
+const sectionOf = (route: Route): Section => {
+  if (route.page === "material") return "search";
+  if (route.page === "login" || route.page === "register") return "home";
+  return route.page;
+};
 
 const CountBadge = ({ count }: { count: number }) =>
   count > 0 ? <span className="count-badge" aria-label={`${count} รายการ`}>{count > 99 ? "99+" : count}</span> : null;
 
 /** แถบบน: โลโก้ + ลิงก์ 3 หน้า (จอใหญ่) / โลโก้อย่างเดียว (มือถือ ใช้แถบล่างแทน) */
-export function SiteHeader({ route, count }: { route: Route; count: number }) {
+export function SiteHeader({ route, count, user, authLoading, onLogout }: {
+  route: Route;
+  count: number;
+  user: AuthUser | null;
+  authLoading: boolean;
+  onLogout: () => void;
+}) {
   const current = sectionOf(route);
   const link = (section: Section, label: string) => (
     <a href={`#${section}`} aria-current={current === section ? "page" : undefined}>
@@ -27,6 +38,20 @@ export function SiteHeader({ route, count }: { route: Route; count: number }) {
           {link("search", "ค้นหาวัสดุ")}
           {link("estimate", "ใบประมาณราคา")}
         </nav>
+        <div className="header-account">
+          {authLoading ? <span className="header-auth-status" role="status">กำลังตรวจสอบบัญชี…</span> : user ? (
+            <>
+              <span className="header-greeting">สวัสดี, {user.name}</span>
+              <button type="button" className="header-auth-button" onClick={onLogout}>
+                <LogOut size={18} aria-hidden="true" /><span>ออกจากระบบ</span>
+              </button>
+            </>
+          ) : (
+            <a className="header-auth-button" href="#login">
+              <LogIn size={18} aria-hidden="true" /><span>เข้าสู่ระบบ</span>
+            </a>
+          )}
+        </div>
       </div>
     </header>
   );
@@ -64,7 +89,7 @@ export function SiteFooter() {
   );
 }
 
-export interface ToastMessage { id: number; text: string; detail?: string; action?: "estimate" | "home" }
+export interface ToastMessage { id: number; text: string; detail?: string; action?: "estimate" | "home"; tone?: "error" }
 
 /** แจ้งเตือนสั้น ๆ (เพิ่มรายการ, ติดตามวัสดุ, คัดลอกลิงก์) พร้อมลิงก์ไปที่ที่เกี่ยวข้อง */
 export function Toast({ message, onDone, count }: { message: ToastMessage | null; onDone: () => void; count: number }) {
@@ -74,10 +99,10 @@ export function Toast({ message, onDone, count }: { message: ToastMessage | null
     return () => window.clearTimeout(timer);
   }, [message, onDone]);
   return (
-    <div className="toast-region" role="status" aria-live="polite">
+    <div className="toast-region" role={message?.tone === "error" ? "alert" : "status"} aria-live={message?.tone === "error" ? "assertive" : "polite"}>
       {message && (
-        <div className="toast" key={message.id}>
-          <span className="toast-icon" aria-hidden="true"><Check size={18} strokeWidth={2.6} /></span>
+        <div className={`toast${message.tone === "error" ? " toast-error" : ""}`} key={message.id}>
+          <span className="toast-icon" aria-hidden="true">{message.tone === "error" ? <AlertCircle size={18} /> : <Check size={18} strokeWidth={2.6} />}</span>
           <span className="toast-copy"><strong>{message.text}</strong>{message.detail && <small>{message.detail}</small>}</span>
           {message.action === "estimate" && <a href="#estimate" onClick={onDone}>ดูใบประมาณ ({count})</a>}
           {message.action === "home" && <a href="#home" onClick={onDone}>ดูหน้าแรก</a>}

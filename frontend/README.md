@@ -31,17 +31,19 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 
 ## หน้าในแอป
 
-เว็บมี 3 หน้า routing ใช้ hash (`#...`) แปลง hash ↔ หน้าใน `src/lib/routes.ts` หน้าแรกโหลดพร้อมแอป หน้าอื่น lazy-load แยกไฟล์ (กราฟ recharts โหลดเฉพาะหน้าวัสดุ)
+เว็บมีหน้าใช้งานหลัก 3 ส่วนและหน้าเข้าสู่ระบบ/สมัครสมาชิก routing ใช้ hash (`#...`) แปลง hash ↔ หน้าใน `src/lib/routes.ts` หน้าแรกโหลดพร้อมแอป หน้าอื่น lazy-load แยกไฟล์ (กราฟ recharts โหลดเฉพาะหน้าวัสดุ)
 
 | hash | หน้า | ไฟล์ |
 |---|---|---|
-| ไม่มี hash / `#home` | หน้าแรก: หัวข้อ ช่องค้นหา การ์ดราคา วิธีใช้ ที่มาของราคา | `src/pages/Home.tsx` |
+| ไม่มี hash | หน้า Login (ผู้ใช้ที่มี session อยู่จะไปหน้าเว็บอัตโนมัติ) | `src/pages/AuthPage.tsx` |
+| `#home` | หน้าแรก: หัวข้อ ช่องค้นหา การ์ดราคา วิธีใช้ ที่มาของราคา | `src/pages/Home.tsx` |
 | `#search?q=…&cat=…` | ค้นหาวัสดุ: รายการทั้งหมดพร้อมราคา กรองตามหมวด (คำค้นเก็บใน URL) | `src/pages/Search.tsx` |
 | `#m/<MAT-ID>` | หน้าวัสดุ (อยู่ในส่วน "ค้นหา"): ราคา คาดการณ์ คำแนะนำ กราฟ 12+3 เดือน คำนวณต้นทุน | `src/pages/MaterialPage.tsx` |
 | `#estimate` | ใบประมาณราคา: ชื่อโครงการ/ลูกค้า จำนวน เงินสำรอง VAT 7% ยอดรวม ช่วงต่ำ–สูง ส่งทาง LINE คัดลอกลิงก์ พิมพ์ / PDF CSV | `src/pages/Estimate.tsx` |
 | `#estimate?d=…` | ใบประมาณที่ส่งมาทางลิงก์ (อ่านอย่างเดียว ราคา ณ วันที่ส่ง) | `src/pages/Estimate.tsx` + `src/lib/shareEstimate.ts` |
+| `#login` / `#register` | เข้าสู่ระบบ / สมัครสมาชิกด้วยอีเมลและรหัสผ่าน | `src/pages/AuthPage.tsx` + `src/context/AuthContext.tsx` |
 
-ลิงก์ของ v0.8 ยังเปิดได้: `#overview` → หน้าแรก, `#prices` → ค้นหา, `#forecast` / `#analysis` → หน้าวัสดุที่ดูล่าสุด, `#cost` → ใบประมาณราคา hash ที่ไม่รู้จักเปิดหน้าแรก รหัสวัสดุที่ไม่มีเปิดหน้าค้นหา
+เปิดเว็บโดยไม่มี hash จะเริ่มที่หน้า Login; `#home` เปิดหน้าแรก ลิงก์ของ v0.8 ยังเปิดได้: `#overview` → หน้าแรก, `#prices` → ค้นหา, `#forecast` / `#analysis` → หน้าวัสดุที่ดูล่าสุด, `#cost` → ใบประมาณราคา hash ที่ไม่รู้จักเปิดหน้าแรก รหัสวัสดุที่ไม่มีเปิดหน้าค้นหา
 
 จอใหญ่ (≥ 768px) มีเมนู 3 ลิงก์ด้านบน มือถือมีแถบล่าง 3 ปุ่ม ปุ่มกลางคือค้นหา
 
@@ -69,6 +71,7 @@ build ตรวจ TypeScript ก่อนสร้างไฟล์ production
 | `src/components/site/site-art.tsx` + `src/config/photos.ts` | ภาพใต้ช่องค้นหา: รูปจริงจาก `public/photos/` ถ้าตั้งไว้ ไม่งั้นเป็นภาพวาดหน้างาน |
 | `src/components/ui/price-widgets.tsx` | ป้าย/หมายเหตุข้อมูลตัวอย่าง ป้ายแพงขึ้น/ถูกลง ลิงก์แหล่งที่มา hook โหลดราคา |
 | `src/components/ui/brand-mark.tsx` | โลโก้ THAI TAY CONSTRUCT (รูปอาคาร + ชื่อเป็นตัวอักษรจริง) |
+| `src/context/AuthContext.tsx` + `src/pages/AuthPage.tsx` | สมัครสมาชิก, เข้าสู่ระบบ, ตรวจ session และเรียก API ระบบบัญชี |
 | `src/config/sources.ts` | แหล่งที่มาราคา (ลิงก์เปิดเว็บต้นทาง) |
 | `src/config/chartColors.ts` | สีกราฟ (ราคาจริง charcoal, คาดการณ์ส้มเข้ม, ช่วงส้มอ่อน) |
 | `public/brand/` | รูปอาคารของโลโก้ (`thai-tay-mark.png` พื้น Warm White) และ favicon / apple-touch-icon ตัดจาก brand board |
@@ -139,6 +142,12 @@ Material มี `id`, `name`, `unit`, `categoryCode`, `category`, `familyCode` �
   - `GET /prices/{materialId}/history?months=1..12` → `{ unit, points: [{ date, price }] }` (การ์ดราคาใช้ 1 เดือนล่าสุด กราฟใช้ 12)
   - `GET /prices/{materialId}/forecast?months=1..3` → `{ unit, points: [{ month, date, price, low, high }] }`
 - รายการค้นหาแสดงราคาทุกแถวที่เห็น (สูงสุด 24 แถวต่อครั้ง) แต่ละวัสดุเรียก API ครั้งเดียวแล้วเก็บแคช ถ้าจะลดจำนวน request ทำ endpoint รวมหลายรหัสแล้วแก้ `getQuote()` ที่เดียว
+
+## ระบบบัญชี (MongoDB)
+
+backend สำหรับสมัครสมาชิก/เข้าสู่ระบบอยู่ที่ `../backend/` ใช้ Express, MongoDB, bcrypt และ JWT ใน httpOnly cookie วิธีตั้งค่า `MONGODB_URI` และรันทั้งสองส่วนดูที่ [`../backend/README.md`](../backend/README.md) โดยไม่ต้องส่ง connection string ผ่าน source control หรือแชต
+
+ในเครื่อง Vite proxy `/api` ไป `http://localhost:5000` ให้โดยอัตโนมัติ ถ้า deploy frontend และ API แยกกัน ให้กำหนด `VITE_AUTH_API_BASE` เป็น URL ของ API และ `CLIENT_ORIGIN` ใน backend ให้ตรงกับ origin ของเว็บ
 
 ## State
 
