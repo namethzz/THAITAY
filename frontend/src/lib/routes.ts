@@ -20,7 +20,7 @@ export function hashFor(route: Route) {
 export function routeFromHash(lastMaterialId: string): Route {
   const [path, query = ""] = window.location.hash.replace(/^#\/?/, "").split("?");
   const params = new URLSearchParams(query);
-  if (!path) return { page: "login" };
+  if (!path) return { page: "home" };
   if (path === "home") return { page: "home" };
   if (path === "login" || path === "register") return { page: path };
   if (path === "search" || path === "prices") return { page: "search", q: params.get("q") ?? "", cat: params.get("cat") ?? "all", filters: readFilters(params) };
