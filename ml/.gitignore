@@ -4,3 +4,5 @@ out/
 __pycache__/
 .venv/
 colab/thaitay_colab.zip
+shadow/**/.lock*
+shadow/**/.pending-*
