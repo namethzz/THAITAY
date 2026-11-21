@@ -1,0 +1,4952 @@
+{
+  "origin_month": "2026-10-01",
+  "issued_at_utc": "2026-11-21T09:54:34.800768+00:00",
+  "model": "tpso_price_only_lightgbm_t85_half_v1",
+  "lightgbm_version": "4.7.0",
+  "prices_sha256": "dccb2ca8d9361ef8721e6e03be53bbc340644d979b2ff1c6f811038c7178bcf0",
+  "baseline_file_sha256": "8128cc19c505259a094171fc016bc1851c0a241e50bc2fdafec8fde20073c543",
+  "catalog_sha256": "54ee29d526f85f231c1c0857909db026eaf5fffa01955049c28da5013ef3090d",
+  "forecasts": [
+    {
+      "material_id": "MAT-0101010107200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3110.0,
+      "ml_price": 3110.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010107200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3110.0,
+      "ml_price": 3110.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010107200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3110.0,
+      "ml_price": 3110.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2870.0,
+      "ml_price": 2870.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2870.0,
+      "ml_price": 2870.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2870.0,
+      "ml_price": 2870.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2930.0,
+      "ml_price": 2930.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2930.0,
+      "ml_price": 2930.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2930.0,
+      "ml_price": 2930.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2990.0,
+      "ml_price": 2990.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2990.0,
+      "ml_price": 2990.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2990.0,
+      "ml_price": 2990.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3050.0,
+      "ml_price": 3050.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3050.0,
+      "ml_price": 3050.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3050.0,
+      "ml_price": 3050.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3190.0,
+      "ml_price": 3190.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3190.0,
+      "ml_price": 3190.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3190.0,
+      "ml_price": 3190.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3270.0,
+      "ml_price": 3270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3270.0,
+      "ml_price": 3270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3270.0,
+      "ml_price": 3270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3350.0,
+      "ml_price": 3350.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3350.0,
+      "ml_price": 3350.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3350.0,
+      "ml_price": 3350.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3450.0,
+      "ml_price": 3450.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3450.0,
+      "ml_price": 3450.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0101010108800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 3450.0,
+      "ml_price": 3450.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0102010100300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2670.0,
+      "ml_price": 2670.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0102010100300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2670.0,
+      "ml_price": 2670.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0102010100300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ลบ.ม.",
+      "naive_price": 2670.0,
+      "ml_price": 2670.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 2040.83,
+      "ml_price": 2040.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 2040.83,
+      "ml_price": 2040.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 2040.83,
+      "ml_price": 2040.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 2251.18,
+      "ml_price": 2251.18,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 2251.18,
+      "ml_price": 2251.18,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 2251.18,
+      "ml_price": 2251.18,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 2642.57,
+      "ml_price": 2642.57,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 2642.57,
+      "ml_price": 2642.57,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 2642.57,
+      "ml_price": 2642.57,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 3081.89,
+      "ml_price": 3081.89,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 3081.89,
+      "ml_price": 3081.89,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 3081.89,
+      "ml_price": 3081.89,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 3696.93,
+      "ml_price": 3696.93,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 3696.93,
+      "ml_price": 3696.93,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 3696.93,
+      "ml_price": 3696.93,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 3788.79,
+      "ml_price": 3788.79,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 3788.79,
+      "ml_price": 3788.79,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 3788.79,
+      "ml_price": 3788.79,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 6066.6,
+      "ml_price": 6066.6,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 6066.6,
+      "ml_price": 6066.6,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 6066.6,
+      "ml_price": 6066.6,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 11197.31,
+      "ml_price": 11197.31,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 11197.31,
+      "ml_price": 11197.31,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 11197.31,
+      "ml_price": 11197.31,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 13488.42,
+      "ml_price": 13488.42,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 13488.42,
+      "ml_price": 13488.42,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010100900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 13488.42,
+      "ml_price": 13488.42,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 18434.08,
+      "ml_price": 18434.08,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 18434.08,
+      "ml_price": 18434.08,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 18434.08,
+      "ml_price": 18434.08,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 20335.13,
+      "ml_price": 20335.13,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 20335.13,
+      "ml_price": 20335.13,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 20335.13,
+      "ml_price": 20335.13,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 23981.48,
+      "ml_price": 23981.48,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 23981.48,
+      "ml_price": 23981.48,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 23981.48,
+      "ml_price": 23981.48,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 27416.15,
+      "ml_price": 27416.15,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 27416.15,
+      "ml_price": 27416.15,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010101300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 27416.15,
+      "ml_price": 27416.15,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010200100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 4072.35,
+      "ml_price": 4072.35,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010200100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 4072.35,
+      "ml_price": 4072.35,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010200100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 4072.35,
+      "ml_price": 4072.35,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010200200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 7344.61,
+      "ml_price": 7344.61,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010200200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 7344.61,
+      "ml_price": 7344.61,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010200200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 7344.61,
+      "ml_price": 7344.61,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 128.0,
+      "ml_price": 128.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 128.0,
+      "ml_price": 128.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 128.0,
+      "ml_price": 128.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 185.0,
+      "ml_price": 185.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 185.0,
+      "ml_price": 185.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 185.0,
+      "ml_price": 185.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 206.0,
+      "ml_price": 206.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 206.0,
+      "ml_price": 206.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 206.0,
+      "ml_price": 206.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 272.0,
+      "ml_price": 272.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 272.0,
+      "ml_price": 272.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 272.0,
+      "ml_price": 272.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 353.0,
+      "ml_price": 353.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 353.0,
+      "ml_price": 353.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 353.0,
+      "ml_price": 353.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 478.0,
+      "ml_price": 478.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 478.0,
+      "ml_price": 478.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 478.0,
+      "ml_price": 478.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 604.0,
+      "ml_price": 604.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 604.0,
+      "ml_price": 604.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 604.0,
+      "ml_price": 604.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 765.0,
+      "ml_price": 765.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 765.0,
+      "ml_price": 765.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 765.0,
+      "ml_price": 765.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 1208.0,
+      "ml_price": 1208.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 1208.0,
+      "ml_price": 1208.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303010300900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 1208.0,
+      "ml_price": 1208.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 7499.04,
+      "ml_price": 7499.04,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 7499.04,
+      "ml_price": 7499.04,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 7499.04,
+      "ml_price": 7499.04,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 9995.17,
+      "ml_price": 9995.17,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 9995.17,
+      "ml_price": 9995.17,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 9995.17,
+      "ml_price": 9995.17,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 13319.34,
+      "ml_price": 13319.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 13319.34,
+      "ml_price": 13319.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 13319.34,
+      "ml_price": 13319.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 15425.41,
+      "ml_price": 15425.41,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 15425.41,
+      "ml_price": 15425.41,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 15425.41,
+      "ml_price": 15425.41,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 18683.03,
+      "ml_price": 18683.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 18683.03,
+      "ml_price": 18683.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 18683.03,
+      "ml_price": 18683.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020200200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 3927.88,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 3927.88,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 3927.88,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 5730.8,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 5730.8,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 5730.8,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 5884.21,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 5884.21,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020200400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 5884.21,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0303020300100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 182.0,
+      "ml_price": 182.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 182.0,
+      "ml_price": 182.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 182.0,
+      "ml_price": 182.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 222.0,
+      "ml_price": 222.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 222.0,
+      "ml_price": 222.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 222.0,
+      "ml_price": 222.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 272.0,
+      "ml_price": 272.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 272.0,
+      "ml_price": 272.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 272.0,
+      "ml_price": 272.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 378.0,
+      "ml_price": 378.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 378.0,
+      "ml_price": 378.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 378.0,
+      "ml_price": 378.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 504.0,
+      "ml_price": 504.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 504.0,
+      "ml_price": 504.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 504.0,
+      "ml_price": 504.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "เมตร",
+      "naive_price": 635.0,
+      "ml_price": 635.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "เมตร",
+      "naive_price": 635.0,
+      "ml_price": 635.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303020300600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "เมตร",
+      "naive_price": 635.0,
+      "ml_price": 635.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 7646.8,
+      "ml_price": 7646.8,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 7646.8,
+      "ml_price": 7646.8,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 7646.8,
+      "ml_price": 7829.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 10361.26,
+      "ml_price": 10361.26,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 10361.26,
+      "ml_price": 10361.26,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 10361.26,
+      "ml_price": 10609.2,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 12680.34,
+      "ml_price": 12680.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 12680.34,
+      "ml_price": 12680.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 12680.34,
+      "ml_price": 12680.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 16672.81,
+      "ml_price": 16672.81,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 16672.81,
+      "ml_price": 16672.81,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 16672.81,
+      "ml_price": 17071.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 16789.96,
+      "ml_price": 16789.96,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 16789.96,
+      "ml_price": 16789.96,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 16789.96,
+      "ml_price": 16789.96,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 24656.43,
+      "ml_price": 24656.43,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 24656.43,
+      "ml_price": 24656.43,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 24656.43,
+      "ml_price": 24656.43,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 33257.75,
+      "ml_price": 33257.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 33257.75,
+      "ml_price": 33257.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 33257.75,
+      "ml_price": 33257.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 53805.89,
+      "ml_price": 53805.89,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 53805.89,
+      "ml_price": 53805.89,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0303030200800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 53805.89,
+      "ml_price": 53805.89,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 130.0,
+      "ml_price": 130.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 130.0,
+      "ml_price": 130.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 130.0,
+      "ml_price": 130.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020100900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 195.0,
+      "ml_price": 195.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020100900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 195.0,
+      "ml_price": 195.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020100900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 195.0,
+      "ml_price": 195.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 285.0,
+      "ml_price": 285.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 285.0,
+      "ml_price": 285.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 285.0,
+      "ml_price": 285.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020101100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 375.0,
+      "ml_price": 375.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020101100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 375.0,
+      "ml_price": 375.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0304020101100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 375.0,
+      "ml_price": 375.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 545.0,
+      "ml_price": 545.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 545.0,
+      "ml_price": 545.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 545.0,
+      "ml_price": 545.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 560.0,
+      "ml_price": 560.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 560.0,
+      "ml_price": 560.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 560.0,
+      "ml_price": 560.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 620.0,
+      "ml_price": 620.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 620.0,
+      "ml_price": 620.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 620.0,
+      "ml_price": 620.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 630.0,
+      "ml_price": 630.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 630.0,
+      "ml_price": 630.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 630.0,
+      "ml_price": 630.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 725.0,
+      "ml_price": 725.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 725.0,
+      "ml_price": 725.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010100900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 725.0,
+      "ml_price": 725.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 735.0,
+      "ml_price": 735.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 735.0,
+      "ml_price": 735.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0307010101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 735.0,
+      "ml_price": 735.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 265.5,
+      "ml_price": 265.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 265.5,
+      "ml_price": 265.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 265.5,
+      "ml_price": 265.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 270.0,
+      "ml_price": 270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 270.0,
+      "ml_price": 270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 270.0,
+      "ml_price": 270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 315.0,
+      "ml_price": 315.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 315.0,
+      "ml_price": 315.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 315.0,
+      "ml_price": 315.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 350.0,
+      "ml_price": 350.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 350.0,
+      "ml_price": 350.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 350.0,
+      "ml_price": 350.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 395.0,
+      "ml_price": 395.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 395.0,
+      "ml_price": 395.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010101900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 395.0,
+      "ml_price": 395.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 400.0,
+      "ml_price": 400.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 400.0,
+      "ml_price": 400.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 400.0,
+      "ml_price": 400.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 288.0,
+      "ml_price": 288.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 288.0,
+      "ml_price": 288.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 288.0,
+      "ml_price": 288.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 336.0,
+      "ml_price": 336.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 336.0,
+      "ml_price": 336.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 336.0,
+      "ml_price": 336.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 379.2,
+      "ml_price": 379.2,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 379.2,
+      "ml_price": 379.2,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 379.2,
+      "ml_price": 379.2,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 384.0,
+      "ml_price": 384.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 384.0,
+      "ml_price": 384.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 384.0,
+      "ml_price": 384.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 442.4,
+      "ml_price": 442.4,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 442.4,
+      "ml_price": 442.4,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 442.4,
+      "ml_price": 442.4,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 448.0,
+      "ml_price": 448.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 448.0,
+      "ml_price": 448.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 448.0,
+      "ml_price": 448.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 504.0,
+      "ml_price": 504.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 504.0,
+      "ml_price": 504.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 504.0,
+      "ml_price": 504.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 560.0,
+      "ml_price": 560.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 560.0,
+      "ml_price": 560.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0308010102800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 560.0,
+      "ml_price": 560.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 20350.0,
+      "ml_price": 20443.24,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 20350.0,
+      "ml_price": 20800.94,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 20350.0,
+      "ml_price": 20844.81,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 19690.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 20035.55,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 20116.45,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19250.0,
+      "ml_price": 19338.14,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19250.0,
+      "ml_price": 19677.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19250.0,
+      "ml_price": 19747.34,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19050.0,
+      "ml_price": 19137.23,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19050.0,
+      "ml_price": 19473.33,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19050.0,
+      "ml_price": 19542.85,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19150.0,
+      "ml_price": 19237.69,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19150.0,
+      "ml_price": 19575.55,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010101900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19150.0,
+      "ml_price": 19645.43,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010102500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19150.0,
+      "ml_price": 19237.69,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010102500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19150.0,
+      "ml_price": 19575.55,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401010102500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19150.0,
+      "ml_price": 19645.43,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19700.0,
+      "ml_price": 19803.22,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19700.0,
+      "ml_price": 20122.06,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19700.0,
+      "ml_price": 20217.22,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 19601.67,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 19917.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 20011.97,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 19601.67,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 19917.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 20011.97,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 19601.67,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 19917.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19500.0,
+      "ml_price": 20011.97,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 19702.7,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 20019.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 20114.6,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 19702.7,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 20019.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19600.0,
+      "ml_price": 20114.6,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 20300.0,
+      "ml_price": 20482.88,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 20300.0,
+      "ml_price": 20771.84,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 20300.0,
+      "ml_price": 20806.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19100.0,
+      "ml_price": 19209.32,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19100.0,
+      "ml_price": 19514.19,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19100.0,
+      "ml_price": 19567.46,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19000.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19304.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19371.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19000.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19304.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020203900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19371.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19000.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19304.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19371.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19000.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19304.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19371.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19000.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19304.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020204200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 18900.0,
+      "ml_price": 19371.03,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19850.0,
+      "ml_price": 19954.01,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19850.0,
+      "ml_price": 20274.02,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19850.0,
+      "ml_price": 20371.16,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19450.0,
+      "ml_price": 19551.41,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19450.0,
+      "ml_price": 19866.71,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19450.0,
+      "ml_price": 19950.67,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19450.21,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19764.56,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19849.11,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19450.21,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19764.56,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19849.11,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19450.21,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19764.56,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19849.11,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19450.21,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19764.56,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19849.11,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19450.21,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19764.56,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401020302900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 19350.0,
+      "ml_price": 19849.11,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401030100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "กก.",
+      "naive_price": 29.32,
+      "ml_price": 29.32,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401030100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "กก.",
+      "naive_price": 29.32,
+      "ml_price": 29.23,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401030100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "กก.",
+      "naive_price": 29.32,
+      "ml_price": 29.35,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0401030100400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ม้วน",
+      "naive_price": 65.46,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0401030100400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ม้วน",
+      "naive_price": 65.46,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0401030100400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ม้วน",
+      "naive_price": 65.46,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0402010100200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 309.2,
+      "ml_price": 309.2,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 309.2,
+      "ml_price": 312.01,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 309.2,
+      "ml_price": 312.88,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 398.85,
+      "ml_price": 398.85,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 398.85,
+      "ml_price": 403.62,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 398.85,
+      "ml_price": 403.58,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 595.77,
+      "ml_price": 600.62,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 595.77,
+      "ml_price": 602.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 595.77,
+      "ml_price": 603.92,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 792.17,
+      "ml_price": 792.17,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 792.17,
+      "ml_price": 796.29,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 792.17,
+      "ml_price": 800.19,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 893.26,
+      "ml_price": 898.2,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 893.26,
+      "ml_price": 904.3,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 893.26,
+      "ml_price": 903.6,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 1829.35,
+      "ml_price": 1829.35,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 1829.35,
+      "ml_price": 1852.93,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402010101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 1829.35,
+      "ml_price": 1852.91,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402020100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 1021.38,
+      "ml_price": 1042.38,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402020100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 1021.38,
+      "ml_price": 1042.7,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402020100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 1021.38,
+      "ml_price": 1039.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402020100200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 1372.03,
+      "ml_price": 1400.37,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402020100200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 1372.03,
+      "ml_price": 1400.67,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402020100200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 1372.03,
+      "ml_price": 1395.7,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 475.78,
+      "ml_price": 475.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 475.78,
+      "ml_price": 475.78,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 475.78,
+      "ml_price": 490.57,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 581.62,
+      "ml_price": 581.62,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 581.62,
+      "ml_price": 581.62,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 581.62,
+      "ml_price": 601.83,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 786.75,
+      "ml_price": 786.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 786.75,
+      "ml_price": 786.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 786.75,
+      "ml_price": 811.76,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 830.25,
+      "ml_price": 830.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 830.25,
+      "ml_price": 861.39,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 830.25,
+      "ml_price": 860.91,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 903.79,
+      "ml_price": 903.79,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 903.79,
+      "ml_price": 903.79,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402040200800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 903.79,
+      "ml_price": 940.26,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 3244.5,
+      "ml_price": 3244.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 3244.5,
+      "ml_price": 3244.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 3244.5,
+      "ml_price": 3244.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 4914.0,
+      "ml_price": 4914.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 4914.0,
+      "ml_price": 4914.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 4914.0,
+      "ml_price": 4914.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 7245.0,
+      "ml_price": 7245.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 7245.0,
+      "ml_price": 7245.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 7245.0,
+      "ml_price": 7245.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 9135.0,
+      "ml_price": 9135.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 9135.0,
+      "ml_price": 9135.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 9135.0,
+      "ml_price": 9135.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 14752.0,
+      "ml_price": 14752.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 14752.0,
+      "ml_price": 14752.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 14752.0,
+      "ml_price": 14752.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 13824.0,
+      "ml_price": 13824.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 13824.0,
+      "ml_price": 13824.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 13824.0,
+      "ml_price": 13824.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 25536.0,
+      "ml_price": 25536.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 25536.0,
+      "ml_price": 25536.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 25536.0,
+      "ml_price": 25536.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 16736.0,
+      "ml_price": 16736.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 16736.0,
+      "ml_price": 16736.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402050101400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 16736.0,
+      "ml_price": 16736.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 5103.0,
+      "ml_price": 5103.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 5103.0,
+      "ml_price": 5103.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 5103.0,
+      "ml_price": 5103.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 15228.0,
+      "ml_price": 15228.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 15228.0,
+      "ml_price": 15228.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 15228.0,
+      "ml_price": 15228.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 23838.0,
+      "ml_price": 23838.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 23838.0,
+      "ml_price": 23838.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 23838.0,
+      "ml_price": 23838.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 30650.4,
+      "ml_price": 30650.4,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 30650.4,
+      "ml_price": 30650.4,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 30650.4,
+      "ml_price": 30650.4,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 6507.0,
+      "ml_price": 6507.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 6507.0,
+      "ml_price": 6507.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 6507.0,
+      "ml_price": 6507.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 8073.0,
+      "ml_price": 8073.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 8073.0,
+      "ml_price": 8073.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 8073.0,
+      "ml_price": 8073.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ท่อน",
+      "naive_price": 11718.0,
+      "ml_price": 11718.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ท่อน",
+      "naive_price": 11718.0,
+      "ml_price": 11718.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0402060101600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ท่อน",
+      "naive_price": 11718.0,
+      "ml_price": 11718.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010100900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 65000.0,
+      "ml_price": 65000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 67500.0,
+      "ml_price": 67500.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 67500.0,
+      "ml_price": 67500.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 67500.0,
+      "ml_price": 67500.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0404010101400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตัน",
+      "naive_price": 68000.0,
+      "ml_price": 68000.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 27.0,
+      "ml_price": 27.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 27.0,
+      "ml_price": 27.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 27.0,
+      "ml_price": 27.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 33.0,
+      "ml_price": 33.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 33.0,
+      "ml_price": 33.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 33.0,
+      "ml_price": 33.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 44.0,
+      "ml_price": 44.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 44.0,
+      "ml_price": 44.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 44.0,
+      "ml_price": 44.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 43.0,
+      "ml_price": 43.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 43.0,
+      "ml_price": 43.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 43.0,
+      "ml_price": 43.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 58.0,
+      "ml_price": 58.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 58.0,
+      "ml_price": 58.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 58.0,
+      "ml_price": 58.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 51.0,
+      "ml_price": 51.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 51.0,
+      "ml_price": 51.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 51.0,
+      "ml_price": 51.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 68.0,
+      "ml_price": 68.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 68.0,
+      "ml_price": 68.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 68.0,
+      "ml_price": 68.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 85.0,
+      "ml_price": 85.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 85.0,
+      "ml_price": 85.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 85.0,
+      "ml_price": 85.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 64.0,
+      "ml_price": 64.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 64.0,
+      "ml_price": 64.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010100900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 64.0,
+      "ml_price": 64.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 49.0,
+      "ml_price": 49.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 49.0,
+      "ml_price": 49.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 49.0,
+      "ml_price": 49.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 59.0,
+      "ml_price": 59.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 59.0,
+      "ml_price": 59.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 59.0,
+      "ml_price": 59.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 74.0,
+      "ml_price": 74.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 74.0,
+      "ml_price": 74.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 74.0,
+      "ml_price": 74.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 98.0,
+      "ml_price": 98.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 98.0,
+      "ml_price": 98.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 98.0,
+      "ml_price": 98.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 100.0,
+      "ml_price": 100.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 100.0,
+      "ml_price": 100.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 100.0,
+      "ml_price": 100.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 133.0,
+      "ml_price": 133.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 133.0,
+      "ml_price": 133.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 133.0,
+      "ml_price": 133.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 105.0,
+      "ml_price": 105.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 105.0,
+      "ml_price": 105.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 105.0,
+      "ml_price": 105.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 130.0,
+      "ml_price": 130.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 130.0,
+      "ml_price": 130.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 130.0,
+      "ml_price": 130.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 173.0,
+      "ml_price": 173.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 173.0,
+      "ml_price": 173.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010101800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 173.0,
+      "ml_price": 173.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010102000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 270.0,
+      "ml_price": 270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010102000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 270.0,
+      "ml_price": 270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010102000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 270.0,
+      "ml_price": 270.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010102800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 220.0,
+      "ml_price": 220.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010102800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 220.0,
+      "ml_price": 220.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405010102800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 220.0,
+      "ml_price": 220.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 74.0,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0405020100100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 74.0,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0405020100100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 74.0,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0405020100200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 82.0,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0405020100200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 82.0,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0405020100200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 82.0,
+      "ml_price": null,
+      "status": "missing_origin"
+    },
+    {
+      "material_id": "MAT-0405020100300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 141.5,
+      "ml_price": 141.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 141.5,
+      "ml_price": 141.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 141.5,
+      "ml_price": 141.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 151.75,
+      "ml_price": 151.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 151.75,
+      "ml_price": 151.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 151.75,
+      "ml_price": 151.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 165.5,
+      "ml_price": 165.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 165.5,
+      "ml_price": 165.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 165.5,
+      "ml_price": 165.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 183.25,
+      "ml_price": 183.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 183.25,
+      "ml_price": 183.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 183.25,
+      "ml_price": 183.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 206.75,
+      "ml_price": 206.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 206.75,
+      "ml_price": 206.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 206.75,
+      "ml_price": 206.75,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 240.0,
+      "ml_price": 240.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 240.0,
+      "ml_price": 240.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 240.0,
+      "ml_price": 240.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100900000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 289.0,
+      "ml_price": 289.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100900000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 289.0,
+      "ml_price": 289.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020100900000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 289.0,
+      "ml_price": 289.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101000000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 371.5,
+      "ml_price": 371.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101000000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 371.5,
+      "ml_price": 371.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101000000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 371.5,
+      "ml_price": 371.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101100000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 184.25,
+      "ml_price": 184.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101100000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 184.25,
+      "ml_price": 184.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101100000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 184.25,
+      "ml_price": 184.25,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101200000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 200.0,
+      "ml_price": 200.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101200000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 200.0,
+      "ml_price": 200.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101200000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 200.0,
+      "ml_price": 200.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101300000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 219.8,
+      "ml_price": 219.8,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101300000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 219.8,
+      "ml_price": 219.8,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101300000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 219.8,
+      "ml_price": 219.8,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101400000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 245.15,
+      "ml_price": 245.15,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101400000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 245.15,
+      "ml_price": 245.15,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101400000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 245.15,
+      "ml_price": 245.15,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101500000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 279.5,
+      "ml_price": 279.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101500000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 279.5,
+      "ml_price": 279.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101500000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 279.5,
+      "ml_price": 279.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101600000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 326.5,
+      "ml_price": 326.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101600000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 326.5,
+      "ml_price": 326.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101600000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 326.5,
+      "ml_price": 326.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101700000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 398.0,
+      "ml_price": 398.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101700000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 398.0,
+      "ml_price": 398.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101700000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 398.0,
+      "ml_price": 398.0,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101800000",
+      "month": 1,
+      "date": "2026-11-01",
+      "unit": "ตร.ม.",
+      "naive_price": 516.5,
+      "ml_price": 516.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101800000",
+      "month": 2,
+      "date": "2026-12-01",
+      "unit": "ตร.ม.",
+      "naive_price": 516.5,
+      "ml_price": 516.5,
+      "status": "paired"
+    },
+    {
+      "material_id": "MAT-0405020101800000",
+      "month": 3,
+      "date": "2027-01-01",
+      "unit": "ตร.ม.",
+      "naive_price": 516.5,
+      "ml_price": 516.5,
+      "status": "paired"
+    }
+  ]
+}

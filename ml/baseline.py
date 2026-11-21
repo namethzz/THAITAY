@@ -82,8 +82,8 @@ def main() -> None:
     ap.add_argument("--data", type=Path, default=HERE / "data" / "prices_clean.csv")
     ap.add_argument("--origins", type=int, default=12, help="จำนวนเดือนที่ย้อนไป backtest")
     ap.add_argument("--min-train", type=int, default=12, help="ต้องมีข้อมูลอย่างน้อยกี่เดือนก่อนจุดที่ทาย")
-    ap.add_argument("--select", choices=["per-material", "global"], default="global",
-                    help="global = ใช้โมเดลที่ดีที่สุดโดยรวมกับทุกวัสดุ (เสถียรกว่า), per-material = เลือกรายวัสดุ")
+    ap.add_argument("--select", choices=["per-material", "global", "naive"], default="global",
+                    help="global = เลือกจากผลรวม, per-material = เลือกรายวัสดุ, naive = ใช้ราคาล่าสุดทุกวัสดุ")
     ap.add_argument("--stale", type=int, default=3, help="ข้ามวัสดุที่ไม่มีราคาเกินกี่เดือนก่อนเดือนล่าสุด (เลิกเก็บราคาแล้ว)")
     ap.add_argument("--out", type=Path, default=HERE / "out")
     args = ap.parse_args()
@@ -142,7 +142,7 @@ def main() -> None:
         # วัสดุที่ราคาเดือนล่าสุดยังไม่ออก (ช้ากว่าเดือนล่าสุดของชุดข้อมูล lag เดือน) ทายจากราคาที่มี
         # แต่ลงวันที่นับจากเดือนล่าสุดของชุดข้อมูล ให้ "อีก 1 เดือน" บนเว็บเป็นเดือนหน้าจริง และใช้ช่วงต่ำ–สูงที่กว้างขึ้นตาม lag
         lag = (latest.year - s.index[-1].year) * 12 + latest.month - s.index[-1].month
-        name = choice.get(mid, best_global)
+        name = "naive" if args.select == "naive" else choice.get(mid, best_global)
         fc = MODELS[name](y) if lag == 0 and len(y) >= 2 else None
         if fc is None:
             name, fc = "naive", f_naive(y)

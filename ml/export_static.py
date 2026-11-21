@@ -10,6 +10,7 @@
 """
 from __future__ import annotations
 
+import argparse
 import json
 import shutil
 from pathlib import Path
@@ -22,7 +23,9 @@ HISTORY_MONTHS = 12
 
 
 def main() -> None:
-    prices = pd.read_csv(HERE / "api_data" / "prices.csv", dtype={"material_id": str})
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--prices", type=Path, default=HERE / "api_data" / "prices.csv")
+    prices = pd.read_csv(ap.parse_args().prices, dtype={"material_id": str})
     forecast = pd.read_csv(HERE / "api_data" / "forecast.csv", dtype={"material_id": str})
     forecast = forecast.rename(columns={"change_prob": "changeProb"})
     cols = [c for c in ("month", "date", "price", "low", "high", "changeProb") if c in forecast]
