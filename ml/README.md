@@ -6,7 +6,7 @@
 สนค. (index.tpso.go.th)
   → fetch_tpso.py, prepare_data.py      ดึงราคาและทำความสะอาด ได้ data/prices_clean.csv
   → build_factors.py                    ปัจจัยภายนอกย้อนหลังจากไฟล์ทีมใน Google Drive
-  → baseline.py (ใช้ bands.py)          ราคาคาดการณ์ 1–3 เดือนแบบ Naive พร้อมช่วงต่ำ–สูง → api_data/
+  → direct_price_model.py (ใช้ bands.py)  ราคาคาดการณ์ LightGBM สองขั้น 1–3 เดือน พร้อมช่วงต่ำ–สูง
   → update_catalog_status.py            บอกหน้าเว็บว่าวัสดุไหน สนค. เลิกเก็บราคา
   → fetch_factors.py                    ต่อปัจจัยภายนอกถึงเดือนล่าสุด (Yahoo Finance, ปตท.)
   → change_signal.py                    ป้าย "ราคามีโอกาสเปลี่ยน" (LightGBM) เติมลง api_data/forecast.csv
@@ -20,11 +20,11 @@
 
 | ส่วนบนเว็บ | ใช้อะไร | ผลทดสอบ 12 เดือนล่าสุด |
 |---|---|---|
-| ราคาคาดการณ์ 1 / 2 / 3 เดือน | Naive: ราคาเดือนหน้า = ราคาล่าสุด | ทายผิดเฉลี่ย 1.75 / 3.47 / 5.06% |
+| ราคาคาดการณ์ 1 / 2 / 3 เดือน | LightGBM สองขั้น เกณฑ์ปรับราคา 50% | ยังไม่มีผลล่วงหน้าจริงครบทั้งสามระยะ |
 | ช่วงราคาต่ำ–สูง | `bands.py`: การเปลี่ยนราคาจริงในอดีตของแต่ละหมวด ตัดหัวท้าย 2.5% | ครอบราคาจริง 87 / 87 / 83% |
 | ป้าย "ราคามีโอกาสเปลี่ยน" | `change_signal.py`: LightGBM + calibration ก่อนช่วง test; ใช้ 5 ปัจจัย หน่วง 1 เดือน | ดู [ผลตรวจฉบับ 17 พ.ย.](../docs/SIGNAL_REVISION_2026-11-17.md) แทนคะแนนเดิมที่ปรับเทียบและวัดบนชุดเดียวกัน |
 
-ทดลองไป 16 แบบ (LightGBM, Random Forest, LSTM, Linear Regression, ETS และอื่น ๆ) ไม่มีแบบไหนทายราคาแม่นกว่า Naive ได้ทั้งช่วง Validation (2562–2568) และ Test (12 เดือนล่าสุด) จึงใช้ Naive ทายราคา และใช้ ML กับป้ายเท่านั้น รายละเอียดทุกการทดลองอยู่ใน [`DATA_REVIEW.md`](DATA_REVIEW.md) และ notebook [`colab/THAITAY_ML.ipynb`](colab/THAITAY_ML.ipynb)
+ทดลองไป 16 แบบ (LightGBM, Random Forest, LSTM, Linear Regression, ETS และอื่น ๆ) ไม่มีแบบไหนทายราคาแม่นกว่า Naive ได้ทั้งช่วง Validation (2562–2568) และ Test (12 เดือนล่าสุด) ปัจจุบันใช้ Naive เพื่อเปรียบเทียบเท่านั้น ราคาที่เผยแพร่ใช้ direct_price_model.py รายละเอียดทุกการทดลองอยู่ใน [`DATA_REVIEW.md`](DATA_REVIEW.md) และ notebook [`colab/THAITAY_ML.ipynb`](colab/THAITAY_ML.ipynb)
 
 ## ขั้นที่ 0: ติดตั้ง
 

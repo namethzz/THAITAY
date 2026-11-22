@@ -44,9 +44,10 @@ fi
 echo "== 2/8 วัสดุที่เลิกเก็บราคา"
 "$PY" update_catalog_status.py
 
-echo "== 3/8 ราคาคาดการณ์ Naive ช่วงราคา และคำทำนาย ML คู่กัน"
+echo "== 3/8 LightGBM สำหรับเว็บ และ Naive สำหรับเปรียบเทียบ"
 "$PY" baseline.py --select naive > out/baseline.log
-"$PY" shadow_forecasts.py --prices data/prices_clean.csv --forecast out/forecast.csv --publish out/forecast_ml.csv
+"$PY" shadow_forecasts.py --prices data/prices_clean.csv --forecast out/forecast.csv
+"$PY" direct_price_model.py --prices data/prices_clean.csv --output out/forecast_ml.csv
 
 echo "== 4/8 ปัจจัยที่มีแหล่งอัปเดต 5 ไฟล์ (Google Drive) สำหรับประวัติย้อนหลัง"
 while read -r name id; do

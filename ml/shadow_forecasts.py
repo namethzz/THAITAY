@@ -129,29 +129,6 @@ def update_ledger(prices_path, forecast_path, catalog_path, directory):
         return new_issue or changed_scores or changed_report
 
 
-def publish_forecast(baseline_path, issue_path, output_path):
-    base = pd.read_csv(baseline_path)
-    issue = json.loads(issue_path.read_text(encoding="utf-8"))
-    keys = ["material_id", "month", "date"]
-    pairs = pd.DataFrame(issue["forecasts"]).set_index(keys)
-    out = base.set_index(keys)
-    if not out.index.is_unique or set(out.index) != set(pairs.index):
-        raise ValueError("Forecast keys differ from the issued predictions")
-    pairs = pairs.reindex(out.index)
-    if not out.model.eq("naive").all() or not out.price.eq(pairs.naive_price).all():
-        raise ValueError("Expected the matching Naive baseline")
-    paired = pairs.status.eq("paired")
-    if not paired.any() or pairs.loc[paired, "ml_price"].isna().any():
-        raise ValueError("Missing ML predictions")
-    price = pairs.ml_price.where(paired, out.price)
-    ratio = price / out.price
-    for col in ["low", "high"]:
-        out[col] = (out[col] * ratio).round(2)
-    out["price"] = price
-    out.loc[paired, "model"] = issue["model"]
-    write_changed(output_path, out.reset_index().to_csv(index=False, lineterminator="\n"))
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prices", type=Path, default=HERE / "api_data/prices.csv")
@@ -160,12 +137,8 @@ def main():
     parser.add_argument("--output", type=Path, default=HERE / "shadow" / MODEL)
     parser.add_argument("--signal-unchanged", action="store_true",
                         help="Return 3 when this run produced no changes")
-    parser.add_argument("--publish", type=Path, help="Write production forecasts using the issued ML predictions")
     args = parser.parse_args()
     changed = update_ledger(args.prices, args.forecast, args.catalog, args.output)
-    if args.publish:
-        origin = pd.to_datetime(pd.read_csv(args.prices, usecols=["date"]).date).max()
-        publish_forecast(args.forecast, args.output / "issues" / f"{origin:%Y-%m}.json", args.publish)
     return 3 if args.signal_unchanged and not changed else 0
 
 
