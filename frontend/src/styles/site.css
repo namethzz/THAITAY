@@ -194,7 +194,7 @@
 .filter-btn { gap: 8px; padding: 0 14px; }
 .filter-btn > span { font-size: 15px; }
 .filter-btn svg { color: var(--ink-2); }
-.filter-btn .count-badge { min-width: 22px; }
+.filter-btn .count-badge { min-width: 22px; align-items: center; justify-content: center; padding-top: 2px; }
 .filter-panel { width: 420px; padding: 4px 0 0; }
 .filter-body { display: grid; gap: 4px; max-height: min(62vh, 520px); overflow-y: auto; padding: 8px 16px 4px; }
 .fgroup { min-width: 0; margin: 0; padding: 10px 0 12px; border: 0; border-bottom: 1px solid var(--line); }
