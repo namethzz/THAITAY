@@ -26,7 +26,7 @@ class AuthApiError extends Error {
   }
 }
 
-async function request<T>(path: string, body?: Record<string, string>): Promise<T> {
+async function request<T>(path: string, body?: Record<string, unknown>): Promise<T> {
   let response: Response;
   try {
     response = await fetch(`${API_BASE}${path}`, {
