@@ -13,6 +13,11 @@ export default function AuthPage({ mode, onSuccess }: { mode: AuthMode; onSucces
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const isRegister = mode === "register";
+  const visibleError = isRegister
+    ? formError || serviceError
+    : [formError, serviceError]
+        .map((message) => message?.replaceAll("ไม่สามารถดำเนินการได้", "").trim())
+        .find((message) => message);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,9 +55,9 @@ export default function AuthPage({ mode, onSuccess }: { mode: AuthMode; onSucces
           </p>
         </div>
 
-        {(formError || serviceError) && (
+        {visibleError && (
           <div className="auth-error" role="alert">
-            {formError || serviceError}
+            {visibleError}
           </div>
         )}
 
