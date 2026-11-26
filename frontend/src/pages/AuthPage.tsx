@@ -36,52 +36,104 @@ export default function AuthPage({ mode, onSuccess }: { mode: AuthMode; onSucces
 
   return (
     <div className="auth-page">
-      <div className="auth-brand-container"><BrandMark className="auth-brand" /></div>
+      <div className="auth-brand-container">
+        <BrandMark className="auth-brand" />
+      </div>
       <form className="auth-card" onSubmit={onSubmit}>
         <div className="auth-heading">
           <span className="auth-eyebrow">บัญชี THAI TAY</span>
           <h1>{isRegister ? "สร้างบัญชีใหม่" : "ยินดีต้อนรับกลับมา"}</h1>
-          <p className="auth-sub">{isRegister ? "สมัครเพื่อเริ่มใช้งานบัญชี THAI TAY" : "เข้าสู่ระบบเพื่อใช้งานบัญชี THAI TAY"}</p>
+          <p className="auth-sub">
+            {isRegister
+              ? "สมัครเพื่อเริ่มใช้งานบัญชี THAI TAY"
+              : "เข้าสู่ระบบเพื่อใช้งานบัญชี THAI TAY"}
+          </p>
         </div>
 
         {(formError || serviceError) && (
-          <div className="auth-error" role="alert">{formError || serviceError}</div>
+          <div className="auth-error" role="alert">
+            {formError || serviceError}
+          </div>
         )}
 
         {isRegister && (
           <>
             <label htmlFor="auth-name">ชื่อ-นามสกุล</label>
-            <input id="auth-name" name="name" autoComplete="name" maxLength={80} value={name}
-              onChange={event => setName(event.target.value)} required />
+            <input
+              id="auth-name"
+              name="name"
+              autoComplete="name"
+              maxLength={80}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+            />
           </>
         )}
 
         <label htmlFor="auth-email">อีเมล</label>
-        <input id="auth-email" name="email" type="email" autoComplete="email" maxLength={254}
-          placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} required />
+        <input
+          id="auth-email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          maxLength={254}
+          placeholder="you@example.com"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          required
+        />
 
         <label htmlFor="auth-password">รหัสผ่าน</label>
-        <input id="auth-password" name="password" type="password" autoComplete={isRegister ? "new-password" : "current-password"}
-          value={password} onChange={event => setPassword(event.target.value)} required />
-        {isRegister && <p className="auth-hint">กำหนดความยาวได้ตามต้องการ (แนะนำให้ใช้รหัสผ่านที่คาดเดายาก)</p>}
+        <input
+          id="auth-password"
+          name="password"
+          type="password"
+          autoComplete={isRegister ? "new-password" : "current-password"}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          required
+        />
+        {isRegister && (
+          <p className="auth-hint">กำหนดความยาวได้ตามต้องการ (แนะนำให้ใช้รหัสผ่านที่คาดเดายาก)</p>
+        )}
 
         {isRegister && (
           <>
             <label htmlFor="auth-confirm-password">ยืนยันรหัสผ่าน</label>
-            <input id="auth-confirm-password" name="confirmPassword" type="password" autoComplete="new-password"
-              value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} required />
+            <input
+              id="auth-confirm-password"
+              name="confirmPassword"
+              type="password"
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              required
+            />
           </>
         )}
 
         <button className="auth-submit" type="submit" disabled={submitting || loading}>
-          {loading ? "กำลังตรวจสอบบัญชี…" : submitting ? (isRegister ? "กำลังสมัครสมาชิก…" : "กำลังเข้าสู่ระบบ…") : (isRegister ? "สมัครสมาชิก" : "เข้าสู่ระบบ")}
+          {loading
+            ? "กำลังตรวจสอบบัญชี…"
+            : submitting
+              ? isRegister
+                ? "กำลังสมัครสมาชิก…"
+                : "กำลังเข้าสู่ระบบ…"
+              : isRegister
+                ? "สมัครสมาชิก"
+                : "เข้าสู่ระบบ"}
         </button>
         <p className="auth-switch">
           {isRegister ? "มีบัญชีอยู่แล้ว?" : "ยังไม่มีบัญชี?"}{" "}
-          <a href={isRegister ? "#login" : "#register"}>{isRegister ? "เข้าสู่ระบบ" : "สมัครสมาชิก"}</a>
+          <a href={isRegister ? "#login" : "#register"}>
+            {isRegister ? "เข้าสู่ระบบ" : "สมัครสมาชิก"}
+          </a>
         </p>
       </form>
-      <a className="auth-home-link" href="#home">กลับไปยังหน้าแรก</a>
+      <a className="auth-home-link" href="#home">
+        กลับไปยังหน้าแรก
+      </a>
     </div>
   );
 }
