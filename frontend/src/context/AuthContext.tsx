@@ -6,6 +6,7 @@ export interface AuthUser {
   id: string;
   name: string;
   email: string;
+  watchlist?: string[];
 }
 
 interface AuthContextValue {
@@ -14,6 +15,7 @@ interface AuthContextValue {
   error: string;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  saveWatch: (ids: string[], following: boolean) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -112,7 +114,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const value = useMemo(() => ({ user, loading, error, login, register, logout }), [user, loading, error, login, register, logout]);
+  const accountId = user?.id;
+  const saveWatch = useCallback(async (ids: string[], following: boolean) => {
+    if (!accountId) throw new Error("กรุณาเข้าสู่ระบบก่อน");
+    await request("/watchlist", { accountId, ids, following });
+    setUser(current => {
+      if (!current || current.id !== accountId) return current;
+      const previous = current.watchlist ?? [];
+      const watchlist = following
+        ? [...new Set([...previous, ...ids])]
+        : previous.filter(id => !ids.includes(id));
+      return { ...current, watchlist };
+    });
+  }, [accountId]);
+
+  const value = useMemo(() => ({ user, loading, error, login, register, saveWatch, logout }), [user, loading, error, login, register, saveWatch, logout]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

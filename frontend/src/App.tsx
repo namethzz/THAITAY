@@ -39,7 +39,7 @@ function pageTitle(route: Route) {
 }
 
 export default function App() {
-  const { user, loading: authLoading, logout } = useAuth();
+  const { user, loading: authLoading, saveWatch, logout } = useAuth();
   const [selectedId, setSelectedId] = useState(defaultMaterialId);
   const [route, setRoute] = useState<Route>(() => routeFromHash(defaultMaterialId));
   const authHasBeenVisited = useRef(route.page === "login" || route.page === "register");
@@ -53,7 +53,9 @@ export default function App() {
     DEFAULT_META,
     cleanMeta,
   );
-  const [watch, setWatch] = usePersistentState<string[]>("thai-tay-watch-v1", [], cleanWatch);
+  const [deviceWatch, setDeviceWatch] = usePersistentState<string[]>("thai-tay-watch-v1", [], cleanWatch);
+  const watch = user ? cleanWatch(user.watchlist).reverse() : deviceWatch;
+  const pendingWatch = useRef(false);
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const mainRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
@@ -134,10 +136,29 @@ export default function App() {
 
   // ติดตามวัสดุ: วัสดุที่ติดตามแสดงราคาและแนวโน้มที่หน้าแรก (บอกทางไปหน้าแรกเมื่อกดจากหน้าอื่น)
   const onHome = route.page === "home";
+  const persistWatch = useCallback(async (ids: string[], following: boolean) => {
+    if (pendingWatch.current) return false;
+    pendingWatch.current = true;
+    try {
+      await saveWatch(ids, following);
+      return true;
+    } catch (cause) {
+      setToast({ id: Date.now(), tone: "error", text: "บันทึกรายการติดตามไม่สำเร็จ",
+        detail: cause instanceof Error ? cause.message : "กรุณาลองอีกครั้ง" });
+      return false;
+    } finally {
+      pendingWatch.current = false;
+    }
+  }, [saveWatch]);
   const toggleWatch = useCallback(
-    (id: string) => {
+    async (id: string) => {
+      if (authLoading || pendingWatch.current) return;
       const watching = watch.includes(id);
-      setWatch(watching ? watch.filter((x) => x !== id) : [id, ...watch]);
+      if (user) {
+        if (!(await persistWatch([id], !watching))) return;
+      } else {
+        setDeviceWatch(watching ? watch.filter(x => x !== id) : [id, ...watch]);
+      }
       if (!watching && !onHome)
         setToast({
           id: Date.now(),
@@ -146,7 +167,7 @@ export default function App() {
           action: "home",
         });
     },
-    [watch, setWatch, onHome],
+    [watch, setDeviceWatch, user, authLoading, persistWatch, onHome],
   );
   const watchProps = { watch, onToggleWatch: toggleWatch };
 
@@ -193,7 +214,16 @@ export default function App() {
           )}
           {authPage && !authLoading && <AuthPage mode={route.page} onSuccess={onAuthSuccess} />}
           {route.page === "home" && (
-            <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
+            <>
+              {user && deviceWatch.length > 0 && (
+                <button type="button" className="btn" onClick={async () => {
+                  if (await persistWatch([...deviceWatch].reverse(), true)) setDeviceWatch([]);
+                }}>
+                  เพิ่มวัสดุที่ติดตามในเครื่องนี้ ({deviceWatch.length} รายการ) เข้าบัญชีของฉัน
+                </button>
+              )}
+              <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
+            </>
           )}
           {route.page === "search" && (
             <SearchPage
