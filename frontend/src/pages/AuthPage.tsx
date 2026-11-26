@@ -15,7 +15,9 @@ export default function AuthPage({ mode, onSuccess }: { mode: AuthMode; onSucces
   const isRegister = mode === "register";
   const visibleError = isRegister
     ? formError || serviceError
-    : [formError, serviceError].find((message) => message && message !== "ไม่สามารถดำเนินการได้");
+    : [formError, serviceError]
+        .map((message) => message?.replaceAll("ไม่สามารถดำเนินการได้", "").trim())
+        .find((message) => message);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
