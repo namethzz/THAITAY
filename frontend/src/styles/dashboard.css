@@ -18,9 +18,8 @@
   background: linear-gradient(95deg, #142f4b 25%, #173855eb 58%, #173855b8), url("/images/construction-architecture.jpg") center 52% / cover;
   color: white;
 }
-.md-hero a, .md-crumb { color: #d9e4ed; font-size: 12px; }
-.md-hero a:hover, .md-footnote a:hover { text-decoration: underline; }
-.md-hero h1 { color: white; font-size: clamp(31px, 4vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 14px 0 7px; }
+.md-footnote a:hover { text-decoration: underline; }
+.md-hero h1 { color: white; font-size: clamp(31px, 4vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 7px; }
 .md-hero p { color: #dfebf2; font-size: 14px; margin: 0; }
 .md-source { display: flex; align-items: center; gap: 13px; border-left: 3px solid #f38a47; padding: 3px 0 3px 15px; }
 .md-source small, .md-source strong { display: block; }
@@ -36,7 +35,8 @@
 .md-section-head > span, .md-summary-head > span, .md-caption, .md-footnote { color: var(--md-muted); font-size: 13px; }
 .md-reset, .md-pagination button { background: #fff; border: 1px solid var(--md-line, #ccd6dd); border-radius: 7px; font-size: 12px; font-weight: 500; color: #334b61; padding: 7px 11px; }
 .md-reset:hover, .md-pagination button:enabled:hover { background: #f1f5f7; }
-.md-fields { display: grid; grid-template-columns: 1.45fr repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+.md-fields { display: grid; grid-template-columns: 1.45fr repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.md-range-error { margin: 8px 0 0; color: var(--up); font-size: 13px; }
 .md-fields label { display: grid; gap: 5px; min-width: 0; color: var(--md-muted); font-size: 12px; }
 .md-fields select { width: 100%; height: 40px; color: var(--md-ink); font: inherit; font-size: 14px; border: 1px solid #cbd6df; border-radius: 7px; padding: 0 8px; background: #fff; }
 .md-kpis { display: grid; gap: 13px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -63,7 +63,9 @@
 .md-key b { margin-left: auto; }
 .md-caption { margin: 5px 0 9px; }
 .md-empty { display: grid; place-items: center; min-height: 140px; color: var(--md-muted); text-align: center; }
-.md-trend-tools { display: grid; grid-template-columns: minmax(220px, 340px) 1fr; align-items: end; gap: 14px; margin: 16px 0 12px; }
+.md-picker-label { display: block; margin: 16px 0 6px; color: var(--ink-2); font-size: 13px; }
+.md-trend-tools { display: grid; grid-template-columns: minmax(220px, 340px) minmax(0, 1fr); align-items: center; gap: 8px 14px; margin-bottom: 12px; }
+.md-trend-tools .compare-picker { margin: 0; }
 .md-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .md-tags li { display: flex; align-items: center; gap: 6px; padding: 3px 8px; border: 1px solid var(--md-line); border-radius: 6px; font-size: 12px; }
 .md-tags button, .md-table-panel th button { background: transparent; border: 0; display: inline-flex; align-items: center; gap: 5px; padding: 4px; }
@@ -83,20 +85,18 @@
 .md-footnote { margin: 0; }
 .md-footnote a { color: #864019; }
 @media (max-width: 860px) {
-  .md-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .md-kpi { padding: 12px; }
   .md-charts { grid-template-columns: minmax(0, .85fr) minmax(0, 1.2fr); }
 }
 @media (max-width: 640px) {
   .md-wrap { padding: 12px 12px 28px; }
   .md-hero { display: grid; gap: 14px; padding: 21px 18px; }
-  .md-hero h1 { margin-top: 10px; }
   .md-source { align-items: center; padding: 0 0 0 9px; gap: 7px; }
   .md-source div { display: flex; align-items: baseline; gap: 8px; }
   .md-source strong { font-size: 15px; }
   .md-source svg { display: none; }
   .md-kpis, .md-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-  .md-fields label:first-child { grid-column: 1 / -1; }
   .md-charts, .md-trend-tools { grid-template-columns: minmax(0, 1fr); }
   .md-summary-head { display: grid; gap: 3px; }
   .md-count strong { font-size: 30px; }

@@ -1,11 +1,10 @@
-import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Search, X } from "lucide-react";
 import { searchMaterials } from "@/data.js";
 import { materialTitle } from "@/lib/materialTitle";
 import type { Material } from "@/types";
 
-export default function ComparisonMaterialPicker({selected, onPick, eligible}: {selected: string[]; onPick: (material: Material) => void; eligible?: ReadonlySet<string>}) {
-  const id = useId();
+export default function ComparisonMaterialPicker({id, selected, onPick, eligible}: {id: string; selected: string[]; onPick: (material: Material) => void; eligible?: ReadonlySet<string>}) {
   const input = useRef<HTMLInputElement>(null);
   const root = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
@@ -34,7 +33,6 @@ export default function ComparisonMaterialPicker({selected, onPick, eligible}: {
   return <div ref={root} className="compare-picker" onFocus={event => {
     if (event.target === input.current && window.matchMedia("(max-width: 767px)").matches) root.current?.scrollIntoView({block: "start", behavior: "instant"});
   }} onBlur={event => {if (!event.currentTarget.contains(event.relatedTarget as Node)) {setOpen(false); setActive(-1);}}}>
-    <label htmlFor={id}>เลือกวัสดุสำหรับกราฟ (สูงสุด 5 รายการ)</label>
     <div className="compare-picker-field">
       <Search size={18} aria-hidden="true" />
       <input id={id} ref={input} type="text" role="combobox" aria-label="ค้นหาวัสดุเพื่อเปรียบเทียบ" aria-autocomplete="list" aria-expanded={expanded} aria-controls={`${id}-options`} aria-activedescendant={expanded && active >= 0 && options[active] ? `${id}-option-${active}` : undefined} autoComplete="off" placeholder={disabled ? "เลือกครบ 5 รายการแล้ว" : "พิมพ์ชื่อวัสดุ เช่น SD40 คอนกรีต DB12"} disabled={disabled} value={query} onChange={e => {setQuery(e.target.value); setOpen(true); setActive(-1);}} onFocus={() => setOpen(true)} onClick={() => setOpen(true)} onKeyDown={onKeyDown} />
@@ -49,6 +47,5 @@ export default function ComparisonMaterialPicker({selected, onPick, eligible}: {
       {!options.length && <p className="chart-note">ไม่พบวัสดุที่เพิ่มได้ ลองเปลี่ยนคำค้นหา วัสดุที่เลือกแล้วจะไม่แสดงซ้ำ</p>}
       {matches.length > 8 && <p className="chart-note">พบ {matches.length} รายการ แสดง 8 รายการแรก · พิมพ์ชื่อหรือขนาดเพิ่มเพื่อจำกัดผล</p>}
     </div>}
-    {disabled && <p className="chart-note">นำวัสดุออกจากกราฟก่อน เพื่อเลือกวัสดุใหม่</p>}
   </div>;
 }

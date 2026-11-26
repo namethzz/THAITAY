@@ -41,17 +41,17 @@ function MarketDashboard({data}: {data: ChartData}) {
   const previous = monthLabel(shiftMonth(month, -1));
   return <div className="md-wrap">
     <header className="md-hero">
-      <div><a href="#home">หน้าแรก</a><span className="md-crumb"> / วิเคราะห์ราคาวัสดุ</span><h1>ภาพรวมราคาจริง</h1><p>ราคาวัสดุก่อสร้างรายเดือน · กรุงเทพฯ (ส่วนกลาง)</p></div>
+      <div><h1>ภาพรวมราคา</h1><p>ราคาวัสดุก่อสร้างรายเดือน · กรุงเทพฯ (ส่วนกลาง)</p></div>
       <div className="md-source"><CalendarDays size={19}/><div><small>ข้อมูลล่าสุดจาก สนค.</small><strong>{monthLabel(data.asOf)}</strong></div></div>
     </header>
     <div className="md-content">
       <section className="md-panel md-filters"><div className="md-section-head"><h2><SlidersHorizontal size={17}/> ตัวกรอง</h2><button className="md-reset" onClick={reset}><RotateCcw size={14}/>ล้างตัวกรอง</button></div>
         <div className="md-fields"><label>หมวดวัสดุ<select value={category} onChange={e => setCategory(e.target.value)}><option value="all">ทุกหมวดวัสดุ</option>{materialCategories.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}</select></label>
           <MonthSelect label="เดือนอ้างอิง" months={months.slice(1).reverse()} value={month} onChange={setMonth}/>
-          <MonthSelect label="กราฟเส้น ตั้งแต่" months={months} value={start} onChange={v => {setStart(v); if (v > end) setEnd(v);}}/>
-          <MonthSelect label="กราฟเส้น ถึง" months={months} value={end} onChange={v => {setEnd(v); if (v < start) setStart(v);}}/>
-          <label>สถานะราคา<select value={status} onChange={e => setStatus(e.target.value as StatusFilter)}><option value="all">ทุกสถานะ</option>{statuses.map(s => <option key={s} value={s}>{movements[s].label}</option>)}</select></label>
+          <MonthSelect label="กราฟเส้น ตั้งแต่" months={months} value={start} onChange={setStart}/>
+          <MonthSelect label="กราฟเส้น ถึง" months={months} value={end} onChange={setEnd}/>
         </div>
+        {start >= end && <p className="md-range-error" role="status">กรุณาเลือกเดือน “ถึง” ให้หลังเดือน “ตั้งแต่” เพื่อดูแนวโน้มราคา</p>}
       </section>
       <div className="md-summary-head"><h2>การเคลื่อนไหวของราคา</h2><span>{monthLabel(month)} เทียบกับ {previous}</span></div>
       <div className="md-kpis">{statuses.map(s => {
@@ -76,5 +76,5 @@ function ActualDashboard() {
   return <MarketDashboard data={data}/>;
 }
 export default function Dashboard() {
-  return isDemoData ? <section className="page-loading"><h1>ภาพรวมราคาจริง</h1><p>โหมดตัวอย่างไม่แสดงข้อมูลราคาจริง</p></section> : <ActualDashboard/>;
+  return isDemoData ? <section className="page-loading"><h1>ภาพรวมราคา</h1><p>โหมดตัวอย่างไม่แสดงข้อมูลราคาจริง</p></section> : <ActualDashboard/>;
 }

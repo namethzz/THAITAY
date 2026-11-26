@@ -37,7 +37,7 @@ const cleanWatch = (saved: unknown): string[] =>
 const titleOf = (id: string, fallback: string) => { const material = getMaterialById(id); return material ? materialTitle(material).title : fallback; };
 
 function pageTitle(route: Route) {
-  if (route.page === "dashboard") return "ภาพรวมราคาจริง | THAI TAY";
+  if (route.page === "dashboard") return "ภาพรวมราคา | THAI TAY";
   if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
   if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
   if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";

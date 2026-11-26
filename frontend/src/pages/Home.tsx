@@ -86,7 +86,7 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
             <h2 id="cat-title">เลือกดูตามหมวด</h2>
             <p>ไม่แน่ใจว่าจะพิมพ์อะไร กดหมวดที่ต้องการ แล้วดูราคาทั้งหมวด</p>
           </div>
-          <a className="btn btn-secondary" href="#dashboard">ดูภาพรวมราคาจริง <ArrowRight size={18} aria-hidden="true" /></a>
+          <a className="btn btn-secondary" href="#dashboard">ดูภาพรวมราคา <ArrowRight size={18} aria-hidden="true" /></a>
         </div>
         <ul className="cat-grid">
           {materialCategories.map(c => (

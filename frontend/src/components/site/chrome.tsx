@@ -35,7 +35,7 @@ export function SiteHeader({ route, count, user, authLoading, onLogout }: {
         <nav className="top-nav" aria-label="เมนูหลัก">
           {link("home", "หน้าแรก")}
           {link("search", "ค้นหาวัสดุ")}
-          {link("dashboard", "ภาพรวมราคาจริง")}
+          {link("dashboard", "ภาพรวมราคา")}
           {link("estimate", "ใบประมาณราคา")}
         </nav>
         <div className="header-account">

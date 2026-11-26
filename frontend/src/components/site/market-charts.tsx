@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import ReactECharts from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
 import type { EChartsOption } from "echarts";
@@ -66,9 +66,11 @@ export function Movers({rows, month}: {rows: MarketRow[]; month: string}) {
 
 const preferredIds = ["MAT-0401020203000000", "MAT-0101010107200000"];
 export function Trend({data, rows, dates}: {data: ChartData; rows: MarketRow[]; dates: string[]}) {
+  const pickerId = useId();
   const eligible = useMemo(() => new Set(rows.map(r => r.material.id)), [rows]);
   const defaults = preferredIds.filter(id => eligible.has(id));
   const [picked, setPicked] = useState<string[]>(() => defaults.length ? defaults : rows.slice(0, 1).map(r => r.material.id));
+  if (dates.length < 2) return <section className="md-panel"><h2>แนวโน้มราคาย้อนหลัง</h2><p className="md-empty">เลือกช่วงเวลาอย่างน้อย 2 เดือนในตัวกรอง</p></section>;
   const materials = picked.flatMap(id => rows.find(r => r.material.id === id)?.material ?? []);
   const index = materials.length > 1;
   const end = dates[dates.length - 1];
@@ -82,8 +84,10 @@ export function Trend({data, rows, dates}: {data: ChartData; rows: MarketRow[]; 
   });
   const hasValues = lines.some(line => line.data.some(n => n !== null));
   return <section className="md-panel"><div className="md-section-head"><h2>แนวโน้มราคาย้อนหลัง</h2><span>{monthLabel(dates[0])} – {monthLabel(end)}</span></div>
-    <div className="md-trend-tools"><ComparisonMaterialPicker eligible={eligible} selected={picked} onPick={m => setPicked(ids => [...ids, m.id])}/>
+    <label className="md-picker-label" htmlFor={pickerId}>เลือกวัสดุสำหรับกราฟ (สูงสุด 5 รายการ)</label>
+    <div className="md-trend-tools"><ComparisonMaterialPicker id={pickerId} eligible={eligible} selected={picked} onPick={m => setPicked(ids => [...ids, m.id])}/>
       <ul className="md-tags">{materials.map((m, i) => <li key={m.id}><i style={{background: palette[i]}}/><a href={"#m/" + m.id}>{materialTitle(m).title}</a><button aria-label={"นำออก " + m.name} onClick={() => setPicked(ids => ids.filter(id => id !== m.id))}><X size={14}/></button></li>)}</ul></div>
+    {picked.length >= 5 && <p className="md-caption">นำวัสดุออกจากกราฟก่อน เพื่อเลือกวัสดุใหม่</p>}
     {hasValues ? <><p className="md-caption">{index && comparison?.base ? "ดัชนีราคา · " + monthLabel(comparison.base) + " = 100" : "ราคาจริง · บาท/" + materials[0]?.unit}</p>
       <Chart height={310} label="กราฟเส้นแนวโน้มราคาจริงย้อนหลัง" onHit={hit => {if (picked.includes(hit.seriesId)) detail(hit.seriesId);}} option={{
         grid: {left: 56, right: 20, top: 43, bottom: 68},
