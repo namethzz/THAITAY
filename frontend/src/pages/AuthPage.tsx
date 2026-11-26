@@ -28,7 +28,7 @@ export default function AuthPage({ mode, onSuccess }: { mode: AuthMode; onSucces
       else await login(email.trim(), password);
       onSuccess();
     } catch (cause) {
-      setFormError(cause instanceof Error ? cause.message : "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง");
+      setFormError(cause instanceof Error ? cause.message : "ไม่สามารถดำเนินการได้");
     } finally {
       setSubmitting(false);
     }

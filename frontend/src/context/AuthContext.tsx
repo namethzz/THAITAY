@@ -49,7 +49,7 @@ async function request<T>(path: string, body?: Record<string, string>): Promise<
       ? data.message
       : response.status >= 500
         ? "ระบบบัญชีไม่ตอบสนอง กรุณาตรวจสอบ backend และ MongoDB"
-        : "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง";
+        : "ไม่สามารถดำเนินการได้";
     throw new AuthApiError(message, response.status);
   }
   if (!data || typeof data !== "object") throw new Error("รูปแบบข้อมูลจากระบบบัญชีไม่ถูกต้อง");
