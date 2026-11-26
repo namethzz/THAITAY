@@ -8,7 +8,7 @@
 
 เว็บที่ deploy อยู่: https://thaitay.vercel.app
 
-> **สถานะ:** หน้าเว็บแสดงราคาจริงจาก สนค. พร้อมราคาคาดการณ์ 1–3 เดือน (Naive) ช่วงราคาต่ำ–สูง และป้าย "ราคามีโอกาสเปลี่ยน" (LightGBM) ราคาอัปเดตเดือนละครั้งหลัง สนค. ประกาศ ข้อมูลเป็นไฟล์ JSON ในเว็บเอง จึงไม่ต้องมี backend ผลการทดลองทั้งหมดอยู่ใน [`ml/DATA_REVIEW.md`](ml/DATA_REVIEW.md) และ notebook [`ml/colab/THAITAY_ML.ipynb`](ml/colab/THAITAY_ML.ipynb)
+> **สถานะ:** หน้าเว็บแสดงราคาจริงจาก สนค. พร้อมราคาคาดการณ์ 1–3 เดือนจาก LightGBM ช่วงราคาต่ำ–สูง และป้าย "ราคามีโอกาสเปลี่ยน" (LightGBM) ราคาอัปเดตเดือนละครั้งหลัง สนค. ประกาศ โดยค่าเริ่มต้น frontend โหลดไฟล์ JSON ของวัสดุที่สร้างไว้ล่วงหน้า ส่วนระบบบัญชีเรียก Express API ที่เชื่อมต่อ MongoDB ผลการทดลองทั้งหมดอยู่ใน [`ml/DATA_REVIEW.md`](ml/DATA_REVIEW.md) และ notebook [`ml/colab/THAITAY_ML.ipynb`](ml/colab/THAITAY_ML.ipynb)
 
 ![หน้าแรกของ THAI TAY](docs/screenshots/2026-11-17/home-desktop.jpg)
 
@@ -59,8 +59,8 @@
 สถานะตรวจรับงานล่าสุดและข้อจำกัดที่ยังต้องให้เจ้าของระบบดำเนินการอยู่ใน [`docs/HANDOVER_CHECK_2026-11-17.md`](docs/HANDOVER_CHECK_2026-11-17.md)
 
 1. **ปัจจัยภายนอกของป้าย** ถอดถ่านหิน เศษเหล็ก และเหล็กฟิวเจอร์สออกจากเส้นทางรายเดือนแล้ว เพราะยังยืนยันแหล่งและหน่วยไม่ได้ ใช้เฉพาะ 5 ปัจจัยที่อัปเดตได้ ไม่เติมค่าเก่าแทนข้อมูลใหม่ หากจะนำกลับต้องยืนยันแหล่งและทดสอบใหม่ ดู [ผลประเมินป้ายที่แยก calibration/test](docs/SIGNAL_REVISION_2026-11-17.md)
-2. **โมเดลที่แม่นกว่า naive** ทดลองแล้ว 16 แบบ (LightGBM, Random Forest, LSTM, Linear, ETS และอื่น ๆ) ยังไม่มีแบบไหนชนะ naive ได้ทั้งช่วงทดสอบย้อนหลัง 7 ปีและ 12 เดือนล่าสุด ขั้นต่อไปคือหาข้อมูลที่รู้ก่อน สนค. ประกาศ เช่น ราคาโรงงานเหล็กรายสัปดาห์ และรัน LightGBM คู่กับ naive ทุกเดือน
-3. **backend (ทางเลือก)** ถ้าวันหนึ่งต้องคำนวณราคาสด ใช้ `ml/serve.py` บน Cloud Run แล้วตั้ง `VITE_API_BASE` (ดู `ml/README.md` หัวข้อ "ทางเลือก: backend")
+2. **ติดตามความแม่นยำ** เมื่อมีข้อมูลเดือนใหม่ `ml/monthly_update.sh` เรียก `direct_price_model.py` เพื่อสร้างราคาคาดการณ์สำหรับเผยแพร่ และคำนวณ Naive ไว้เทียบกับผลจริงในเดือนถัดไป
+3. **API ราคา (ทางเลือก)** ตั้ง `VITE_API_BASE` ตอน build หากต้องการให้หน้าเว็บอ่านราคาจาก FastAPI ใน `ml/serve.py` ซึ่งให้บริการข้อมูลจาก CSV ที่คำนวณไว้แล้ว
 
 ## เทคโนโลยี
 
@@ -71,7 +71,11 @@
 | ข้อมูลบนเว็บ | ไฟล์ JSON ใน `frontend/public/data/prices/` (มี FastAPI `ml/serve.py` สำรองไว้) |
 | Deploy | Vercel |
 
-### รันระบบบัญชี (เลือกใช้)
+### ระบบบัญชีบนเว็บที่ deploy
+
+ถ้า Vercel build เฉพาะ `frontend/` จะเผยแพร่หน้าเว็บและไฟล์ราคาที่มากับเว็บ ระบบสมัครสมาชิกและเข้าสู่ระบบต้องมี `backend/server.js` ทำงานและเชื่อมต่อ MongoDB ด้วย Frontend เรียก `/api/auth` บนโดเมนเว็บเป็นค่าเริ่มต้น จึงต้องส่งต่อเส้นทางนี้ไปยัง backend หรือกำหนด `VITE_AUTH_API_BASE` ตอน build ให้ตรงกับ API ที่ deploy ไว้ ตรวจบริการ Express ได้ด้วย `GET /api/health` บนโดเมนของ backend ซึ่งควรตอบ JSON `{"ok":true}`
+
+### รันระบบบัญชีในเครื่อง
 
 ตั้งค่า MongoDB URI และ secret ใน `backend/.env` ตามตัวอย่างใน [`backend/.env.example`](backend/.env.example) แล้วเปิด backend ด้วย `npm run dev` ในโฟลเดอร์ `backend` จากนั้นเปิด frontend ตามขั้นตอนด้านบน หน้าเข้าสู่ระบบอยู่ที่ `#login` และสมัครสมาชิกที่ `#register` คู่มือ production และ CORS อยู่ใน [`backend/README.md`](backend/README.md)
 
