@@ -4,7 +4,7 @@ import { searchMaterials } from "@/data.js";
 import { materialTitle } from "@/lib/materialTitle";
 import type { Material } from "@/types";
 
-export default function ComparisonMaterialPicker({selected, onPick}: {selected: string[]; onPick: (material: Material) => void}) {
+export default function ComparisonMaterialPicker({selected, onPick, eligible}: {selected: string[]; onPick: (material: Material) => void; eligible?: ReadonlySet<string>}) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
   const root = useRef<HTMLDivElement>(null);
@@ -12,7 +12,7 @@ export default function ComparisonMaterialPicker({selected, onPick}: {selected: 
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const disabled = selected.length >= 5;
-  const matches = useMemo(() => searchMaterials(query).filter(m => !selected.includes(m.id)), [query, selected]);
+  const matches = useMemo(() => searchMaterials(query).filter(m => !selected.includes(m.id) && (!eligible || eligible.has(m.id))), [query, selected, eligible]);
   const options = matches.slice(0, 8);
   const expanded = open && !disabled;
   const pick = (material: Material) => {
@@ -34,7 +34,7 @@ export default function ComparisonMaterialPicker({selected, onPick}: {selected: 
   return <div ref={root} className="compare-picker" onFocus={event => {
     if (event.target === input.current && window.matchMedia("(max-width: 767px)").matches) root.current?.scrollIntoView({block: "start", behavior: "instant"});
   }} onBlur={event => {if (!event.currentTarget.contains(event.relatedTarget as Node)) {setOpen(false); setActive(-1);}}}>
-    <label htmlFor={id}>เพิ่มวัสดุ (เลือก 2–5 รายการ)</label>
+    <label htmlFor={id}>เลือกวัสดุสำหรับกราฟ (สูงสุด 5 รายการ)</label>
     <div className="compare-picker-field">
       <Search size={18} aria-hidden="true" />
       <input id={id} ref={input} type="text" role="combobox" aria-label="ค้นหาวัสดุเพื่อเปรียบเทียบ" aria-autocomplete="list" aria-expanded={expanded} aria-controls={`${id}-options`} aria-activedescendant={expanded && active >= 0 && options[active] ? `${id}-option-${active}` : undefined} autoComplete="off" placeholder={disabled ? "เลือกครบ 5 รายการแล้ว" : "พิมพ์ชื่อวัสดุ เช่น SD40 คอนกรีต DB12"} disabled={disabled} value={query} onChange={e => {setQuery(e.target.value); setOpen(true); setActive(-1);}} onFocus={() => setOpen(true)} onClick={() => setOpen(true)} onKeyDown={onKeyDown} />

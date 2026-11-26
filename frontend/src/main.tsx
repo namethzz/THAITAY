@@ -16,6 +16,7 @@ import "./styles/auth.css";
 const SearchPage = lazy(() => import("./pages/Search"));
 const MaterialPage = lazy(() => import("./pages/MaterialPage"));
 const Estimate = lazy(() => import("./pages/Estimate"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 const DEFAULT_META: EstimateMeta = { project: "", customer: "", contingency: 0, vat: true };
 const cleanLines = (saved: unknown): EstimateLine[] =>
@@ -36,6 +37,7 @@ const cleanWatch = (saved: unknown): string[] =>
 const titleOf = (id: string, fallback: string) => { const material = getMaterialById(id); return material ? materialTitle(material).title : fallback; };
 
 function pageTitle(route: Route) {
+  if (route.page === "dashboard") return "ภาพรวมราคาจริง | THAI TAY";
   if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
   if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
   if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
@@ -134,6 +136,7 @@ function App() {
           {authPage && authLoading && <div className="auth-page"><p className="auth-checking" role="status">กำลังตรวจสอบบัญชี…</p></div>}
           {authPage && !authLoading && <AuthPage mode={route.page} onSuccess={onAuthSuccess} />}
           {route.page === "home" && <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />}
+          {route.page === "dashboard" && <Dashboard />}
           {route.page === "search" && <SearchPage key={hashFor(route)} initialQuery={route.q} initialCategory={route.cat} initialFilters={route.filters} />}
           {route.page === "material" && <MaterialPage key={route.id} id={route.id} go={go} addLine={addLine} {...watchProps} />}
           {route.page === "estimate" && <Estimate key={route.shared ?? "mine"} shared={route.shared} lines={lines} setLines={setLines} meta={meta} setMeta={setMeta} go={go} notify={setToast} />}

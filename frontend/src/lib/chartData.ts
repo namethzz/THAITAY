@@ -33,19 +33,35 @@ export function calendarSeries(points: Observation[], end: string, months: numbe
   const byDate = new Map(points.map(p => [p.date, p.price]));
   return Array.from({length: months}, (_, i) => { const date = shiftMonth(end, i - months + 1); return {date, label: monthLabel(date), actual: byDate.get(date) ?? null}; });
 }
-export function monthlyChanges(data: ChartData, catalog: Material[], category = "all") {
-  const previous = shiftMonth(data.asOf, -1);
-  return catalog.filter(m => category === "all" || m.categoryCode === category).flatMap(material => {
-    const history = data.materials[material.id];
-    if (!history || history.unit !== material.unit) return [];
-    const before = history.points.find(p => p.date === previous)?.price;
-    const latest = history.points.find(p => p.date === data.asOf)?.price;
-    if (before == null || latest == null || before <= 0) return [];
-    return [{material, previous: before, latest, change: (latest / before - 1) * 100}];
-  });
+export type Movement = "up" | "down" | "steady" | "missing";
+export interface MarketRow {
+  material: Material;
+  previous: number | null;
+  latest: number | null;
+  change: number | null;
+  status: Movement;
 }
-export function comparisonSeries(data: ChartData, ids: string[], months: number) {
-  const dates = calendarSeries([], data.asOf, months).map(p => p.date);
+
+export function marketRow(data: ChartData, material: Material, month: string): MarketRow {
+  const history = data.materials[material.id];
+  const points = history?.unit === material.unit ? history.points : [];
+  const priceAt = (date: string) => {
+    const price = points.find(p => p.date === date)?.price;
+    return price != null && Number.isFinite(price) && price > 0 ? price : null;
+  };
+  const previous = priceAt(shiftMonth(month, -1));
+  const latest = priceAt(month);
+  const change = latest !== null && previous !== null ? (latest / previous - 1) * 100 : null;
+  const status = change === null ? "missing" : change > .000001 ? "up" : change < -.000001 ? "down" : "steady";
+  return {material, previous, latest, change, status};
+}
+export function monthlyChanges(data: ChartData, catalog: Material[], category = "all") {
+  return catalog.filter(m => category === "all" || m.categoryCode === category)
+    .map(material => marketRow(data, material, data.asOf))
+    .filter((r): r is MarketRow & {previous: number; latest: number; change: number} => r.change !== null);
+}
+export function comparisonSeries(data: ChartData, ids: string[], months: number, end = data.asOf) {
+  const dates = calendarSeries([], end, months).map(p => p.date);
   const lookup = ids.map(id => new Map((data.materials[id]?.points ?? []).map(p => [p.date, p.price])));
   const base = dates.find(date => lookup.every(m => (m.get(date) ?? 0) > 0));
   if (!base || ids.length < 2) return {base: null, points: []};
