@@ -3,7 +3,7 @@
   --md-muted: #536779;
   --md-line: #dce3e8;
   color: var(--md-ink);
-  background: #f3f5f7;
+  background: var(--ground);
   padding: 24px max(18px, calc((100% - 1200px) / 2)) 40px;
   font-variant-numeric: tabular-nums;
 }
