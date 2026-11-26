@@ -22,16 +22,39 @@ const QUICK_PICKS = [
   { label: "ลวดผูกเหล็ก", query: "ลวดผูกเหล็ก" },
   { label: "ไวร์เมช", query: "ไวร์เมช" },
 ]
-  .map(pick => ({ ...pick, material: searchMaterials(pick.query, { limit: 1 })[0] }))
-  .filter((pick): pick is { label: string; query: string; material: Material } => Boolean(pick.material));
+  .map((pick) => ({ ...pick, material: searchMaterials(pick.query, { limit: 1 })[0] }))
+  .filter((pick): pick is { label: string; query: string; material: Material } =>
+    Boolean(pick.material),
+  );
 
 const STEPS = [
-  { title: "ค้นหาวัสดุ", text: `พิมพ์ชื่อ เช่น เหล็กเส้น SD40 คอนกรีต หรือเสาเข็ม จากวัสดุงานโครงสร้าง ${materialCatalog.length} รายการ` },
-  { title: "ดูราคาล่าสุดและอีก 1–3 เดือน", text: "รู้ว่าราคาจะขึ้นหรือลง พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ตัดสินใจได้ว่าควรซื้อตอนนี้หรือรอ" },
-  { title: "ใส่จำนวน ได้ใบประมาณราคา", text: "ระบบรวมภาษีและเงินสำรองให้ ดาวน์โหลดเป็นไฟล์หรือพิมพ์แนบใบเสนอราคาได้" },
+  {
+    title: "ค้นหาวัสดุ",
+    text: `พิมพ์ชื่อ เช่น เหล็กเส้น SD40 คอนกรีต หรือเสาเข็ม จากวัสดุงานโครงสร้าง ${materialCatalog.length} รายการ`,
+  },
+  {
+    title: "ดูราคาล่าสุดและอีก 1–3 เดือน",
+    text: "รู้ว่าราคาจะขึ้นหรือลง พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ตัดสินใจได้ว่าควรซื้อตอนนี้หรือรอ",
+  },
+  {
+    title: "ใส่จำนวน ได้ใบประมาณราคา",
+    text: "ระบบรวมภาษีและเงินสำรองให้ ดาวน์โหลดเป็นไฟล์หรือพิมพ์แนบใบเสนอราคาได้",
+  },
 ];
 
-export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }: { selectedId: string; onSelect: (id: string) => void; go: Go; watch: string[]; onToggleWatch: (id: string) => void }) {
+export default function Home({
+  selectedId,
+  onSelect,
+  go,
+  watch,
+  onToggleWatch,
+}: {
+  selectedId: string;
+  onSelect: (id: string) => void;
+  go: Go;
+  watch: string[];
+  onToggleWatch: (id: string) => void;
+}) {
   const material = getMaterialById(selectedId)!;
   const cardRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -49,23 +72,50 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
   return (
     <div className="home">
       <section className="hero" aria-labelledby="hero-title">
-        <h1 id="hero-title">รู้ราคาวัสดุก่อสร้าง<br /><span className="hl">ล่วงหน้า 3 เดือน</span></h1>
-        <p className="hero-sub">พิมพ์ชื่อวัสดุงานโครงสร้าง เช่น <span className="nowrap">เหล็กเส้น</span> <span className="nowrap">คอนกรีต</span> <span className="nowrap">เสาเข็ม</span> <span className="nowrap">แล้วเห็นราคาล่าสุด</span>กับราคา<span className="nowrap">อีก 1–3 เดือน</span>ทันที ไม่ต้องสมัครสมาชิก</p>
-        <MaterialSearch onPick={show} onShowAll={q => go({ page: "search", q, cat: "all" })} />
+        <h1 id="hero-title">
+          รู้ราคาวัสดุก่อสร้าง
+          <br />
+          <span className="hl">ล่วงหน้า 3 เดือน</span>
+        </h1>
+        <p className="hero-sub">
+          พิมพ์ชื่อวัสดุงานโครงสร้าง เช่น <span className="nowrap">เหล็กเส้น</span>{" "}
+          <span className="nowrap">คอนกรีต</span> <span className="nowrap">เสาเข็ม</span>{" "}
+          <span className="nowrap">แล้วเห็นราคาล่าสุด</span>กับราคา
+          <span className="nowrap">อีก 1–3 เดือน</span>ทันที ไม่ต้องสมัครสมาชิก
+        </p>
+        <MaterialSearch onPick={show} onShowAll={(q) => go({ page: "search", q, cat: "all" })} />
         <div className="quick-picks" role="group" aria-label="ตัวอย่างวัสดุ">
           <span>ลองดู</span>
-          {QUICK_PICKS.map(pick => (
-            <button type="button" key={pick.label} aria-pressed={pick.material.id === selectedId} onClick={() => show(pick.material)}>{pick.label}</button>
+          {QUICK_PICKS.map((pick) => (
+            <button
+              type="button"
+              key={pick.label}
+              aria-pressed={pick.material.id === selectedId}
+              onClick={() => show(pick.material)}
+            >
+              {pick.label}
+            </button>
           ))}
         </div>
-        <p className="hero-region"><MapPin size={15} aria-hidden="true" />{PRICE_REGION.label}</p>
+        <p className="hero-region">
+          <MapPin size={15} aria-hidden="true" />
+          {PRICE_REGION.label}
+        </p>
       </section>
 
       <section className="stage" aria-label="ราคาวัสดุที่เลือก">
         <SiteArt className="stage-art" />
         <div className="stage-card" ref={cardRef}>
-          <PriceCard material={material} titleRef={titleRef} watched={watch.includes(material.id)} onToggleWatch={() => onToggleWatch(material.id)}>
-            <a className="btn btn-primary btn-block" href={`#m/${material.id}`}>ดูกราฟ และคำนวณต้นทุน<ArrowRight size={18} aria-hidden="true" /></a>
+          <PriceCard
+            material={material}
+            titleRef={titleRef}
+            watched={watch.includes(material.id)}
+            onToggleWatch={() => onToggleWatch(material.id)}
+          >
+            <a className="btn btn-primary btn-block" href={`#m/${material.id}`}>
+              ดูกราฟ และคำนวณต้นทุน
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
           </PriceCard>
         </div>
       </section>
@@ -77,12 +127,27 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
             <p>ราคาล่าสุดและแนวโน้ม 3 เดือน กดดาวบนการ์ดราคาเพื่อเพิ่มหรือเอาออก</p>
           </div>
           <ul className="watch-list">
-            {watch.map(id => getMaterialById(id)).filter((m): m is Material => Boolean(m)).map(m => <li key={m.id}><WatchCard material={m} /></li>)}
+            {watch
+              .map((id) => getMaterialById(id))
+              .filter((m): m is Material => Boolean(m))
+              .map((m) => (
+                <li key={m.id}>
+                  <WatchCard material={m} />
+                </li>
+              ))}
           </ul>
         </section>
       )}
 
-      <Suspense fallback={<section className="market-section" role="status">กำลังโหลดกราฟราคาจริง…</section>}><MarketCharts /></Suspense>
+      <Suspense
+        fallback={
+          <section className="market-section" role="status">
+            กำลังโหลดกราฟราคาจริง…
+          </section>
+        }
+      >
+        <MarketCharts />
+      </Suspense>
 
       <section className="categories" aria-labelledby="cat-title">
         <div className="section-head">
@@ -90,11 +155,14 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
           <p>ไม่แน่ใจว่าจะพิมพ์อะไร กดหมวดที่ต้องการ แล้วดูราคาทั้งหมวด</p>
         </div>
         <ul className="cat-grid">
-          {materialCategories.map(c => (
+          {materialCategories.map((c) => (
             <li key={c.code}>
               <a className="cat-card" href={hashFor({ page: "search", q: "", cat: c.code })}>
                 <CategoryIcon code={c.code} size={72} />
-                <span><strong>{c.name}</strong><small>{c.count.toLocaleString("th-TH")} รายการ</small></span>
+                <span>
+                  <strong>{c.name}</strong>
+                  <small>{c.count.toLocaleString("th-TH")} รายการ</small>
+                </span>
               </a>
             </li>
           ))}
@@ -103,22 +171,36 @@ export default function Home({ selectedId, onSelect, go, watch, onToggleWatch }:
 
       <section className="how" aria-labelledby="how-title">
         <h2 id="how-title">ใช้งานง่าย 3 ขั้นตอน</h2>
-        <p className="section-sub">ไม่ต้องโทรถามราคาทีละร้าน ไม่ต้องเดาว่าเดือนหน้าราคาจะเป็นเท่าไหร่</p>
+        <p className="section-sub">
+          ไม่ต้องโทรถามราคาทีละร้าน ไม่ต้องเดาว่าเดือนหน้าราคาจะเป็นเท่าไหร่
+        </p>
         <ol className="steps">
           {STEPS.map((step, index) => (
             <li key={step.title}>
-              <span className="step-no" aria-hidden="true">{index + 1}</span>
-              <div><h3>{step.title}</h3><p>{step.text}</p></div>
+              <span className="step-no" aria-hidden="true">
+                {index + 1}
+              </span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
             </li>
           ))}
         </ol>
-        <a className="btn btn-primary btn-lg" href="#search"><Search size={18} aria-hidden="true" />เริ่มค้นหาราคา</a>
+        <a className="btn btn-primary btn-lg" href="#search">
+          <Search size={18} aria-hidden="true" />
+          เริ่มค้นหาราคา
+        </a>
       </section>
 
       <section className="trust" aria-labelledby="trust-title">
         <div className="trust-copy">
           <h2 id="trust-title">ราคามาจากไหน</h2>
-          <p>THAI TAY ใช้ราคาวัสดุรายเดือนส่วนกลาง (กรุงเทพฯ) จาก สนค. แล้วให้โมเดลคาดการณ์ราคา 1–3 เดือนข้างหน้า พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ยิ่งมองไกล ช่วงยิ่งกว้าง ราคาต่างจังหวัดอาจต่างจากนี้</p>
+          <p>
+            THAI TAY ใช้ราคาวัสดุรายเดือนส่วนกลาง (กรุงเทพฯ) จาก สนค. แล้วให้โมเดลคาดการณ์ราคา 1–3
+            เดือนข้างหน้า พร้อมช่วงต่ำ–สูงที่เป็นไปได้ ยิ่งมองไกล ช่วงยิ่งกว้าง
+            ราคาต่างจังหวัดอาจต่างจากนี้
+          </p>
           <DemoNote />
         </div>
         <SourceLinks />
@@ -140,7 +222,11 @@ function WatchCard({ material }: { material: Material }) {
           <b className="num">{data ? `฿${formatPrice(data.latest.price)}` : "—"}</b>
           <small>ต่อ {material.unit}</small>
         </span>
-        {data && last && <span className="watch-trend"><ChangeChip from={data.latest.price} to={last.price} short /> ใน 3 เดือน</span>}
+        {data && last && (
+          <span className="watch-trend">
+            <ChangeChip from={data.latest.price} to={last.price} short /> ใน 3 เดือน
+          </span>
+        )}
       </span>
     </a>
   );
