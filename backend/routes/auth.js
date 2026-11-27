@@ -17,7 +17,7 @@ function issueToken(res, id) {
 }
 
 function publicUser(user) {
-  return { id: String(user._id), name: user.name, email: user.email };
+  return { id: String(user._id), name: user.name, email: user.email, watchlist: user.watchlist ?? [] };
 }
 
 function isEmail(value) {
@@ -77,6 +77,27 @@ router.get("/me", requireAuth, async (req, res) => {
   } catch (error) {
     console.error("Session lookup failed:", error);
     return res.status(500).json({ message: "เกิดข้อผิดพลาดของเซิร์ฟเวอร์" });
+  }
+});
+
+router.post("/watchlist", requireAuth, async (req, res) => {
+  const { accountId, ids, following } = req.body ?? {};
+  if (accountId !== req.userId) return res.status(409).json({ message: "บัญชีเปลี่ยนแล้ว กรุณารีเฟรชหน้า" });
+  if (typeof following !== "boolean" || !Array.isArray(ids) || !ids.length || ids.length > 300 ||
+      !ids.every(id => typeof id === "string" && /^MAT-\d{16}$/.test(id))) {
+    return res.status(400).json({ message: "รายการวัสดุไม่ถูกต้อง" });
+  }
+
+  const update = following
+    ? { $addToSet: { watchlist: { $each: ids } } }
+    : { $pull: { watchlist: { $in: ids } } };
+  try {
+    const result = await User.updateOne({ _id: req.userId }, update);
+    if (!result.matchedCount) return res.status(401).json({ message: "กรุณาเข้าสู่ระบบใหม่" });
+    return res.json({ saved: true });
+  } catch (error) {
+    console.error("Watchlist update failed:", error);
+    return res.status(500).json({ message: "บันทึกรายการติดตามไม่สำเร็จ" });
   }
 });
 

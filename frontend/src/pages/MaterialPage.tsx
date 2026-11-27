@@ -5,7 +5,13 @@ import { MaterialSearch } from "@/components/site/material-search";
 import { PriceCard } from "@/components/site/price-card";
 import { QtyStepper } from "@/components/site/qty-stepper";
 import { DemoNote, SourceLinks, useQuote } from "@/components/ui/price-widgets";
-import { formatBaht, formatMoney, formatPrice, monthsLabel, type Quote } from "@/services/priceService";
+import {
+  formatBaht,
+  formatMoney,
+  formatPrice,
+  monthsLabel,
+  type Quote,
+} from "@/services/priceService";
 import MaterialHistoryChart from "@/components/site/material-history-chart";
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
@@ -13,15 +19,35 @@ import { CategoryIcon } from "@/components/site/category-icon";
 import { PRICE_REGION } from "@/config/sources";
 import type { AddLine, Go, Material } from "@/types";
 
-export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: { id: string; go: Go; addLine: AddLine; watch: string[]; onToggleWatch: (id: string) => void }) {
+export default function MaterialPage({
+  id,
+  go,
+  addLine,
+  watch,
+  onToggleWatch,
+}: {
+  id: string;
+  go: Go;
+  addLine: AddLine;
+  watch: string[];
+  onToggleWatch: (id: string) => void;
+}) {
   const material = getMaterialById(id)!;
   const { title, detail } = materialTitle(material);
 
   return (
     <div className="page material-page">
       <div className="material-bar">
-        <a className="back-link" href="#search"><ArrowLeft size={18} aria-hidden="true" />ค้นหาวัสดุอื่น</a>
-        <MaterialSearch size="compact" label="ค้นหาวัสดุอื่น" onPick={m => go({ page: "material", id: m.id })} onShowAll={q => go({ page: "search", q, cat: "all" })} />
+        <a className="back-link" href="#search">
+          <ArrowLeft size={18} aria-hidden="true" />
+          ค้นหาวัสดุอื่น
+        </a>
+        <MaterialSearch
+          size="compact"
+          label="ค้นหาวัสดุอื่น"
+          onPick={(m) => go({ page: "material", id: m.id })}
+          onShowAll={(q) => go({ page: "search", q, cat: "all" })}
+        />
       </div>
 
       <header className="material-head">
@@ -30,13 +56,22 @@ export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: 
           <span className="cat-pill">{material.category}</span>
           <h1>{title}</h1>
           {detail && <p className="material-fullname">{detail}</p>}
-          <p>ราคาต่อ {material.unit} · รหัสสินค้า {material.id.replace(/^MAT-/, "")}</p>
+          <p>
+            ราคาต่อ {material.unit} · รหัสสินค้า {material.id.replace(/^MAT-/, "")}
+          </p>
         </div>
       </header>
 
-      {material.discontinued
-        ? <Discontinued material={material} />
-        : <MaterialPrices material={material} addLine={addLine} watched={watch.includes(material.id)} onToggleWatch={() => onToggleWatch(material.id)} />}
+      {material.discontinued ? (
+        <Discontinued material={material} />
+      ) : (
+        <MaterialPrices
+          material={material}
+          addLine={addLine}
+          watched={watch.includes(material.id)}
+          onToggleWatch={() => onToggleWatch(material.id)}
+        />
+      )}
 
       <section className="material-sources" aria-labelledby="sources-title">
         <h2 id="sources-title">ที่มาของราคา</h2>
@@ -49,19 +84,52 @@ export default function MaterialPage({ id, go, addLine, watch, onToggleWatch }: 
 }
 
 /** ราคา ราคาคาดการณ์ ต้นทุน และกราฟ (เรียกราคาเฉพาะวัสดุที่ยังเก็บราคาอยู่) */
-function MaterialPrices({ material, addLine, watched, onToggleWatch }: { material: Material; addLine: AddLine; watched: boolean; onToggleWatch: () => void }) {
+function MaterialPrices({
+  material,
+  addLine,
+  watched,
+  onToggleWatch,
+}: {
+  material: Material;
+  addLine: AddLine;
+  watched: boolean;
+  onToggleWatch: () => void;
+}) {
   const quote = useQuote(material);
   return (
     <div className="material-grid">
-      <div className="material-summary"><PriceCard material={material} variant="detail" watched={watched} onToggleWatch={onToggleWatch} /></div>
+      <div className="material-summary">
+        <PriceCard
+          material={material}
+          variant="detail"
+          watched={watched}
+          onToggleWatch={onToggleWatch}
+        />
+      </div>
       <CostBox material={material} quote={quote.data} addLine={addLine} />
       <PriceChart material={material} quote={quote.data} />
     </div>
   );
 }
 
-const TH_MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
-const monthName = (ym: string) => { const [y, m] = ym.split("-").map(Number); return y && m ? `${TH_MONTHS[m - 1]} ${y + 543}` : ""; };
+const TH_MONTHS = [
+  "ม.ค.",
+  "ก.พ.",
+  "มี.ค.",
+  "เม.ย.",
+  "พ.ค.",
+  "มิ.ย.",
+  "ก.ค.",
+  "ส.ค.",
+  "ก.ย.",
+  "ต.ค.",
+  "พ.ย.",
+  "ธ.ค.",
+];
+const monthName = (ym: string) => {
+  const [y, m] = ym.split("-").map(Number);
+  return y && m ? `${TH_MONTHS[m - 1]} ${y + 543}` : "";
+};
 
 /** วัสดุที่ สนค. เลิกเก็บราคาแล้ว: ไม่แสดงราคาเก่าเป็นราคาล่าสุด และไม่พยากรณ์ */
 function Discontinued({ material }: { material: Material }) {
@@ -69,16 +137,33 @@ function Discontinued({ material }: { material: Material }) {
   return (
     <section className="panel discontinued-note" role="note">
       <h2>ไม่มีราคาล่าสุดของวัสดุนี้</h2>
-      <p>สนค. หยุดเผยแพร่ราคาวัสดุรายการนี้{last && <> ราคาสุดท้ายเป็นของเดือน {last}</>} เว็บจึงไม่แสดงราคาและไม่คาดการณ์ราคาให้</p>
-      {materialCategories.some(c => c.code === material.categoryCode)
-        ? <a className="btn btn-primary" href={`#search?cat=${material.categoryCode}`}>ดู{material.category}ที่ยังมีราคา</a>
-        : <a className="btn btn-primary" href="#search">ดูวัสดุที่ยังมีราคา</a>}
+      <p>
+        สนค. หยุดเผยแพร่ราคาวัสดุรายการนี้{last && <> ราคาสุดท้ายเป็นของเดือน {last}</>}{" "}
+        เว็บจึงไม่แสดงราคาและไม่คาดการณ์ราคาให้
+      </p>
+      {materialCategories.some((c) => c.code === material.categoryCode) ? (
+        <a className="btn btn-primary" href={`#search?cat=${material.categoryCode}`}>
+          ดู{material.category}ที่ยังมีราคา
+        </a>
+      ) : (
+        <a className="btn btn-primary" href="#search">
+          ดูวัสดุที่ยังมีราคา
+        </a>
+      )}
     </section>
   );
 }
 
 /** คำนวณต้นทุน: เลือกว่าจะซื้อเมื่อไหร่ ใส่จำนวน แล้วเพิ่มลงใบประมาณราคา */
-function CostBox({ material, quote, addLine }: { material: Material; quote: Quote | null; addLine: AddLine }) {
+function CostBox({
+  material,
+  quote,
+  addLine,
+}: {
+  material: Material;
+  quote: Quote | null;
+  addLine: AddLine;
+}) {
   const [month, setMonth] = useState(0);
   const [qty, setQty] = useState(1);
   // เหล็กเส้นสั่งเป็นเส้นได้: ราคาต่อเส้นคิดจากน้ำหนักมาตรฐานของขนาดนั้น (ค่าเริ่มต้นเป็นเส้น เพราะหน้างานนับแบบนี้)
@@ -88,13 +173,41 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
   const unit = bar && byBar ? "เส้น" : material.unit;
   // ราคาของแต่ละช่วงแสดงอยู่ในการ์ดราคาแล้ว ที่นี่จึงเลือกแค่ "เมื่อไหร่" แล้วบอกราคาที่ใช้คำนวณบรรทัดเดียว
   const options = quote
-    ? [{ month: 0, label: "ตอนนี้", when: quote.latest.label, price: quote.latest.price, low: quote.latest.price, high: quote.latest.price }, ...quote.forecast.map(p => ({ month: p.month, label: `${p.month} เดือน`, when: p.label, price: p.price, low: p.low, high: p.high }))]
+    ? [
+        {
+          month: 0,
+          label: "ตอนนี้",
+          when: quote.latest.label,
+          price: quote.latest.price,
+          low: quote.latest.price,
+          high: quote.latest.price,
+        },
+        ...quote.forecast.map((p) => ({
+          month: p.month,
+          label: `${p.month} เดือน`,
+          when: p.label,
+          price: p.price,
+          low: p.low,
+          high: p.high,
+        })),
+      ]
     : [];
-  const chosen = options.find(o => o.month === month);
+  const chosen = options.find((o) => o.month === month);
 
   const add = () => {
     if (!chosen || !quote || qty <= 0) return;
-    addLine({ materialId: material.id, name: material.name, unit, month, monthLabel: monthsLabel(month), qty, price: perUnit(chosen.price), low: perUnit(chosen.low), high: perUnit(chosen.high), demo: quote.demo });
+    addLine({
+      materialId: material.id,
+      name: material.name,
+      unit,
+      month,
+      monthLabel: monthsLabel(month),
+      qty,
+      price: perUnit(chosen.price),
+      low: perUnit(chosen.low),
+      high: perUnit(chosen.high),
+      demo: quote.demo,
+    });
   };
 
   return (
@@ -103,22 +216,39 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
       <fieldset className="when">
         <legend>จะซื้อเมื่อไหร่</legend>
         <div className="seg">
-          {options.map(o => (
+          {options.map((o) => (
             <label key={o.month}>
-              <input type="radio" name="when" value={o.month} checked={month === o.month} onChange={() => setMonth(o.month)} />
+              <input
+                type="radio"
+                name="when"
+                value={o.month}
+                checked={month === o.month}
+                onChange={() => setMonth(o.month)}
+              />
               <span>{o.label}</span>
             </label>
           ))}
         </div>
-        {chosen && <p className="when-price">ใช้ราคา{month === 0 ? "ล่าสุด" : "คาดการณ์"} {chosen.when} · <strong className="num">฿{formatPrice(perUnit(chosen.price))}</strong> ต่อ {unit}</p>}
+        {chosen && (
+          <p className="when-price">
+            ใช้ราคา{month === 0 ? "ล่าสุด" : "คาดการณ์"} {chosen.when} ·{" "}
+            <strong className="num">฿{formatPrice(perUnit(chosen.price))}</strong> ต่อ {unit}
+          </p>
+        )}
       </fieldset>
 
       {bar && (
         <fieldset className="when">
           <legend>สั่งเป็น</legend>
           <div className="seg seg-2">
-            <label><input type="radio" name="by" checked={byBar} onChange={() => setByBar(true)} /><span>เส้น ({bar.length} ม.)</span></label>
-            <label><input type="radio" name="by" checked={!byBar} onChange={() => setByBar(false)} /><span>ตัน</span></label>
+            <label>
+              <input type="radio" name="by" checked={byBar} onChange={() => setByBar(true)} />
+              <span>เส้น ({bar.length} ม.)</span>
+            </label>
+            <label>
+              <input type="radio" name="by" checked={!byBar} onChange={() => setByBar(false)} />
+              <span>ตัน</span>
+            </label>
           </div>
         </fieldset>
       )}
@@ -126,16 +256,35 @@ function CostBox({ material, quote, addLine }: { material: Material; quote: Quot
       <div className="qty">
         <label htmlFor="qty-input">จำนวน ({unit})</label>
         <QtyStepper id="qty-input" label="จำนวน" value={qty} onChange={setQty} />
-        {bar && byBar && qty > 0 && <p className="qty-note">{qty.toLocaleString("th-TH")} เส้น × {bar.kgPerBar.toLocaleString("th-TH")} กก. ≈ {((qty * bar.kgPerBar) / 1000).toLocaleString("th-TH", { maximumFractionDigits: 3 })} ตัน</p>}
+        {bar && byBar && qty > 0 && (
+          <p className="qty-note">
+            {qty.toLocaleString("th-TH")} เส้น × {bar.kgPerBar.toLocaleString("th-TH")} กก. ≈{" "}
+            {((qty * bar.kgPerBar) / 1000).toLocaleString("th-TH", { maximumFractionDigits: 3 })}{" "}
+            ตัน
+          </p>
+        )}
       </div>
 
       <div className="cost-total" aria-live="polite">
         <span>รวมประมาณ</span>
-        <strong className="num">{chosen ? `฿${formatMoney(perUnit(chosen.price) * qty)}` : "—"}</strong>
-        {chosen && month > 0 && qty > 0 && <small>ช่วงที่เป็นไปได้ ฿{formatBaht(perUnit(chosen.low) * qty, 0)} – {formatBaht(perUnit(chosen.high) * qty, 0)}</small>}
+        <strong className="num">
+          {chosen ? `฿${formatMoney(perUnit(chosen.price) * qty)}` : "—"}
+        </strong>
+        {chosen && month > 0 && qty > 0 && (
+          <small>
+            ช่วงที่เป็นไปได้ ฿{formatBaht(perUnit(chosen.low) * qty, 0)} –{" "}
+            {formatBaht(perUnit(chosen.high) * qty, 0)}
+          </small>
+        )}
       </div>
-      <button type="button" className="btn btn-primary btn-block btn-lg" onClick={add} disabled={!chosen || qty <= 0}>
-        <Plus size={18} aria-hidden="true" />เพิ่มลงใบประมาณราคา
+      <button
+        type="button"
+        className="btn btn-primary btn-block btn-lg"
+        onClick={add}
+        disabled={!chosen || qty <= 0}
+      >
+        <Plus size={18} aria-hidden="true" />
+        เพิ่มลงใบประมาณราคา
       </button>
       <p className="fine">เพิ่มได้หลายรายการ แล้วไปดูยอดรวมที่ “ใบประมาณราคา”</p>
     </section>
