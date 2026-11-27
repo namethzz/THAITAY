@@ -39,7 +39,7 @@
 .md-range-error { margin: 8px 0 0; color: var(--up); font-size: 13px; }
 .md-fields label { display: grid; gap: 5px; min-width: 0; color: var(--md-muted); font-size: 12px; }
 .md-fields select { width: 100%; height: 40px; color: var(--md-ink); font: inherit; font-size: 14px; border: 1px solid #cbd6df; border-radius: 7px; padding: 0 8px; background: #fff; }
-.md-kpis { display: grid; gap: 13px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.md-kpis { display: grid; gap: 13px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .md-kpi { text-align: left; padding: 16px 19px 12px; color: var(--md-ink); }
 .md-kpi:hover, .md-kpi[aria-pressed="true"] { border-color: var(--tone); }
 .md-kpi[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--tone); }
@@ -97,6 +97,7 @@
   .md-source strong { font-size: 15px; }
   .md-source svg { display: none; }
   .md-kpis, .md-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .md-kpi:last-child { grid-column: 1 / -1; }
   .md-charts, .md-trend-tools { grid-template-columns: minmax(0, 1fr); }
   .md-summary-head { display: grid; gap: 3px; }
   .md-count strong { font-size: 30px; }

@@ -1,7 +1,7 @@
 import { useMemo, useState, type CSSProperties } from "react";
-import { ArrowDownRight, ArrowUpRight, CalendarDays, CircleDashed, Minus, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, CalendarDays, Minus, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { materialCatalog, materialCategories } from "@/data.js";
-import { monthLabel, shiftMonth, marketRow, useChartData, type ChartData, type Movement } from "@/lib/chartData";
+import { monthLabel, shiftMonth, monthlyChanges, useChartData, type ChartData, type Movement } from "@/lib/chartData";
 import { movements, statuses } from "@/lib/marketDisplay";
 import { isDemoData } from "@/services/priceService";
 import { Distribution, Movers, Trend } from "@/components/site/market-charts";
@@ -9,7 +9,7 @@ import { MarketTable } from "@/components/site/market-table";
 import { PRIMARY_SOURCE } from "@/config/sources";
 import "@/styles/dashboard.css";
 
-const icons = {up: ArrowUpRight, down: ArrowDownRight, steady: Minus, missing: CircleDashed};
+const icons = {up: ArrowUpRight, down: ArrowDownRight, steady: Minus};
 type StatusFilter = "all" | Movement;
 
 function MonthSelect({label, months, value, onChange}: {label: string; months: string[]; value: string; onChange: (v: string) => void}) {
@@ -28,8 +28,7 @@ function MarketDashboard({data}: {data: ChartData}) {
   const [month, setMonth] = useState(data.asOf);
   const [start, setStart] = useState(initialStart);
   const [end, setEnd] = useState(data.asOf);
-  const rows = useMemo(() => materialCatalog.filter(m => category === "all" || m.categoryCode === category)
-    .map(m => marketRow(data, m, month)), [data, category, month]);
+  const rows = useMemo(() => monthlyChanges(data, materialCatalog, category, month), [data, category, month]);
   const filtered = useMemo(() => status === "all" ? rows : rows.filter(r => r.status === status), [rows, status]);
   const toggle = (s: Movement) => setStatus(current => current === s ? "all" : s);
   const [resetKey, setResetKey] = useState(0);
@@ -66,7 +65,7 @@ function MarketDashboard({data}: {data: ChartData}) {
       <div className="md-charts"><Distribution rows={filtered} onSelect={toggle}/><Movers rows={filtered} month={month}/></div>
       <Trend key={"trend/" + filterKey} rows={filtered} data={data} dates={months.filter(m => m >= start && m <= end)}/>
       <MarketTable key={"table/" + filterKey} rows={filtered} month={monthLabel(month)} previousMonth={previous}/>
-      <p className="md-footnote">ข้อมูลไม่ครบเมื่อเทียบราคาจริงสองเดือนติดกันไม่ได้ · <a href={PRIMARY_SOURCE.url} target="_blank" rel="noreferrer">แหล่งข้อมูล สนค.</a></p>
+      <p className="md-footnote">คำนวณจากวัสดุที่มีราคาจริงทั้งสองเดือน · <a href={PRIMARY_SOURCE.url} target="_blank" rel="noreferrer">แหล่งข้อมูล สนค.</a></p>
     </div>
   </div>;
 }
