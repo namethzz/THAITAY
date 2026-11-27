@@ -1,5 +1,6 @@
 import { getMaterialById } from "@/data.js";
 import { readFilters, writeFilters } from "@/lib/searchFilters";
+import { materialTitleById } from "@/lib/materialTitle";
 import type { Route } from "@/types";
 
 export function hashFor(route: Route) {
@@ -25,13 +26,33 @@ export function routeFromHash(lastMaterialId: string): Route {
   if (path === "watchlist") return { page: "watchlist" };
   if (path === "dashboard") return { page: "dashboard" };
   if (path === "login" || path === "register") return { page: path };
-  if (path === "search" || path === "prices") return { page: "search", q: params.get("q") ?? "", cat: params.get("cat") ?? "all", filters: readFilters(params) };
+  if (path === "search" || path === "prices")
+    return {
+      page: "search",
+      q: params.get("q") ?? "",
+      cat: params.get("cat") ?? "all",
+      filters: readFilters(params),
+    };
   if (path.startsWith("m/")) {
     const id = decodeURIComponent(path.slice(2));
     const material = getMaterialById(id); // รหัสเก่าที่ สนค. เปลี่ยนแล้วพาไปที่รหัสใหม่
     return material ? { page: "material", id: material.id } : { page: "search", q: "", cat: "all" };
   }
   if (path === "forecast" || path === "analysis") return { page: "material", id: lastMaterialId };
-  if (path === "estimate" || path === "cost") return params.get("d") ? { page: "estimate", shared: params.get("d")! } : { page: "estimate" };
+  if (path === "estimate" || path === "cost")
+    return params.get("d") ? { page: "estimate", shared: params.get("d")! } : { page: "estimate" };
   return { page: "home" };
+}
+
+export function pageTitle(route: Route) {
+  if (route.page === "watchlist") return "วัสดุที่ติดตาม | THAI TAY";
+  if (route.page === "dashboard") return "ภาพรวมราคา | THAI TAY";
+  if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
+  if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
+  if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
+  if (route.page === "material") {
+    return `${materialTitleById(route.id, "วัสดุ")} | THAI TAY`;
+  }
+  if (route.page === "estimate") return "ใบประมาณราคา | THAI TAY";
+  return "THAI TAY — รู้ราคาวัสดุก่อสร้างล่วงหน้า 3 เดือน";
 }

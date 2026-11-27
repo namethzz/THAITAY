@@ -1,6 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
-import { defaultMaterialId, getMaterialById } from "@/data.js";
-import { IntroSplash } from "@/components/ui/intro-splash";
+import { lazy, Suspense, useCallback, useState } from "react";
 import {
   BottomNav,
   SiteFooter,
@@ -8,162 +6,58 @@ import {
   Toast,
   type ToastMessage,
 } from "@/components/site/chrome";
-import { DEFAULT_META, cleanLines, cleanMeta, cleanWatch } from "@/lib/savedState";
-import { WatchList } from "@/components/site/watch-list";
-import Home from "./pages/Home";
-import { hashFor, routeFromHash } from "@/lib/routes";
-import { materialTitle } from "@/lib/materialTitle";
-import { usePersistentState } from "@/lib/storage";
-import { createEstimateWriter } from "@/lib/estimateWriter";
-import { saveAccountEstimate, useAuth } from "@/context/AuthContext";
-import type { SetStateAction } from "react";
+import { IntroSplash } from "@/components/ui/intro-splash";
+import { useAuth } from "@/context/AuthContext";
+import { useEstimate } from "@/hooks/useEstimate";
+import { useNavigation } from "@/hooks/useNavigation";
+import { useWatchlist } from "@/hooks/useWatchlist";
+import { hashFor } from "@/lib/routes";
 import AuthPage from "@/pages/AuthPage";
-import type { AddLine, EstimateLine, EstimateMeta, Go, Route } from "@/types";
+import Home from "@/pages/Home";
+import Watchlist from "@/pages/Watchlist";
 
 const SearchPage = lazy(() => import("./pages/Search"));
 const MaterialPage = lazy(() => import("./pages/MaterialPage"));
 const Estimate = lazy(() => import("./pages/Estimate"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 
-const titleOf = (id: string, fallback: string) => {
-  const material = getMaterialById(id);
-  return material ? materialTitle(material).title : fallback;
-};
-
-function pageTitle(route: Route) {
-  if (route.page === "watchlist") return "วัสดุที่ติดตาม | THAI TAY";
-  if (route.page === "dashboard") return "ภาพรวมราคา | THAI TAY";
-  if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
-  if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
-  if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
-  if (route.page === "material") {
-    const material = getMaterialById(route.id);
-    return `${material ? materialTitle(material).title : "วัสดุ"} | THAI TAY`;
-  }
-  if (route.page === "estimate") return "ใบประมาณราคา | THAI TAY";
-  return "THAI TAY — รู้ราคาวัสดุก่อสร้างล่วงหน้า 3 เดือน";
-}
-
 export default function App() {
   const { user, loading } = useAuth();
-  if (loading) return <p className="page-loading" role="status">กำลังโหลดข้อมูลบัญชี…</p>;
+  if (loading)
+    return (
+      <p className="page-loading" role="status">
+        กำลังโหลดข้อมูลบัญชี…
+      </p>
+    );
   return <AccountApp key={user?.id ?? "guest"} />;
 }
 
 function AccountApp() {
-  const { user, loading: authLoading, saveWatch, logout } = useAuth();
-  const [selectedId, setSelectedId] = useState(defaultMaterialId);
-  const [route, setRoute] = useState<Route>(() => routeFromHash(defaultMaterialId));
-  const authHasBeenVisited = useRef(route.page === "login" || route.page === "register");
-  const [guestLines, setGuestLines] = usePersistentState<EstimateLine[]>(
-    "thai-tay-estimate-v1",
-    [],
-    cleanLines,
-  );
-  const [guestMeta, setGuestMeta] = usePersistentState<EstimateMeta>(
-    "thai-tay-estimate-meta-v1",
-    DEFAULT_META,
-    cleanMeta,
-  );
-  const [writer] = useState(() => user && createEstimateWriter(
-    user.estimate ?? { lines: [], meta: DEFAULT_META, revision: "" },
-    (estimate, revision) => saveAccountEstimate(user.id, estimate, revision),
-  ));
-  const [draft, setDraft] = useState(writer?.draft);
-  const [saveStatus, setSaveStatus] = useState("");
-  const lines = draft?.lines ?? guestLines;
-  const meta = draft?.meta ?? guestMeta;
-
-  const syncEstimate = useCallback(async () => {
-    if (!writer) return;
-    setSaveStatus("กำลังบันทึกใบประมาณราคา…");
-    try {
-      await writer.flush();
-      setSaveStatus("");
-    } catch (error) {
-      setSaveStatus(error instanceof Error ? error.message : "บันทึกใบประมาณราคาไม่สำเร็จ");
-      throw error;
-    }
-  }, [writer]);
-
-  useEffect(() => {
-    function warnBeforeLeaving(event: BeforeUnloadEvent) {
-      if (!writer?.dirty) return;
-      event.preventDefault();
-      event.returnValue = "";
-    }
-    window.addEventListener("beforeunload", warnBeforeLeaving);
-    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
-  }, [writer]);
-
-  const setLines = useCallback((update: SetStateAction<EstimateLine[]>) => {
-    if (!writer) return setGuestLines(update);
-    const next = typeof update === "function" ? update(writer.draft.lines) : update;
-    writer.edit({ ...writer.draft, lines: next });
-    setDraft(writer.draft);
-    void syncEstimate().catch(() => {});
-  }, [writer, setGuestLines, syncEstimate]);
-
-  const setMeta = useCallback((update: SetStateAction<EstimateMeta>) => {
-    if (!writer) return setGuestMeta(update);
-    const next = typeof update === "function" ? update(writer.draft.meta) : update;
-    writer.edit({ ...writer.draft, meta: next });
-    setDraft(writer.draft);
-    void syncEstimate().catch(() => {});
-  }, [writer, setGuestMeta, syncEstimate]);
-
-  const [deviceWatch, setDeviceWatch] = usePersistentState<string[]>("thai-tay-watch-v1", [], cleanWatch);
-  const watch = user ? cleanWatch(user.watchlist).reverse() : deviceWatch;
-  const pendingWatch = useRef(false);
+  const { user, loading: authLoading, logout } = useAuth();
   const [toast, setToast] = useState<ToastMessage | null>(null);
-  const mainRef = useRef<HTMLElement>(null);
-  const firstRender = useRef(true);
-
-  useEffect(() => {
-    const onHash = () => setRoute(routeFromHash(selectedId));
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
-  }, [selectedId]);
-
-  useEffect(() => {
-    if (route.page === "login" || route.page === "register") authHasBeenVisited.current = true;
-  }, [route.page]);
-
-  useEffect(() => {
-    if (route.page === "material") setSelectedId(route.id);
-  }, [route]);
-
-  // เปลี่ยนหน้าแล้วกลับไปบนสุด และย้าย focus ไปที่เนื้อหา ให้โปรแกรมอ่านหน้าจอเริ่มอ่านหน้าใหม่ (ไม่ทำตอนเปิดเว็บครั้งแรก)
-  const pageKey = route.page === "material" ? `m/${route.id}` : route.page;
-  useEffect(() => {
-    document.title = pageTitle(route);
-    setToast(null);
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    window.scrollTo({ top: 0, behavior: "instant" });
-    if (!mainRef.current?.contains(document.activeElement))
-      mainRef.current?.focus({ preventScroll: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageKey]);
-
-  const go: Go = useCallback((next) => {
-    const hash = hashFor(next);
-    if (window.location.hash === hash) setRoute(next);
-    else window.location.hash = hash;
-  }, []);
-
-  useEffect(() => {
-    if (!authLoading && user && (route.page === "login" || route.page === "register")) {
-      go({ page: "home" });
-    }
-  }, [authLoading, user, route.page, go]);
-
   const clearToast = useCallback(() => setToast(null), []);
+  const { route, go, selectedId, setSelectedId, mainRef, authHasBeenVisited } =
+    useNavigation(clearToast);
+  const {
+    lines,
+    setLines,
+    meta,
+    setMeta,
+    addLine,
+    saving,
+    saveError,
+    saveBeforeLogout,
+    syncEstimate,
+  } = useEstimate(setToast);
+  const { watch, toggleWatch, unsavedCount, importDeviceWatch } = useWatchlist(
+    route.page === "home",
+    setToast,
+  );
+  const watchProps = { watch, onToggleWatch: toggleWatch };
+
   const onLogout = useCallback(async () => {
     try {
-      if (writer?.dirty) await syncEstimate();
+      await saveBeforeLogout();
       await logout();
       go({ page: "login" });
     } catch (error) {
@@ -174,67 +68,9 @@ function AccountApp() {
         tone: "error",
       });
     }
-  }, [writer, syncEstimate, logout, go]);
+  }, [saveBeforeLogout, logout, go]);
   const onAuthSuccess = useCallback(() => go({ page: "home" }), [go]);
   const authPage = route.page === "login" || route.page === "register";
-
-  const addLine: AddLine = useCallback(
-    (line) => {
-      setLines((prev) => [
-        ...prev,
-        { ...line, key: `${line.materialId}-${line.month}-${Date.now()}` },
-      ]);
-      setToast({
-        id: Date.now(),
-        text: "เพิ่มลงใบประมาณราคาแล้ว",
-        detail: `${titleOf(line.materialId, line.name)} · ${line.qty.toLocaleString("th-TH")} ${line.unit}`,
-        action: "estimate",
-      });
-    },
-    [setLines],
-  );
-
-  // ติดตามวัสดุ: วัสดุที่ติดตามแสดงราคาและแนวโน้มที่หน้าแรก (บอกทางไปหน้าแรกเมื่อกดจากหน้าอื่น)
-  const onHome = route.page === "home";
-  const persistWatch = useCallback(async (ids: string[], following: boolean) => {
-    if (pendingWatch.current) return false;
-    pendingWatch.current = true;
-    try {
-      await saveWatch(ids, following);
-      return true;
-    } catch (cause) {
-      setToast({ id: Date.now(), tone: "error", text: "บันทึกรายการติดตามไม่สำเร็จ",
-        detail: cause instanceof Error ? cause.message : "กรุณาลองอีกครั้ง" });
-      return false;
-    } finally {
-      pendingWatch.current = false;
-    }
-  }, [saveWatch]);
-  const toggleWatch = useCallback(
-    async (id: string) => {
-      if (authLoading || pendingWatch.current) return;
-      const watching = watch.includes(id);
-      if (user) {
-        if (!(await persistWatch([id], !watching))) return;
-      } else {
-        setDeviceWatch(watching ? watch.filter(x => x !== id) : [id, ...watch]);
-      }
-      if (!watching && !onHome)
-        setToast({
-          id: Date.now(),
-          text: "ติดตามแล้ว ราคาจะแสดงที่หน้าแรก",
-          detail: titleOf(id, ""),
-          action: "home",
-        });
-    },
-    [watch, setDeviceWatch, user, authLoading, persistWatch, onHome],
-  );
-  const unsavedWatch = user ? deviceWatch.filter(id => !watch.includes(id)) : [];
-  async function importDeviceWatch() {
-    if (await persistWatch([...unsavedWatch].reverse(), true)) setDeviceWatch([]);
-  }
-
-  const watchProps = { watch, onToggleWatch: toggleWatch };
 
   return (
     <div className={authPage ? "site auth-site" : "site"}>
@@ -263,11 +99,20 @@ function AccountApp() {
         />
       )}
       <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-        {saveStatus && (route.page === "estimate" || saveStatus !== "กำลังบันทึกใบประมาณราคา…") && (
-          <div className="watch-import" style={{ width: "var(--wrap)", marginInline: "auto" }} role="status">
-            {saveStatus}
-            {saveStatus !== "กำลังบันทึกใบประมาณราคา…" && (
-              <button className="btn btn-secondary" onClick={() => void syncEstimate().catch(() => {})}>ลองบันทึกอีกครั้ง</button>
+        {(saveError || (saving && route.page === "estimate")) && (
+          <div
+            className="watch-import"
+            style={{ width: "var(--wrap)", marginInline: "auto" }}
+            role="status"
+          >
+            {saveError || "กำลังบันทึกใบประมาณราคา…"}
+            {saveError && (
+              <button
+                className="btn btn-secondary"
+                onClick={() => void syncEstimate().catch(() => {})}
+              >
+                ลองบันทึกอีกครั้ง
+              </button>
             )}
           </div>
         )}
@@ -290,25 +135,7 @@ function AccountApp() {
             <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
           )}
           {route.page === "watchlist" && (
-            <div className="page watch-page">
-              <header className="page-head"><h1>วัสดุที่ติดตาม</h1></header>
-              {!authLoading && unsavedWatch.length > 0 && (
-                <div className="watch-import">
-                  <p>มีวัสดุที่ติดตามไว้ในเครื่องนี้อีก {unsavedWatch.length} รายการ</p>
-                  <button type="button" className="btn btn-secondary" onClick={importDeviceWatch}>
-                    บันทึกเข้าบัญชี
-                  </button>
-                </div>
-              )}
-              {authLoading ? <p role="status">กำลังโหลดรายการติดตาม…</p> : watch.length ? (
-                <WatchList watch={watch} />
-              ) : (
-                <div className="empty-state">
-                  <p>ยังไม่มีวัสดุที่ติดตาม กดรูปดาวบนการ์ดวัสดุเพื่อเก็บไว้ดูราคาที่นี่</p>
-                  <a className="btn btn-primary" href="#search">ค้นหาวัสดุ</a>
-                </div>
-              )}
-            </div>
+            <Watchlist watch={watch} unsavedCount={unsavedCount} onImport={importDeviceWatch} />
           )}
           {route.page === "dashboard" && <Dashboard />}
           {route.page === "search" && (

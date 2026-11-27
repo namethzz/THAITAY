@@ -1,3 +1,4 @@
+import { getMaterialById } from "@/data.js";
 import type { Material } from "@/types";
 
 /**
@@ -10,13 +11,18 @@ export function materialTitle(material: Material): { title: string; detail: stri
   const tis = /มอก\./.test(name) ? " มอก." : "";
   // กระทรวงฯ มีทั้ง "Tempcort" และ "Tempcore" เป็นคนละรายการ จึงคงตัวสะกดตามต้นฉบับไว้ให้แยกกันได้
   const tempcoMatch = name.match(/tempcor[et]/i)?.[0];
-  const tempcore = tempcoMatch ? ` ${tempcoMatch[0].toUpperCase()}${tempcoMatch.slice(1).toLowerCase()}` : "";
+  const tempcore = tempcoMatch
+    ? ` ${tempcoMatch[0].toUpperCase()}${tempcoMatch.slice(1).toLowerCase()}`
+    : "";
 
   if (material.categoryCode === "STR-01") {
     const grade = name.match(/S([RD])\.?\s*(\d+)/i);
     if (grade && mm) {
       const kind = grade[1].toUpperCase() === "R" ? "เหล็กกลม" : "เหล็กข้ออ้อย";
-      return { title: `${kind} S${grade[1].toUpperCase()}${grade[2]}${tempcore}${tis} · ${mm} มม.`, detail: name };
+      return {
+        title: `${kind} S${grade[1].toUpperCase()}${grade[2]}${tempcore}${tis} · ${mm} มม.`,
+        detail: name,
+      };
     }
   }
   if (material.categoryCode === "STR-03") {
@@ -37,3 +43,8 @@ export function materialTitle(material: Material): { title: string; detail: stri
   }
   return { title: name, detail: null };
 }
+
+export const materialTitleById = (id: string, fallback: string) => {
+  const material = getMaterialById(id);
+  return material ? materialTitle(material).title : fallback;
+};
