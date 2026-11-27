@@ -6,9 +6,8 @@ import { PriceCard } from "@/components/site/price-card";
 import { SiteArt } from "@/components/site/site-art";
 import { CategoryIcon } from "@/components/site/category-icon";
 import { PRICE_REGION } from "@/config/sources";
-import { ChangeChip, DemoNote, SourceLinks, useQuote } from "@/components/ui/price-widgets";
-import { formatPrice } from "@/services/priceService";
-import { materialTitle } from "@/lib/materialTitle";
+import { DemoNote, SourceLinks } from "@/components/ui/price-widgets";
+import { WatchList } from "@/components/site/watch-list";
 import { hashFor } from "@/lib/routes";
 import type { Go, Material } from "@/types";
 
@@ -124,16 +123,7 @@ export default function Home({
             <h2 id="watch-title">วัสดุที่ติดตาม</h2>
             <p>ราคาล่าสุดและแนวโน้ม 3 เดือน กดดาวบนการ์ดราคาเพื่อเพิ่มหรือเอาออก</p>
           </div>
-          <ul className="watch-list">
-            {watch
-              .map((id) => getMaterialById(id))
-              .filter((m): m is Material => Boolean(m))
-              .map((m) => (
-                <li key={m.id}>
-                  <WatchCard material={m} />
-                </li>
-              ))}
-          </ul>
+          <WatchList watch={watch} />
         </section>
       )}
 
@@ -197,28 +187,5 @@ export default function Home({
         <SourceLinks />
       </section>
     </div>
-  );
-}
-
-/** การ์ดเล็กของวัสดุที่ติดตาม: ราคาล่าสุด + เปลี่ยนไปเท่าไหร่ใน 3 เดือน */
-function WatchCard({ material }: { material: Material }) {
-  const { data } = useQuote(material);
-  const last = data?.forecast.at(-1);
-  return (
-    <a className="watch-card" href={`#m/${material.id}`}>
-      <CategoryIcon code={material.categoryCode} size={40} />
-      <span className="watch-copy">
-        <strong>{materialTitle(material).title}</strong>
-        <span className="watch-price">
-          <b className="num">{data ? `฿${formatPrice(data.latest.price)}` : "—"}</b>
-          <small>ต่อ {material.unit}</small>
-        </span>
-        {data && last && (
-          <span className="watch-trend">
-            <ChangeChip from={data.latest.price} to={last.price} short /> ใน 3 เดือน
-          </span>
-        )}
-      </span>
-    </a>
   );
 }

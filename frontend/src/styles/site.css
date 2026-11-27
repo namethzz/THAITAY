@@ -513,3 +513,11 @@
   .print-sheet .ps-grand td { padding-top: 8px; border-top: 1.5px solid #242a2d; color: #000 !important; font-size: 13pt; font-weight: 700; }
   .ps-range, .ps-note { margin: 10px 0 0; color: #474e51; font-size: 9pt; }
 }
+
+.watch-page .watch-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  margin: 18px 0 0;
+  padding: 0;
+  overflow: visible;
+}

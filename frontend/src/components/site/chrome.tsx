@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { AlertCircle, ChartColumn, Check, ClipboardList, Home, LogIn, LogOut, Search } from "lucide-react";
+import { AlertCircle, ChartColumn, Check, ClipboardList, Home, LogIn, LogOut, Search, Star } from "lucide-react";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { isDemoData } from "@/services/priceService";
 import type { Route } from "@/types";
 import type { AuthUser } from "@/context/AuthContext";
 
-type Section = "home" | "search" | "dashboard" | "estimate";
+type Section = "watchlist" | "home" | "search" | "dashboard" | "estimate";
 const sectionOf = (route: Route): Section => {
   if (route.page === "material") return "search";
   if (route.page === "login" || route.page === "register") return "home";
@@ -34,6 +34,7 @@ export function SiteHeader({ route, count, user, authLoading, onLogout }: {
         <a href="#home" className="brand-link" aria-label="THAI TAY หน้าแรก"><BrandMark /></a>
         <nav className="top-nav" aria-label="เมนูหลัก">
           {link("home", "หน้าแรก")}
+          {link("watchlist", "วัสดุที่ติดตาม")}
           {link("search", "ค้นหาวัสดุ")}
           {link("dashboard", "ภาพรวมราคา")}
           {link("estimate", "ใบประมาณราคา")}
@@ -63,6 +64,10 @@ export function BottomNav({ route, count }: { route: Route; count: number }) {
     <nav className="bottom-nav" aria-label="เมนูหลัก">
       <a href="#home" className="bn-item" aria-current={current === "home" ? "page" : undefined}>
         <span className="bn-icon"><Home size={22} strokeWidth={2} aria-hidden="true" /></span><span>หน้าแรก</span>
+      </a>
+      <a href="#watchlist" className="bn-item" aria-label="วัสดุที่ติดตาม" aria-current={current === "watchlist" ? "page" : undefined}>
+        <span className="bn-icon"><Star size={22} aria-hidden="true" /></span>
+        <span className="bn-watch-full">วัสดุที่ติดตาม</span><span className="bn-watch-short">ติดตาม</span>
       </a>
       <a href="#search" className="bn-item bn-main" aria-current={current === "search" ? "page" : undefined}>
         <span className="bn-fab"><Search size={24} strokeWidth={2.4} aria-hidden="true" /></span><span>ค้นหาราคา</span>
