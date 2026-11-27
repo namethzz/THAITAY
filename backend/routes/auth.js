@@ -4,6 +4,8 @@ import User from "../models/User.js";
 import { requireAuth } from "../middleware/auth.js";
 import { hashPassword, verifyPassword } from "../lib/password.js";
 
+import { saveEstimate } from "../lib/estimate.js";
+
 const router = Router();
 const cookieOptions = {
   httpOnly: true,
@@ -17,7 +19,7 @@ function issueToken(res, id) {
 }
 
 function publicUser(user) {
-  return { id: String(user._id), name: user.name, email: user.email, watchlist: user.watchlist ?? [] };
+  return { id: String(user._id), name: user.name, email: user.email, watchlist: user.watchlist ?? [], estimate: user.estimate };
 }
 
 function isEmail(value) {
@@ -70,6 +72,7 @@ router.post("/logout", (_req, res) => {
 });
 
 router.get("/me", requireAuth, async (req, res) => {
+  res.set("Cache-Control", "no-store");
   try {
     const user = await User.findById(req.userId);
     if (!user) return res.status(401).json({ message: "ไม่พบผู้ใช้ กรุณาเข้าสู่ระบบใหม่" });
@@ -98,6 +101,20 @@ router.post("/watchlist", requireAuth, async (req, res) => {
   } catch (error) {
     console.error("Watchlist update failed:", error);
     return res.status(500).json({ message: "บันทึกรายการติดตามไม่สำเร็จ" });
+  }
+});
+
+router.post("/estimate", requireAuth, async (req, res) => {
+  res.set("Cache-Control", "no-store");
+  try {
+    const status = await saveEstimate(User, req.userId, req.body ?? {});
+    if (status === 403) return res.status(status).json({ message: "บัญชีเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่" });
+    if (status === 400) return res.status(status).json({ message: "ข้อมูลใบประมาณราคาไม่ถูกต้องหรือมีรายการมากเกินไป" });
+    if (status === 409) return res.status(status).json({ message: "ใบนี้มีการแก้ไขจากที่อื่น กรุณาเก็บสำเนาก่อนโหลดหน้าใหม่" });
+    return res.json({ saved: true });
+  } catch (error) {
+    console.error("Estimate update failed:", error);
+    return res.status(500).json({ message: "บันทึกใบประมาณราคาไม่สำเร็จ" });
   }
 });
 

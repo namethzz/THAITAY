@@ -2,10 +2,19 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 
 const API_BASE = (import.meta.env.VITE_AUTH_API_BASE || "/api/auth").replace(/\/$/, "");
 
+import type { EstimateLine, EstimateMeta } from "@/types";
+
+export interface AccountEstimate {
+  lines: EstimateLine[];
+  meta: EstimateMeta;
+  revision: string;
+}
+
 export interface AuthUser {
   id: string;
   name: string;
   email: string;
+  estimate?: AccountEstimate;
   watchlist?: string[];
 }
 
@@ -56,6 +65,10 @@ async function request<T>(path: string, body?: Record<string, unknown>): Promise
   }
   if (!data || typeof data !== "object") throw new Error("รูปแบบข้อมูลจากระบบบัญชีไม่ถูกต้อง");
   return data as T;
+}
+
+export function saveAccountEstimate(accountId: string, estimate: AccountEstimate, nextRevision: string) {
+  return request("/estimate", { accountId, ...estimate, nextRevision });
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
