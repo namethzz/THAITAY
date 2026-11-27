@@ -173,6 +173,11 @@ export default function App() {
     },
     [watch, setDeviceWatch, user, authLoading, persistWatch, onHome],
   );
+  const unsavedWatch = user ? deviceWatch.filter(id => !watch.includes(id)) : [];
+  async function importDeviceWatch() {
+    if (await persistWatch([...unsavedWatch].reverse(), true)) setDeviceWatch([]);
+  }
+
   const watchProps = { watch, onToggleWatch: toggleWatch };
 
   return (
@@ -218,20 +223,19 @@ export default function App() {
           )}
           {authPage && !authLoading && <AuthPage mode={route.page} onSuccess={onAuthSuccess} />}
           {route.page === "home" && (
-            <>
-              {user && deviceWatch.length > 0 && (
-                <button type="button" className="btn" onClick={async () => {
-                  if (await persistWatch([...deviceWatch].reverse(), true)) setDeviceWatch([]);
-                }}>
-                  เพิ่มวัสดุที่ติดตามในเครื่องนี้ ({deviceWatch.length} รายการ) เข้าบัญชีของฉัน
-                </button>
-              )}
-              <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
-            </>
+            <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
           )}
           {route.page === "watchlist" && (
             <div className="page watch-page">
               <header className="page-head"><h1>วัสดุที่ติดตาม</h1></header>
+              {!authLoading && unsavedWatch.length > 0 && (
+                <div className="watch-import">
+                  <p>มีวัสดุที่ติดตามไว้ในเครื่องนี้อีก {unsavedWatch.length} รายการ</p>
+                  <button type="button" className="btn btn-secondary" onClick={importDeviceWatch}>
+                    บันทึกเข้าบัญชี
+                  </button>
+                </div>
+              )}
               {authLoading ? <p role="status">กำลังโหลดรายการติดตาม…</p> : watch.length ? (
                 <WatchList watch={watch} />
               ) : (

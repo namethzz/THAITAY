@@ -521,3 +521,17 @@
   padding: 0;
   overflow: visible;
 }
+
+.watch-import {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.watch-import p { margin: 0; }
