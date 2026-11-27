@@ -14,7 +14,9 @@ import Home from "./pages/Home";
 import { hashFor, routeFromHash } from "@/lib/routes";
 import { materialTitle } from "@/lib/materialTitle";
 import { usePersistentState } from "@/lib/storage";
-import { useAuth } from "@/context/AuthContext";
+import { createEstimateWriter } from "@/lib/estimateWriter";
+import { saveAccountEstimate, useAuth } from "@/context/AuthContext";
+import type { SetStateAction } from "react";
 import AuthPage from "@/pages/AuthPage";
 import type { AddLine, EstimateLine, EstimateMeta, Go, Route } from "@/types";
 
@@ -43,20 +45,73 @@ function pageTitle(route: Route) {
 }
 
 export default function App() {
+  const { user, loading } = useAuth();
+  if (loading) return <p className="page-loading" role="status">กำลังโหลดข้อมูลบัญชี…</p>;
+  return <AccountApp key={user?.id ?? "guest"} />;
+}
+
+function AccountApp() {
   const { user, loading: authLoading, saveWatch, logout } = useAuth();
   const [selectedId, setSelectedId] = useState(defaultMaterialId);
   const [route, setRoute] = useState<Route>(() => routeFromHash(defaultMaterialId));
   const authHasBeenVisited = useRef(route.page === "login" || route.page === "register");
-  const [lines, setLines] = usePersistentState<EstimateLine[]>(
+  const [guestLines, setGuestLines] = usePersistentState<EstimateLine[]>(
     "thai-tay-estimate-v1",
     [],
     cleanLines,
   );
-  const [meta, setMeta] = usePersistentState<EstimateMeta>(
+  const [guestMeta, setGuestMeta] = usePersistentState<EstimateMeta>(
     "thai-tay-estimate-meta-v1",
     DEFAULT_META,
     cleanMeta,
   );
+  const [writer] = useState(() => user && createEstimateWriter(
+    user.estimate ?? { lines: [], meta: DEFAULT_META, revision: "" },
+    (estimate, revision) => saveAccountEstimate(user.id, estimate, revision),
+  ));
+  const [draft, setDraft] = useState(writer?.draft);
+  const [saveStatus, setSaveStatus] = useState("");
+  const lines = draft?.lines ?? guestLines;
+  const meta = draft?.meta ?? guestMeta;
+
+  const syncEstimate = useCallback(async () => {
+    if (!writer) return;
+    setSaveStatus("กำลังบันทึกใบประมาณราคา…");
+    try {
+      await writer.flush();
+      setSaveStatus("");
+    } catch (error) {
+      setSaveStatus(error instanceof Error ? error.message : "บันทึกใบประมาณราคาไม่สำเร็จ");
+      throw error;
+    }
+  }, [writer]);
+
+  useEffect(() => {
+    function warnBeforeLeaving(event: BeforeUnloadEvent) {
+      if (!writer?.dirty) return;
+      event.preventDefault();
+      event.returnValue = "";
+    }
+    window.addEventListener("beforeunload", warnBeforeLeaving);
+    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
+  }, [writer]);
+
+  const setLines = useCallback((update: SetStateAction<EstimateLine[]>) => {
+    if (!writer) return setGuestLines(update);
+    const next = typeof update === "function" ? update(writer.draft.lines) : update;
+    writer.edit({ ...writer.draft, lines: next });
+    setDraft(writer.draft);
+    void syncEstimate().catch(() => {});
+  }, [writer, setGuestLines, syncEstimate]);
+
+  const setMeta = useCallback((update: SetStateAction<EstimateMeta>) => {
+    if (!writer) return setGuestMeta(update);
+    const next = typeof update === "function" ? update(writer.draft.meta) : update;
+    writer.edit({ ...writer.draft, meta: next });
+    setDraft(writer.draft);
+    void syncEstimate().catch(() => {});
+  }, [writer, setGuestMeta, syncEstimate]);
+
   const [deviceWatch, setDeviceWatch] = usePersistentState<string[]>("thai-tay-watch-v1", [], cleanWatch);
   const watch = user ? cleanWatch(user.watchlist).reverse() : deviceWatch;
   const pendingWatch = useRef(false);
@@ -108,6 +163,7 @@ export default function App() {
   const clearToast = useCallback(() => setToast(null), []);
   const onLogout = useCallback(async () => {
     try {
+      if (writer?.dirty) await syncEstimate();
       await logout();
       go({ page: "login" });
     } catch (error) {
@@ -118,7 +174,7 @@ export default function App() {
         tone: "error",
       });
     }
-  }, [logout, go]);
+  }, [writer, syncEstimate, logout, go]);
   const onAuthSuccess = useCallback(() => go({ page: "home" }), [go]);
   const authPage = route.page === "login" || route.page === "register";
 
@@ -207,6 +263,14 @@ export default function App() {
         />
       )}
       <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
+        {saveStatus && (route.page === "estimate" || saveStatus !== "กำลังบันทึกใบประมาณราคา…") && (
+          <div className="watch-import" style={{ width: "var(--wrap)", marginInline: "auto" }} role="status">
+            {saveStatus}
+            {saveStatus !== "กำลังบันทึกใบประมาณราคา…" && (
+              <button className="btn btn-secondary" onClick={() => void syncEstimate().catch(() => {})}>ลองบันทึกอีกครั้ง</button>
+            )}
+          </div>
+        )}
         <Suspense
           fallback={
             <div className="page-loading" role="status">
