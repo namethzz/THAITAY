@@ -38,6 +38,9 @@ test('reference month preserves one-sided prices without borrowing newer or olde
   assert.deepEqual(marketRow(data, material, '2026-02-01'), {material, previous: 100, latest: null, change: null, status: 'missing'});
   assert.deepEqual(marketRow(data, material, data.asOf), {material, previous: null, latest: 110, change: null, status: 'missing'});
   assert.equal(marketRow(data, {...material, unit: 'กก.'}, data.asOf).latest, null);
+  assert.equal(monthlyChanges(data, [material], 'all', '2026-01-01').length, 1);
+  assert.deepEqual(monthlyChanges(data, [material], 'all', '2026-02-01'), []);
+  assert.deepEqual(monthlyChanges(data, [material]), []);
 });
 
 test('trend range can end before the latest reference month', () => {

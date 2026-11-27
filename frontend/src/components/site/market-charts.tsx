@@ -6,7 +6,7 @@ import { BarChart, LineChart, PieChart } from "echarts/charts";
 import { GridComponent, TooltipComponent, LegendComponent, DataZoomComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import { X } from "lucide-react";
-import { calendarSeries, comparisonSeries, marketRow, monthLabel, shortChartLabel, type ChartData, type MarketRow, type Movement } from "@/lib/chartData";
+import { calendarSeries, comparisonSeries, marketRow, monthLabel, shortChartLabel, type ChartData, type ComparableMarketRow, type MarketRow, type Movement } from "@/lib/chartData";
 import { movements, percentText, priceText, statuses } from "@/lib/marketDisplay";
 import { materialTitle } from "@/lib/materialTitle";
 import ComparisonMaterialPicker from "./comparison-material-picker";
@@ -36,7 +36,7 @@ function Chart({option, height, label, onHit}: {option: EChartsOption; height: n
   return <div role="img" aria-label={label}><ReactECharts echarts={echarts} notMerge option={{animation: false, textStyle, ...option}} style={{height, width: "100%"}} onEvents={{click: onHit}} /></div>;
 }
 
-export function Distribution({rows, onSelect}: {rows: MarketRow[]; onSelect: (status: Movement) => void}) {
+export function Distribution({rows, onSelect}: {rows: ComparableMarketRow[]; onSelect: (status: Movement) => void}) {
   const slices = statuses.map(status => ({name: movements[status].label, value: rows.filter(r => r.status === status).length, itemStyle: {color: movements[status].color}}));
   return <section className="md-panel"><h2>สัดส่วนการเปลี่ยนราคา</h2>
     <div className="md-ring"><Chart height={172} label="กราฟโดนัทสัดส่วนสถานะราคา" onHit={hit => onSelect(statuses[hit.dataIndex])} option={{
@@ -47,8 +47,8 @@ export function Distribution({rows, onSelect}: {rows: MarketRow[]; onSelect: (st
   </section>;
 }
 
-export function Movers({rows, month}: {rows: MarketRow[]; month: string}) {
-  const sorted = rows.filter((r): r is MarketRow & {change: number} => r.change !== null).sort((a, b) => b.change - a.change);
+export function Movers({rows, month}: {rows: ComparableMarketRow[]; month: string}) {
+  const sorted = [...rows].sort((a, b) => b.change - a.change);
   const movers = [...sorted.filter(r => r.status === "up").slice(0, 5), ...sorted.filter(r => r.status === "down").slice(-5)];
   return <section className="md-panel"><h2>วัสดุที่ราคาเปลี่ยนมากที่สุด</h2><p className="md-caption">เทียบเดือนก่อน · สูงสุดฝั่งละ 5 รายการ</p>
     {movers.length ? <Chart height={Math.max(208, movers.length * 33 + 55)} label="อันดับวัสดุราคาขึ้นและลง" onHit={hit => detail(movers[hit.dataIndex].material.id)} option={{
