@@ -9,6 +9,7 @@ import {
   type ToastMessage,
 } from "@/components/site/chrome";
 import { DEFAULT_META, cleanLines, cleanMeta, cleanWatch } from "@/lib/savedState";
+import { WatchList } from "@/components/site/watch-list";
 import Home from "./pages/Home";
 import { hashFor, routeFromHash } from "@/lib/routes";
 import { materialTitle } from "@/lib/materialTitle";
@@ -28,6 +29,7 @@ const titleOf = (id: string, fallback: string) => {
 };
 
 function pageTitle(route: Route) {
+  if (route.page === "watchlist") return "วัสดุที่ติดตาม | THAI TAY";
   if (route.page === "dashboard") return "ภาพรวมราคา | THAI TAY";
   if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
   if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
@@ -226,6 +228,19 @@ export default function App() {
               )}
               <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
             </>
+          )}
+          {route.page === "watchlist" && (
+            <div className="page watch-page">
+              <header className="page-head"><h1>วัสดุที่ติดตาม</h1></header>
+              {authLoading ? <p role="status">กำลังโหลดรายการติดตาม…</p> : watch.length ? (
+                <WatchList watch={watch} />
+              ) : (
+                <div className="empty-state">
+                  <p>ยังไม่มีวัสดุที่ติดตาม กดรูปดาวบนการ์ดวัสดุเพื่อเก็บไว้ดูราคาที่นี่</p>
+                  <a className="btn btn-primary" href="#search">ค้นหาวัสดุ</a>
+                </div>
+              )}
+            </div>
           )}
           {route.page === "dashboard" && <Dashboard />}
           {route.page === "search" && (

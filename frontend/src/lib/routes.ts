@@ -22,6 +22,7 @@ export function routeFromHash(lastMaterialId: string): Route {
   const params = new URLSearchParams(query);
   if (!path) return { page: "home" };
   if (path === "home") return { page: "home" };
+  if (path === "watchlist") return { page: "watchlist" };
   if (path === "dashboard") return { page: "dashboard" };
   if (path === "login" || path === "register") return { page: path };
   if (path === "search" || path === "prices") return { page: "search", q: params.get("q") ?? "", cat: params.get("cat") ?? "all", filters: readFilters(params) };

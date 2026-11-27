@@ -2,6 +2,7 @@ import type { SearchFilters } from "@/lib/searchFilters";
 
 export type Route =
   | { page: "home" }
+  | { page: "watchlist" }
   | { page: "dashboard" }
   | { page: "login" }
   | { page: "register" }
