@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from "react";
+import { useRef } from "react";
 import { ArrowRight, MapPin, Search } from "lucide-react";
 import { getMaterialById, materialCatalog, materialCategories, searchMaterials } from "@/data.js";
 import { MaterialSearch } from "@/components/site/material-search";
@@ -11,8 +11,6 @@ import { formatPrice } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
 import { hashFor } from "@/lib/routes";
 import type { Go, Material } from "@/types";
-
-const MarketCharts = lazy(() => import("@/components/site/market-charts"));
 
 // ปุ่มลัดใต้ช่องค้นหา: กดแล้วการ์ดราคาเปลี่ยนเป็นวัสดุนั้นทันที
 const QUICK_PICKS = [
@@ -139,20 +137,13 @@ export default function Home({
         </section>
       )}
 
-      <Suspense
-        fallback={
-          <section className="market-section" role="status">
-            กำลังโหลดกราฟราคาจริง…
-          </section>
-        }
-      >
-        <MarketCharts />
-      </Suspense>
-
       <section className="categories" aria-labelledby="cat-title">
-        <div className="section-head">
-          <h2 id="cat-title">เลือกดูตามหมวด</h2>
-          <p>ไม่แน่ใจว่าจะพิมพ์อะไร กดหมวดที่ต้องการ แล้วดูราคาทั้งหมวด</p>
+        <div className="section-head categories-head">
+          <div>
+            <h2 id="cat-title">เลือกดูตามหมวด</h2>
+            <p>ไม่แน่ใจว่าจะพิมพ์อะไร กดหมวดที่ต้องการ แล้วดูราคาทั้งหมวด</p>
+          </div>
+          <a className="btn btn-secondary" href="#dashboard">ดูภาพรวมราคา <ArrowRight size={18} aria-hidden="true" /></a>
         </div>
         <ul className="cat-grid">
           {materialCategories.map((c) => (

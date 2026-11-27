@@ -98,7 +98,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .brand-mark img { height: 36px; }
   .brand-word { font-size: 19px; }
   .top-nav { display: none; }
-  .bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; padding: 6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -8px 24px -18px rgba(36, 42, 45, .35); }
+  .bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; padding: 6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -8px 24px -18px rgba(36, 42, 45, .35); }
   .bn-item { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; min-height: 58px; color: var(--ink-3); font-size: 12.5px; font-weight: 500; line-height: 1.3; text-decoration: none; }
   .bn-icon { position: relative; display: grid; place-items: center; width: 56px; height: 32px; border-radius: 999px; transition: background-color .15s; }
   .bn-item[aria-current="page"] { color: var(--ink); font-weight: 600; }

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { AlertCircle, Check, ClipboardList, Home, LogIn, LogOut, Search } from "lucide-react";
+import { AlertCircle, ChartColumn, Check, ClipboardList, Home, LogIn, LogOut, Search } from "lucide-react";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { isDemoData } from "@/services/priceService";
 import type { Route } from "@/types";
 import type { AuthUser } from "@/context/AuthContext";
 
-type Section = "home" | "search" | "estimate";
+type Section = "home" | "search" | "dashboard" | "estimate";
 const sectionOf = (route: Route): Section => {
   if (route.page === "material") return "search";
   if (route.page === "login" || route.page === "register") return "home";
@@ -15,7 +15,6 @@ const sectionOf = (route: Route): Section => {
 const CountBadge = ({ count }: { count: number }) =>
   count > 0 ? <span className="count-badge" aria-label={`${count} รายการ`}>{count > 99 ? "99+" : count}</span> : null;
 
-/** แถบบน: โลโก้ + ลิงก์ 3 หน้า (จอใหญ่) / โลโก้อย่างเดียว (มือถือ ใช้แถบล่างแทน) */
 export function SiteHeader({ route, count, user, authLoading, onLogout }: {
   route: Route;
   count: number;
@@ -36,6 +35,7 @@ export function SiteHeader({ route, count, user, authLoading, onLogout }: {
         <nav className="top-nav" aria-label="เมนูหลัก">
           {link("home", "หน้าแรก")}
           {link("search", "ค้นหาวัสดุ")}
+          {link("dashboard", "ภาพรวมราคา")}
           {link("estimate", "ใบประมาณราคา")}
         </nav>
         <div className="header-account">
@@ -57,7 +57,6 @@ export function SiteHeader({ route, count, user, authLoading, onLogout }: {
   );
 }
 
-/** แถบล่างบนมือถือ 3 ปุ่ม ปุ่มกลางคือการค้นหา (งานหลักของเว็บ) */
 export function BottomNav({ route, count }: { route: Route; count: number }) {
   const current = sectionOf(route);
   return (
@@ -67,6 +66,9 @@ export function BottomNav({ route, count }: { route: Route; count: number }) {
       </a>
       <a href="#search" className="bn-item bn-main" aria-current={current === "search" ? "page" : undefined}>
         <span className="bn-fab"><Search size={24} strokeWidth={2.4} aria-hidden="true" /></span><span>ค้นหาราคา</span>
+      </a>
+      <a href="#dashboard" className="bn-item" aria-current={current === "dashboard" ? "page" : undefined}>
+        <span className="bn-icon"><ChartColumn size={22} aria-hidden="true" /></span><span>ภาพรวมราคา</span>
       </a>
       <a href="#estimate" className="bn-item" aria-current={current === "estimate" ? "page" : undefined}>
         <span className="bn-icon"><ClipboardList size={22} strokeWidth={2} aria-hidden="true" /><CountBadge count={count} /></span><span>ใบประมาณ</span>

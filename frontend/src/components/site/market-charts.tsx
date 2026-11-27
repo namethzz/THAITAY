@@ -1,71 +1,106 @@
-import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { materialCatalog, materialCategories } from "@/data.js";
-import { comparisonSeries, monthlyChanges, monthLabel, shiftMonth, shortChartLabel, useChartData } from "@/lib/chartData";
+import { useId, useMemo, useState } from "react";
+import ReactECharts from "echarts-for-react/lib/core";
+import * as echarts from "echarts/core";
+import type { EChartsOption } from "echarts";
+import { BarChart, LineChart, PieChart } from "echarts/charts";
+import { GridComponent, TooltipComponent, LegendComponent, DataZoomComponent } from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+import { X } from "lucide-react";
+import { calendarSeries, comparisonSeries, marketRow, monthLabel, shortChartLabel, type ChartData, type MarketRow, type Movement } from "@/lib/chartData";
+import { movements, percentText, priceText, statuses } from "@/lib/marketDisplay";
 import { materialTitle } from "@/lib/materialTitle";
-import { formatPrice, isDemoData } from "@/services/priceService";
-import { CHART } from "@/config/chartColors";
 import ComparisonMaterialPicker from "./comparison-material-picker";
 
-const COLORS = ["#242a2d", "#a84b1a", "#235fa4", "#2f6f55", "#744f92"];
-const defaults = ["MAT-0401020203000000", "MAT-0101010107200000"].filter(id => materialCatalog.some(m => m.id === id));
-type Change = ReturnType<typeof monthlyChanges>[number];
+echarts.use([BarChart, LineChart, PieChart, GridComponent, TooltipComponent, LegendComponent, DataZoomComponent, CanvasRenderer]);
+const palette = ["#173c62", "#ba581d", "#376f78", "#775a86", "#816b30"];
+const textStyle = {fontFamily: "Prompt, sans-serif", color: "#485b6c"};
+const tooltip = {confine: true, textStyle: {...textStyle, fontSize: 12}, extraCssText: "max-width:min(300px,75vw);white-space:normal;"};
+type Hit = {dataIndex: number; seriesId: string};
+const detail = (id: string) => { window.location.hash = "m/" + id; };
 
-function Ranking({rows, up}: {rows: Change[]; up: boolean}) {
-  const data = rows.map(r => ({...r, name: materialTitle(r.material).title, short: shortChartLabel(materialTitle(r.material).title)}));
-  return <div className="ranking-card">
-    <h3>{up ? "ราคาขึ้นมากที่สุด" : "ราคาลงมากที่สุด"}</h3>
-    {!data.length ? <p className="chart-empty">ไม่มีรายการที่ราคา{up ? "ขึ้น" : "ลง"}ในกลุ่มนี้</p> : <>
-      <div className="ranking-plot" role="img" aria-label={`${up ? "ราคาขึ้น" : "ราคาลง"} ${data.length} รายการ เปรียบเทียบเป็นเปอร์เซ็นต์`}>
-        <ResponsiveContainer width="100%" height="100%"><BarChart layout="vertical" data={data} margin={{top: 8, right: 20, bottom: 4, left: 0}}>
-          <CartesianGrid stroke={CHART.grid} horizontal={false} />
-          <XAxis type="number" domain={up ? [0, "auto"] : ["auto", 0]} tick={{fontSize: 11, fill: CHART.tick}} tickFormatter={v => `${v}%`} />
-          <YAxis type="category" dataKey="short" width={140} tick={{fontSize: 10, fill: CHART.tick}} tickLine={false} />
-          <Tooltip wrapperStyle={CHART.tooltipWrapper} labelFormatter={(_, payload) => payload?.[0]?.payload.name ?? ""} formatter={(v: number) => [`${v > 0 ? "+" : ""}${v.toFixed(2)}%`, "เปลี่ยนจากเดือนก่อน"]} contentStyle={CHART.tooltip} />
-          <ReferenceLine x={0} stroke={CHART.tick} /><Bar dataKey="change" fill={up ? "#9e1b3c" : "#2f6f55"} radius={4} isAnimationActive={false} />
-        </BarChart></ResponsiveContainer>
-      </div>
-      <details className="chart-table"><summary>ดูรายการและราคาจริง</summary><div className="table-scroll"><table>
-        <thead><tr><th>วัสดุ / หน่วย</th><th>เดือนก่อน</th><th>เดือนล่าสุด</th><th>เปลี่ยนแปลง</th></tr></thead>
-        <tbody>{rows.map(r => <tr key={r.material.id}><td><a href={`#m/${r.material.id}`}>{materialTitle(r.material).title}</a><small>{r.material.unit}</small></td><td>{formatPrice(r.previous)}</td><td>{formatPrice(r.latest)}</td><td>{r.change > 0 ? "+" : ""}{r.change.toFixed(2)}%</td></tr>)}</tbody>
-      </table></div></details>
-    </>}
-  </div>;
+function priceTooltip(row: MarketRow, month: string) {
+  const block = document.createElement("div");
+  block.className = "md-tooltip";
+  const title = document.createElement("strong");
+  title.textContent = row.material.name;
+  block.append(title);
+  for (const line of [monthLabel(month) + " · บาท/" + row.material.unit, "ราคาเดือนก่อน  " + priceText(row.previous), "ราคาจริงเดือนนี้  " + priceText(row.latest), "เปลี่ยนแปลง  " + percentText(row.change)]) {
+    const item = document.createElement("div");
+    item.textContent = line;
+    block.append(item);
+  }
+  return block;
 }
 
-export default function MarketCharts() {
-  const {data, error} = useChartData();
-  const [category, setCategory] = useState("all");
-  const [months, setMonths] = useState(12);
-  const [ids, setIds] = useState<string[]>(defaults);
-  const changes = useMemo(() => data ? monthlyChanges(data, materialCatalog, category) : [], [data, category]);
-  const comparison = useMemo(() => data ? comparisonSeries(data, ids, months) : {base: null, points: []}, [data, ids, months]);
-  const eligible = materialCatalog.filter(m => category === "all" || m.categoryCode === category).length;
-  const up = [...changes].filter(r => r.change > .000001).sort((a, b) => b.change - a.change);
-  const down = [...changes].filter(r => r.change < -.000001).sort((a, b) => a.change - b.change);
-  if (isDemoData) return <section className="market-section"><h2>ภาพรวมราคาจริง</h2><p>โหมดตัวอย่างไม่แสดงกราฟราคาจริง</p></section>;
-  return <section className="market-section" aria-labelledby="market-title">
-    <div className="section-head"><h2 id="market-title">ภาพรวมราคาจริง</h2><p>ดูการเปลี่ยนแปลงและเปรียบเทียบแนวโน้มจากข้อมูลที่มี</p></div>
-    {!data ? <p role="status">{error ? "โหลดข้อมูลกราฟไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง" : "กำลังโหลดข้อมูลกราฟ…"}</p> : <>
-      <div className="chart-toolbar"><p>ข้อมูลล่าสุด <strong>{monthLabel(data.asOf)}</strong> · เทียบกับ {monthLabel(shiftMonth(data.asOf, -1))}</p><label>หมวดวัสดุ<select aria-label="หมวดกราฟขึ้นลง" value={category} onChange={e => setCategory(e.target.value)}><option value="all">ทุกหมวด</option>{materialCategories.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}</select></label></div>
-      <dl className="market-stats"><div><dt>ราคาขึ้น</dt><dd>{up.length}<small> รายการ</small></dd></div><div><dt>ราคาลง</dt><dd>{down.length}<small> รายการ</small></dd></div><div><dt>ราคาเท่าเดิม</dt><dd>{changes.length - up.length - down.length}<small> รายการ</small></dd></div><div><dt>ข้อมูลสองเดือนไม่ครบ</dt><dd>{eligible - changes.length}<small> รายการ</small></dd></div></dl>
-      <p className="chart-note">เปรียบเทียบได้ {changes.length}/{eligible} รายการ ใช้เฉพาะราคาจริงครบทั้งสองเดือน ไม่รวมข้อมูลขาด และไม่เฉลี่ยราคาต่างหน่วยเข้าด้วยกัน</p>
-      <div className="ranking-grid"><Ranking rows={up.slice(0, 5)} up /><Ranking rows={down.slice(0, 5)} up={false} /></div>
-      <section className="panel comparison-panel" aria-labelledby="comparison-title">
-        <div className="chart-toolbar"><h3 id="comparison-title">เปรียบเทียบแนวโน้มวัสดุ</h3><label>ช่วงเวลา<select aria-label="ช่วงเวลาเปรียบเทียบ" value={months} onChange={e => setMonths(Number(e.target.value))}>{[6, 12, 24].map(n => <option key={n} value={n}>{n} เดือน</option>)}</select></label></div>
-        <p className="chart-note">ปรับเดือนฐานร่วมกันเป็น 100 เพื่อเทียบแนวโน้มแม้หน่วยต่างกัน ตัวเลขบนกราฟเป็นดัชนี ไม่ใช่บาท</p>
-        <ComparisonMaterialPicker selected={ids} onPick={material => setIds(prev => prev.length < 5 && !prev.includes(material.id) ? [...prev, material.id] : prev)} />
-        <ul className="compare-tags">{ids.map((id, i) => <li key={id}><i style={{background: COLORS[i]}} /><span>{materialTitle(materialCatalog.find(m => m.id === id)!).title}</span><button type="button" aria-label={`นำ ${materialTitle(materialCatalog.find(m => m.id === id)!).title} ออกจากกราฟ`} onClick={() => setIds(prev => prev.filter(v => v !== id))}>×</button></li>)}</ul>
-        {!comparison.base ? <p className="chart-empty">เลือกอย่างน้อย 2 รายการที่มีเดือนข้อมูลร่วมกันในช่วงที่เลือก</p> : <>
-          <p className="chart-note">เดือนฐาน {monthLabel(comparison.base)} = 100 · ช่องที่ขาดข้อมูลเว้นว่าง ไม่ลากเส้นข้าม</p>
-          <div className="comparison-plot" role="img" aria-label={`แนวโน้ม ${ids.length} วัสดุ เดือนฐาน ${monthLabel(comparison.base)} เท่ากับ 100`}><ResponsiveContainer width="100%" height="100%"><LineChart data={comparison.points} margin={{top: 12, right: 18, bottom: 4, left: 0}}>
-            <CartesianGrid stroke={CHART.grid} strokeDasharray="3 3" /><XAxis dataKey="label" tick={{fontSize: 11, fill: CHART.tick}} minTickGap={24} /><YAxis domain={["auto", "auto"]} width={48} tick={{fontSize: 11, fill: CHART.tick}} /><ReferenceLine y={100} stroke={CHART.tick} strokeDasharray="4 4" />
-            <Tooltip wrapperStyle={CHART.tooltipWrapper} contentStyle={CHART.tooltip} formatter={(v: number, name: string) => [v.toFixed(2), name]} />
-            {ids.map((id, i) => <Line key={id} dataKey={id} name={materialTitle(materialCatalog.find(m => m.id === id)!).title} stroke={COLORS[i]} strokeDasharray={[undefined, "8 3", "3 3", "10 3 2 3", "2 5"][i]} strokeWidth={2.5} dot={false} connectNulls={false} isAnimationActive={false} />)}
-          </LineChart></ResponsiveContainer></div>
-          <details className="chart-table"><summary>ดูข้อมูลเปรียบเทียบเป็นตาราง</summary><div className="table-scroll"><table><thead><tr><th>เดือน</th>{ids.map(id => <th key={id}>{materialTitle(materialCatalog.find(m => m.id === id)!).title}</th>)}</tr></thead><tbody>{comparison.points.map(row => <tr key={String(row.date)}><td>{row.label}</td>{ids.map(id => <td key={id}>{row[id] == null ? "ไม่มีข้อมูล" : Number(row[id]).toFixed(2)}</td>)}</tr>)}</tbody></table></div></details>
-        </>}
-      </section>
-    </>}
+function Chart({option, height, label, onHit}: {option: EChartsOption; height: number; label: string; onHit: (hit: Hit) => void}) {
+  return <div role="img" aria-label={label}><ReactECharts echarts={echarts} notMerge option={{animation: false, textStyle, ...option}} style={{height, width: "100%"}} onEvents={{click: onHit}} /></div>;
+}
+
+export function Distribution({rows, onSelect}: {rows: MarketRow[]; onSelect: (status: Movement) => void}) {
+  const slices = statuses.map(status => ({name: movements[status].label, value: rows.filter(r => r.status === status).length, itemStyle: {color: movements[status].color}}));
+  return <section className="md-panel"><h2>สัดส่วนการเปลี่ยนราคา</h2>
+    <div className="md-ring"><Chart height={172} label="กราฟโดนัทสัดส่วนสถานะราคา" onHit={hit => onSelect(statuses[hit.dataIndex])} option={{
+      tooltip: {...tooltip, formatter: "{b} · {c} รายการ ({d}%)"},
+      series: [{type: "pie", radius: ["65%", "88%"], stillShowZeroSum: false, label: {show: false}, itemStyle: {borderColor: "#fff", borderWidth: 2}, data: slices}],
+    }}/><div className="md-ring-center"><b>{rows.length}</b><small>รายการ</small></div></div>
+    <div className="md-key">{slices.map((s, i) => <button key={s.name} onClick={() => onSelect(statuses[i])}><i style={{background: s.itemStyle.color}}/>{s.name}<b>{s.value}</b></button>)}</div>
+  </section>;
+}
+
+export function Movers({rows, month}: {rows: MarketRow[]; month: string}) {
+  const sorted = rows.filter((r): r is MarketRow & {change: number} => r.change !== null).sort((a, b) => b.change - a.change);
+  const movers = [...sorted.filter(r => r.status === "up").slice(0, 5), ...sorted.filter(r => r.status === "down").slice(-5)];
+  return <section className="md-panel"><h2>วัสดุที่ราคาเปลี่ยนมากที่สุด</h2><p className="md-caption">เทียบเดือนก่อน · สูงสุดฝั่งละ 5 รายการ</p>
+    {movers.length ? <Chart height={Math.max(208, movers.length * 33 + 55)} label="อันดับวัสดุราคาขึ้นและลง" onHit={hit => detail(movers[hit.dataIndex].material.id)} option={{
+      grid: {top: 12, bottom: 28, left: "35%", right: 48, outerBoundsMode: "none"},
+      tooltip: {...tooltip, formatter: p => priceTooltip(movers[(Array.isArray(p) ? p[0] : p).dataIndex], month)},
+      xAxis: {type: "value", splitNumber: 4, axisLabel: {formatter: "{value}%", fontSize: 10}, splitLine: {lineStyle: {color: "#e6ebef"}}},
+      yAxis: {type: "category", inverse: true, axisLine: {show: false, onZero: false}, axisTick: {show: false}, axisLabel: {interval: 0, fontSize: 11}, data: movers.map(r => {
+        const title = materialTitle(r.material).title.replace(/\s*\([^)]*\)/g, "").trim();
+        return shortChartLabel(title);
+      })},
+      series: [{type: "bar", barMaxWidth: 15, data: movers.map(r => ({value: r.change, itemStyle: {color: movements[r.status].color, borderRadius: 2}, label: {show: true, position: r.change < 0 ? "left" : "right", formatter: percentText(r.change), fontSize: 10, color: movements[r.status].color}}))}],
+    }}/> : <p className="md-empty">ไม่มีวัสดุที่ราคาขึ้นหรือลงในกลุ่มนี้</p>}
+  </section>;
+}
+
+const preferredIds = ["MAT-0401020203000000", "MAT-0101010107200000"];
+export function Trend({data, rows, dates}: {data: ChartData; rows: MarketRow[]; dates: string[]}) {
+  const pickerId = useId();
+  const eligible = useMemo(() => new Set(rows.map(r => r.material.id)), [rows]);
+  const defaults = preferredIds.filter(id => eligible.has(id));
+  const [picked, setPicked] = useState<string[]>(() => defaults.length ? defaults : rows.slice(0, 1).map(r => r.material.id));
+  if (dates.length < 2) return <section className="md-panel"><h2>แนวโน้มราคาย้อนหลัง</h2><p className="md-empty">เลือกช่วงเวลาอย่างน้อย 2 เดือนในตัวกรอง</p></section>;
+  const materials = picked.flatMap(id => rows.find(r => r.material.id === id)?.material ?? []);
+  const index = materials.length > 1;
+  const end = dates[dates.length - 1];
+  const comparable = materials.filter(m => data.materials[m.id]?.unit === m.unit);
+  const comparison = index && comparable.length === materials.length ? comparisonSeries(data, picked, dates.length, end) : null;
+  const plottedDates = index ? comparison?.points.map(p => String(p.date)) ?? [] : dates;
+  const lines = materials.map((m, i) => {
+    const points = data.materials[m.id]?.unit === m.unit ? data.materials[m.id].points : [];
+    const values = index ? comparison?.points.map(p => p[m.id] as number | null) ?? [] : calendarSeries(points, end, dates.length).map(p => p.actual);
+    return {id: m.id, name: m.id, type: "line" as const, data: values, symbolSize: 7, connectNulls: false, itemStyle: {color: palette[i]}};
+  });
+  const hasValues = lines.some(line => line.data.some(n => n !== null));
+  return <section className="md-panel"><div className="md-section-head"><h2>แนวโน้มราคาย้อนหลัง</h2><span>{monthLabel(dates[0])} – {monthLabel(end)}</span></div>
+    <label className="md-picker-label" htmlFor={pickerId}>เลือกวัสดุสำหรับกราฟ (สูงสุด 5 รายการ)</label>
+    <div className="md-trend-tools"><ComparisonMaterialPicker id={pickerId} eligible={eligible} selected={picked} onPick={m => setPicked(ids => [...ids, m.id])}/>
+      <ul className="md-tags">{materials.map((m, i) => <li key={m.id}><i style={{background: palette[i]}}/><a href={"#m/" + m.id}>{materialTitle(m).title}</a><button aria-label={"นำออก " + m.name} onClick={() => setPicked(ids => ids.filter(id => id !== m.id))}><X size={14}/></button></li>)}</ul></div>
+    {picked.length >= 5 && <p className="md-caption">นำวัสดุออกจากกราฟก่อน เพื่อเลือกวัสดุใหม่</p>}
+    {hasValues ? <><p className="md-caption">{index && comparison?.base ? "ดัชนีราคา · " + monthLabel(comparison.base) + " = 100" : "ราคาจริง · บาท/" + materials[0]?.unit}</p>
+      <Chart height={310} label="กราฟเส้นแนวโน้มราคาจริงย้อนหลัง" onHit={hit => {if (picked.includes(hit.seriesId)) detail(hit.seriesId);}} option={{
+        grid: {left: 56, right: 20, top: 43, bottom: 68},
+        legend: {type: "scroll", top: 0, formatter: id => shortChartLabel(materialTitle(materials.find(m => m.id === id)!).title)},
+        tooltip: {...tooltip, trigger: "item", formatter: p => {
+          const hit = Array.isArray(p) ? p[0] : p;
+          const m = materials[hit.seriesIndex ?? 0], month = plottedDates[hit.dataIndex];
+          return priceTooltip(marketRow(data, m, month), month);
+        }},
+        xAxis: {type: "category", data: plottedDates.map(monthLabel), boundaryGap: false},
+        yAxis: {type: "value", scale: true, splitLine: {lineStyle: {color: "#e6ebef"}}},
+        dataZoom: [{type: "inside", zoomOnMouseWheel: "ctrl"}, {type: "slider", height: 20, bottom: 8, brushSelect: false}],
+        series: lines,
+      }}/></> : <p className="md-empty">{!materials.length ? "เลือกวัสดุเพื่อดูราคาย้อนหลัง" : index ? "วัสดุที่เลือกไม่มีเดือนฐานร่วมกันในช่วงนี้" : "ไม่มีราคาจริงในช่วงที่เลือก"}</p>}
   </section>;
 }

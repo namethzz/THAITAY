@@ -20,6 +20,7 @@ import type { AddLine, EstimateLine, EstimateMeta, Go, Route } from "@/types";
 const SearchPage = lazy(() => import("./pages/Search"));
 const MaterialPage = lazy(() => import("./pages/MaterialPage"));
 const Estimate = lazy(() => import("./pages/Estimate"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 const titleOf = (id: string, fallback: string) => {
   const material = getMaterialById(id);
@@ -27,6 +28,7 @@ const titleOf = (id: string, fallback: string) => {
 };
 
 function pageTitle(route: Route) {
+  if (route.page === "dashboard") return "ภาพรวมราคา | THAI TAY";
   if (route.page === "login") return "เข้าสู่ระบบ | THAI TAY";
   if (route.page === "register") return "สมัครสมาชิก | THAI TAY";
   if (route.page === "search") return "ค้นหาราคาวัสดุ | THAI TAY";
@@ -225,6 +227,7 @@ export default function App() {
               <Home selectedId={selectedId} onSelect={setSelectedId} go={go} {...watchProps} />
             </>
           )}
+          {route.page === "dashboard" && <Dashboard />}
           {route.page === "search" && (
             <SearchPage
               key={hashFor(route)}

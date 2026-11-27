@@ -6,7 +6,7 @@ import ts from 'typescript';
 const root = new URL('../', import.meta.url);
 const code = fs.readFileSync(new URL('src/lib/chartData.ts', root), 'utf8');
 const compiled = ts.transpileModule(code, {compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022}}).outputText.replaceAll('"react"', JSON.stringify(import.meta.resolve('react'))).replaceAll('import.meta.env.BASE_URL', '"/"');
-const {calendarSeries, monthlyChanges, comparisonSeries, costBreakdown, shiftMonth} = await import('data:text/javascript;base64,' + Buffer.from(compiled).toString('base64'));
+const {calendarSeries, marketRow, monthlyChanges, comparisonSeries, costBreakdown, shiftMonth} = await import('data:text/javascript;base64,' + Buffer.from(compiled).toString('base64'));
 const catalog = JSON.parse(fs.readFileSync(new URL('src/data/structural-materials.json', root))).materials.filter(m => !m.discontinued);
 const snapshot = JSON.parse(fs.readFileSync(new URL('public/data/chart-history.json', root)));
 
@@ -27,6 +27,25 @@ test('comparison uses the first common base, not separate starting dates', () =>
   const result=comparisonSeries(data,['A','B'],3);
   assert.equal(result.base,'2026-02-01');assert.equal(result.points[0].A,100);assert.equal(result.points[0].B,100);
   assert.ok(Math.abs(result.points[1].A-110)<1e-9);assert.ok(Math.abs(result.points[1].B-110)<1e-9);
+});
+
+test('reference month preserves one-sided prices without borrowing newer or older values', () => {
+  const material = {id: 'A', unit: 'ตัน'};
+  const data = {asOf: '2026-03-01', materials: {A: {unit: 'ตัน', points: [
+    {date: '2025-12-01', price: 80}, {date: '2026-01-01', price: 100}, {date: '2026-03-01', price: 110}
+  ]}}};
+  assert.deepEqual(marketRow(data, material, '2026-01-01'), {material, previous: 80, latest: 100, change: 25, status: 'up'});
+  assert.deepEqual(marketRow(data, material, '2026-02-01'), {material, previous: 100, latest: null, change: null, status: 'missing'});
+  assert.deepEqual(marketRow(data, material, data.asOf), {material, previous: null, latest: 110, change: null, status: 'missing'});
+  assert.equal(marketRow(data, {...material, unit: 'กก.'}, data.asOf).latest, null);
+});
+
+test('trend range can end before the latest reference month', () => {
+  const points = [{date: '2026-01-01', price: 10}, {date: '2026-02-01', price: 15}, {date: '2026-03-01', price: 20}];
+  const data = {asOf: '2026-03-01', materials: {A: {points}, B: {points}}};
+  const result = comparisonSeries(data, ['A', 'B'], 2, '2026-02-01');
+  assert.equal(result.base, '2026-01-01');
+  assert.deepEqual(result.points.map(p => [p.date, p.A]), [['2026-01-01', 100], ['2026-02-01', 150]]);
 });
 test('comparison gaps remain missing and never imply price stability', () => {
   const data={asOf:'2026-03-01',materials:{A:{points:[{date:'2026-01-01',price:100},{date:'2026-03-01',price:120}]},B:{points:[{date:'2026-01-01',price:200},{date:'2026-02-01',price:210}]}}};
