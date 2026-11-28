@@ -70,6 +70,7 @@ cp out/forecast_ml.csv api_data/forecast.csv
 "$PY" change_signal.py --apply > out/change_signal.log
 
 echo "== 7/8 ไฟล์ราคาของเว็บ"
+"$PY" item_history_alert.py --prices data/prices_clean.csv
 "$PY" export_static.py --prices data/prices_clean.csv
 
 echo "== 8/8 สอบจริงคำทายเดือนก่อน"

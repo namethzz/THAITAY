@@ -162,12 +162,10 @@ export const formatMoney = (n: number) =>
 export const monthsLabel = (h: number) => (h === 0 ? "ราคาล่าสุด" : `อีก ${h} เดือน`);
 export const percentChange = (from: number, to: number) => ((to - from) / from) * 100;
 
-/** แสดงป้าย "ราคามีโอกาสเปลี่ยน" เมื่อโอกาสที่เกิดจริงในการทดสอบย้อนหลังตั้งแต่ 70% */
-export const CHANGE_SIGNAL_AT = 0.7;
-export function changeVerdict(prob: number) {
+export function changeVerdict() {
   return {
     tone: "watch" as const,
-    title: `ราคามีโอกาสเปลี่ยนภายในเดือนหน้า ราว ${Math.round(prob * 100)}%`,
+    title: "ราคามีโอกาสเปลี่ยนในเดือนหน้า",
     advice: "ยังบอกไม่ได้ว่าจะขึ้นหรือลง ถ้าต้องใช้แน่ ขอใบเสนอราคาและให้ร้านยืนราคาไว้ก่อน",
   };
 }

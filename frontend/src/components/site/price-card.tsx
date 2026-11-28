@@ -1,11 +1,12 @@
 import type { ReactNode, Ref } from "react";
 import { Activity, Minus, Star, TrendingDown, TrendingUp } from "lucide-react";
 import { ChangeChip, DemoStamp, useQuote } from "@/components/ui/price-widgets";
-import { CHANGE_SIGNAL_AT, changeVerdict, formatPrice, percentChange, trendVerdict } from "@/services/priceService";
+import { changeVerdict, formatPrice, percentChange, trendVerdict } from "@/services/priceService";
 import { materialTitle } from "@/lib/materialTitle";
 import { pricePerBar, rebarSpec } from "@/lib/rebar";
 import { CategoryIcon } from "@/components/site/category-icon";
 import { PRICE_REGION } from "@/config/sources";
+import itemHistoryAlerts from "@/data/item-history-alerts.json";
 import type { Material } from "@/types";
 
 const VERDICT_ICON = { up: TrendingUp, down: TrendingDown, flat: Minus, watch: Activity };
@@ -27,10 +28,11 @@ export function PriceCard({ material, variant = "hero", titleRef, watched = fals
   const latest = data?.latest;
   const forecast = data?.forecast ?? [];
   const last = forecast.at(-1);
-  // โมเดลทายจังหวะที่ราคาจะเปลี่ยนได้ดี แต่ยังทายทิศไม่ได้: ถ้าโอกาสเปลี่ยนเดือนหน้าสูง บอกแบบนั้นแทนคำว่า "ทรงตัว"
-  const changeProb = forecast[0]?.changeProb;
+  const nextMonth = forecast.find((point) => point.month === 1);
+  const showAlert = !data?.demo && latest?.date === itemHistoryAlerts.origin
+    && nextMonth?.date === itemHistoryAlerts.target && itemHistoryAlerts.alerts.includes(material.id);
   const verdict = latest && last
-    ? (changeProb != null && changeProb >= CHANGE_SIGNAL_AT ? changeVerdict(changeProb) : trendVerdict(percentChange(latest.price, last.price)))
+    ? (showAlert ? changeVerdict() : trendVerdict(percentChange(latest.price, last.price)))
     : null;
   const VerdictIcon = verdict ? VERDICT_ICON[verdict.tone] : Minus;
   const { title, detail } = materialTitle(material);
